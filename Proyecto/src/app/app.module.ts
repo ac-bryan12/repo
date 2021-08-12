@@ -8,6 +8,8 @@ import { LoginComponent } from './login/login.component';
 import { NavComponent } from './componentes/pagina_comercial/nav/nav.component';
 import { PlanComponent } from './componentes/pagina_comercial/plan/plan.component';
 import { ComparePlanComponent } from './componentes/pagina_comercial/compare-plan/compare-plan.component';
+import { RegistroComponent } from './componentes/pagina_comercial/registro/registro.component';
+import { OlvidoPasswordComponent } from './componentes/pagina_comercial/olvido-password/olvido-password.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { ComparePlanComponent } from './componentes/pagina_comercial/compare-pla
     LoginComponent,
     NavComponent,
     PlanComponent,
-    ComparePlanComponent
+    ComparePlanComponent,
+    RegistroComponent,
+    OlvidoPasswordComponent
   ],
   imports: [
     BrowserModule,
