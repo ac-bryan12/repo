@@ -16,7 +16,7 @@ import { OlvidoPasswordComponent } from './componentes/pagina_comercial/olvido-p
     LoginComponent,
     NavComponent,
     RegistroComponent,
-    OlvidoPasswordComponent
+    OlvidoPasswordComponent,
   ],
   imports: [
     BrowserModule,
