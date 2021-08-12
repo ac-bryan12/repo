@@ -1,8 +1,8 @@
 <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
-        <a class="navbar-brand" [routerLink] = "['/home']" >Facturación</a>
-        <a class ="nb_element" (click) = "colornb($event)">Home</a>
-        <a class ="nb_element" (click) = "colornb($event)">Planes</a> <!--Definir rutas -->
+        <a class="navbar-brand" [routerLink]= "['/home']" >Facturación</a>
+        <a class ="nb_element" [routerLink]="['/home']" (click) = "colornb($event)">Home</a>
+        <a class ="nb_element" [routerLink]="['/planes']" (click) = "colornb($event)">Planes</a> <!--Definir rutas -->
         <a class ="nb_element" (click) = "colornb($event)">Noticias</a>
         <a class ="nb_element" (click) = "colornb($event)">Contáctenos</a>
         <a class="btn btn-primary" [routerLink] = "['/login']" >Ingresar</a>

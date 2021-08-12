@@ -4,12 +4,14 @@ import { OlvidoPasswordComponent } from './componentes/pagina_comercial/olvido-p
 import { RegistroComponent } from './componentes/pagina_comercial/registro/registro.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { PlanComponent } from './componentes/pagina_comercial/plan/plan.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
   {path:'login',component:LoginComponent},
   {path:'registro',component:RegistroComponent},
   {path:'olvido-password',component:OlvidoPasswordComponent},
+  {path:'planes',component:PlanComponent},
   {path:'',redirectTo:'home',pathMatch:'full'}
 ];
 
