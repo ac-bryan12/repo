@@ -22,5 +22,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('app.views.hola')),
+    path('', include('app.views.correo')),
+    path('', include('app.serializers.serializers')),
     
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
