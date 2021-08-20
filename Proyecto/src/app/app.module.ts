@@ -12,6 +12,10 @@ import { RegistroComponent } from './componentes/pagina_comercial/registro/regis
 import { OlvidoPasswordComponent } from './componentes/pagina_comercial/olvido-password/olvido-password.component';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ConfirmacionComponent } from './componentes/pagina_comercial/confirmacion/confirmacion.component';
+import { EnvInformacionComponent } from './componentes/pagina_comercial/env-informacion/env-informacion.component';
+import { CreateCuentaComponent } from './componentes/pagina_comercial/create-cuenta/create-cuenta.component';
+import { PagoComponent } from './componentes/pagina_comercial/pago/pago.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +27,10 @@ import { FormsModule } from '@angular/forms';
     ComparePlanComponent,
     RegistroComponent,
     OlvidoPasswordComponent,
+    ConfirmacionComponent,
+    EnvInformacionComponent,
+    CreateCuentaComponent,
+    PagoComponent,
   ],
   imports: [
     BrowserModule,
