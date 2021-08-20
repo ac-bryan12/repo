@@ -7,6 +7,7 @@ from .models.estadoPlan import EstadoPlan
 from .models.pago import Pago
 from .models.plan import Plan
 from .models.tipoPago import TipoPago
+from app.models.roles import Rol
 
 # Register your models here.
 admin.site.register(Profile)
@@ -17,3 +18,5 @@ admin.site.register(EstadoPlan)
 admin.site.register(Pago)
 admin.site.register(Plan)
 admin.site.register(TipoPago)
+admin.site.register(Rol)
+

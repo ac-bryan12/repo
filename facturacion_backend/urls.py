@@ -24,5 +24,8 @@ urlpatterns = [
     path('',include('app.views.hola')),
     path('api/',include('app.views.accounts.login')),
     # path('login/',include('app.views.accounts.login')),
+    path('', include('app.views.correo')),
+    path('', include('app.serializers.serializers')),
+
     
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
