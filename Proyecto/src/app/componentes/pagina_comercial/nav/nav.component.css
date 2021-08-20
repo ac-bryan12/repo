@@ -17,3 +17,8 @@
 .active2{
     background-color: lightslategray;
 }
+
+ul{
+    display: flex;
+    flex-direction: row;
+}

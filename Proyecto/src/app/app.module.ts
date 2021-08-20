@@ -10,6 +10,8 @@ import { PlanComponent } from './componentes/pagina_comercial/plan/plan.componen
 import { ComparePlanComponent } from './componentes/pagina_comercial/compare-plan/compare-plan.component';
 import { RegistroComponent } from './componentes/pagina_comercial/registro/registro.component';
 import { OlvidoPasswordComponent } from './componentes/pagina_comercial/olvido-password/olvido-password.component';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { OlvidoPasswordComponent } from './componentes/pagina_comercial/olvido-p
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
