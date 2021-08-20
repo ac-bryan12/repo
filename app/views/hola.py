@@ -8,5 +8,5 @@ def saludo(request):
     return render(request,'hola.html')
 
 urlpatterns = [
-    path('',saludo)
+    path('',saludo,name="saludo")
 ]
