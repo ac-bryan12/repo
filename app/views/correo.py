@@ -1,4 +1,4 @@
-from django.shortcuts import render 
+from django.shortcuts import redirect, render 
 from django.urls import path 
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
@@ -7,9 +7,9 @@ from django.views.decorators.csrf import *
 from django.http import HttpResponse
 
 @csrf_exempt
-def send_mail(mail,nombre,apellido):
+def send_mail(mail,nombre,razonsocial):
 
-    context = {'mail':mail,'nombre':nombre,'apellido':apellido}
+    context = {'mail':mail,'nombre':nombre,'razonsocial':razonsocial}
     template  = get_template('envioCorreo.html')
     content = template.render(context)
 
@@ -30,9 +30,9 @@ def registro(request):
 
         mail = request.POST.get('email')
         nombre = request.POST.get('nombre')
-        apellido = request.POST.get('apellido')
-        send_mail(mail,nombre,apellido)
-     return HttpResponse("Usuario enviado")
+        razonsocial = request.POST.get('razonsocial')
+        send_mail(mail,nombre,razonsocial)
+     return redirect("http://localhost:4200/env-informacion")
     
 urlpatterns = [
     path('registro/',registro)
