@@ -1,4 +1,3 @@
-
 from django.db import models
 
 class Plan(models.Model):
@@ -11,3 +10,4 @@ class Plan(models.Model):
     firma = models.TextField(max_length=50,blank=False)
     usuarios = models.TextField(max_length=50,blank=False)
     clientes = models.TextField(max_length=50,blank=False)
+
