@@ -14,7 +14,7 @@ export class LoginService {
     this.token=""
   }
 
-  login(url:string,user:any):Observable<any>{
+  peticionPost(url:string,user:any):Observable<any>{
     const headers = { 
       'Content-type':'application/x-www-form-urlencoded; charset=UTF-8',
       // 'Access-Control-Allow-Headers':'Content-Type',

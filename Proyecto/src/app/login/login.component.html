@@ -8,7 +8,10 @@
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                 <div class="card-body">
-                                    <form action="http://localhost:8000/api/auth/" method="POST">
+                                    <form  action="http://localhost:8000/api/auth/" method="POST">
+                                        <div class="{{msg_d}}" id="user_invalid">
+                                            {{msg_content}}
+                                        </div>
                                         <div class="form-floating mb-3">
                                             <input [(ngModel)]="user.email" class="form-control" id="inputUser" type="text" placeholder="username" name="username" minlength='4'>
                                             <label for="inputEmail">Username</label>
@@ -28,9 +31,9 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="card-footer text-center py-3">
-                                    <div class="small"><a [routerLink] = "['/registro']">Todavia no posee un plan de facturacion? Inicie hoy!</a></div>
-                                </div>
+                                <!-- <div class="card-footer text-center py-3">
+                                    <div class="small"><input type="button"  value="Enviar"></div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
