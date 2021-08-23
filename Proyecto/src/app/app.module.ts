@@ -11,7 +11,7 @@ import { ComparePlanComponent } from './componentes/pagina_comercial/compare-pla
 import { RegistroComponent } from './componentes/pagina_comercial/registro/registro.component';
 import { OlvidoPasswordComponent } from './componentes/pagina_comercial/olvido-password/olvido-password.component';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmacionComponent } from './componentes/pagina_comercial/confirmacion/confirmacion.component';
 import { EnvInformacionComponent } from './componentes/pagina_comercial/env-informacion/env-informacion.component';
 import { CreateCuentaComponent } from './componentes/pagina_comercial/create-cuenta/create-cuenta.component';
@@ -37,6 +37,7 @@ import { PagoComponent } from './componentes/pagina_comercial/pago/pago.componen
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
