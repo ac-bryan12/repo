@@ -35,7 +35,7 @@
                                                     <input class="form-control" id="inputEmail" name="mailorganizacion"
                                                         type="email" placeholder="name@example.com" formControlName="email">
                                                     <label for="inputEmail">Correo Electrónico Organización</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('empresa.email')?.hasError('required')) || createAccount.get('empresa.email')?.hasError('minlength') ||  createAccount.get('empresa.email')?.hasError('pattern')">Ingrese email válido</span>
+                                                    <span class="lead error" *ngIf="(createAccount.get('empresa.email')?.hasError('minlength') ||  createAccount.get('empresa.email')?.hasError('pattern'))">Ingrese email válido</span>
                                                     
                                                 </div>
                                             </div>
@@ -109,7 +109,7 @@
                                                         id="inputPassword" name="password" type="password"
                                                         placeholder="Ingrese su contraseña" formControlName="password">
                                                     <label for="inputPassword">Contraseña</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.password')?.hasError('required')) || createAccount.get('usuario.password')?.hasError('pattern') || createAccount.get('usuario.password')?.hasError('minlength') || createAccount.get('usuario.password')?.hasError('maxlength')">contraseñas no válida</span>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.password')?.hasError('required')) || createAccount.get('usuario.password')?.hasError('pattern') || createAccount.get('usuario.password')?.hasError('minlength')">contraseñas no válida</span>
                                                 </div>
                                             </div>
 
@@ -127,9 +127,9 @@
                                                 <div class="form-floating" >
                                                     <input class="form-control" id="validatePassword"
                                                         name="passwordvalidate" type="password"
-                                                        placeholder="Ingrese su contraseña nuevamente" formControlName="confpassword">
+                                                        placeholder="Ingrese su contraseña nuevamente" (input)="validarConfPassword()" formControlName="confpassword">
                                                     <label for="inputvalidatePassword">Valide su contraseña</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.confpassword')?.hasError('required')) || createAccount.get('usuario.confpassword')?.hasError('pattern') || createAccount.get('usuario.confpassword')?.hasError('minlength') || createAccount.get('usuario.confpassword')?.hasError('maxlength')">Las contraseñas no coinciden</span>
+                                                    <span class="lead error {{msg_d}}" >{{msg_content}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-3">
