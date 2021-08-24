@@ -15,7 +15,8 @@
                                     [formGroup]="createAccount"
                                     autocomplete="off"
                                     novalidate
-                                    #formRef="ngForm"
+                                    #formRef="ngForm" 
+                                    (ngSubmit) = "enviar(createAccount.value)"
                                      >
                                         <div class="row mb-3" formGroupName="empresa">
                                             <p id="nameOrg">Organización</p>
@@ -151,7 +152,7 @@
                                         </div>
                                         <div class="mt-4 mb-0">
                                             <div class="d-grid">
-                                                <input type="button" value="Siguiente"  (click)=enviar(createAccount.value) class="btn btn-primary btn-block">
+                                                <input type="submit" value="Siguiente" [disabled]="formRef.control.invalid"   class="btn btn-primary btn-block">
                                             </div>
                                         </div>
                                     </form>
