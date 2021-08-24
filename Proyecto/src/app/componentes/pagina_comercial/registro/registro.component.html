@@ -15,51 +15,51 @@
                                     (ngSubmit) = "form.submit()"
                                     #formRef="ngForm"  action="http://localhost:8000/registro/" method="POST"
                                     >
-                                        <div class="row mb-3" formGroupName="registro">
+                                        <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
                                                     <input class="form-control" id="inputRazonSocialName" name="razonsocial" type="text" placeholder="Ingresa nombre de tu empresa" formControlName="razonSocial">
                                                     <label for="inputFirstName">Razon Social</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && registroForm.get('registro.razonSocial')?.hasError('required')) || registroForm.get('registro.razonSocial')?.hasError('minlength') || registroForm.get('registro.razonSocial')?.hasError('maxlength') || registroForm.get('registro.razonSocial')?.hasError('pattern')">*Ingrese una razon social por favor</span>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && registroForm.get('razonSocial')?.hasError('required')) || registroForm.get('razonSocial')?.hasError('minlength') || registroForm.get('razonSocial')?.hasError('maxlength') || registroForm.get('razonSocial')?.hasError('pattern')">*Ingrese una razon social por favor</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating">
-                                                    <input class="form-control" id="inputNames" name="nombre" type="text" placeholder="Ingresa tus nombres" formControlName="nombres">
+                                                    <input class="form-control" id="inputNames" name="nombre" type="text" placeholder="Ingresa tus nombres" formControlName="nombre">
                                                     <label for="inputLastName">Nombres</label>
-                                                    <span class="lead error" *ngIf=" formRef.submitted && registroForm.get('registro.nombre')?.hasError('registro.required') && registroForm.get('registro.nombre')?.hasError('pattern')">*Ingrese su nombre y apellido por favor</span>
+                                                    <span class="lead error" *ngIf=" (formRef.submitted && registroForm.get('nombre')?.hasError('registro.required')) || registroForm.get('nombre')?.hasError('pattern') || registroForm.get('nombre')?.hasError('maxlength')">*Ingrese su nombre y apellido por favor</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input class="form-control" id="inputEmail" name="email" type="email" placeholder="name@example.com" formControlName="email">
                                             <label for="inputEmail">Correo electrónico</label>
-                                            <span class="lead error" *ngIf="(formRef.submitted && registroForm.get('registro.email')?.hasError('required')) || registroForm.get('registro.email')?.hasError('minlength') || registroForm.get('registro.email')?.hasError('maxlength') || registroForm.get('registro.email')?.hasError('pattern')">*Ingrese correo válido</span>
+                                            <span class="lead error" *ngIf="(formRef.submitted && registroForm.get('email')?.hasError('required')) || registroForm.get('email')?.hasError('minlength') || registroForm.get('email')?.hasError('pattern')">*Ingrese correo válido</span>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
                                                     <input class="form-control" id="inputNumphone" name="telefono" type="text" placeholder="Enter your phone" formControlName = "telefono">
                                                     <label for="inputFirstName">Telefono</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && registroForm.get('registro.telefono')?.hasError('required')) || registroForm.get('registro.telefono')?.hasError('minlength') || registroForm.get('registro.telefono')?.hasError('maxlength') || registroForm.get('registro.telefono')?.hasError('pattern')">*Ingrese numero telefono válido</span>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && registroForm.get('telefono')?.hasError('required')) || registroForm.get('telefono')?.hasError('minlength') || registroForm.get('telefono')?.hasError('maxlength') || registroForm.get('telefono')?.hasError('pattern')">*Ingrese numero telefono válido</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating">
                                                     <input class="form-control" id="inputCargo" type="text" placeholder="Enter your cargo"formControlName="cargo">
                                                     <label for="inputLastName">Cargo Contacto</label>
-                                                    <span class="lead error" *ngIf="formRef.submitted && registroForm.get('registro.cargo')?.hasError('required') && registroForm.get('registro.cargo')?.hasError('pattern')">*Ingrese informacion de su cargo por favor</span>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && registroForm.get('cargo')?.hasError('required')) || registroForm.get('cargo')?.hasError('pattern') || registroForm.get('cargo')?.hasError('minlength') || registroForm.get('cargo')?.hasError('maxlength')">*Ingrese informacion de su cargo por favor</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <textarea class="form-control" name="mensaje" id="inputDescription" type="text" placeholder="Descripcion" rows="50" formControlName="descripcion"></textarea>
                                             <label for="inputEmail">Descripcion</label>
-                                            <span class="lead error" *ngIf="(formRef.submitted && registroForm.get('registro.descripcion')?.hasError('required')) || registroForm.get('registro.descripcion')?.hasError('minlength') || registroForm.get('registro.descripcion')?.hasError('maxlength') || registroForm.get('registro.descripcion')?.hasError('pattern')">*Llene este campo por favor</span>
+                                            <span class="lead error" *ngIf="(formRef.submitted && registroForm.get('descripcion')?.hasError('required')) || registroForm.get('descripcion')?.hasError('minlength') || registroForm.get('descripcion')?.hasError('maxlength')">*Llene este campo por favor</span>
                                         </div>
 
                                         <div class="mt-4 mb-0">
-                                            <div class="d-grid"><input type="submit"  value="Enviar" class="btn btn-primary btn-block"></div>
+                                            <div class="d-grid"><input type="submit" value="Enviar" [disabled]="formRef.control.invalid" class="btn btn-primary btn-block"></div>
                                         </div>
                                     </form>
                                 </div>
