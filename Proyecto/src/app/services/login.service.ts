@@ -16,14 +16,14 @@ export class LoginService {
 
   peticionPost(url:string,user:any):Observable<any>{
     const headers = { 
-      'Content-type':'application/x-www-form-urlencoded; charset=UTF-8',
+      // 'Content-type':'application/x-www-form-urlencoded; charset=UTF-8',
       // 'Access-Control-Allow-Headers':'Content-Type',
       // 'Access-Control-Allow-Methods': 'POST',
       // 'Access-Control-Allow-Origin': '*',
       // 'Access-Control-Allow-Credentials':"true"
     }  
     // const body=JSON.stringify(user);
-    return this.http.post(url,user,/*{'headers':headers,'withCredentials':false}*/)
+    return this.http.post(url,user,{'headers':{'Authorization':this.getToken()}})
   }
 
   peticionGet(url:string):Observable<any>{

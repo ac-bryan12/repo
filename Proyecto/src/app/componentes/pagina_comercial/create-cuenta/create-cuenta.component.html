@@ -148,14 +148,25 @@
                                                     <label for="inputDireccionUser">Dirección</label>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-floating" >
+                                                    <input  class="form-control" id="inputToken" name="token" formControlName="token"
+                                                        type="text" placeholder="Ingrese su código de verificación">
+                                                    <label for="inputDireccionUser">Código de verificación</label>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.token')?.hasError('required')) || createAccount.get('usuario.token')?.hasError('minlength')" >Ingrese un código valido</span>
+                                                </div>
+                                            </div> 
 
                                         </div>
                                         <div class="mt-4 mb-0">
                                             <div class="d-grid">
-                                                <input type="submit" value="Siguiente" [disabled]="formRef.control.invalid"   class="btn btn-primary btn-block">
+                                                <input type="submit" value="Siguiente" [disabled]="formRef.control.invalid" class="btn btn-primary btn-block">
                                             </div>
                                         </div>
                                     </form>
+
+
+
                                 </div>
                             </div>
                         </div>

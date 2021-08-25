@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators,} from '@angular/forms';
 
 export class CreateCuentaComponent implements OnInit {
   public createAccount: FormGroup;
-
+  token = ''
   msg_content = ''
   msg_d = 'd-none'
   
@@ -26,7 +26,6 @@ export class CreateCuentaComponent implements OnInit {
         razonSocial: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9. ]+$'),Validators.minLength(5), Validators.maxLength(20)]),
         telefono: this.fb.control('', [Validators.required,Validators.pattern('^[+_0-9]+$'),Validators.minLength(13),Validators.maxLength(20)]),
         direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._ ]+$')]),
-
       }),
       usuario: this.fb.group({
         firstName: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(3),Validators.maxLength(15)]),
@@ -37,6 +36,7 @@ export class CreateCuentaComponent implements OnInit {
         email: this.fb.control('', [Validators.required,Validators.pattern('^[a-z0-9._%+\-]+@[a-z0-9.\-]+\\.[a-z]{2,4}'),Validators.minLength(7)]),
         telefono: this.fb.control('', [Validators.required,Validators.pattern('^[+_0-9]+$'),Validators.minLength(13),Validators.maxLength(20)]),
         direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._ ]+$')]),
+        token: this.fb.control('', [Validators.required,Validators.minLength(4)]),
       })
     });
   };
@@ -45,7 +45,7 @@ export class CreateCuentaComponent implements OnInit {
   }
 
   enviar(values:any){
-    console.log(values)
+    this.envio.setToken(values.usuario.token)
     this.envio.peticionPost("http://localhost:8000/api/create/",values).toPromise().then(res=>{
       console.log(res.json())
     })
