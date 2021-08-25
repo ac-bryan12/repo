@@ -5,14 +5,13 @@ from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 
 # Serializers define the API representation.
-class UserSerializer(serializers.ModelSerializer):
-    email = serializers.CharField(max_length=30,min_length=4)
-    password = serializers.CharField(max_length=30,min_length=8,write_only=True)
-    token = serializers.CharField(label=_("Token"),read_only=True)
+class LoginSerializer(serializers.ModelSerializer):
+    email = serializers.CharField(max_length=30)
+    password = serializers.CharField(max_length=30,write_only=True)
 
     class Meta:
         model = User
-        fields = ['email', 'password','token']
+        fields = ['email', 'password']
 
     def validate(self,attrs):
         user:User;
@@ -31,6 +30,6 @@ class UserSerializer(serializers.ModelSerializer):
         return attrs
 
 
-    def create(self,validated_data):
-         user = User.objects.create(**validated_data)
-         return user 
+    # def create(self,validated_data):
+    #      user = User.objects.create(**validated_data)
+    #      return user 

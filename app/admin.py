@@ -19,7 +19,7 @@ from .models.empresaTemp import EmpresaTemp
 
 def envioCorreoTemp(modeladmin,request,queryset):
         for empresa in queryset:
-                send_mail(empresa.correo,empresa.razonSocial)
+                send_mail(empresa.correo,empresa.razonSocial,empresa.token)
 
 @csrf_exempt
 @admin.register(EmpresaTemp)

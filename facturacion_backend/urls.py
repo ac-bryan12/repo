@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('app.views.hola')),
     path('api/',include('app.views.accounts.login')),
+    path('api/',include('app.views.accounts.createEmpresa')),
     # path('login/',include('app.views.accounts.login')),
     path('', include('app.views.correo')),
     path('', include('app.serializers.serializers')),

@@ -8,7 +8,7 @@ from .empresa import Empresa
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     direccion = models.CharField(max_length=30,null=True)
-    telefono =  models.IntegerField(null=True)
+    telefono =  models.PositiveBigIntegerField(null=True)
     cargoEmpres = models.CharField(max_length=30,null= True)
     firmaElectronica = models.TextField(max_length=100,null=True) # Ni idea de que va aca
     empresa = models.ForeignKey(Empresa,on_delete=models.SET_NULL,null=True)
