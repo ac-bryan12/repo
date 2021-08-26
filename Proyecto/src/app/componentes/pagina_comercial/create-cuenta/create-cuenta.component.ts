@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
-import { FormBuilder, FormControl, FormGroup, Validators,ValidationErrors,ValidatorFn, AbstractControl, AsyncValidator, AsyncValidatorFn} from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { FormBuilder,FormGroup, Validators} from '@angular/forms';
+import { Validacion } from 'src/assets/Validacion';
 
 
 @Component({
@@ -15,11 +15,7 @@ export class CreateCuentaComponent implements OnInit {
   public createAccount: FormGroup;
   response_d = ''
   response_content = ''
-  token = ''
-  msg_content = ''
-  msg_d = 'd-none'
-  ruc_d = ''
-  ruc_content = ''
+  public validate:Validacion = new Validacion();
   
   constructor(
     private envio: LoginService,
@@ -75,133 +71,12 @@ export class CreateCuentaComponent implements OnInit {
     })
   }
 
-  validarConfPassword(): boolean{
-    this.msg_d = 'd-none'
-    let pass = this.createAccount.get(['usuario','password'])?.value
-    let valpass = this.createAccount.get(['usuario','confpassword'])?.value
-    if(this.createAccount.get(['usuario','password'])?.hasError('required') || pass != valpass){
-      this.msg_d = 'd-block'
-      this.msg_content = "Contraseña no coincide"
-      return false;
-    }
-    return true;
-  }
-
-  validarPN(subcadena:String,subcadena2:String){
-    var arreglo = subcadena.split("")
-    var coeficientes = [2,1,2,1,2,1,2,1,2]
-    var result = []
-    var acum = 0
-    console.log("dentro")
-    for(let i = 0; i<coeficientes.length;i++){
-        var num = Number(arreglo[i])*coeficientes[i]
-        if(num<=9) result[i]=num
-        else result[i]=num-9
-    }
-    for(let j = 0;j<result.length;j++)
-       acum+=result[j]
-    acum = 10 - (acum%10)
-    if(acum === Number(subcadena2))
-      return true
-    return false
-  }
-  validarPJ(subcadena:String,subcadena2:String){
-    var arreglo = subcadena.split("")
-    var coeficientes = [4,3,2,7,6,5,4,3,2]
-    var result = []
-    var acum = 0
-    for(let i = 0; i<coeficientes.length;i++){
-        var num = Number(arreglo[i])*coeficientes[i]
-        result[i]=num
-    }
-    for(let j = 0;j<result.length;j++)
-       acum+=result[j]
-    acum = (acum%11)
-    if(acum != 0) 
-      acum = 11-acum
-    if(acum === Number(subcadena2))
-      return true
-    return false
-  }
-  validarIP(subcadena:String,subcadena2:String){
-    var arreglo = subcadena.split("")
-    var coeficientes = [3,2,7,6,5,4,3,2]
-    var result = []
-    var acum = 0
-    for(let i = 0; i<coeficientes.length;i++){
-        var num = Number(arreglo[i])*coeficientes[i]
-        result[i]=num
-    }
-    for(let j = 0;j<result.length;j++)
-       acum+=result[j]
-    acum =(acum%11)
-    if(acum != 0) 
-      acum = 11-acum
-    if(acum === Number(subcadena2))
-      return true
-    return false
+  validacionPassword(){
+    return this.validate.validarConfPassword(this.createAccount.get(["usuario","password"])?.value,this.createAccount.get(["usuario","confpassword"])?.value)    
   }
   validarRuc(){
-    this.ruc_d = 'd-none'
-    var ruc = this.createAccount.get(['empresa','ruc'])?.value
-    if (ruc.length === 13) {
-      console.log("Valida 13 digitos")
-      const ultimoDigito = ruc.substring(9, 10);
-      const digitoRegion = ruc.substring(0, 2)
-      if (digitoRegion >= String("01") && digitoRegion <= String("24") || digitoRegion == String(30) && ultimoDigito>=String("1")) {
-          const tercerDigito = ruc.substring(2,3);
-          if(tercerDigito >= String(0) && tercerDigito <= String(5)){
-            //Persona natural
-            var valDecimoDigito = this.validarPN(ruc.substring(0,9),ruc.substring(9,10)) 
-            if(valDecimoDigito){
-              console.log('Persona natural')
-              return true;
-            }
-            else{
-              this.ruc_d = 'd-block'
-              this.ruc_content = "Ingrese ruc válido"
-              console.log('Formato incorrecto')
-              return false
-            }  
-          }
-          else if(tercerDigito==String(9)){
-            //Persona juridica falta validar residuo cero
-            var valDecimoDigito = this.validarPJ(ruc.substring(0,9),ruc.substring(9,10)) 
-            if(valDecimoDigito){
-              console.log('Persona juridica')
-              return true;
-            }
-            else{
-              this.ruc_d = 'd-block'
-              this.ruc_content = "Ingrese ruc válido"
-              console.log('Formato incorrecto')
-              return false
-            }  
-          }
-          else if(tercerDigito==String(6)){
-            //Entidad publica solo falta valida residuo cero
-            var valDecimoDigito = this.validarIP(ruc.substring(0,8),ruc.substring(8,9)) 
-            if(valDecimoDigito){
-              console.log('Entidad publica')
-              return true;
-            }
-            else{
-              this.ruc_d = 'd-block'
-              this.ruc_content = "Ingrese Ruc válido"
-              console.log('Formato incorrecto')
-              return false
-            }  
-          }
-          else{
-            return false
-          }
-      } else {
-        return false
-      }
-    } else {
-      return false
-    }
-  
+    let ruc = this.createAccount.get(['empresa','ruc'])?.value
+    return !this.validate.validarRuc(ruc)
   }
 
 }
