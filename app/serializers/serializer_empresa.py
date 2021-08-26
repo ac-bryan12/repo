@@ -6,24 +6,34 @@ from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 
 class EmpresaSerializer(serializers.ModelSerializer):
-    ruc = serializers.IntegerField()
-    razonSocial =  serializers.CharField(max_length=50)
-    direccion = serializers.CharField(max_length=30)
-    telefono = serializers.IntegerField()
-    email =  serializers.EmailField(max_length=250,required=False)
+    ruc = serializers.CharField(min_length=13,max_length=13)
+    razonSocial =  serializers.CharField(min_length=5,max_length=50)
+    direccion = serializers.CharField(max_length=255)
+    telefono = serializers.CharField(max_length=13,min_length=13)
+    email =  serializers.EmailField(min_length=7,required=False)
 
     class Meta:
         model = Empresa
         fields = ['ruc', 'razonSocial','direccion','telefono','email']
 
-    # def validate(self, attrs):
-    #     print("validate empresa")
-    #     empresa = Empresa.objects.filter(ruc=attrs['ruc'])
-    #     print(len(empresa))
-    #     if len(empresa)!= 0:
-    #         return empresa
-    #     msg = _("Empresa no existe en el sistema")
-    #     raise serializers.ValidationError(msg)
+    def validate(self, attrs):
+        print(attrs)
+        msg:any
+        if len(attrs['ruc']) != 13 :
+            msg = _("Ruc inválido")
+        elif Empresa.objects.filter(ruc=attrs['ruc']).exists() :
+            msg = _("El Ruc ingresado ya existe en el sistema")
+        elif len(attrs['razonSocial']) < 5 or len(attrs['razonSocial']) > 50:
+            msg = _("Razón Social")
+        elif len(attrs['email']) < 7 :
+            msg = _("Email inválido")
+        elif Empresa.objects.filter(correo=attrs['email']).exists() :
+            msg = _("el email ingresado ya existe en el sistema")
+        elif len(attrs['telefono']) != 13 :
+            msg = _("Teléfono inválido")
+        else :
+            return attrs
+        raise serializers.ValidationError(msg)
         
 
     # def create(self,validated_data):

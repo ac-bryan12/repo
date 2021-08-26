@@ -21,12 +21,12 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('app.views.hola')),
+    path('',include('app.views.hola'),name="hola"),
     path('api/',include('app.views.accounts.login')),
     path('api/',include('app.views.accounts.createEmpresa')),
     # path('login/',include('app.views.accounts.login')),
     path('', include('app.views.correo')),
     path('', include('app.serializers.serializers')),
-
+    path('api/',include('app.views.accounts.userAccount'))
     
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

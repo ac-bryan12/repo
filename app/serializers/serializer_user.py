@@ -3,27 +3,42 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db.models import query
 from rest_framework import serializers
+from django.utils.translation import gettext_lazy as _
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(max_length=128)
+    password = serializers.CharField(min_length=8)
     username = serializers.CharField(max_length=150,required=False)
-    firstName = serializers.CharField(max_length=150)
-    lastName = serializers.CharField(max_length=150)
-    email = serializers.EmailField(max_length=150)
-    direccion = serializers.CharField(max_length=30)
-    telefono =  serializers.IntegerField()
-    cargo = serializers.CharField(max_length=30)
+    firstName = serializers.CharField(min_length=3,max_length=50)
+    lastName = serializers.CharField(min_length=3,max_length=50)
+    email = serializers.EmailField(min_length=7)
+    direccion = serializers.CharField(max_length=255)
+    telefono =  serializers.CharField(min_length=13,max_length=13)
+    cargo = serializers.CharField(min_length=4,max_length=50)
 
     class Meta:
         model = User
         fields = ['username','firstName','lastName','email', 'password','direccion','telefono', 'cargo']
 
-    # def validate(self, attrs):
-    #     print("validate user")
-    #     user = User.objects.filter(username=attrs['username'])
-    #     if len(user)!=0:
-    #         raise serializers.ValidationError("Usuario ya existe en el sistema")
-    #     return user
+    def validate(self, attrs):
+        print(attrs)
+        msg:any
+        if len(attrs['email']) < 7 :
+            msg = _("Email inválido")
+        elif User.objects.filter(email=attrs['email']).exists() :
+            msg = _("El email ingresado ya existe en el sitema")
+        elif len(attrs['password']) < 8 :
+            msg = _("Contraseña inválida")
+        elif len(attrs['firstName']) < 3 or len(attrs['firstName']) > 50:
+            msg = _("Nombre inválido")
+        elif len(attrs['lastName']) < 3 or len(attrs['lastName']) > 50 :
+            msg = _("Apellido inválido")
+        elif len(attrs['cargo']) < 4 or len(attrs['cargo']) > 50 :
+            msg = _("Cargo inválido")
+        elif len(attrs['telefono']) != 13 :
+            msg = _("Teléfono inválido")
+        else :
+            return attrs
+        raise serializers.ValidationError(msg)
 
     # def create(self,validated_data):
     #     print("crear usuario")

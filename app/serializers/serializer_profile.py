@@ -37,7 +37,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         empresa.razonSocial = validated_data['empresa']['razonSocial']
         empresa.direccion = validated_data['empresa']['direccion']
         empresa.telefono = validated_data['empresa']['telefono']
-        # empresa.email = validate_data['empresa']['email']
+        empresa.correo = validated_data['empresa']['email']
         empresa.save()
 
         # user = UserSerializer(validated_data['user'])
