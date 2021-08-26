@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       const responseT = this.request.peticionPost('http://127.0.0.1:8000/api/auth/', value)
         .toPromise().then(res => {
           if (res['token'] != '0') {
-            alert(res['token'])
+            alert('Ha iniciado sesion xD')
             return res['token']
           } else {
             this.msg_d = 'd-block'
