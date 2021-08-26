@@ -9,6 +9,7 @@ import { ConfirmacionComponent } from './componentes/pagina_comercial/confirmaci
 import { EnvInformacionComponent } from './componentes/pagina_comercial/env-informacion/env-informacion.component';
 import { CreateCuentaComponent } from './componentes/pagina_comercial/create-cuenta/create-cuenta.component';
 import { PagoComponent } from './componentes/pagina_comercial/pago/pago.component';
+import { CreacionExitosaComponent } from './componentes/pagina_comercial/creacion-exitosa/creacion-exitosa.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path:'env-informacion',component:EnvInformacionComponent},
   {path:'create-cuenta',component:CreateCuentaComponent},
   {path:'pago',component:PagoComponent},
-  {path:'',redirectTo:'home',pathMatch:'full'}
+  {path:'',redirectTo:'home',pathMatch:'full'},
+  {path:'creacion-exitosa',component:CreacionExitosaComponent}
 ];
 
 @NgModule({

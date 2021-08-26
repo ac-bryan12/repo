@@ -37,18 +37,22 @@ export class LoginComponent implements OnInit {
       const responseT = this.request.peticionPost('http://127.0.0.1:8000/api/auth/', value)
         .toPromise().then(res => {
           if (res['token'] != '0') {
-            alert('Ha iniciado sesion xD')
-            return res['token']
+            // alert('Ha iniciado sesión')
+            this.request.setToken(res['token'])
+            window.location.href = 'http://localhost:8000/api/perfil/';
           } else {
             this.msg_d = 'd-block'
             this.msg_content = "Email o contraseña invalido. El usuario no se encuentra en el sistema."
           }
         });
-      const setToken = async () => {
-        token = await responseT
-        this.request.setToken(token)
-      }
-      setToken()
+
+      // const setToken = async () => {
+      //   token = await responseT
+      //   alert(token)
+      //   this.request.setToken(token)
+      //   window.location.href = 'http://localhost:8000/api/perfil/';
+      // }
+      // setToken()
     }
   }
 

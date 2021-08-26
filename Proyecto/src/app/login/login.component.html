@@ -15,8 +15,8 @@
                                             {{msg_content}}
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input formControlName="email" (input)="validacion('email')" class="form-control" id="inputUser" type="text" placeholder="username" name="username" minlength='4'>
-                                            <label for="inputEmail">Username</label>
+                                            <input formControlName="email" (input)="validacion('email')" class="form-control" id="inputUser" type="text" placeholder="email" name="username" minlength='4'>
+                                            <label for="inputEmail">Email</label>
                                             <!--
                                             <span class="lead error" *ngIf="(formRef.submitted && login.get('email')?.hasError('required')) || login.get('email')?.hasError('minlength') ||  login.get('email')?.hasError('pattern')">Ingrese email válido</span>-->
                                         </div>

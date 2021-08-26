@@ -18,6 +18,9 @@
                                     #formRef="ngForm" 
                                     (ngSubmit) = "enviar(createAccount.value)"
                                      >
+                                        <div class='{{response_d}}'>
+                                            {{response_content}}
+                                        </div>
                                         <div class="row mb-3" formGroupName="empresa">
                                             <p id="nameOrg">Organización</p>
                                             <div class="col-md-6 mb-3">
@@ -27,6 +30,7 @@
                                                         placeholder="Ingrese el RUC de su empresa" (input)="validarRuc()" formControlName="ruc">
                                                     <label for="inputRUC">RUC</label>
                                                     <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('empresa.ruc')?.hasError('required')) || createAccount.get('empresa.ruc')?.hasError('minlength') || createAccount.get('empresa.ruc')?.hasError('maxlength') || createAccount.get('empresa.ruc')?.hasError('pattern')">Ingrese RUC válido</span>
+                                                    <!-- <div class={{ruc_d}} style='color:red'>{{ruc_content}}</div> -->
                                                 </div>
                                             </div>
 
@@ -146,6 +150,14 @@
                                                     <input class="form-control" id="inputDireccionUser" name="direccion"
                                                         type="text" placeholder="Ingrese su dirección" formControlName="direccion">
                                                     <label for="inputDireccionUser">Dirección</label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-floating" >
+                                                    <input class="form-control" id="inputCodigo" name="codigodireccion"
+                                                        type="password" placeholder="código de verificación" formControlName="token">
+                                                    <label for="inputDireccionUser">Código de verificación</label>
                                                 </div>
                                             </div>
 

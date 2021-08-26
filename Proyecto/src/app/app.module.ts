@@ -16,6 +16,7 @@ import { ConfirmacionComponent } from './componentes/pagina_comercial/confirmaci
 import { EnvInformacionComponent } from './componentes/pagina_comercial/env-informacion/env-informacion.component';
 import { CreateCuentaComponent } from './componentes/pagina_comercial/create-cuenta/create-cuenta.component';
 import { PagoComponent } from './componentes/pagina_comercial/pago/pago.component';
+import { CreacionExitosaComponent } from './componentes/pagina_comercial/creacion-exitosa/creacion-exitosa.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { PagoComponent } from './componentes/pagina_comercial/pago/pago.componen
     EnvInformacionComponent,
     CreateCuentaComponent,
     PagoComponent,
+    CreacionExitosaComponent,
   ],
   imports: [
     BrowserModule,
