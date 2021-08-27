@@ -29,7 +29,9 @@ export class Validacion implements OnInit{
     }
     for(let j = 0;j<result.length;j++)
        acum+=result[j]
-    acum = 10 - (acum%10)
+    acum = (acum%10)
+    if(acum !=0)
+      acum = 10 - acum
     if(acum === Number(subcadena2))
       return true
     return false
@@ -125,4 +127,12 @@ export class Validacion implements OnInit{
   
   }
 
+  validarCampNum(tlf:any,numMaximo: number) {
+    if(!isNaN(tlf.value) && !tlf.value.includes(" ") && tlf.value != ''){
+      if(tlf.value.length > numMaximo) tlf.value = tlf.value.substring(0,tlf.value.length-1)
+    }
+    else{
+      tlf.value = tlf.value.substring(0,tlf.value.length-1)
+    }
+  }
 }
