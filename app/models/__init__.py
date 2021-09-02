@@ -1,5 +1,4 @@
 from .plan import Plan
-from .roles import Rol
 from .profile import Profile
 from .empresa import Empresa
 from .empresa_plan import EmpresaPlan

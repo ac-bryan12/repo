@@ -4,7 +4,6 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import path
 from app.models.plan import Plan
-from app.models.roles import Rol
 
 @csrf_exempt
 def saludo(request):
@@ -23,15 +22,6 @@ def population_Planes(request):
         return render(request,"hola.html")
 
 
-def population_Roles(request):
-        list = [
-            ["1","Admin"],["2","Analista"],["3","Cliente"]
-        ]
-        for i in range(len(list)):
-            Rol.objects.create(codigo=list[i][0],nombre=list[i][1])
-        return HttpResponse("creacion de roles")
-
 urlpatterns = [
     path('',population_Planes),
-    path('Roles/',population_Roles)
 ]

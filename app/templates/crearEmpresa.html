@@ -1,0 +1,21 @@
+
+<html>
+<head> 
+    <meta charset="UTF-8">
+    <meta name ="viewport" content = "width-device-width, initial-scale=1.0">
+</head>
+</head>
+
+<body>
+
+    <form method="post">
+        {% load rest_framework %}
+        {% render_form empresa_form.is_valid() %}
+
+        {% csrf_token %}
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+
+
+</html>

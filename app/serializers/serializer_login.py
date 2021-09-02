@@ -14,7 +14,7 @@ class LoginSerializer(serializers.ModelSerializer):
         fields = ['email', 'password']
 
     def validate(self,attrs):
-        user:User;
+        user:User
         try:
             userAcount:User = User.objects.get(email=attrs['email'])
             user = authenticate(username=userAcount.username,password=attrs['password'])

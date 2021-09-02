@@ -9,7 +9,6 @@ from .models.estadoPlan import EstadoPlan
 from .models.pago import Pago
 from .models.plan import Plan
 from .models.tipoPago import TipoPago
-from app.models.roles import Rol
 from app.views.correo import send_mail
 from django.views.decorators.csrf import *
 from .models.empresaTemp import EmpresaTemp
@@ -76,15 +75,6 @@ class TipoPagoAdmin(admin.ModelAdmin):
                 'id','nombre',
         )
       
-@admin.register(Rol)
-class RolAdmin(admin.ModelAdmin):
-        date_heirarchy = {
-                'modified'
-        }
-        list_display = (
-                'id','codigo','nombre',
-        )
-
 
 @admin.register(Plan)
 class PlanAdmin(admin.ModelAdmin):
