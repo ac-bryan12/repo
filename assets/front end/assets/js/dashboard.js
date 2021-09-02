@@ -1,6 +1,7 @@
 /* globals Chart:false, feather:false */
 
 (function () {
+  console.log("hola mundo")
   'use strict'
 
   feather.replace({ 'aria-hidden': 'true' })
