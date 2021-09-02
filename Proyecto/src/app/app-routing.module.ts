@@ -14,6 +14,10 @@ import { VistaAdminComponent } from './componentes/sitioAdmin/vista-admin/vista-
 import { EmpresaComponent } from './componentes/sitioAdmin/empresa/empresa.component';
 import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
 import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
+import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
+import { AuthGuard } from './services/guard/auth.guard';
+import { UtilGuard } from './services/utils/util.guard';
+
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -21,16 +25,18 @@ const routes: Routes = [
   {path:'registro',component:RegistroComponent},
   {path:'olvido-password',component:OlvidoPasswordComponent},
   {path:'planes',component:PlanComponent},
-  {path:'confirmacion',component:ConfirmacionComponent},
-  {path:'env-informacion',component:EnvInformacionComponent},
+  {path:'confirmacion',component:ConfirmacionComponent,canActivate: [UtilGuard]},
+  {path:'env-informacion',component:EnvInformacionComponent,canActivate: [UtilGuard]},
   {path:'create-cuenta',component:CreateCuentaComponent},
   {path:'pago',component:PagoComponent},
+  // {path:'portal',component:PortalComponent,},
   {path:'',redirectTo:'home',pathMatch:'full'},
-  {path:'creacion-exitosa',component:CreacionExitosaComponent},
-  {path:'admin',component:VistaAdminComponent},
+  {path:'admin',component:VistaAdminComponent,canActivate: [AuthGuard]},
   {path:'empresas',component:EmpresaComponent},
   {path:'empresasTemp',component:EmpresaTempComponent},
-  {path:'popup',component:PopUpComponent}
+  {path:'popup',component:PopUpComponent},
+  {path:'creacion-exitosa',component:CreacionExitosaComponent,canActivate: [UtilGuard]}
+
 ];
 
 @NgModule({

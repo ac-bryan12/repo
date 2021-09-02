@@ -1,7 +1,9 @@
 import { tokenize } from '@angular/compiler/src/ml_parser/lexer';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from '../services/login.service';
+import { RequestService } from '../services/request/request.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login',
@@ -20,7 +22,8 @@ export class LoginComponent implements OnInit {
   msg_d = 'd-none'
 
   constructor(
-    private request: LoginService,
+    private route:Router,
+    private request: RequestService,
     private log: FormBuilder) {
     this.login = this.log.group({
       email: this.log.control('', [Validators.required, Validators.pattern('^[a-z0-9._%+\-]+@[a-z0-9.\-]+\\.[a-z]{2,4}'), Validators.minLength(7)]),
@@ -31,28 +34,20 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  iniciarSesion(value : any) {
-    let token = "";
-    if (this.validacion("email") && this.validacion("password")) {
-      const responseT = this.request.peticionPost('http://127.0.0.1:8000/api/auth/', value)
-        .toPromise().then(res => {
-          if (res['token'] != '0') {
-            // alert('Ha iniciado sesión')
-            this.request.setToken(res['token'])
-            window.location.href = 'http://localhost:8000/api/perfil/';
-          } else {
-            this.msg_d = 'd-block'
-            this.msg_content = "Email o contraseña invalido. El usuario no se encuentra en el sistema."
-          }
-        });
 
-      // const setToken = async () => {
-      //   token = await responseT
-      //   alert(token)
-      //   this.request.setToken(token)
-      //   window.location.href = 'http://localhost:8000/api/perfil/';
-      // }
-      // setToken()
+  iniciarSesion(value : any) {
+    if (this.validacion("email") && this.validacion("password")) {
+      this.request.peticionPost('http://localhost:8000/api/auth/', value,true)
+        .subscribe(res => {
+          this.request.isLoggedIn = true
+          localStorage.setItem('token',res['token']);
+          localStorage.setItem('Autenticated',"true");
+          this.route.navigate(["/admin"])
+        },(err:HttpErrorResponse)=>{
+          this.msg_d = 'd-block'
+          this.msg_content = err.error.error;
+          [0]
+        });
     }
   }
 
@@ -73,39 +68,4 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  /*
-      let token = "";
-      if(this.user.email != '' && this.user.password != ''){
-        if(this.user.email.length > 6){
-          if(this.user.password.length > 7){
-            const responseT = this.request.peticionPost('http://127.0.0.1:8000/api/auth/',this.user)
-            .toPromise().then(res => {
-              if (res['token'] != '0'){
-                alert("Ha iniciado sesión con el correo:"+this.user.email,)
-                return res['token']
-              }else{
-                this.msg_d = 'd-block'
-                this.msg_content = "Email o contraseña invalido. El usuario no se encuentra en el sistema."
-              }
-            });
-            const setToken = async() =>{
-            token = await responseT
-            this.request.setToken(token)
-            
-            }
-            setToken()
-          }else{
-            this.msg_content = "La contraseña debe tener al menos 8 digitos."
-            this.msg_d = 'd-block'
-          }
-          
-        }else{
-          this.msg_content = "El email debe tener al menos 7 digitos."
-          this.msg_d = 'd-block'
-        }
-      }else{
-        this.msg_d = 'd-block'
-        this.msg_content = "Llenar los campos faltantes"
-      }
-      */
 }

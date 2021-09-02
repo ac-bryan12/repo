@@ -1,24 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
 
 @Component({
-  selector: 'header-admin',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  selector: 'app-portal',
+  templateUrl: './portal.component.html',
+  styleUrls: ['./portal.component.css']
 })
-export class HeaderComponent implements OnInit {
-
+export class PortalComponent implements OnInit {
+  
   constructor(private request:RequestService,private router:Router) { }
-
+  
   ngOnInit(): void {
   }
 
   logout(){
     
     this.request.peticionPost('http://localhost:8000/api/logout/',{}).subscribe(res =>{
+      console.log(res['estado'])
       localStorage.setItem('Autenticated',"")
-      this.router.navigate(['/login'])
+      this.router.navigate(['/home'])
     })
   }
 

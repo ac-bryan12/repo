@@ -1,4 +1,5 @@
-<body>
+<nav_bar></nav_bar>
+<section>
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>
@@ -31,6 +32,7 @@
                                                     <label for="inputRUC">RUC</label>
                                                     <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('empresa.ruc')?.hasError('required')) || createAccount.get('empresa.ruc')?.hasError('minlength') || createAccount.get('empresa.ruc')?.hasError('maxlength') || createAccount.get('empresa.ruc')?.hasError('pattern') || validarRuc()">Ingrese RUC válido</span>
                                                     <!-- <div class={{ruc_d}} style='color:red'>{{ruc_content}}</div> -->
+
                                                 </div>
                                             </div>
 
@@ -195,4 +197,4 @@
     <script src="js/scripts.js"></script>
 
 
-</body>
+</section>

@@ -24,6 +24,8 @@ import { HeaderComponent } from './componentes/sitioAdmin/header/header.componen
 import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
 import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
 
+import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +47,7 @@ import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component
     HeaderComponent,
     EmpresaTempComponent,
     PopUpComponent,
+    PortalComponent,
   ],
   imports: [
     BrowserModule,

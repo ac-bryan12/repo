@@ -1,7 +1,4 @@
-import { Template } from '@angular/compiler/src/render3/r3_ast';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'nav_bar',
@@ -10,7 +7,7 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class NavComponent implements OnInit {
   urlLogin = 'http://localhost:8000/login'
-  constructor(private login: LoginService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

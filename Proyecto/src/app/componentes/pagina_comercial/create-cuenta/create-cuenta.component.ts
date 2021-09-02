@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/services/login.service';
+import { RequestService } from 'src/app/services/request/request.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder,FormGroup, Validators} from '@angular/forms';
 import { Validacion } from 'src/assets/Validacion';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class CreateCuentaComponent implements OnInit {
   public validate:Validacion = new Validacion();
   
   constructor(
-    private envio: LoginService,
+    private router:Router,
+    private envio: RequestService,
     private fb: FormBuilder
   ) {
     this.createAccount = this.fb.group({
@@ -47,10 +49,12 @@ export class CreateCuentaComponent implements OnInit {
   }
 
   enviar(values:any){
-    this.envio.setToken(values.usuario.token)
-    this.envio.peticionPost("http://localhost:8000/api/create/",values).subscribe((res)=>{
+    localStorage.setItem('token',values.usuario.token)
+    this.envio.peticionPost("http://localhost:8000/api/create/",values,false).subscribe((res)=>{
       if(res['msg']!= ''){
-        window.location.href = 'http://localhost:4200/creacion-exitosa';
+        this.envio.isCreatedAccount= true
+        this.envio.isRegistered = false
+        this.router.navigate(['/creacion-exitosa'])
       }
     },(err:HttpErrorResponse)=>{
       if(err.error.hasOwnProperty('usuario')){
