@@ -10,6 +10,10 @@ import { EnvInformacionComponent } from './componentes/pagina_comercial/env-info
 import { CreateCuentaComponent } from './componentes/pagina_comercial/create-cuenta/create-cuenta.component';
 import { PagoComponent } from './componentes/pagina_comercial/pago/pago.component';
 import { CreacionExitosaComponent } from './componentes/pagina_comercial/creacion-exitosa/creacion-exitosa.component';
+import { VistaAdminComponent } from './componentes/sitioAdmin/vista-admin/vista-admin.component';
+import { EmpresaComponent } from './componentes/sitioAdmin/empresa/empresa.component';
+import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
+import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -22,7 +26,11 @@ const routes: Routes = [
   {path:'create-cuenta',component:CreateCuentaComponent},
   {path:'pago',component:PagoComponent},
   {path:'',redirectTo:'home',pathMatch:'full'},
-  {path:'creacion-exitosa',component:CreacionExitosaComponent}
+  {path:'creacion-exitosa',component:CreacionExitosaComponent},
+  {path:'admin',component:VistaAdminComponent},
+  {path:'empresas',component:EmpresaComponent},
+  {path:'empresasTemp',component:EmpresaTempComponent},
+  {path:'popup',component:PopUpComponent}
 ];
 
 @NgModule({

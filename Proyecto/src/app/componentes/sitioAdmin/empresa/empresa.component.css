@@ -1,0 +1,44 @@
+h2{
+    margin-left: 20px;
+}
+
+#container{
+    display: flex;
+    flex-direction: row;
+}
+#tabla{
+    display: flex;
+    flex-direction: column;
+    width: 1400px;
+}
+
+#aggEmpresa{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 50px;
+    margin-top: 25px;
+}
+
+th,td{
+    text-align: center;
+}
+
+#indices{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#cantidad{
+    margin-left: 20px;
+}
+
+#paginacion{
+    margin-right: 20px;
+}
+
+#botones-acciones{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

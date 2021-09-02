@@ -17,6 +17,12 @@ import { EnvInformacionComponent } from './componentes/pagina_comercial/env-info
 import { CreateCuentaComponent } from './componentes/pagina_comercial/create-cuenta/create-cuenta.component';
 import { PagoComponent } from './componentes/pagina_comercial/pago/pago.component';
 import { CreacionExitosaComponent } from './componentes/pagina_comercial/creacion-exitosa/creacion-exitosa.component';
+import { VistaAdminComponent } from './componentes/sitioAdmin/vista-admin/vista-admin.component';
+import { EmpresaComponent } from './componentes/sitioAdmin/empresa/empresa.component';
+import { NavAdminComponent } from './componentes/sitioAdmin/nav-admin/nav-admin.component';
+import { HeaderComponent } from './componentes/sitioAdmin/header/header.component';
+import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
+import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +39,12 @@ import { CreacionExitosaComponent } from './componentes/pagina_comercial/creacio
     CreateCuentaComponent,
     PagoComponent,
     CreacionExitosaComponent,
+    VistaAdminComponent,
+    EmpresaComponent,
+    NavAdminComponent,
+    HeaderComponent,
+    EmpresaTempComponent,
+    PopUpComponent,
   ],
   imports: [
     BrowserModule,

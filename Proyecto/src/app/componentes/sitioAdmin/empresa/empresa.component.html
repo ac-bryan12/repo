@@ -1,0 +1,100 @@
+<header-admin></header-admin>
+<div id="container">
+    <nav-admin></nav-admin>
+    <div id="tabla" class="table-responsive">
+        <div id="aggEmpresa">
+            <input ng-click="ShowForm()" ng-hide="formVisibility" type="submit" value="Agregar Empresa" class="btn btn-primary btn-block" cdkStepperNext>
+        </div>
+        <h2>Empresas</h2>
+        <div class="table-wrapper">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>RUC</th>
+                        <th>Razon Social</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    
+                        <tr>
+                            <td>Empresa1</td>
+                            <td>Empresa1</td>
+                            <td>Empresa1</td>
+                            <td>Empresa1</td>
+                            <td>Empresa1</td>
+                            <td id="botones-acciones">
+                                <input type="submit" value="Editar" class="btn btn-primary btn-block">
+                                <input type="submit" value="Eliminar" class="btn btn-danger btn-block">
+                            </td>
+                        </tr>
+                        <!--
+                    <% clientes.forEach(function(cliente){ %>
+                        <tr>
+                        <td><%= cliente.id %></td>
+                        <td><%= cliente.nombre %></td>
+                        <td><%= cliente.apellido %></td>
+                        <td><%= cliente.fechaNacimiento.toLocaleDateString('en-US') %></td> 
+                        <td><%= cliente.estado %></td>                                       
+                        <td>
+                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                        </td>
+                      </tr>
+                       
+                    <% }); %>-->
+                </tbody>
+            </table>
+            <div id="indices">
+                <div id="cantidad" class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                <ul id="paginacion" class="pagination">
+                    <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div ng-show="formVisibility" class="wrapper">
+            <h2>Agregar Empresas</h2>
+            <div class="form-floating mb-3 mb-md-0">
+                <input class="form-control" id="inputRUC" name="ruc" type="text"
+                    placeholder="Ingrese el RUC de su empresa">
+                <label for="inputRUC">RUC</label>
+            </div>
+
+            <div class="form-floating mb-3 mb-md-0">
+                <input class="form-control" id="inputEmail" name="mailorganizacion" type="email"
+                    placeholder="name@example.com" formControlName="email">
+                <label for="inputEmail">Correo Electrónico</label>
+            </div>
+
+            <div class="form-floating mb-3 mb-md-0">
+                <input class="form-control" id="inputRazonSocial" name="razonsocial" type="text"
+                    placeholder="Ingrese la Razon social de su empresa" formControlName="razonSocial">
+                <label for="inputRazonSocial">Razón Social</label>
+            </div>
+
+            <div class="form-floating">
+                <input #telf class="form-control" id="inputNumphone" name="telefono" type="text"
+                    placeholder="Ingrese su numero de telefono" formControlName='telefono'>
+                <label for="inputNumphone">Teléfono</label>
+            </div>
+
+            <div class="form-floating">
+                <input class="form-control" id="inputDireccion" name="direccion" type="text"
+                    placeholder="Ingrese su dirección" formControlName='direccion'>
+                <label for="inputDireccion">Dirección</label>
+            </div>
+        </div>
+
+    </div>
+</div>

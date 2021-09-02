@@ -1,0 +1,15 @@
+#title{
+    text-align: center;
+    margin-top: 50px;
+}
+
+#buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#container-form{
+    display: flex;
+    justify-content: center;
+}
