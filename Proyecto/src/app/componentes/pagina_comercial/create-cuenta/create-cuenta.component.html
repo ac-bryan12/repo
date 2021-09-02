@@ -18,7 +18,7 @@
                                     novalidate
                                     #formRef="ngForm" 
                                     (ngSubmit) = "enviar(createAccount.value)"
-                                     >
+                                     action="http://localhost:8000/api/create/" method="post">
                                         <div class='{{response_d}}'>
                                             {{response_content}}
                                         </div>

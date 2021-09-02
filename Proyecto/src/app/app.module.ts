@@ -25,6 +25,7 @@ import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empr
 import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
 
 import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
+import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vista-empresa.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { PortalComponent } from './componentes/pagina_comercial/portal/portal.co
     EmpresaTempComponent,
     PopUpComponent,
     PortalComponent,
+    VistaEmpresaComponent,
   ],
   imports: [
     BrowserModule,
