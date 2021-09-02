@@ -9,7 +9,7 @@ class EmpresaSerializer(serializers.ModelSerializer):
     ruc = serializers.CharField(min_length=13,max_length=13)
     razonSocial =  serializers.CharField(min_length=5,max_length=50)
     direccion = serializers.CharField(max_length=255)
-    telefono = serializers.CharField(max_length=13,min_length=13)
+    telefono = serializers.CharField(max_length=10,min_length=10)
     email =  serializers.EmailField(min_length=7,required=False)
 
     class Meta:
@@ -17,7 +17,6 @@ class EmpresaSerializer(serializers.ModelSerializer):
         fields = ['ruc', 'razonSocial','direccion','telefono','email']
 
     def validate(self, attrs):
-        print(attrs)
         msg:any
         if len(attrs['ruc']) != 13 :
             msg = _("Ruc inválido")
@@ -29,7 +28,7 @@ class EmpresaSerializer(serializers.ModelSerializer):
             msg = _("Email inválido")
         elif Empresa.objects.filter(correo=attrs['email']).exists() :
             msg = _("el email ingresado ya existe en el sistema")
-        elif len(attrs['telefono']) != 13 :
+        elif len(attrs['telefono']) != 10 :
             msg = _("Teléfono inválido")
         else :
             return attrs

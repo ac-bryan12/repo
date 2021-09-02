@@ -12,6 +12,7 @@ class Profile(models.Model):
     cargoEmpres = models.CharField(max_length=30,null= True)
     firmaElectronica = models.TextField(max_length=100,null=True) # Ni idea de que va aca
     empresa = models.ForeignKey(Empresa,on_delete=models.SET_NULL,null=True)
+    #Profilepermissions para los roles
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

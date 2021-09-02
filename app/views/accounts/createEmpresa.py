@@ -1,3 +1,4 @@
+from rest_framework.authentication import BaseAuthentication
 from rest_framework.response import Response
 from app.models.empresaTemp import EmpresaTemp
 from app.serializers.serializer_profile import ProfileSerializer
@@ -10,14 +11,17 @@ from rest_framework.parsers import JSONParser
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import *
 import io
+from rest_framework import permissions
+from rest_framework.authentication import BasicAuthentication
 
 
 class CreateView(APIView):
-    throttle_classes = ()
-    permission_classes = ()
+    # throttle_classes = ()
+    permission_classes = [permissions.AllowAny]
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
     renderer_classes = (renderers.JSONRenderer,)
     serializer_class= ProfileSerializer
+    authentication_classes = (BasicAuthentication,)
     
     def eliminarSolicitud(self,token):
         empresa:EmpresaTemp = EmpresaTemp.objects.filter(token=token)

@@ -155,16 +155,25 @@ REST_FRAMEWORK = {
 
     ],
     "DEFAULT_AUTHENTICATION_CLASSES":[
-        # 'rest_framework.authentication.TokenAuthentication'
+        'rest_framework.authentication.TokenAuthentication'
     ]
 }
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:4200',
-    'http://127.0.0.1:4200'
-    )
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:4200',
+#     'http://127.0.0.1:4200'
+#     )
 
-CORS_ALLOWED_ORIGIN =[
-    'http://localhost:4200',
-    'http://127.0.0.1:4200'
-    ]
+# CORS_ALLOWED_ORIGIN = all
+# [
+#     'http://localhost:4200',
+#     'http://127.0.0.1:4200'
+#     ]
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = True

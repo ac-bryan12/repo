@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
     lastName = serializers.CharField(min_length=3,max_length=50)
     email = serializers.EmailField(min_length=7)
     direccion = serializers.CharField(max_length=255)
-    telefono =  serializers.CharField(min_length=13,max_length=13)
+    telefono =  serializers.CharField(min_length=10,max_length=10)
     cargo = serializers.CharField(min_length=4,max_length=50)
 
     class Meta:
@@ -20,7 +20,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['username','firstName','lastName','email', 'password','direccion','telefono', 'cargo']
 
     def validate(self, attrs):
-        print(attrs)
         msg:any
         if len(attrs['email']) < 7 :
             msg = _("Email inválido")
@@ -34,7 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
             msg = _("Apellido inválido")
         elif len(attrs['cargo']) < 4 or len(attrs['cargo']) > 50 :
             msg = _("Cargo inválido")
-        elif len(attrs['telefono']) != 13 :
+        elif len(attrs['telefono']) != 10 :
             msg = _("Teléfono inválido")
         else :
             return attrs

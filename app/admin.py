@@ -9,7 +9,7 @@ from .models.estadoPlan import EstadoPlan
 from .models.pago import Pago
 from .models.plan import Plan
 from .models.tipoPago import TipoPago
-from app.views.correo import send_mail
+from app.views.correo import RegisterView
 from django.views.decorators.csrf import *
 from .models.empresaTemp import EmpresaTemp
 
@@ -18,7 +18,7 @@ from .models.empresaTemp import EmpresaTemp
 
 def envioCorreoTemp(modeladmin,request,queryset):
         for empresa in queryset:
-                send_mail(empresa.correo,empresa.razonSocial,empresa.token)
+                RegisterView.send_mail(empresa.correo,empresa.razonSocial,empresa.token)
 
 @csrf_exempt
 @admin.register(EmpresaTemp)
