@@ -5,6 +5,11 @@ from django.db.models import query
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 
+class UserViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','is_superuser','username','email','groups','user_permissions']
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=8)
     username = serializers.CharField(max_length=150,required=False)
