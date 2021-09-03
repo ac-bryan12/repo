@@ -98,8 +98,8 @@ class UserPermissionView(APIView):
         response = Response()
         group = JSONRenderer().render(serializer_group.data)
         permissions = JSONRenderer().render(serializer_permission.data)
-        response.set_cookie('group',group)
-        response.set_cookie('permissions',permissions)
+        response.set_cookie('group',group.decode("utf-8"))
+        response.set_cookie('permissions',permissions.decode("utf-8"))
         return response
 
 
