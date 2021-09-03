@@ -21,6 +21,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 from django.contrib.auth import login,logout
 from rest_framework import status, permissions
+from rest_framework.renderers import JSONRenderer
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
@@ -94,11 +95,12 @@ class UserPermissionView(APIView):
     def get(self,request):
         serializer_group = self.serializer_class(request.user.groups.all(),many=True)
         serializer_permission = PermissionSerializer(request.user.user_permissions.all(),many=True)
-        response = {
-            'group':serializer_group.data,
-            'permissions':serializer_permission.data
-        }
-        return Response(response)
+        response = Response()
+        group = JSONRenderer().render(serializer_group.data)
+        permissions = JSONRenderer().render(serializer_permission.data)
+        response.set_cookie('group',group)
+        response.set_cookie('permissions',permissions)
+        return response
 
 
 
