@@ -17,7 +17,7 @@ import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component
 import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
 import { AuthGuard } from './services/guard/auth.guard';
 import { UtilGuard } from './services/utils/util.guard';
-
+import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permisos/grupos-permisos.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -35,8 +35,8 @@ const routes: Routes = [
   {path:'empresas',component:EmpresaComponent},
   {path:'empresasTemp',component:EmpresaTempComponent},
   {path:'popup',component:PopUpComponent},
-  {path:'creacion-exitosa',component:CreacionExitosaComponent,canActivate: [UtilGuard]}
-
+  {path:'creacion-exitosa',component:CreacionExitosaComponent,canActivate: [UtilGuard]},
+  {path:'grupos-permisos',component:GruposPermisosComponent},
 ];
 
 @NgModule({

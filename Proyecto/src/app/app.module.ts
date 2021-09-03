@@ -23,9 +23,10 @@ import { NavAdminComponent } from './componentes/sitioAdmin/nav-admin/nav-admin.
 import { HeaderComponent } from './componentes/sitioAdmin/header/header.component';
 import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
 import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
-
+import { CookieService } from 'ngx-cookie-service';
 import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
 import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vista-empresa.component';
+import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permisos/grupos-permisos.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vi
     PopUpComponent,
     PortalComponent,
     VistaEmpresaComponent,
+    GruposPermisosComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,7 @@ import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vi
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

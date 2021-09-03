@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     private log: FormBuilder) {
     this.login = this.log.group({
       email: this.log.control('', [Validators.required, Validators.pattern('^[a-z0-9._%+\-]+@[a-z0-9.\-]+\\.[a-z]{2,4}'), Validators.minLength(7)]),
-      password: this.log.control('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_:@.\-]+$'), Validators.minLength(8)])
+      password: this.log.control('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_:@*.\-]+$'), Validators.minLength(8)])
     })
   }
 
@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
           this.request.isLoggedIn = true
           localStorage.setItem('token',res['token']);
           localStorage.setItem('Autenticated',"true");
+          this.grupos_permisos()
           this.route.navigate(["/admin"])
         },(err:HttpErrorResponse)=>{
           this.msg_d = 'd-block'
@@ -50,7 +51,13 @@ export class LoginComponent implements OnInit {
         });
     }
   }
-
+    grupos_permisos(){
+    this.request.peticionGet("http://localhost:8000/api/permission").subscribe((res)=>{
+      }
+    , (err:HttpErrorResponse)=>{
+      console.log(err);
+    })
+  }
   validacion(v: string): boolean {
     this.msg_d = 'd-none'
     if (this.login.get(v)?.hasError('required')) {

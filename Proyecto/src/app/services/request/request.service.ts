@@ -34,7 +34,6 @@ export class RequestService {
     return this.http.get(url,{headers:this.headers,withCredentials: true})
   }
 
-
   setToken(){
     this.headers.Authorization= `Token ${localStorage.getItem("token")}`
   }

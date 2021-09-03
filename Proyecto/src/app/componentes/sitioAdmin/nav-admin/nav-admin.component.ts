@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RequestService } from 'src/app/services/request/request.service';
 
 @Component({
   selector: 'nav-admin',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav-admin.component.css']
 })
 export class NavAdminComponent implements OnInit {
-
-  constructor() { }
-
+  private listGrupos:string[]
+  constructor(private service:RequestService) { 
+    this.listGrupos = []
+  }
   ngOnInit(): void {
   }
+
 
 }
