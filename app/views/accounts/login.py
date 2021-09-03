@@ -1,6 +1,7 @@
+from app.serializers.serializer_permission import GroupSerializer, PermissionSerializer
 from typing import cast
 from django.urls import path, include,re_path,reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.contrib.sessions.models import Session
 from rest_framework import routers, serializers, viewsets
 from app.serializers.serializer_login import LoginSerializer
@@ -82,6 +83,25 @@ class LogoutView(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
+
+
+
+class UserPermissionView(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class= GroupSerializer
+
+    def get(self,request):
+        serializer_group = self.serializer_class(request.user.groups.all(),many=True)
+        serializer_permission = PermissionSerializer(request.user.user_permissions.all(),many=True)
+        response = {
+            'group':serializer_group.data,
+            'permissions':serializer_permission.data
+        }
+        return Response(response)
+
+
+
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -90,5 +110,5 @@ urlpatterns = [
     path('auth/', LoginView.as_view()),
     path('logout/', LogoutView.as_view()),
     re_path(r'^',include(router.urls),name="usuarios"),
-    # path('auth/', ObtainAuthToken.as_view()),
+    path('permission/',UserPermissionView.as_view())
 ]
