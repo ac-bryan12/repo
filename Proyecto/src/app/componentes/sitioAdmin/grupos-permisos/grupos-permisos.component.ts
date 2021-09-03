@@ -18,15 +18,12 @@ export class GruposPermisosComponent implements OnInit {
   }
 
   listar(){
-    var cook =this.cookie.get("group")
+    var cook =this.cookie.get("permissions")
     console.log(cook)
-    var coo =JSON.parse(decodeURIComponent(cook))
-    console.log(coo)
-    var coo2 = coo.replace("[","").replace("]","").replaceAll("'","").substring(1,coo.length-1)
-    console.log(coo2) 
-    console.log(JSON.parse(coo2))
-    this.listGrupos = []
-    this.listPermisos = []
+    var coo =JSON.parse(decodeURI(cook.replace(/\\054/g, ',')))
+    console.log(JSON.parse(coo)[0]['codename'])
+    // this.listGrupos = []
+    // this.listPermisos = []
   }
 
 }

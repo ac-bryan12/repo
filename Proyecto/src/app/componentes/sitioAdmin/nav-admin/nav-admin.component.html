@@ -8,19 +8,21 @@
                     Dashboard
                 </a>
             </li>
-            <li class="nav-item">
+            <li *ngIf="viewEmpresa" class="nav-item">
                 <a class="nav-link" href="/empresas">
                     <span data-feather="empresas"></span>
                     Empresas
                 </a>
             </li>
-            <li class="nav-item">
+            
+            <li *ngIf="viewEmpresaTemp" class="nav-item">
                 <a class="nav-link" href="/empresasTemp">
                     <span data-feather="empresasTemporales"></span>
                     Consultas Empresas 
                 </a>
             </li>
-            <li class="nav-item">
+            
+            <li *ngIf="viewUser" class="nav-item">
                 <a class="nav-link" href="/clientes">
                     <span data-feather="users"></span>
                     Usuarios
