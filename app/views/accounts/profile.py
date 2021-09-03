@@ -1,5 +1,5 @@
 from app.models.profile import Profile
-from app.serializers.serializer_profile import ProfileSerializer
+from app.serializers.serializer_profile import ProfileViewSerializer
 from django.http import Http404
 from rest_framework.response import Response
 from django.urls import path
@@ -10,11 +10,11 @@ from django.contrib.auth.models import User
 
 class listProfileViewSet(generics.ListAPIView):
     queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+    serializer_class = ProfileViewSerializer
 
 class profileViewSet(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
-    serializer_class = ProfileSerializer
+    serializer_class = ProfileViewSerializer
     def validarCodigoVerificacion(self,token):
         try:
             if Token.objects.filter(key=token).exists() :
@@ -48,7 +48,7 @@ class profileViewSet(generics.ListAPIView):
             token = token.removeprefix('Token ')
             if self.validarCodigoVerificacion(token) & self.validarSuperUser(token) :
                 profile = self.get_object(pk)
-                serializer = ProfileSerializer(profile)
+                serializer = ProfileViewSerializer(profile)
                 return Response(serializer.data)
             else:
                 return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)
@@ -71,7 +71,7 @@ class profileViewSet(generics.ListAPIView):
             token = token.removeprefix('Token ')
             if self.validarCodigoVerificacion(token) & self.validarSuperUser(token) :
                 empresa = self.get_object(self,pk)
-                serializer = ProfileSerializer(empresa, data=request.data)
+                serializer = ProfileViewSerializer(empresa, data=request.data)
                 if serializer.is_valid():
                     serializer.save()
                     return Response(serializer.data)

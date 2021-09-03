@@ -30,5 +30,7 @@ urlpatterns = [
     path('portal/',include('app.views.accounts.userAccount')),
     path('api/', include('app.views.accounts.profile')),
     path('api/',include('app.views.accounts.users')),
+    path('api/',include('app.views.empresaTemp')),
+    path('api/',include('app.views.groups')),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

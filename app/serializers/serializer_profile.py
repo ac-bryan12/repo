@@ -9,6 +9,14 @@ from .serializer_user import UserSerializer
 from rest_framework.authtoken.models import Token
 from django.utils.translation import gettext_lazy as _
 
+
+
+class ProfileViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['user','empresa']
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     usuario = UserSerializer()
     empresa = EmpresaSerializer()
