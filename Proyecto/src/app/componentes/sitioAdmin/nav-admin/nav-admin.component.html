@@ -33,30 +33,30 @@
                     **********
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="bar-chart-2"></span>
-                    **********
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="bar-chart-2"></span>
-                    **********
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="bar-chart-2"></span>
-                    **********
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li *ngIf="isUser" class="nav-item">
+                <a class="nav-link" >
                     <span data-feather="layers"></span>
-                    **********
+                    Documentos
                 </a>
             </li>
+            <li *ngIf="isUser" class="nav-item">
+                <a class="nav-link">
+                    <span data-feather="layers"></span>
+                    Reportes
+                </a>
+            </li>
+            <li *ngIf="isUser" class="nav-item">
+                <a class="nav-link" >
+                    <span data-feather="layers"></span>
+                    Usuarios/Roles
+                </a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" >
+                    <span data-feather="layers"></span>
+                    Perfil
+                </a>
+            </li> -->
         </ul>
     </div>
 </nav>

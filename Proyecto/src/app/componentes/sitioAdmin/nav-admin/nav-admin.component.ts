@@ -11,22 +11,36 @@ export class NavAdminComponent implements OnInit {
   viewEmpresaTemp:boolean
   viewEmpresa:boolean
   viewUser:boolean
+  isUser:boolean
   private listGrupos: string[]
 
   constructor(private request: RequestService, private cookie: CookieService) {
+    this.isUser = false
     this.viewEmpresaTemp = false
     this.viewEmpresa = false
     this.viewUser = false
     this.listGrupos = []
   }
   ngOnInit(): void {
+    
     this.grupos_permisos()
-    this.mostrarMenus(this.cookie.get('permissions'))
+
+    
   }
 
 
-  grupos_permisos() {
-    this.request.peticionGet("http://localhost:8000/api/permission").subscribe()
+  async grupos_permisos() {
+    return await this.request.peticionGet("http://localhost:8000/api/permission").subscribe(res=>{
+      // setTimeout('', 500);
+      let group = this.cookie.get('group')
+      let groupFormated = JSON.parse(decodeURI(group.replace(/\\054/g, ',')))
+      let groupName = JSON.parse(groupFormated)[0]['name']
+      if(groupName == 'admin_empresa'){
+        this.isUser = true
+      }else if(groupName == 'admin_facturacion'){
+        this.mostrarMenus(this.cookie.get('permissions'))
+      }
+    })
   }
 
   mostrarMenus(permissions: string) {
