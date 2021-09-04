@@ -1,3 +1,6 @@
+import re
+from rest_framework.views import APIView
+from app.views.correo import RegisterView
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from app.models.empresaTemp import  EmpresaTemp
@@ -7,14 +10,15 @@ from rest_framework.response import Response
 from django.http import Http404
 from django.urls import path
 from app.serializers.serializer_empresaTemp import EmpresaTempSerializer
-
+from rest_framework.authentication import TokenAuthentication
 
 class listEmpresaTempViewSet(generics.ListAPIView):
     queryset = EmpresaTemp.objects.all()
     serializer_class = EmpresaTempSerializer
 
-class EmpresaTempViewSet(generics.ListAPIView):
-    permission_classes = [permissions.AllowAny]
+class EmpresaTempViewSet(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class =  EmpresaTempSerializer
     def validarCodigoVerificacion(self,token):
         try:
@@ -42,15 +46,17 @@ class EmpresaTempViewSet(generics.ListAPIView):
             return  EmpresaTemp.objects.get(pk=pk)
         except  EmpresaTemp.DoesNotExist:
             raise Http404
-    def post(self, request,pk, format=None):
-        if request.user.is_superuser:
-            serializer =  EmpresaTempSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
-        else:
-            return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)      
+    
+    def post(self, request):
+            try:
+                empr = EmpresaTemp.objects.get(correo=request.data['correo'])
+                print(empr)
+                print(empr.token)
+                RegisterView.send_mail(empr.correo,empr.razonSocial,empr.token)
+                return Response(status=status.HTTP_201_CREATED)
+            except EmpresaTemp.DoesNotExist: 
+                return Response(status=status.HTTP_404_NOT_FOUND) 
+
 
     def delete(self, request, pk, format=None):
         if 'Authorization' in request.headers.keys():
@@ -68,6 +74,6 @@ class EmpresaTempViewSet(generics.ListAPIView):
 
 
 urlpatterns = [
-    path('empresaTemps/buscar-empresaTemp/<int:pk>/', EmpresaTempViewSet.as_view(), name = " EmpresaTemp"),
+    path('empresaTemps/buscar-empresaTemp/', EmpresaTempViewSet.as_view(), name = " EmpresaTemp"),
     path('empresaTemps/lista-de-empresaTemps', listEmpresaTempViewSet.as_view()),
 ]
