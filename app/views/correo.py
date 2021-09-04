@@ -14,7 +14,6 @@ from django.views.decorators.csrf import *
 from rest_framework import parsers, renderers
 from rest_framework.response import Response
 from rest_framework import permissions
-
 from rest_framework.views import APIView
 
 
@@ -24,7 +23,6 @@ class RegisterView(APIView):
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
     renderer_classes = (renderers.JSONRenderer,)
     serializer_class= EmpresaTempSerializer
-
     # @csrf_exempt
     def send_mail(mail, razonsocial,token):
         context = {'mail':mail,'razonSocial':razonsocial,'token':token}
