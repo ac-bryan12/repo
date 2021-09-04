@@ -1,3 +1,4 @@
+from app.models.profile import Profile
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from app.models.empresa import Empresa
@@ -7,6 +8,7 @@ from rest_framework.response import Response
 from app.models.plan import Plan
 from django.http import Http404
 from django.urls import path
+from rest_framework.authentication import TokenAuthentication
 
 
 class planSerializer(serializers.ModelSerializer):
@@ -28,7 +30,9 @@ class listEmpresaViewSet(generics.ListAPIView):
     serializer_class = empresaSerializer
 
 class empresaViewSet(generics.ListAPIView):
-    permission_classes = [permissions.AllowAny]
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated]
+
     serializer_class = empresaSerializer
     def validarCodigoVerificacion(self,token):
         try:
@@ -57,18 +61,19 @@ class empresaViewSet(generics.ListAPIView):
         except Empresa.DoesNotExist:
             raise Http404
 
-    def get(self, request,pk,format=None):
-        if 'Authorization' in request.headers.keys():
-            token:str = request.headers.get('Authorization')
-            token = token.removeprefix('Token ')
-            if self.validarCodigoVerificacion(token) & self.validarSuperUser(token) :
-                empresa = self.get_object(pk)
-                serializer = empresaSerializer(empresa)
-                return Response(serializer.data)
-            else:
-                return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)
-        else:
-            return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)
+    def get(self, request,format=None):
+
+# if 'Authorization' in request.headers.keys():
+    # token:str = request.headers.get('Authorization')
+    # token = token.removeprefix('Token ')
+    # if self.validarCodigoVerificacion(token) & self.validarSuperUser(token) :
+        profile:Profile = request.user.profile
+        serializer = empresaSerializer(profile.empresa)
+        return Response(serializer.data)
+    # else:
+    #     return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)
+# else:
+#     return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)
 
     # def post(self, request,pk, format=None):
     #     if request.user.is_superuser:
@@ -114,7 +119,7 @@ class empresaViewSet(generics.ListAPIView):
 
 urlpatterns = [
     path('planes.format.json/',planViewSet.as_view()),
-    path('empresas/buscar-empresa/<int:pk>/',empresaViewSet.as_view(), name = "Empresa"),
-    path('empresas/lista-de-empresas', listEmpresaViewSet.as_view())
+    path('empresas/buscar-empresa/',empresaViewSet.as_view(), name = "Empresa"),
+    path('empresas/lista-de-empresas/', listEmpresaViewSet.as_view())
 ]
 

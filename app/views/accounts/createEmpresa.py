@@ -16,7 +16,6 @@ from rest_framework.authentication import BasicAuthentication
 
 
 class CreateView(APIView):
-    # throttle_classes = ()
     permission_classes = [permissions.AllowAny]
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
     renderer_classes = (renderers.JSONRenderer,)
