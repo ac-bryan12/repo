@@ -135,4 +135,12 @@ export class Validacion implements OnInit{
       tlf.value = tlf.value.substring(0,tlf.value.length-1)
     }
   }
+
+  validarCampAlf(text:any){
+    for(let i=0; i<text.value.length;i++){
+      if(!text.value[i].match(/[a-z]/i)){       
+        text.value = text.value.replace(text.value[i],'')
+      }
+    }
+  }
 }

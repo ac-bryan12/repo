@@ -1,5 +1,13 @@
 h2{
+    margin-top: 10px;
     margin-left: 20px;
+}
+
+#caja{
+    display: flex;
+    background-color: black;
+    height: 120px;
+    border-bottom-right-radius: 18% 75%;
 }
 
 #container{
