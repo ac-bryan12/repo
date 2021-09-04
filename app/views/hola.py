@@ -23,5 +23,5 @@ def population_Planes(request):
 
 
 urlpatterns = [
-    path('',population_Planes),
+    path('',saludo),
 ]

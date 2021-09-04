@@ -1,4 +1,4 @@
-/* globals Chart:false, feather:false */
+  /* globals Chart:false, feather:false */
 
 (function () {
   console.log("hola mundo")
