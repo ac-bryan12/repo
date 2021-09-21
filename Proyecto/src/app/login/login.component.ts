@@ -41,11 +41,11 @@ export class LoginComponent implements OnInit {
     
     let groupFormated =JSON.parse(decodeURI(group.replace(/\\054/g, ',')))
     let groupName = JSON.parse(groupFormated)[0]['name']
-    if(groupName=='admin_facturacion'){
+    if(groupName=='admin_facturacion' || groupName == 'admin_empresa'){
       this.route.navigate(["/admin"])
-    }else if(groupName == 'admin_empresa'){
+    }/*else if(groupName == 'admin_empresa'){
       console.log("Vista del admin_empresa")
-    }/*else if(group == 'cliente'){
+    }else if(group == 'cliente'){
 
     }*/
   }
@@ -58,9 +58,7 @@ export class LoginComponent implements OnInit {
           this.request.isLoggedIn = true
           localStorage.setItem('token', res['token']);
           localStorage.setItem('Autenticated', "true");
-          this.grupos_permisos()
-          this.cambiarVistas(this.cookie.get('group'))
-          
+          this.grupos_permisos()   
         }, (err: HttpErrorResponse) => {
           this.msg_d = 'd-block'
           this.msg_content = err.error.error;
@@ -69,11 +67,12 @@ export class LoginComponent implements OnInit {
     }
   }
   grupos_permisos() {
-    this.request.peticionGet("http://localhost:8000/api/permission").subscribe((res) => {
-    }
-      , (err: HttpErrorResponse) => {
-        console.log(err);
-      })
+    this.request.peticionGet("http://localhost:8000/api/permission").subscribe(res =>{
+      this.cambiarVistas(this.cookie.get('group'))
+    })
+
+
+    
   }
   validacion(v: string): boolean {
     this.msg_d = 'd-none'

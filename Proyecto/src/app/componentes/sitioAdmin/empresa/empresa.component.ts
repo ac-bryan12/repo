@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PopUpComponent } from '../pop-up/pop-up.component';
+
 
 @Component({
   selector: 'empresa',

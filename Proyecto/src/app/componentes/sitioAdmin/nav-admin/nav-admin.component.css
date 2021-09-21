@@ -1,17 +1,20 @@
-#container-nav{
+#sidebarMenu{
     display: flex;
-    width: 224px;
-    background-color: gray;
 }
 
+#container-nav{
+    display: flex;
+    width: 224px;}
+
 ul{
-    width: 224px;
+    width: 229px;
 }
 
 a{
     color: black;
     padding-left: 40px;
-    border: 0.5px solid black;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    box-shadow: 0.1px 3px black;
+    border: 0.1px solid black;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
