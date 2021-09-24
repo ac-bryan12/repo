@@ -48,4 +48,19 @@ export class PopUpComponent implements OnInit {
       }
     })
     }
+
+    asignarGrupo(){
+      let input = document.getElementById("grupos") as HTMLInputElement
+      let selectAsignado = document.getElementById("gruposSelect") as HTMLElement
+      selectAsignado.innerHTML+= `<option [value] = "${input.value}">${input.value}</option>`
+    }
+    removerGrupo(){
+  
+    }
+    asignarPermiso(){
+      let input = document.getElementById("permisos") as HTMLInputElement
+      let selectAsignado = document.getElementById("permisosSelect") as HTMLElement
+      console.log(input.value)
+      selectAsignado.innerHTML+= `<option [value] = "${input.value}">${input.value}</option>`
+    }
 }
