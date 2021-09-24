@@ -1,4 +1,4 @@
-<div id="title"><span>Agregar Empresa</span></div>
+<div id="title"><span> <h1>Editar informacion de usuario</h1> </span></div>
 <div class="card-body">
     <form>
         <div>
@@ -7,52 +7,83 @@
                     <div class = "mb-6 row grupos-permisos">
                         <div class="mb-6">
                             <div class="form-floating mb-12 mb-md-0">
-                                <input class="form-control" id="inputRUC" name="ruc" type="text"
+                                <input class="form-control campos" id="nombre" name="ruc" type="text"
                                     placeholder="Nombres de la persona">
-                                <label for="inputRUC">Nombres</label>
+                                <label for="nombre">Nombres</label>
                             </div>
                         </div>
                         <div class ="mb-6">
                             <div class="form-floating mb-12 mb-md-0">
-                                <input class="form-control" id="inputRUC" name="ruc" type="text"
+                                <input class="form-control campos" id="usuario" name="ruc" type="text"
                                     placeholder="Nombre de usuario">
-                                <label for="inputRUC">Usuario</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class ="mb-6 row grupos-permisos">
-                        <div class="mb-3">
-                            <div>Grupos disponibles</div>
-                            <div class="form-floating">
-                                <select id ="grupos" name="miselect" multiple class ="filtered">
-                                    <option [value]="item" *ngFor="let item of listGrupos">{{item}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div>Grupos seleccionados</div>
-                            <div class="form-floating">
-                                <input #telf class="form-control" id="inputNumphone" name="telefono" type="text"
-                                    placeholder="Ingrese su numero de telefono">
-                                <label for="inputNumphone">Grupos a agregar</label>
+                                <label for="usuario">Usuario</label>
                             </div>
                         </div>
                     </div>
 
-                    <div class ="mb-6 row grupos-permisos">
-                        <div class="mb-3">
-                            <div>Permisos disponibles</div>
+                    <div class = "mb-6 row grupos-permisos">
+                        <div class="mb-6">
+                            <div class="form-floating mb-12 mb-md-0">
+                                <input class="form-control campos" id="correo" name="ruc" type="text"
+                                    placeholder="Nombres de la persona">
+                                <label for="correo">Correo</label>
+                            </div>
+                        </div>
+                        <div class ="mb-6">
+                            <div class="form-floating mb-12 mb-md-0">
+                                <input class="form-control campos" id="contraseña" name="ruc" type="text"
+                                    placeholder="Nombre de usuario">
+                                <label for="contraseña">Contraseña</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class ="mb-12 row grupos-permisos">
+                        <div class="mb-4">
+                            <div> <span><h4>Grupos disponibles</h4></span> </div>
                             <div class="form-floating">
-                                <select id="permisos" name="miselect2" multiple class ="filtered">
+                                <select id ="grupos" name="miselect" multiple class ="filtered campos">
+                                    <option [value]="item" *ngFor="let item of listGrupos">{{item}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-2 containerSelect ">
+                            <button class= "btnSelect btn btn-primary btn-block"> > </button>
+                            <button class = "btnSelect btn btn-primary btn-block"> < </button>
+                        </div>
+
+                        <div class="mb-4">
+                            <div><span><h4>Grupos seleccionados</h4></span></div>
+                            <div class="form-floating">
+                                <select id ="gruposSelect" name="miselect2" multiple class ="filtered campos">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class ="mb-12 row grupos-permisos">
+                        <div class="mb-4">
+                            <div><span><h4>Permisos disponibles</h4></span></div>
+                            <div class="form-floating">
+                                <select id="permisos" name="miselect3" multiple class ="filtered campos">
                                     <option [value]="item" *ngFor="let item of listPermisos">{{item}}</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="mb-3">
+
+                        <div class="mb-2 containerSelect ">
+                            <button class= "btnSelect btn btn-primary btn-block"> > </button>
+                            <button class = "btnSelect btn btn-primary btn-block"> < </button>
+                        </div>
+
+                        <div class="mb-4">
+                            <div><span><h4>Permisos seleccionados</h4></span></div>
                             <div class="form-floating">
-                                <input #telf class="form-control" id="inputNumphone" name="telefono" type="text"
-                                    placeholder="Ingrese su numero de telefono">
-                                <label for="inputNumphone">Permisos a agregar</label>
+                                <select id="permisosSelect" name="miselect4" multiple class ="filtered campos">
+                                    <option></option>
+                                </select>
                             </div>
                         </div>
                     </div>
