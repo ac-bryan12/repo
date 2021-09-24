@@ -2,23 +2,23 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OlvidoPasswordComponent } from './componentes/pagina_comercial/olvido-password/olvido-password.component';
 import { RegistroComponent } from './componentes/pagina_comercial/registro/registro.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './componentes/pagina_comercial/home/home.component';
+import { LoginComponent } from './componentes/pagina_comercial/login/login.component';
 import { PlanComponent } from './componentes/pagina_comercial/plan/plan.component';
 import { ConfirmacionComponent } from './componentes/pagina_comercial/confirmacion/confirmacion.component';
 import { EnvInformacionComponent } from './componentes/pagina_comercial/env-informacion/env-informacion.component';
 import { CreateCuentaComponent } from './componentes/pagina_comercial/create-cuenta/create-cuenta.component';
-import { PagoComponent } from './componentes/pagina_comercial/pago/pago.component';
+import { PagoComponent } from './componentes/pagina_comercial/partials/pago/pago.component';
 import { CreacionExitosaComponent } from './componentes/pagina_comercial/creacion-exitosa/creacion-exitosa.component';
 import { VistaAdminComponent } from './componentes/sitioAdmin/vista-admin/vista-admin.component';
 import { EmpresaComponent } from './componentes/sitioAdmin/empresa/empresa.component';
 import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
 import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
 import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
-import { AuthGuard } from './services/guard/auth.guard';
-import { UtilGuard } from './services/utils/util.guard';
+import { AuthGuard } from './services/guards/auth/auth.guard';
+import { UtilGuard } from './services/guards/utils/util.guard';
 import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permisos/grupos-permisos.component';
-import { AdminGuard } from './services/admin_facturacion/admin.guard';
+import { AdminGuard } from './services/guards/admin_facturacion/admin.guard';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
