@@ -23,8 +23,6 @@ class PermisosGruposViewSet(APIView):
         user.user_permissions.add(
             Permission.objects.get()
         )
-   
-
 urlpatterns = [
     path('grupos',GroupViewSet.as_view(), name = "Grupos"),
     path('permisos',PermisosViewSet.as_view(), name ="Permisos"),
