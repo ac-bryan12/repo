@@ -7,12 +7,9 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./grupos-permisos.component.css']
 })
 export class GruposPermisosComponent implements OnInit {
-  listGrupos:string[]
-  listPermisos :string[]
   listUsuarios :string[]
   constructor(private service:RequestService, private cookie:CookieService) { 
-    this.listGrupos = []
-    this.listPermisos = []
+
     this.listUsuarios = []
   }
 
@@ -33,25 +30,14 @@ export class GruposPermisosComponent implements OnInit {
                                 <td>${user.username}</td>
                                 <td>${user.email}</td>
                                 <td id="botones-acciones">
-                                    <input  value="Agregar grupo" type="submit" (click) = "envioInfo()" value="Agregar accion" class="btn btn-primary btn-block">
-                                    <input  value ="${user.id}"type="submit" value="Agregar grupo" class="d-none">
+                                    <a  value="Editar" href="/editarUser" class="btn btn-primary btn-block">
+                                    <a  value ="${user.id}"type="submit" value="Agregar grupo" class="d-none">
                                 </td>
                             </tr>`
         
       }
           
     
-    })
-    this.service.peticionGet("http://localhost:8000/api/grupos").subscribe((res)=>{
-      for(let grupo of res){
-        this.listGrupos.push(grupo.name)
-      }
-    })
-   
-    this.service.peticionGet("http://localhost:8000/api/permisos").subscribe((res)=>{
-      for(let grupo of res){
-        this.listPermisos.push(grupo.name)
-      }
     })
   }
 }

@@ -35,7 +35,7 @@ const routes: Routes = [
   {path:'admin',component:VistaAdminComponent,canActivate: [AuthGuard]},
   {path:'empresas',component:EmpresaComponent,canActivate: [AdminGuard]},
   {path:'empresasTemp',component:EmpresaTempComponent,canActivate: [AdminGuard]},
-  {path:'popup',component:PopUpComponent},
+  {path:'editarUser',component:PopUpComponent},
   {path:'creacion-exitosa',component:CreacionExitosaComponent,canActivate: [UtilGuard]},
   {path:'grupos-permisos',component:GruposPermisosComponent},
 ];
