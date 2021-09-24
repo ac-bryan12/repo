@@ -26,16 +26,18 @@ export class GruposPermisosComponent implements OnInit {
       this.listUsuarios = res
       var campos = document.getElementById("usuarios") as HTMLElement
       for(let user of res){
+        console.log(user)
         campos.innerHTML += `<tr>
                                 <td>${user.id}</td>
                                 <td>${user.is_superuser}</td>
                                 <td>${user.username}</td>
                                 <td>${user.email}</td>
                                 <td id="botones-acciones">
-                                    <input id="btn" value="Agregar grupo" type="submit" value="Agregar accion" class="btn btn-primary btn-block">
-                                    <input value ="${user.id}"type="submit" value="Agregar grupo" class="d-none">
+                                    <input  value="Agregar grupo" type="submit" (click) = "envioInfo()" value="Agregar accion" class="btn btn-primary btn-block">
+                                    <input  value ="${user.id}"type="submit" value="Agregar grupo" class="d-none">
                                 </td>
                             </tr>`
+        
       }
           
     
@@ -51,9 +53,5 @@ export class GruposPermisosComponent implements OnInit {
         this.listPermisos.push(grupo.name)
       }
     })
-    var btn = document.getElementById("btn")
-    
   }
-
-  
 }

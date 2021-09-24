@@ -3,10 +3,10 @@
     <nav-admin></nav-admin>
     <div id="tabla" class="table-responsive">
         <div id="formulario">
-            <select name="miselect">
+            <select id ="grupos" name="miselect">
             <option [value]="item" *ngFor="let item of listGrupos">{{item}}</option>
             </select>
-            <select name="miselect">
+            <select id="permisos" name="miselect">
             <option [value]="item" *ngFor="let item of listPermisos">{{item}}</option>
             </select>
         </div>
