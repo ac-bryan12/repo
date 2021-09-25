@@ -49,16 +49,19 @@
                         </div>
 
                         <div class="mb-2 containerSelect ">
-                            <button (click) = "asignarGrupo()" class= "btnSelect btn btn-primary btn-block"> > </button>
-                            <button (click) = "removerGrupo()" class = "btnSelect btn btn-primary btn-block"> < </button>
+                            <button (click) = "asignarSelect('grupos')" class= "btnSelect btn btn-primary btn-block"> > </button>
+                            <button (click) = "removerSelect('gruposSelect')" class = "btnSelect btn btn-primary btn-block"> < </button>
                         </div>
 
                         <div class="mb-4">
                             <div><span><h4>Grupos seleccionados</h4></span></div>
                             <div class="form-floating">
                                 <select id ="gruposSelect" name="miselect2" multiple class ="filtered campos">
-
+                                    <option [value]="item" *ngFor= "let item of listGruposSeleccionados">{{item}}</option>
                                 </select>
+                            </div>
+                            <div>
+                                <button (click)="removeAll('Grupos')" class="btn btn-primary btn-block">RemoverTodo</button>
                             </div>
                         </div>
                     </div>
@@ -74,15 +77,19 @@
                         </div>
 
                         <div class="mb-2 containerSelect ">
-                            <button (click) = "asignarPermiso()" class= "btnSelect btn btn-primary btn-block"> > </button>
-                            <button class = "btnSelect btn btn-primary btn-block"> < </button>
+                            <button (click) = "asignarSelect('permisos')" class= "btnSelect btn btn-primary btn-block"> > </button>
+                            <button (click) = "removerSelect('permisosSelect')" class = "btnSelect btn btn-primary btn-block"> < </button>
                         </div>
 
                         <div class="mb-4">
                             <div><span><h4>Permisos seleccionados</h4></span></div>
                             <div class="form-floating">
                                 <select id="permisosSelect" name="miselect4" multiple class ="filtered campos">
+                                    <option [value]="item" *ngFor= "let item of listPermisosSeleccionados">{{item}}</option>
                                 </select>
+                            </div>
+                            <div>
+                                <button (click)="removeAll('Permisos')" class="btn btn-primary btn-block">RemoverTodo</button>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder,Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
 
 @Component({
@@ -9,10 +10,14 @@ import { RequestService } from 'src/app/services/request/request.service';
 })
 export class PopUpComponent implements OnInit {
   public addEmp: FormGroup;
-  listGrupos:string[]
-  listPermisos :string[]
+  id:string = ""
+  listGrupos:any[]
+  listPermisos :any[]
+  listGruposSeleccionados :any []
+  listPermisosSeleccionados :any[]
   constructor(
     private service: RequestService,
+    private router:Router,
     private fb: FormBuilder) {
     this.addEmp = this.fb.group({
       user: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.maxLength(13),Validators.minLength(13),]),
@@ -22,6 +27,8 @@ export class PopUpComponent implements OnInit {
         direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._ ]+$')])
     })
     this.listGrupos = []
+    this.listGruposSeleccionados =[]
+    this.listPermisosSeleccionados = []
     this.listPermisos = []
   }
 
@@ -36,31 +43,61 @@ export class PopUpComponent implements OnInit {
       telefono: this.addEmp.get('telefono'),
       direccion: this.addEmp.get('direccion')
     }
+    this.id = this.router.parseUrl(this.router.url).queryParams["id"]
+    if(this.id != ""){
+        this.service.peticionGet(`http://localhost:8000/api/getPermisosRoles/${this.id}`).subscribe((res)=>{
+        console.log(res)
+        for(let grupo of res.groups)
+          this.listGruposSeleccionados.push(grupo.name)
+        for(let permiso of res.permissions)
+          this.listPermisosSeleccionados.push(permiso.codename)
+      })
+    }
     this.service.peticionGet("http://localhost:8000/api/grupos").subscribe((res)=>{
       for(let grupo of res){
-        this.listGrupos.push(grupo.name)
-      }
-    })
-   
-    this.service.peticionGet("http://localhost:8000/api/permisos").subscribe((res)=>{
-      for(let grupo of res){
-        this.listPermisos.push(grupo.name)
+        if(this.listGruposSeleccionados.indexOf(grupo.name)==-1)
+          this.listGrupos.push(grupo.name)
       }
     })
     }
 
-    asignarGrupo(){
-      let input = document.getElementById("grupos") as HTMLInputElement
-      let selectAsignado = document.getElementById("gruposSelect") as HTMLElement
-      selectAsignado.innerHTML+= `<option [value] = "${input.value}">${input.value}</option>`
+    asignarSelect(name:string){
+      let input = document.getElementById(name) as HTMLSelectElement
+      if(name ==="grupos"){     
+        if(input.value != "" && input.value !==null && this.listGrupos.indexOf(input.value)!=-1){
+            this.listGruposSeleccionados.push(input.value)
+            this.listGrupos.splice(this.listGrupos.indexOf(input.value),1)
+        }
+      }else{
+        if(input.value != "" && input.value !==null && this.listPermisos.indexOf(input.value)!=-1){
+          this.listPermisosSeleccionados.push(input.value)
+          this.listPermisos.splice(this.listPermisos.indexOf(input.value),1)
+        }
+      }
     }
-    removerGrupo(){
-  
+    removerSelect(name:string){
+      let input = document.getElementById(name) as HTMLSelectElement
+      if(name == "gruposSelect"){
+        if(input.value != "" && input.value !==null && this.listGruposSeleccionados.indexOf(input.value)!=-1){
+          this.listGrupos.push(input.value)
+          this.listGruposSeleccionados.splice(this.listGruposSeleccionados.indexOf(input.value),1)
+        }
+      }else{
+        if(input.value != "" && input.value !==null && this.listPermisosSeleccionados.indexOf(input.value)!=-1){
+          this.listPermisos.push(input.value)
+          this.listPermisosSeleccionados.splice(this.listPermisosSeleccionados.indexOf(input.value),1)
+        }  
+      } 
     }
-    asignarPermiso(){
-      let input = document.getElementById("permisos") as HTMLInputElement
-      let selectAsignado = document.getElementById("permisosSelect") as HTMLElement
-      console.log(input.value)
-      selectAsignado.innerHTML+= `<option [value] = "${input.value}">${input.value}</option>`
+    removeAll(nameLista:string){
+      if(nameLista === "Grupos"){
+        let lista = this.listGruposSeleccionados.splice(0,this.listGruposSeleccionados.length) 
+        this.listGrupos = this.listGrupos.concat(lista)
+      }else{
+        let lista = this.listPermisosSeleccionados.splice(0,this.listPermisosSeleccionados.length) 
+        this.listPermisos = this.listPermisos.concat(lista)
+      }
+
     }
+
 }

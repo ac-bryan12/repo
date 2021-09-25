@@ -16,7 +16,16 @@
                     </tr>
                 </thead>
 
-                <tbody id = "usuarios">
+                <tbody *ngFor="let user of listUsuarios">
+                    <tr>
+                        <td #id >{{user.id}}</td>
+                        <td>{{user.is_superuser}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>
+                            <button (click) = "envioId(id)" class="btn btn-primary btn-block">Editar</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div id="indices">
