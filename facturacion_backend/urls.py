@@ -13,25 +13,34 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from facturacion_backend.settings import STATIC_URL
+from correo.views import RegisterView
 from django.contrib import admin
 from django.urls import path,include,re_path
 from django.conf.urls.static import static
 from django.conf import settings
+from usuario.views import LoginView,LogoutView,UserPermissionView
+from empresa.views import CreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('app.views.hola'),name="hola"),
-    path('api/',include('app.views.accounts.login')),
-    path('api/',include('app.views.accounts.createEmpresa')),
-    # path('login/',include('app.views.accounts.login')),
-    path('', include('app.views.correo')),
-    path('', include('app.serializers.serializers')),
-    path('portal/',include('app.views.accounts.userAccount')),
-    path('api/', include('app.views.accounts.profile')),
-    path('api/',include('app.views.accounts.users')),
-    path('api/',include('app.views.empresaTemp')),
-    path('api/',include('app.views.groups')),
+    path('api/',include('api.urls')),
+    path('auth/login/',LoginView.as_view()),
+    path('auth/logout/',LogoutView.as_view()),
+    path('auth/register/',RegisterView.as_view()),
+    path('auth/create/',CreateView.as_view()),
+    path('auth/userPermissions/',UserPermissionView.as_view()),
+
+    # path('',include('app.views.hola'),name="hola"),
+    # path('api/',include('app.views.accounts.login')),
+    # path('api/',include('app.views.accounts.createEmpresa')),
+    # # path('login/',include('app.views.accounts.login')),
+    # path('', include('app.views.correo')),
+    # path('', include('app.serializers.serializers')),
+    # path('portal/',include('app.views.accounts.userAccount')),
+    # path('api/', include('app.views.accounts.profile')),
+    # path('api/',include('app.views.accounts.users')),
+    # path('api/',include('app.views.empresaTemp')),
+    # path('api/',include('app.views.groups')),
     
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
