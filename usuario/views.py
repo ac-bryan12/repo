@@ -274,8 +274,10 @@ class GroupViewSet(generics.ListAPIView):
 class PermisosViewSet(generics.ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Group.objects.get(pk=2).permissions.all()
-    serializer_class = PermissionSerializer
+
+    def get(self,request):
+        permissions = PermissionSerializer(Group.objects.get(pk=2).permissions.all(),many=True)
+        return Response({'permissions':permissions.data})
 
 # Permisos grupos del usuario requerido
 class PermisosGruposViewSet(APIView):
