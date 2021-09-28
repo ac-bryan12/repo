@@ -15,7 +15,6 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-
                 <tbody *ngFor="let user of listUsuarios">
                     <tr>
                         <td #id >{{user.id}}</td>
@@ -26,6 +25,7 @@
                             <button (click) = "envioId(id)" class="btn btn-primary btn-block">Editar</button>
                         </td>
                     </tr>
+
                 </tbody>
             </table>
             <div id="indices">

@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
   logout(){
     
-    this.request.peticionPost('http://localhost:8000/api/logout/',{}).subscribe(res =>{
+    this.request.peticionPost('http://localhost:8000/auth/logout/',{}).subscribe(res =>{
       localStorage.setItem('Autenticated',"")
       this.router.navigate(['/login'])
     })

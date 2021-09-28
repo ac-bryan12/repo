@@ -30,7 +30,7 @@ export class NavAdminComponent implements OnInit {
 
 
   async grupos_permisos() {
-    return await this.request.peticionGet("http://localhost:8000/api/permission").subscribe(res=>{
+    return await this.request.peticionGet("http://localhost:8000/auth/userPermissions/").subscribe(res=>{
       // setTimeout('', 500);
       let group = this.cookie.get('group')
       let groupFormated = JSON.parse(decodeURI(group.replace(/\\054/g, ',')))
@@ -38,6 +38,7 @@ export class NavAdminComponent implements OnInit {
       if(groupName == 'admin_empresa'){
         this.isUser = true
       }else if(groupName == 'admin_facturacion'){
+        console.log("Si entra")
         this.mostrarMenus(this.cookie.get('permissions'))
       }
     })

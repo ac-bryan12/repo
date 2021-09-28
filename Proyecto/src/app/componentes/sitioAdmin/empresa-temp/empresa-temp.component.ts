@@ -16,9 +16,9 @@ export class EmpresaTempComponent implements OnInit {
 
 
   grupos_permisos() {
-    this.request.peticionGet("http://localhost:8000/api/permission").subscribe()
+    this.request.peticionGet("http://localhost:8000/auth/userPermissions/").subscribe()
     let contenedor = document.getElementById("tablasEmptmp") as HTMLElement
-    this.request.peticionGet('http://localhost:8000/api/empresaTemps/lista-de-empresaTemps').subscribe(res => {
+    this.request.peticionGet('http://localhost:8000/api/empresa/empresaTemps/lista-de-empresaTemps/').subscribe(res => {
       for (let emp of res) {
         let plantilla =
           `  
@@ -38,7 +38,7 @@ export class EmpresaTempComponent implements OnInit {
           for(let b=0; b<boton.length;b++){
             let opc = boton[0]
             boton[b].addEventListener('click',() =>{ 
-              this.request.peticionPost('http://localhost:8000/api/empresaTemps/buscar-empresaTemp/',{"correo" : emp.correo}).subscribe()
+              this.request.peticionPost('http://localhost:8000/api/empresa/empresaTemps/buscar-empresaTemp/',{"correo" : emp.correo}).subscribe()
             })
           }
       }

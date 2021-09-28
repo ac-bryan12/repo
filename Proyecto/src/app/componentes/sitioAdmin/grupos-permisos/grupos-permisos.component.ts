@@ -19,8 +19,7 @@ export class GruposPermisosComponent implements OnInit {
   }
 
   listaUsuarios(){
-    
-    this.service.peticionGet("http://localhost:8000/api/lista-de-users").subscribe((res)=>{
+    this.service.peticionGet("http://localhost:8000/api/user/lista-de-users/").subscribe((res)=>{
       var campos = document.getElementById("usuarios") as HTMLElement
       this.listUsuarios = res
     })

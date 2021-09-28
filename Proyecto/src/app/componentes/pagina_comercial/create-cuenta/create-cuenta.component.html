@@ -74,13 +74,13 @@
                                             </div>
 
                                         </div>
-                                        <div class="row mb-3" formGroupName="usuario">
+                                        <div class="row mb-3" formGroupName="user">
                                             <p id="contacto">Contacto</p>
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating mb-3 mb-md-0" >
                                                     <input class="form-control"
                                                         id="inputNames" name="nombre" type="text"
-                                                        placeholder="Enter your names" formControlName="firstName">
+                                                        placeholder="Enter your names" formControlName="first_name">
                                                     <label for="inputNames">Nombre</label>
                                                     <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.firstName')?.hasError('required')) || createAccount.get('usuario.firstName')?.hasError('pattern') || createAccount.get('usuario.firstName')?.hasError('minlength') || createAccount.get('usuario.firstName')?.hasError('maxlength')">Ingrese un nombre válido
                                                     </span>
@@ -93,21 +93,12 @@
                                                 <div class="form-floating mb-3 mb-md-0" >
                                                     <input class="form-control"
                                                         id="inputApellidos" name="apellido" type="text"
-                                                        placeholder="Enter your names" formControlName="lastName">
+                                                        placeholder="Enter your names" formControlName="last_name">
                                                     <label for="inputApellidos">Apellido</label>
                                                     <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.lastName')?.hasError('required')) || createAccount.get('usuario.lastName')?.hasError('pattern') || createAccount.get('usuario.lastName')?.hasError('minlength') || createAccount.get('usuario.lastName')?.hasError('maxlength')">Ingrese apellido válido</span>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
-                                                <div class="form-floating" >
-                                                    <input class="form-control"
-                                                        id="inputCargo" name="cargo" type="text"
-                                                        placeholder="Enter your cargo" formControlName="cargo">
-                                                    <label for="inputCargo">Cargo Contacto</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.cargo')?.hasError('required')) || createAccount.get('usuario.cargo')?.hasError('pattern') || createAccount.get('usuario.cargo')?.hasError('minlength') || createAccount.get('usuario.cargo')?.hasError('maxlength')">Ingrese cargo válido</span>
-                                                </div>
-                                            </div>
 
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating" >
@@ -138,22 +129,7 @@
                                                     <span class="lead error"*ngIf="validacionPassword()">La contraseñas no coinciden</span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 mb-3">
-                                                <div class="form-floating" >
-                                                    <input #telf2 class="form-control" id="inputNumphoneUser" name="telefono"
-                                                        type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf,10)" formControlName='telefono'>
-                                                    <label for="inputNumphoneUser">Teléfono</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.telefono')?.hasError('required')) || createAccount.get('usuario.telefono')?.hasError('minlength') || createAccount.get('usuario.telefono')?.hasError('maxlength')">Ingrese numero telefono válido</span>
-                                                </div>
-                                            </div>
 
-                                            <div class="col-md-6 mb-3">
-                                                <div class="form-floating" >
-                                                    <input class="form-control" id="inputDireccionUser" name="direccion"
-                                                        type="text" placeholder="Ingrese su dirección" formControlName="direccion">
-                                                    <label for="inputDireccionUser">Dirección</label>
-                                                </div>
-                                            </div>
                                             
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating" >
@@ -163,6 +139,33 @@
                                                 </div>
                                             </div>
 
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-floating" >
+                                                <input class="form-control"
+                                                    id="inputCargo" name="cargo" type="text"
+                                                    placeholder="Enter your cargo" formControlName="cargoEmpres">
+                                                <label for="inputCargo">Cargo Contacto</label>
+                                                <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.cargoEmpres')?.hasError('required')) || createAccount.get('usuario.cargoEmpres')?.hasError('pattern') || createAccount.get('usuario.cargoEmpres')?.hasError('minlength') || createAccount.get('usuario.cargoEmpres')?.hasError('maxlength')">Ingrese cargo válido</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating" >
+                                                <input #telf2 class="form-control" id="inputNumphoneUser" name="telefono"
+                                                    type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf,10)" formControlName='telefono'>
+                                                <label for="inputNumphoneUser">Teléfono</label>
+                                                <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('telefono')?.hasError('required')) || createAccount.get('telefono')?.hasError('minlength') || createAccount.get('telefono')?.hasError('maxlength')">Ingrese numero telefono válido</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating" >
+                                                <input class="form-control" id="inputDireccionUser" name="direccion"
+                                                    type="text" placeholder="Ingrese su dirección" formControlName="direccion">
+                                                <label for="inputDireccionUser">Dirección</label>
+                                            </div>
                                         </div>
                                         <div class="mt-4 mb-0">
                                             <div class="d-grid">

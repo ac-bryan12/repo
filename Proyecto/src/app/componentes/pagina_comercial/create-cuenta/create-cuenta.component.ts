@@ -29,19 +29,21 @@ export class CreateCuentaComponent implements OnInit {
         email: this.fb.control('', [Validators.required,Validators.pattern('^[a-z0-9._%+\-]+@[a-z0-9.\-]+\\.[a-z]{2,4}'),Validators.minLength(7)]),
         razonSocial: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9. ]+$'),Validators.minLength(5), Validators.maxLength(50)]),
         telefono: this.fb.control('', [Validators.required,Validators.minLength(10),Validators.maxLength(11)]),
-        direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._ ]+$')]),
+        direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._ ]+$')])
       }),
-      usuario: this.fb.group({
-        firstName: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(3),Validators.maxLength(50)]),
-        lastName: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(3),Validators.maxLength(50)]),
-        cargo: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(4),Validators.maxLength(50)],),
+      user: this.fb.group({
+        first_name: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(3),Validators.maxLength(50)]),
+        last_name: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(3),Validators.maxLength(50)]),
         password: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_:@.\-]+$'),Validators.minLength(8)]),
         confpassword: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9_:@.\-]+$')]),
         email: this.fb.control('', [Validators.required,Validators.pattern('^[a-z0-9._%+\-]+@[a-z0-9.\-]+\\.[a-z]{2,4}'),Validators.minLength(7)]),
-        telefono: this.fb.control('', [Validators.required,Validators.minLength(10),Validators.maxLength(11)]),
-        direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._ ]+$')]),
         token: this.fb.control('', [Validators.required,Validators.minLength(4)]),
-      })
+        groups:''
+      }),
+      telefono: this.fb.control('', [Validators.required,Validators.minLength(10),Validators.maxLength(11)]),
+      direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._ ]+$')]),
+      cargoEmpres: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(4),Validators.maxLength(50)],),
+
     });
   };
 
@@ -49,8 +51,12 @@ export class CreateCuentaComponent implements OnInit {
   }
 
   enviar(values:any){
-    localStorage.setItem('token',values.usuario.token)
-    this.envio.peticionPost("http://localhost:8000/api/create/",values,false).subscribe((res)=>{
+    values.user.groups = [
+      {name:'admin_empresa'}
+    ]
+    console.log(values)
+    // localStorage.setItem('token',values.usuario.token)
+    this.envio.peticionPost("http://localhost:8000/auth/create/",values,true).subscribe((res)=>{
       if(res['msg']!= ''){
         this.envio.isCreatedAccount= true
         this.envio.isRegistered = false

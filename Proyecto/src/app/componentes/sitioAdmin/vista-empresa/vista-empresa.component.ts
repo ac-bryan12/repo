@@ -26,7 +26,7 @@ export class VistaEmpresaComponent implements OnInit {
     let telefono = document.getElementById("inputNumphone")
     let direccion = document.getElementById("inputDireccion")
     
-    this.envio.peticionGet('http://localhost:8000/empresas/buscar-empresa').subscribe(res => {
+    this.envio.peticionGet('http://localhost:8000/api/empresa/buscar-empresa/').subscribe(res => {
       
       ruc?.setAttribute("value", res.ruc);
       correo?.setAttribute("value", res.correo)

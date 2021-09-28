@@ -45,7 +45,7 @@ export class PopUpComponent implements OnInit {
     }
     this.id = this.router.parseUrl(this.router.url).queryParams["id"]
     if(this.id != ""){
-        this.service.peticionGet(`http://localhost:8000/api/getPermisosRoles/${this.id}`).subscribe((res)=>{
+        this.service.peticionGet(`http://localhost:8000/api/user/getPermisosRoles/${this.id}`).subscribe((res)=>{
         console.log(res)
         for(let grupo of res.groups)
           this.listGruposSeleccionados.push(grupo.name)
@@ -53,7 +53,7 @@ export class PopUpComponent implements OnInit {
           this.listPermisosSeleccionados.push(permiso.codename)
       })
     }
-    this.service.peticionGet("http://localhost:8000/api/grupos").subscribe((res)=>{
+    this.service.peticionGet("http://localhost:8000/api/user/grupos/").subscribe((res)=>{
       for(let grupo of res){
         if(this.listGruposSeleccionados.indexOf(grupo.name)==-1)
           this.listGrupos.push(grupo.name)

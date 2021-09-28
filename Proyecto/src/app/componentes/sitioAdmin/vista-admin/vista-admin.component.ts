@@ -17,7 +17,9 @@ export class VistaAdminComponent implements OnInit {
   }
 
   grupos_permisos() {
-    this.request.peticionGet("http://localhost:8000/api/permission").subscribe()
+    this.request.peticionGet("http://localhost:8000/auth/userPermissions").subscribe(res =>{
+      
+    })
   }
 
 }

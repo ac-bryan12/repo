@@ -18,27 +18,25 @@ export class AdminGuard implements CanActivate {
   }
 
   checkPermission(url: string): true | UrlTree {
-    let response: any = this.router.parseUrl('/login');
+    let response: UrlTree|true = this.router.parseUrl('/login');
     if (localStorage.getItem('Autenticated')=='true') {
       let permissions = this.cookie.get('permissions')
-      let permissionsFormated = JSON.parse(decodeURI(permissions.replace(/\\054/g, ',')))
-      let permissionsName = JSON.parse(permissionsFormated)
+      if(permissions){
+        let permissionsFormated = JSON.parse(decodeURI(permissions.replace(/\\054/g, ',')))
+        let permissionsName = JSON.parse(permissionsFormated)
 
-      permissionsName.forEach((permission: any) => {
-        permission = permission['codename']
-        if (permission == 'view_empresatemp' && url.endsWith('/empresasTemp')) {
-          response = null
-          response = true
-        } else if (permission == 'view_empresa' && url.endsWith('/empresas')) {
-          response = null
-          response = true
-        }/*else if (permission == 'view_user' && url.endsWith('/')) {
-        return true
-      }*/
-
-
+        permissionsName.forEach((permission: any) => {
+          permission = permission['codename']
+          if (permission == 'view_empresatemp' && url.endsWith('/empresasTemp')) {
+            response = true
+          } else if (permission == 'view_empresa' && url.endsWith('/empresas')) {
+            response = true
+          }/*else if (permission == 'view_user' && url.endsWith('/')) {
+            return true
+          }*/
+        
+        });
       }
-      );
     }
     this.service.redirectUrl = url;
     // Redirect to the login page

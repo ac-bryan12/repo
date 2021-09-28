@@ -13,7 +13,6 @@ export class RequestService {
   redirectUrl: string | null = null;
   private headers = { 
     "Authorization":`Token ${localStorage.getItem("token")}`,
-    // 'Content-type':'application/x-www-form-urlencoded; charset=UTF-8',
   }
   
   constructor(private http:HttpClient) { 

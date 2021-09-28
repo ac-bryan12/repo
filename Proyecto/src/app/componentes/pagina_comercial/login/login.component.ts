@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
 
   iniciarSesion(value: any) {
     if (this.validacion("email") && this.validacion("password")) {
-      this.request.peticionPost('http://localhost:8000/api/auth/', value, true)
+      this.request.peticionPost('http://localhost:8000/auth/login/', value, true)
         .subscribe(res => {
           this.request.isLoggedIn = true
           localStorage.setItem('token', res['token']);
@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
     }
   }
   grupos_permisos() {
-    this.request.peticionGet("http://localhost:8000/api/permission").subscribe(res =>{
+    this.request.peticionGet("http://localhost:8000/auth/userPermissions/").subscribe(res =>{
       this.cambiarVistas(this.cookie.get('group'))
     })
 

@@ -25,7 +25,7 @@ export class RegistroComponent implements OnInit {
   }
 
   enviarSolicitud(values:any){
-    this.request.peticionPost('http://localhost:8000/registro/',values,true).subscribe(res=>{
+    this.request.peticionPost('http://localhost:8000/auth/register/',values,true).subscribe(res=>{
       this.request.isRegistered = true
       this.request.isCreatedAccount = false
       this.router.navigate(['/env-informacion'])

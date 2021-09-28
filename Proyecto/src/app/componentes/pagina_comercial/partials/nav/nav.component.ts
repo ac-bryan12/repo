@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  urlLogin = 'http://localhost:8000/login'
+  urlLogin = 'http://localhost:8000/auth/login'
   constructor() { }
 
   ngOnInit(): void {
