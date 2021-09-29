@@ -17,13 +17,12 @@
                                     autocomplete="off"
                                     novalidate
                                     #formRef="ngForm" 
-                                    (ngSubmit) = "enviar(createAccount.value)"
-                                     action="http://localhost:8000/api/create/" method="post">
+                                    (ngSubmit) = "enviar(createAccount.value)">
                                         <div class='{{response_d}}'>
                                             {{response_content}}
                                         </div>
                                         <div class="row mb-3" formGroupName="empresa">
-                                            <p id="nameOrg">Organización</p>
+                                            <p id="nameOrg" class="subtitle-form">Organización</p>
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating mb-3 mb-md-0" >
                                                     <input #rucInput class="form-control"
@@ -74,15 +73,15 @@
                                             </div>
 
                                         </div>
-                                        <div class="row mb-3" formGroupName="user">
-                                            <p id="contacto">Contacto</p>
+                                        <div class="row" formGroupName="user">
+                                            <p id="contacto" class="subtitle-form">Contacto</p>
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating mb-3 mb-md-0" >
                                                     <input class="form-control"
                                                         id="inputNames" name="nombre" type="text"
                                                         placeholder="Enter your names" formControlName="first_name">
                                                     <label for="inputNames">Nombre</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.firstName')?.hasError('required')) || createAccount.get('usuario.firstName')?.hasError('pattern') || createAccount.get('usuario.firstName')?.hasError('minlength') || createAccount.get('usuario.firstName')?.hasError('maxlength')">Ingrese un nombre válido
+                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.first_name')?.hasError('required')) || createAccount.get('user.first_name')?.hasError('pattern') || createAccount.get('user.first_name')?.hasError('minlength') || createAccount.get('user.first_name')?.hasError('maxlength')">Ingrese un nombre válido
                                                     </span>
                                                 </div>
                                             </div>
@@ -95,7 +94,7 @@
                                                         id="inputApellidos" name="apellido" type="text"
                                                         placeholder="Enter your names" formControlName="last_name">
                                                     <label for="inputApellidos">Apellido</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.lastName')?.hasError('required')) || createAccount.get('usuario.lastName')?.hasError('pattern') || createAccount.get('usuario.lastName')?.hasError('minlength') || createAccount.get('usuario.lastName')?.hasError('maxlength')">Ingrese apellido válido</span>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.last_name')?.hasError('required')) || createAccount.get('user.last_name')?.hasError('pattern') || createAccount.get('user.last_name')?.hasError('minlength') || createAccount.get('user.last_name')?.hasError('maxlength')">Ingrese apellido válido</span>
                                                 </div>
                                             </div>
 
@@ -106,7 +105,7 @@
                                                         id="inputPassword" name="password" type="password"
                                                         placeholder="Ingrese su contraseña" formControlName="password">
                                                     <label for="inputPassword">Contraseña</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.password')?.hasError('required')) || createAccount.get('usuario.password')?.hasError('pattern') || createAccount.get('usuario.password')?.hasError('minlength')">contraseñas no válida</span>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.password')?.hasError('required')) || createAccount.get('user.password')?.hasError('pattern') || createAccount.get('user.password')?.hasError('minlength')">contraseñas no válida</span>
                                                 </div>
                                             </div>
 
@@ -116,7 +115,7 @@
                                                         id="inputEmailUser" name="mailcontacto" type="email"
                                                         placeholder="name@example.com" formControlName="email">
                                                     <label for="inputEmailUser">Correo Electrónico Contacto</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.email')?.hasError('required')) || createAccount.get('usuario.email')?.hasError('minlength') ||  createAccount.get('usuario.email')?.hasError('pattern')">Ingrese email válido</span>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.email')?.hasError('required')) || createAccount.get('user.email')?.hasError('minlength') ||  createAccount.get('user.email')?.hasError('pattern')">Ingrese email válido</span>
                                                 </div>
                                             </div>
 
@@ -140,31 +139,32 @@
                                             </div>
 
                                         </div>
-                                        
-                                        <div class="col-md-6">
-                                            <div class="form-floating" >
-                                                <input class="form-control"
-                                                    id="inputCargo" name="cargo" type="text"
-                                                    placeholder="Enter your cargo" formControlName="cargoEmpres">
-                                                <label for="inputCargo">Cargo Contacto</label>
-                                                <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('usuario.cargoEmpres')?.hasError('required')) || createAccount.get('usuario.cargoEmpres')?.hasError('pattern') || createAccount.get('usuario.cargoEmpres')?.hasError('minlength') || createAccount.get('usuario.cargoEmpres')?.hasError('maxlength')">Ingrese cargo válido</span>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-floating" >
+                                                    <input class="form-control"
+                                                        id="inputCargo" name="cargo" type="text"
+                                                        placeholder="Enter your cargo" formControlName="cargoEmpres">
+                                                    <label for="inputCargo">Cargo Contacto</label>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('cargoEmpres')?.hasError('required')) || createAccount.get('cargoEmpres')?.hasError('pattern') || createAccount.get('cargoEmpres')?.hasError('minlength') || createAccount.get('cargoEmpres')?.hasError('maxlength')">Ingrese cargo válido</span>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-md-6 mb-3">
-                                            <div class="form-floating" >
-                                                <input #telf2 class="form-control" id="inputNumphoneUser" name="telefono"
-                                                    type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf,10)" formControlName='telefono'>
-                                                <label for="inputNumphoneUser">Teléfono</label>
-                                                <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('telefono')?.hasError('required')) || createAccount.get('telefono')?.hasError('minlength') || createAccount.get('telefono')?.hasError('maxlength')">Ingrese numero telefono válido</span>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-floating" >
+                                                    <input #telf2 class="form-control" id="inputNumphoneUser" name="telefono"
+                                                        type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf2,10)" formControlName='telefono'>
+                                                    <label for="inputNumphoneUser">Teléfono</label>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('telefono')?.hasError('required')) || createAccount.get('telefono')?.hasError('minlength') || createAccount.get('telefono')?.hasError('maxlength')">Ingrese numero telefono válido</span>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-md-6 mb-3">
-                                            <div class="form-floating" >
-                                                <input class="form-control" id="inputDireccionUser" name="direccion"
-                                                    type="text" placeholder="Ingrese su dirección" formControlName="direccion">
-                                                <label for="inputDireccionUser">Dirección</label>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-floating" >
+                                                    <input class="form-control" id="inputDireccionUser" name="direccion"
+                                                        type="text" placeholder="Ingrese su dirección" formControlName="direccion">
+                                                    <label for="inputDireccionUser">Dirección</label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="mt-4 mb-0">

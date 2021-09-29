@@ -82,7 +82,7 @@ export class CreateCuentaComponent implements OnInit {
   }
 
   validacionPassword(){
-    return this.validate.validarConfPassword(this.createAccount.get(["usuario","password"])?.value,this.createAccount.get(["usuario","confpassword"])?.value)    
+    return this.validate.validarConfPassword(this.createAccount.get(["user","password"])?.value,this.createAccount.get(["user","confpassword"])?.value)    
   }
   validarRuc(){
     let ruc = this.createAccount.get(['empresa','ruc'])?.value
