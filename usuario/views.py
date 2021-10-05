@@ -90,8 +90,16 @@ class UserPermissionView(APIView):
 # views.profile.py
 
 class listProfileViewSet(generics.ListAPIView):
-    queryset = Profile.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = ProfileSerializer
+    authentication_classes = [TokenAuthentication]
+    def get(self,request):
+        admin = request.user
+        if admin.user_permissions.filter(codename='view_user').exists():
+            profile =ProfileSerializer(Profile.objects.filter(empresa_id = admin.profile.empresa.pk).exclude(pk=admin.profile.pk),many =True)
+            return Response({'profile':profile.data})
+        return Response({"msg":"Acceso denegado"})    
+
 
 class profileViewSet(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
@@ -276,7 +284,7 @@ class PermisosViewSet(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self,request):
-        permissions = PermissionSerializer(Group.objects.get(pk=2).permissions.all(),many=True)
+        permissions = PermissionSerializer(Group.objects.get(name = "admin_empresa").permissions.all(),many=True)
         return Response({'permissions':permissions.data})
 
 # Permisos grupos del usuario requerido
@@ -292,15 +300,16 @@ class PermisosGruposViewSet(APIView):
                 j_data = request.body
                 stream = io.BytesIO(j_data)
                 q_data = parsers.JSONParser().parse(stream)
-                serializer = Profile(data=q_data)
+                serializer = ProfileSerializer(data=q_data)
             else:
-                serializer = Profile(data=request.data)
+                serializer = ProfileSerializer(data=request.data)
             
-            if serializer.is_valid():
+            if serializer.is_valid(raise_exception=True):
                 profile = serializer.save()
                 profile.empresa = request.user.profile.empresa
                 profile.save()
-                Response({'msg':'Usuario creado con éxito'})
+                return Response({'msg':'Usuario creado con éxito'})
+        return Response({"msg":"Acceso denegado"})    
 
     def get(self,request,pk):
         admin = request.user
