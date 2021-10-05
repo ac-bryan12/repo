@@ -1,0 +1,179 @@
+<div id="title"><span>
+        <h1>Editar informacion de usuario</h1>
+    </span></div>
+<div class="card-body">
+    <form #form [formGroup]="createAccount" autocomplete="off" novalidate #formRef="ngForm"
+        (ngSubmit)="enviarForm(createAccount.value)">
+        <div>
+            <div id="container-form" class="formulario">
+                <div id="container mb-12" class="text-center">
+                    <div class="card-body">
+                        <div class="row" formGroupName="user">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input class="form-control" id="inputNames" name="nombre" type="text"
+                                        placeholder="Enter your names" formControlName="first_name">
+                                    <label for="inputNames">Nombre</label>
+                                    <span class="lead error"
+                                        *ngIf="(formRef.submitted && createAccount.get('user.first_name')?.hasError('required')) || createAccount.get('user.first_name')?.hasError('pattern') || createAccount.get('user.first_name')?.hasError('minlength') || createAccount.get('user.first_name')?.hasError('maxlength')">Ingrese
+                                        un nombre válido
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input class="form-control" id="inputApellidos" name="apellido" type="text"
+                                        placeholder="Enter your names" formControlName="last_name">
+                                    <label for="inputApellidos">Apellido</label>
+                                    <span class="lead error"
+                                        *ngIf="(formRef.submitted && createAccount.get('user.last_name')?.hasError('required')) || createAccount.get('user.last_name')?.hasError('pattern') || createAccount.get('user.last_name')?.hasError('minlength') || createAccount.get('user.last_name')?.hasError('maxlength')">Ingrese
+                                        apellido válido</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input class="form-control" id="inputPassword" name="password" type="password"
+                                        placeholder="Ingrese su contraseña" formControlName="password">
+                                    <label for="inputPassword">Contraseña</label>
+                                    <span class="lead error"
+                                        *ngIf="(formRef.submitted && createAccount.get('user.password')?.hasError('required')) || createAccount.get('user.password')?.hasError('pattern') || createAccount.get('user.password')?.hasError('minlength')">contraseñas
+                                        no válida</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input class="form-control" id="inputEmailUser" name="mailcontacto" type="email"
+                                        placeholder="name@example.com" formControlName="email">
+                                    <label for="inputEmailUser">Correo Electrónico Contacto</label>
+                                    <span class="lead error"
+                                        *ngIf="(formRef.submitted && createAccount.get('user.email')?.hasError('required')) || createAccount.get('user.email')?.hasError('minlength') ||  createAccount.get('user.email')?.hasError('pattern')">Ingrese
+                                        email válido</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input class="form-control" id="validatePassword" name="passwordvalidate"
+                                        type="password" placeholder="Ingrese su contraseña nuevamente"
+                                        formControlName="confpassword">
+                                    <label for="inputvalidatePassword">Valide su contraseña</label>
+                                    <span class="lead error" *ngIf="validacionPassword()">La contraseñas no
+                                        coinciden</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="inputCargo" name="cargo" type="text"
+                                            placeholder="Enter your cargo" formControlName="cargoEmpres">
+                                        <label for="inputCargo">Cargo Contacto</label>
+                                        <span class="lead error"
+                                            *ngIf="(formRef.submitted && createAccount.get('cargoEmpres')?.hasError('required')) || createAccount.get('cargoEmpres')?.hasError('pattern') || createAccount.get('cargoEmpres')?.hasError('minlength') || createAccount.get('cargoEmpres')?.hasError('maxlength')">Ingrese
+                                            cargo válido</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-floating">
+                                        <input #telf2 class="form-control" id="inputNumphoneUser" name="telefono"
+                                            type="text" placeholder="Ingrese su numero de telefono"
+                                            (input)="validate.validarCampNum(telf2,10)" formControlName='telefono'>
+                                        <label for="inputNumphoneUser">Teléfono</label>
+                                        <span class="lead error"
+                                            *ngIf="(formRef.submitted && createAccount.get('telefono')?.hasError('required')) || createAccount.get('telefono')?.hasError('minlength') || createAccount.get('telefono')?.hasError('maxlength')">Ingrese
+                                            numero telefono válido</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="inputDireccionUser" name="direccion" type="text"
+                                            placeholder="Ingrese su dirección" formControlName="direccion">
+                                        <label for="inputDireccionUser">Dirección</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-12 row grupos-permisos">
+                                <div class="mb-4">
+                                    <div> <span>
+                                            <h4>Grupos disponibles</h4>
+                                        </span> </div>
+                                    <div class="form-floating">
+                                        <select id="grupos" name="miselect" multiple class="filtered campos">
+                                            <option [value]="item" *ngFor="let item of listGrupos">{{item}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-2 containerSelect ">
+                                    <button class="btnSelect btn btn-primary btn-block"> > </button>
+                                    <button class="btnSelect btn btn-primary btn-block">
+                                        < </button>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div><span>
+                                            <h4>Grupos seleccionados</h4>
+                                        </span></div>
+                                    <div class="form-floating">
+                                        <select id="gruposSelect" name="miselect2" multiple class="filtered campos">
+                                            <option [value]="item" *ngFor="let item of listGruposSeleccionados">{{item}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary btn-block">RemoverTodo</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-12 row grupos-permisos">
+                                <div class="mb-4">
+                                    <div><span>
+                                            <h4>Permisos disponibles</h4>
+                                        </span></div>
+                                    <div class="form-floating">
+                                        <select id="permisos" name="miselect3" multiple class="filtered campos">
+                                            <option [value]="item" *ngFor="let item of listPermisos">{{item}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-2 containerSelect ">
+                                    <button class="btnSelect btn btn-primary btn-block"> > </button>
+                                    <button class="btnSelect btn btn-primary btn-block">
+                                        < </button>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div><span>
+                                            <h4>Permisos seleccionados</h4>
+                                        </span></div>
+                                    <div class="form-floating">
+                                        <select id="permisosSelect" name="miselect4" multiple class="filtered campos">
+                                            <option [value]="item" *ngFor="let item of listPermisosSeleccionados">
+                                                {{item}}</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary btn-block">RemoverTodo</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="buttons" class="mt-4 mb-0">
+                                <input type="button" value="Close" class="btn btn-primary btn-block">
+                                <input type="submit" value="Guardar" [disabled]="formRef.control.invalid"
+                                    class="btn btn-primary btn-block">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

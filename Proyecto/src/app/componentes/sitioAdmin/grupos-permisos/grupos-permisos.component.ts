@@ -19,14 +19,24 @@ export class GruposPermisosComponent implements OnInit {
   }
 
   listaUsuarios(){
-    this.service.peticionGet("http://localhost:8000/api/user/lista-de-users/").subscribe((res)=>{
+    this.service.peticionGet("http://localhost:8000/api/user/lista-de-profiles/").subscribe((res)=>{
       var campos = document.getElementById("usuarios") as HTMLElement
-      this.listUsuarios = res
+      this.listUsuarios = res.profile
     })
   }
   envioId(id:any){
-    console.log(id)
+    console.log(id.innerText)
+    let usuario = {}
+    for(let user of this.listUsuarios){
+      if(user.user.id === id.innerText){
+        user.empresa = null
+        usuario = user
+      }    
+    }
     let id2 = id as HTMLElement
-    this.router.navigate(["/editarUser"],{queryParams:{id:id2.innerText}})
+    this.router.navigate(["/editarUser"],{queryParams:{id:id2.innerText,usuario:JSON.stringify(usuario)}})
+  }
+  crearUser(){
+    this.router.navigate(["/editarUser"],{queryParams:{id:""}})
   }
 }

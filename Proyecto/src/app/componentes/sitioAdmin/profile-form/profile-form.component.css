@@ -27,7 +27,6 @@
     justify-content: center;
 }
 .grupos-permisos{
-    width: 60%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -35,7 +34,7 @@
     padding: 2%;
 }
 .campos{
-    margin: 1%;
+    margin: 2%;
 }
 
 select{
@@ -55,8 +54,3 @@ select{
     width: 20px;
     height: 10px;
 }
-.error {
-    color: #f82929;
-    font-size: 13px;
-    margin-top: 2px;
-  }

@@ -19,6 +19,7 @@ import { AuthGuard } from './services/guards/auth/auth.guard';
 import { UtilGuard } from './services/guards/utils/util.guard';
 import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permisos/grupos-permisos.component';
 import { AdminGuard } from './services/guards/admin_facturacion/admin.guard';
+import { ProfileFormComponent } from './componentes/sitioAdmin/profile-form/profile-form.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -38,6 +39,7 @@ const routes: Routes = [
   {path:'editarUser',component:PopUpComponent},
   {path:'creacion-exitosa',component:CreacionExitosaComponent,canActivate: [UtilGuard]},
   {path:'grupos-permisos',component:GruposPermisosComponent},
+  {path:'crearUser',component:ProfileFormComponent},
 ];
 
 @NgModule({

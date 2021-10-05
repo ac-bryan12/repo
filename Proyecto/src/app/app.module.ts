@@ -27,6 +27,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
 import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vista-empresa.component';
 import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permisos/grupos-permisos.component';
+import { ProfileFormComponent } from './componentes/sitioAdmin/profile-form/profile-form.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permiso
     PortalComponent,
     VistaEmpresaComponent,
     GruposPermisosComponent,
+    ProfileFormComponent,
   ],
   imports: [
     BrowserModule,
