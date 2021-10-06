@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include,re_path
 from django.conf.urls.static import static
 from django.conf import settings
-from usuario.views import LoginView,LogoutView,UserPermissionView
+from usuario.views import LoginView,LogoutView, PasswordResetTokenView, PasswordResetView,UserPermissionView
 from empresa.views import CreateView
 
 urlpatterns = [
@@ -29,6 +29,9 @@ urlpatterns = [
     path('auth/register/',RegisterView.as_view()),
     path('auth/create/',CreateView.as_view()),
     path('auth/userPermissions/',UserPermissionView.as_view()),
+    path('auth/reset_password_token/<str:email>',PasswordResetTokenView.as_view()),
+    path('auth/reset_password_verification/<str:token>',PasswordResetView.as_view()),
+    path('auth/reset_password/',PasswordResetView.as_view())
 
     # path('',include('app.views.hola'),name="hola"),
     # path('api/',include('app.views.accounts.login')),

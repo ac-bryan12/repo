@@ -11,7 +11,8 @@ from django.views.decorators.csrf import *
 
 def envioCorreoTemp(modeladmin,request,queryset):
         for empresa in queryset:
-                RegisterView.send_mail(empresa.correo,empresa.razonSocial,empresa.token)
+                context = {'mail':empresa.correo,'razonSocial':empresa.razonSocial,'token':empresa.token}
+                RegisterView.send_mail(empresa.correo,context,"Correo de confirmación de su registro",'envioCorreo.html')
 
 @csrf_exempt
 @admin.register(EmpresaTemp)

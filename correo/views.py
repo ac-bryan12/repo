@@ -16,12 +16,11 @@ class RegisterView(APIView):
     renderer_classes = (renderers.JSONRenderer,)
     serializer_class= EmpresaTempSerializer
     # @csrf_exempt
-    def send_mail(mail, razonsocial,token):
-        context = {'mail':mail,'razonSocial':razonsocial,'token':token}
-        template  = get_template('envioCorreo.html')
+    def send_mail(mail,context,subject,Template):
+        template  = get_template(Template)
         content = template.render(context)
         email = EmailMultiAlternatives(
-            'Correo de confirmacion de su registro',
+            subject,
             'FACTURACION ELECTRÓNICA',
             EMAIL_HOST_USER,
             [mail], 

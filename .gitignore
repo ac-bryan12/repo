@@ -1,6 +1,6 @@
 **/_pycache__/*
 *.pyc
-
+.idea
 .env
 
 *.bak

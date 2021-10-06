@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from django.contrib.sessions.models import Session
 from django.http import Http404
+from correo.views import RegisterView
 
 
 
@@ -319,3 +320,41 @@ class PermisosGruposViewSet(APIView):
                 return Response({"msg":"Usuario no existe"})
         else:
             return Response({"msg":"Acceso denegado"})    
+
+class PasswordResetTokenView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self,request,email):
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email=email)
+            token, created = Token.objects.get_or_create(user=user)
+            if not created:
+                token.delete()
+                token = Token.objects.create(user=user)
+            context = {"nombre":user.first_name,"token":token}
+            RegisterView.send_mail(email,context,"Restablecimiento de Contraseña","password_reset.html")
+            return Response({"msg":"Se le enviará un token a su correo electrónico."})
+        else:
+            return Response({"error":"No existe en el sistema"})
+
+class PasswordResetView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self,request,token):
+        if Token.objects.filter(key=token).exists():
+            return Response({"msg":"Código correcto","validated":True})
+        else:
+            return Response({"error":"Código incorrecto","validated":False})
+    
+    def post(self,request):
+        
+        if not request.user.is_anonymous:
+            user:User = request.user
+            if request.data.get('password'):
+                user.set_password(request.data.get('password'))
+                user.save()
+                return Response({"msg":"Se cambió con exito su contraseña"})
+            else:
+                return Response({"error":"Por favor envie una contraseña valida"})
+        else:
+            return Response({"error":"Unauthorized"})
