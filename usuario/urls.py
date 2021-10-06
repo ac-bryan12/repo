@@ -6,7 +6,7 @@ from django.urls.conf import path
 
 urlpatterns = [
     path('buscar-profiles/<int:pk>/',profileViewSet.as_view(), name = "Profile"),
-    path('lista-de-profiles', listProfileViewSet.as_view(), name = "Profiles"),
+    path('lista-de-profiles/', listProfileViewSet.as_view(), name = "Profiles"),
     path('buscar-users/<int:pk>/',UserViewSet.as_view(), name = "User"),
     path('lista-de-users/', listUserViewSet.as_view(), name = "Users"),
     path('grupos/',GroupViewSet.as_view(), name = "Grupos"),

@@ -1,4 +1,6 @@
 from typing import OrderedDict
+
+from rest_framework.exceptions import ValidationError
 import empresa
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User,Group,Permission
@@ -28,8 +30,8 @@ class PermissionSerializer(serializers.ModelSerializer):
         fields = ['codename']
 
 class UserSerializer(serializers.ModelSerializer):
-    id = serializers.CharField(required=False,write_only=True)
-    password = serializers.CharField(min_length=8,write_only=True)
+    id = serializers.CharField(required=False)
+    password = serializers.CharField(min_length=8,write_only=True,allow_blank=True)
     username = serializers.CharField(max_length=150,required=False)
     first_name = serializers.CharField(min_length=3,max_length=50)
     last_name = serializers.CharField(min_length=3,max_length=50)
@@ -42,23 +44,31 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id','is_superuser','username','first_name','last_name','email', 'password','groups','permissions']
 
     def validate(self, attrs):
-        msg:any
-        if User.objects.filter(email=attrs['email']).exists() :
-            msg = _("El email ingresado ya existe en el sitema")
-        else :
+        if attrs.get("id"):
+            if not User.objects.filter(pk = attrs["id"]).exists():
+                if attrs.get("password") == "":
+                    raise ValidationError({'error':'Debe ingresar una contraseña'})
+                return attrs
             return attrs
-        raise serializers.ValidationError(msg)
+        else :
+            if User.objects.filter(email=attrs['email']).exists() :
+                raise ValidationError({"error":"El email ingresado ya existe en el sistema"})
+            return attrs
 
     def create(self,validated_data):
         user:User
-        if User.objects.filter(pk=validated_data['id']).exist():
-            user = User.objects.get(pk=validated_data['id'])
+        if validated_data.get("id"):
+            if User.objects.filter(pk=validated_data['id']).exists() :
+                user = User.objects.get(pk=validated_data['id'])
+            else:
+                raise ValidationError({"error": "El usuario no existe"})
         else:
             user = User()
         print("crear usuario")
         user.username = validated_data['email']
         user.email = validated_data['email']
-        user.set_password(validated_data['password'])
+        if validated_data.get("password") != "":
+            user.set_password(validated_data['password'])
         user.first_name = validated_data['first_name']
         user.last_name = validated_data['last_name']
         user.save()
@@ -93,6 +103,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         empresa = None
         if validated_data.get('empresa'):
             empresa_serializer = EmpresaSerializer(data=validated_data.get('empresa'))
+            empresa_serializer.is_valid(raise_exception=True)
             empresa = empresa_serializer.save()
         user_serializer = UserSerializer(data=validated_data.get('user'))
 
