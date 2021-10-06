@@ -28,9 +28,14 @@ export class RequestService {
     }
   }
 
-  peticionGet(url:string):Observable<any>{
-    this.setToken()
-    return this.http.get(url,{headers:this.headers,withCredentials: true})
+  peticionGet(url:string,isLogin:boolean=false):Observable<any>{
+    if(!isLogin){
+      this.setToken()
+      return this.http.get(url,{headers:this.headers,withCredentials: true})
+    }else{
+      return this.http.get(url)
+    }
+    
   }
 
   setToken(){
