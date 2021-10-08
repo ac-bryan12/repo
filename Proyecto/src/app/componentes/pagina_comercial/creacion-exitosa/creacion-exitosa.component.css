@@ -1,0 +1,13 @@
+body{
+    background-color: rgb(9, 66, 116);
+}
+
+div[class="row justify-content-center"]{
+    margin-bottom: 50px;
+}
+
+.error {
+    color: #f82929;
+    font-size: 13px;
+    margin-top: 2px;
+  }
