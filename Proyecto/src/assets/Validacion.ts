@@ -131,12 +131,15 @@ export class Validacion implements OnInit{
   }
 
   validarCampNum(tlf:any,numMaximo: number) {
-    if(!isNaN(tlf.value) && !tlf.value.includes(" ") && tlf.value != ''){
-      if(tlf.value.length > numMaximo) tlf.value = tlf.value.substring(0,tlf.value.length-1)
+    if( tlf.value.length > numMaximo ){
+      tlf.value = tlf.value.substring(0,numMaximo)
     }
-    else{
-      tlf.value = tlf.value.substring(0,tlf.value.length-1)
+    for(let i=0; i<tlf.value.length;i++){
+      if(!tlf.value[i].match(/[0-9]/i)){       
+        tlf.value = tlf.value.replace(tlf.value[i],'')
+      }
     }
+    console.log(tlf.value)
   }
 
   validarCampAlf(text:any){

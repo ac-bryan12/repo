@@ -36,9 +36,9 @@ export class EmpresaTempComponent implements OnInit {
 
           let boton = document.getElementsByTagName("input")
           for(let b=0; b<boton.length;b++){
-            let opc = boton[0]
             boton[b].addEventListener('click',() =>{ 
-              this.request.peticionPost('http://localhost:8000/api/empresa/empresaTemps/buscar-empresaTemp/',{"correo" : emp.correo}).subscribe()
+              let correo = boton[b].getAttribute("id")
+              this.request.peticionPost('http://localhost:8000/api/empresa/empresaTemps/buscar-empresaTemp/',{"correo" : correo}).subscribe()
             })
           }
       }

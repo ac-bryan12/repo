@@ -14,13 +14,14 @@ import { VistaAdminComponent } from './componentes/sitioAdmin/vista-admin/vista-
 import { EmpresaComponent } from './componentes/sitioAdmin/empresa/empresa.component';
 import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
 import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
-import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
 import { AuthGuard } from './services/guards/auth/auth.guard';
 import { UtilGuard } from './services/guards/utils/util.guard';
 import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permisos/grupos-permisos.component';
 import { AdminGuard } from './services/guards/admin_facturacion/admin.guard';
-import { componentFactoryName } from '@angular/compiler';
 import { RestablecerPasswordComponent } from './componentes/pagina_comercial/restablecer-password/restablecer-password.component';
+import { VistaClienteComponent } from './componentes/cliente/vista-cliente/vista-cliente.component';
+import { PerfilComponent } from './componentes/cliente/perfil/perfil.component';
+import { ChangePasswordComponent } from './componentes/cliente/change-password/change-password.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -33,7 +34,7 @@ const routes: Routes = [
   {path:'env-informacion',component:EnvInformacionComponent,canActivate: [UtilGuard]},
   {path:'create-cuenta',component:CreateCuentaComponent},
   {path:'pago',component:PagoComponent},
-  // {path:'portal',component:PortalComponent,},
+  //{path:'portal',component:PortalComponent,},
   {path:'',redirectTo:'home',pathMatch:'full'},
   {path:'admin',component:VistaAdminComponent,canActivate: [AuthGuard]},
   {path:'empresas',component:EmpresaComponent,canActivate: [AdminGuard]},
@@ -41,6 +42,9 @@ const routes: Routes = [
   {path:'editarUser',component:PopUpComponent},
   {path:'creacion-exitosa',component:CreacionExitosaComponent,canActivate: [UtilGuard]},
   {path:'grupos-permisos',component:GruposPermisosComponent},
+  {path:'cliente',component:VistaClienteComponent},
+  {path:'perfil',component:PerfilComponent},
+  {path:'cambiar_contraseña',component:ChangePasswordComponent},
 ];
 
 @NgModule({

@@ -28,6 +28,12 @@ import { PortalComponent } from './componentes/pagina_comercial/portal/portal.co
 import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vista-empresa.component';
 import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permisos/grupos-permisos.component';
 import { RestablecerPasswordComponent } from './componentes/pagina_comercial/restablecer-password/restablecer-password.component';
+import { NavClientComponent } from './componentes/cliente/nav-client/nav-client.component';
+import { HeaderClientComponent } from './componentes/cliente/header-client/header-client.component';
+import { VistaClienteComponent } from './componentes/cliente/vista-cliente/vista-cliente.component';
+import { DocumentosComponent } from './componentes/cliente/documentos/documentos.component';
+import { PerfilComponent } from './componentes/cliente/perfil/perfil.component';
+import { ChangePasswordComponent } from './componentes/cliente/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +60,12 @@ import { RestablecerPasswordComponent } from './componentes/pagina_comercial/res
     VistaEmpresaComponent,
     GruposPermisosComponent,
     RestablecerPasswordComponent,
+    NavClientComponent,
+    HeaderClientComponent,
+    VistaClienteComponent,
+    DocumentosComponent,
+    PerfilComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
