@@ -99,7 +99,7 @@ class listProfileViewSet(generics.ListAPIView):
         if admin.user_permissions.filter(codename='view_user').exists():
             profile =ProfileSerializer(Profile.objects.filter(empresa_id = admin.profile.empresa.pk).exclude(pk=admin.profile.pk),many =True)
             return Response({'profile':profile.data})
-        return Response({"msg":"Acceso denegado"})    
+        return Response({"msg":"Acceso denegado"},status=status.HTTP_403_FORBIDDEN)    
 
 
 class profileViewSet(generics.ListAPIView):
@@ -286,7 +286,7 @@ class PermisosViewSet(generics.ListAPIView):
 
     def get(self,request):
         permissions = PermissionSerializer(Group.objects.get(name = "admin_empresa").permissions.all(),many=True)
-        return Response({'permissions':permissions.data})
+        return Response({'permissions':permissions.data},status=status.HTTP_200_OK)
 
 # Permisos grupos del usuario requerido
 class PermisosGruposViewSet(APIView):
@@ -309,8 +309,8 @@ class PermisosGruposViewSet(APIView):
                 profile = serializer.save()
                 profile.empresa = request.user.profile.empresa
                 profile.save()
-                return Response({'msg':'Usuario creado con éxito'})
-        return Response({"msg":"Acceso denegado"})    
+                return Response({'msg':'Usuario creado con éxito'},status=status.HTTP_201_CREATED)
+        return Response({"error":"Acceso denegado"},status=status.HTTP_403_FORBIDDEN)    
 
     def get(self,request,pk):
         admin = request.user
@@ -322,13 +322,13 @@ class PermisosGruposViewSet(APIView):
                 if user.profile.empresa == empresa:
                     group = GroupSerializer(user.groups.all(),many=True)
                     permissions = PermissionSerializer(user.user_permissions.all(),many=True)
-                    return Response({"groups":group.data,"permissions":permissions.data})
+                    return Response({"groups":group.data,"permissions":permissions.data},status=status.HTTP_200_OK)
                 else:
-                    return Response({"msg":"Acceso denegado"})    
+                    return Response({"error":"Acceso denegado"},status=status.HTTP_403_FORBIDDEN)    
             else:
-                return Response({"msg":"Usuario no existe"})
+                return Response({"error":"Usuario no existe"},status=status.HTTP_404_NOT_FOUND)
         else:
-            return Response({"msg":"Acceso denegado"})    
+            return Response({"error":"Acceso denegado"},status=status.HTTP_403_FORBIDDEN)    
 
 class PasswordResetTokenView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -342,18 +342,18 @@ class PasswordResetTokenView(APIView):
                 token = Token.objects.create(user=user)
             context = {"nombre":user.first_name,"token":token}
             RegisterView.send_mail(email,context,"Restablecimiento de Contraseña","password_reset.html")
-            return Response({"msg":"Se le enviará un token a su correo electrónico."})
+            return Response({"msg":"Se le enviará un token a su correo electrónico."},status=status.HTTP_200_OK)
         else:
-            return Response({"error":"No existe en el sistema"})
+            return Response({"error":"No existe en el sistema"},status=status.HTTP_404_NOT_FOUND)
 
 class PasswordResetView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self,request,token):
         if Token.objects.filter(key=token).exists():
-            return Response({"msg":"Código correcto","validated":True})
+            return Response({"msg":"Código correcto","validated":True},status=status.HTTP_200_OK)
         else:
-            return Response({"error":"Código incorrecto","validated":False})
+            return Response({"error":"Código incorrecto","validated":False},status=status.HTTP_400_BAD_REQUEST)
     
     def post(self,request):
         
@@ -362,8 +362,8 @@ class PasswordResetView(APIView):
             if request.data.get('password'):
                 user.set_password(request.data.get('password'))
                 user.save()
-                return Response({"msg":"Se cambió con exito su contraseña"})
+                return Response({"msg":"Se cambió con exito su contraseña"},status=status.HTTP_200_OK)
             else:
-                return Response({"error":"Por favor envie una contraseña valida"})
+                return Response({"error":"Por favor envie una contraseña valida"},status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({"error":"Unauthorized"})
+            return Response({"error":"Unauthorized"},status=status.HTTP_403_FORBIDDEN)
