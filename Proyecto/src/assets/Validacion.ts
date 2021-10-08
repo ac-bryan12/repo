@@ -24,7 +24,6 @@ export class Validacion implements OnInit{
     var coeficientes = [2,1,2,1,2,1,2,1,2]
     var result = []
     var acum = 0
-    console.log("dentro")
     for(let i = 0; i<coeficientes.length;i++){
         var num = Number(arreglo[i])*coeficientes[i]
         if(num<=9) result[i]=num
@@ -77,7 +76,6 @@ export class Validacion implements OnInit{
   }
   validarRuc(ruc:string){
     if (ruc.length === 13) {
-      console.log("Valida 13 digitos")
       const ultimoDigito = ruc.substring(9, 10);
       const digitoRegion = ruc.substring(0, 2)
       if (digitoRegion >= String("01") && digitoRegion <= String("24") || digitoRegion == String(30) && ultimoDigito>=String("1")) {
@@ -86,11 +84,9 @@ export class Validacion implements OnInit{
             //Persona natural
             var valDecimoDigito = this.validarPN(ruc.substring(0,9),ruc.substring(9,10)) 
             if(valDecimoDigito){
-              console.log('Persona natural')
               return true;
             }
             else{
-              console.log('Formato incorrecto')
               return false
             }  
           }
@@ -98,11 +94,9 @@ export class Validacion implements OnInit{
             //Persona juridica falta validar residuo cero
             var valDecimoDigito = this.validarPJ(ruc.substring(0,9),ruc.substring(9,10)) 
             if(valDecimoDigito){
-              console.log('Persona juridica')
               return true;
             }
             else{
-              console.log('Formato incorrecto')
               return false
             }  
           }
@@ -110,11 +104,9 @@ export class Validacion implements OnInit{
             //Entidad publica solo falta valida residuo cero
             var valDecimoDigito = this.validarIP(ruc.substring(0,8),ruc.substring(8,9)) 
             if(valDecimoDigito){
-              console.log('Entidad publica')
               return true;
             }
             else{
-              console.log('Formato incorrecto')
               return false
             }  
           }
@@ -139,12 +131,11 @@ export class Validacion implements OnInit{
         tlf.value = tlf.value.replace(tlf.value[i],'')
       }
     }
-    console.log(tlf.value)
   }
 
   validarCampAlf(text:any){
     for(let i=0; i<text.value.length;i++){
-      if(!text.value[i].match(/[a-z]/i)){       
+      if(!text.value[i].match(/[a-zA-Z]/i)){       
         text.value = text.value.replace(text.value[i],'')
       }
     }

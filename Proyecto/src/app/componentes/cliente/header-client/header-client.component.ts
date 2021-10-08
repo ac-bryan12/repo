@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'header-client',
@@ -16,7 +17,7 @@ export class HeaderClientComponent implements OnInit {
 
   logout(){
     
-    this.request.peticionPost('http://localhost:8000/api/logout/',{}).subscribe(res =>{
+    this.request.peticionPost(environment.url+'/auth/logout/',{}).subscribe(res =>{
       localStorage.setItem('Autenticated',"")
       this.router.navigate(['/login'])
     })

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'restablecer-password',
@@ -41,7 +42,7 @@ export class RestablecerPasswordComponent implements OnInit {
   enviarCode(code:string){
     this.response_d ="d-block"
     this.response_content ="Verificando su codigo"
-    this.service.peticionGet("http://localhost:8000/auth/reset_password_verification/"+code, true).subscribe((res) =>{
+    this.service.peticionGet(environment.url+"/auth/reset_password_verification/"+code, true).subscribe((res) =>{
       console.log(res)
       this.response_content = res.msg
       this.response_button = !res.validated

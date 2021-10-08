@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { RequestService } from 'src/app/services/request/request.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'nav-admin',
@@ -30,7 +31,7 @@ export class NavAdminComponent implements OnInit {
 
 
   async grupos_permisos() {
-    return await this.request.peticionGet("http://localhost:8000/auth/userPermissions/").subscribe(res=>{
+    return await this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res=>{
       // setTimeout('', 500);
       let group = this.cookie.get('group')
       let groupFormated = JSON.parse(decodeURI(group.replace(/\\054/g, ',')))

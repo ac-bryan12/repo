@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-portal',
@@ -16,7 +17,7 @@ export class PortalComponent implements OnInit {
 
   logout(){
     
-    this.request.peticionPost('http://localhost:8000/auth/logout/',{}).subscribe(res =>{
+    this.request.peticionPost(environment.url+'/auth/logout/',{}).subscribe(res =>{
       console.log(res['estado'])
       localStorage.setItem('Autenticated',"")
       this.router.navigate(['/home'])

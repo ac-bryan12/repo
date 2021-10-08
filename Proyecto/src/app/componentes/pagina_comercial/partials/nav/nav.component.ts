@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'nav_bar',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  urlLogin = 'http://localhost:8000/auth/login'
+  urlLogin = environment.url+'/auth/login'
   constructor() { }
 
   ngOnInit(): void {

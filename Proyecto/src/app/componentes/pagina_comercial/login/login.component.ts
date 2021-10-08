@@ -5,6 +5,7 @@ import { RequestService } from '../../../services/request/request.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'login',
@@ -43,17 +44,17 @@ export class LoginComponent implements OnInit {
     let groupName = JSON.parse(groupFormated)[0]['name']
     if(groupName=='admin_facturacion' || groupName == 'admin_empresa'){
       this.route.navigate(["/admin"])
+    }else if(groupName == 'cliente'){
+      this.route.navigate(["/cliente"])
     }/*else if(groupName == 'admin_empresa'){
       console.log("Vista del admin_empresa")
-    }else if(group == 'cliente'){
-
     }*/
   }
 
 
   iniciarSesion(value: any) {
     if (this.validacion("email") && this.validacion("password")) {
-      this.request.peticionPost('http://localhost:8000/auth/login/', value, true)
+      this.request.peticionPost(environment.url+'/auth/login/', value, true)
         .subscribe(res => {
           this.request.isLoggedIn = true
           localStorage.setItem('token', res['token']);
@@ -67,7 +68,7 @@ export class LoginComponent implements OnInit {
     }
   }
   grupos_permisos() {
-    this.request.peticionGet("http://localhost:8000/auth/userPermissions/").subscribe(res =>{
+    this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
       this.cambiarVistas(this.cookie.get('group'))
     })
 

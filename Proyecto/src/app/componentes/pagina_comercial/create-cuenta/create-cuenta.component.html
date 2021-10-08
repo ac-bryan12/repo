@@ -58,7 +58,7 @@
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating" >
                                                     <input #telf class="form-control" id="inputNumphone" name="telefono"
-                                                        type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf,10)" formControlName='telefono'>
+                                                        type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf,10)" formControlName='telefono' maxlength="10">
                                                     <label for="inputNumphone">Teléfono</label>
                                                     <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('empresa.telefono')?.hasError('required')) || createAccount.get('empresa.telefono')?.hasError('minlength') || createAccount.get('empresa.telefono')?.hasError('maxlength')">Ingrese numero telefono válido</span>
                                                 </div>
@@ -102,10 +102,10 @@
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating" >
                                                     <input class="form-control"
-                                                        id="inputPassword" name="password" type="password"
+                                                        id="inputPassword" name="password" type="text"
                                                         placeholder="Ingrese su contraseña" formControlName="password">
                                                     <label for="inputPassword">Contraseña</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.password')?.hasError('required')) || createAccount.get('user.password')?.hasError('pattern') || createAccount.get('user.password')?.hasError('minlength')">contraseñas no válida</span>
+                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.password')?.hasError('required')) || createAccount.get('user.password')?.hasError('pattern')">contraseñas no válida</span>
                                                 </div>
                                             </div>
 
@@ -153,7 +153,7 @@
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating" >
                                                     <input #telf2 class="form-control" id="inputNumphoneUser" name="telefono"
-                                                        type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf2,10)" formControlName='telefono'>
+                                                        type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf2,10)" formControlName='telefono' maxlength="10">
                                                     <label for="inputNumphoneUser">Teléfono</label>
                                                     <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('telefono')?.hasError('required')) || createAccount.get('telefono')?.hasError('minlength') || createAccount.get('telefono')?.hasError('maxlength')">Ingrese numero telefono válido</span>
                                                 </div>

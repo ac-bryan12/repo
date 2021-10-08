@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder,Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'pop-up',
@@ -71,7 +72,7 @@ export class PopUpComponent implements OnInit {
     if(this.id!="")
       values.user.id =this.id
     // localStorage.setItem('token',values.usuario.token)
-    this.service.peticionPost("http://localhost:8000/api/user/asignarPermisosRoles/",values).subscribe((res)=>{
+    this.service.peticionPost(environment.url+"/api/user/asignarPermisosRoles/",values).subscribe((res)=>{
       if(res['msg']!= ''){
         this.service.isCreatedAccount= true
         this.service.isRegistered = false
@@ -109,7 +110,7 @@ export class PopUpComponent implements OnInit {
       this.addEmp.get("cargoEmpres")?.setValue(this.usuario.cargoEmpres)  
     }
     if(this.id != ""){
-        this.service.peticionGet(`http://localhost:8000/api/user/getPermisosRoles/${this.id}`).subscribe((res)=>{
+        this.service.peticionGet(environment.url+`/api/user/getPermisosRoles/${this.id}`).subscribe((res)=>{
         for(let grupo of res.groups){
           this.listGruposSeleccionados.push(grupo.name)
         } 
@@ -128,7 +129,7 @@ export class PopUpComponent implements OnInit {
     }
   }
   permisosGrupos2(){
-    this.service.peticionGet("http://localhost:8000/api/user/grupos/").subscribe((res)=>{
+    this.service.peticionGet(environment.url+"/api/user/grupos/").subscribe((res)=>{
             for(let grupo of res){
               if(this.listGruposSeleccionados.indexOf(grupo.name)==-1){
                 this.listGrupos.push(grupo.name)
@@ -138,7 +139,7 @@ export class PopUpComponent implements OnInit {
             this.msg = "Ocurrió un error al cargar los datos"
             this.listGrupos.push(this.msg)
           })
-    this.service.peticionGet("http://localhost:8000/api/user/permisos").subscribe((res) =>{
+    this.service.peticionGet(environment.url+"/api/user/permisos").subscribe((res) =>{
             for(let permisosEmpresa of res.permissions){
               if(this.listPermisosSeleccionados.indexOf(permisosEmpresa.codename)==-1){
                 this.listPermisos.push(permisosEmpresa.codename)

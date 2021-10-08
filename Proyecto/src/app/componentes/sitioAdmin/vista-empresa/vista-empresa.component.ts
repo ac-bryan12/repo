@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'vista-empresa',
@@ -26,7 +27,7 @@ export class VistaEmpresaComponent implements OnInit {
     let telefono = document.getElementById("inputNumphone")
     let direccion = document.getElementById("inputDireccion")
     
-    this.envio.peticionGet('http://localhost:8000/api/empresa/buscar-empresa/').subscribe(res => {
+    this.envio.peticionGet(environment.url+'/api/empresa/buscar-empresa/').subscribe(res => {
       
       ruc?.setAttribute("value", res.ruc);
       correo?.setAttribute("value", res.correo)

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RequestService } from 'src/app/services/request/request.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-grupos-permisos',
   templateUrl: './grupos-permisos.component.html',
@@ -19,7 +21,7 @@ export class GruposPermisosComponent implements OnInit {
   }
 
   listaUsuarios(){
-    this.service.peticionGet("http://localhost:8000/api/user/lista-de-profiles/").subscribe((res)=>{
+    this.service.peticionGet(environment.url+"/api/user/lista-de-profiles/").subscribe((res)=>{
       var campos = document.getElementById("usuarios") as HTMLElement
       this.listUsuarios = res.profile
     })

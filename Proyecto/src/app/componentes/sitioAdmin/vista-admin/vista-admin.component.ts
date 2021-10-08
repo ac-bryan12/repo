@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'vista-admin',
@@ -17,7 +18,7 @@ export class VistaAdminComponent implements OnInit {
   }
 
   grupos_permisos() {
-    this.request.peticionGet("http://localhost:8000/auth/userPermissions").subscribe(res =>{
+    this.request.peticionGet(environment.url+"/auth/userPermissions").subscribe(res =>{
       
     })
   }

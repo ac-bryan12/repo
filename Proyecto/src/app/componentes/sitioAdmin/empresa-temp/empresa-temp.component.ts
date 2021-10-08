@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestService } from 'src/app/services/request/request.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-empresa-temp',
@@ -16,9 +17,9 @@ export class EmpresaTempComponent implements OnInit {
 
 
   grupos_permisos() {
-    this.request.peticionGet("http://localhost:8000/auth/userPermissions/").subscribe()
+    this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe()
     let contenedor = document.getElementById("tablasEmptmp") as HTMLElement
-    this.request.peticionGet('http://localhost:8000/api/empresa/empresaTemps/lista-de-empresaTemps/').subscribe(res => {
+    this.request.peticionGet(environment.url+'/api/empresa/empresaTemps/lista-de-empresaTemps/').subscribe(res => {
       for (let emp of res) {
         let plantilla =
           `  
@@ -38,7 +39,7 @@ export class EmpresaTempComponent implements OnInit {
           for(let b=0; b<boton.length;b++){
             boton[b].addEventListener('click',() =>{ 
               let correo = boton[b].getAttribute("id")
-              this.request.peticionPost('http://localhost:8000/api/empresa/empresaTemps/buscar-empresaTemp/',{"correo" : correo}).subscribe()
+              this.request.peticionPost(environment.url+'/api/empresa/empresaTemps/buscar-empresaTemp/',{"correo" : correo}).subscribe()
             })
           }
       }
