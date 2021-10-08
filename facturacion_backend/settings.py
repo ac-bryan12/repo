@@ -64,7 +64,7 @@ ROOT_URLCONF = 'facturacion_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['app/templates'],
+        'DIRS': ['assets/templates','assets/front_end'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +76,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'facturacion_backend.wsgi.application'
 
@@ -112,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-CORS_ORIGIN_WHITELIST = ('http://localhost:4200',)
+CORS_ORIGIN_WHITELIST = ('http://localhost:4200',"http://raochoa.pythonanywhere.com")
 
 
 
@@ -134,9 +135,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "assets")
+# STATIC_ROOT = os.path.join(BASE_DIR, "assets")
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'app/assets'),
+    os.path.join(BASE_DIR,'assets'),
 ]
 
 EMAIL_HOST = 'smtp.googlemail.com'
