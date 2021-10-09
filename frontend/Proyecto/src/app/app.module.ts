@@ -26,7 +26,7 @@ import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component
 import { CookieService } from 'ngx-cookie-service';
 import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
 import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vista-empresa.component';
-import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permisos/grupos-permisos.component';
+import { GruposPermisosComponent } from './componentes/empresa/grupos-permisos/grupos-permisos.component';
 import { RestablecerPasswordComponent } from './componentes/pagina_comercial/restablecer-password/restablecer-password.component';
 import { NavClientComponent } from './componentes/cliente/nav-client/nav-client.component';
 import { HeaderClientComponent } from './componentes/cliente/header-client/header-client.component';
@@ -34,6 +34,12 @@ import { VistaClienteComponent } from './componentes/cliente/vista-cliente/vista
 import { DocumentosComponent } from './componentes/cliente/documentos/documentos.component';
 import { PerfilComponent } from './componentes/cliente/perfil/perfil.component';
 import { ChangePasswordComponent } from './componentes/cliente/change-password/change-password.component';
+import { NavEmpresaComponent } from './componentes/empresa/partials/nav-empresa/nav-empresa.component';
+import { HeaderEmpresaComponent } from './componentes/empresa/partials/header-empresa/header-empresa.component';
+import { ViewCompanyComponent } from './componentes/empresa/view-company/view-company.component';
+import { ProfileCompanyComponent } from './componentes/empresa/profile-company/profile-company.component';
+import { ProfileUserComponent } from './componentes/empresa/profile-user/profile-user.component';
+import { DocumentosCompanyComponent } from './componentes/empresa/documentos-company/documentos-company.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +72,12 @@ import { ChangePasswordComponent } from './componentes/cliente/change-password/c
     DocumentosComponent,
     PerfilComponent,
     ChangePasswordComponent,
+    NavEmpresaComponent,
+    HeaderEmpresaComponent,
+    ViewCompanyComponent,
+    ProfileCompanyComponent,
+    ProfileUserComponent,
+    DocumentosCompanyComponent,
   ],
   imports: [
     BrowserModule,

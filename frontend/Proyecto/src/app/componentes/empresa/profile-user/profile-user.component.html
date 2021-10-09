@@ -1,0 +1,43 @@
+<header-empresa></header-empresa>
+<div id="container">
+    <nav-empresa></nav-empresa>
+    <div id="perfil">
+        <div id="caja"></div>
+        <div id="title">
+            <h1>Perfil</h1>
+        </div>
+        <form #form autocomplete="off" novalidate #formRef="ngForm">
+            <div class="row mb-3" id="formulario">
+                <div id="campos">
+                    <div class="col-md-5 mt-5 mb-4 ">
+                        <label for="inputRazonSocial">Razón Social</label>
+                        <input #razonSocial readonly class="form-control" id="inputRazonSocial" name="razonsocial"
+                            type="text">
+
+                    </div>
+                    <div class="col-md-5 mb-4">
+                        <label for="inputRUC">RUC</label>
+                        <input #rucInput class="form-control" readonly id="inputRUC" name="ruc" type="text">
+
+                    </div>
+                    <div class="col-md-5 mb-4">
+                        <label for="inputDireccion">Dirección</label>
+                        <input class="form-control" id="inputDireccion" name="direccion" type="text">
+                    </div>
+
+                    <div class="col-md-5 mb-4">
+                        <label for="inputEmail">Correo Electrónico</label>
+                        <input class="form-control" id="inputEmail" name="mailorganizacion" type="email">
+
+                    </div>
+
+
+                    <div class="col-md-5 mb-5">
+                        <label for="inputNumphone">Teléfono</label>
+                        <input class="form-control" id="inputNumphone" name="telefono" type="text">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

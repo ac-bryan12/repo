@@ -16,12 +16,15 @@ import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empr
 import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
 import { AuthGuard } from './services/guards/auth/auth.guard';
 import { UtilGuard } from './services/guards/utils/util.guard';
-import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permisos/grupos-permisos.component';
+import { GruposPermisosComponent } from './componentes/empresa/grupos-permisos/grupos-permisos.component';
 import { AdminGuard } from './services/guards/admin_facturacion/admin.guard';
 import { RestablecerPasswordComponent } from './componentes/pagina_comercial/restablecer-password/restablecer-password.component';
 import { VistaClienteComponent } from './componentes/cliente/vista-cliente/vista-cliente.component';
 import { PerfilComponent } from './componentes/cliente/perfil/perfil.component';
 import { ChangePasswordComponent } from './componentes/cliente/change-password/change-password.component';
+import { ViewCompanyComponent} from './componentes/empresa/view-company/view-company.component';
+import { ProfileUserComponent } from './componentes/empresa/profile-user/profile-user.component';
+import { DocumentosCompanyComponent } from './componentes/empresa/documentos-company/documentos-company.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -45,6 +48,9 @@ const routes: Routes = [
   {path:'cliente',component:VistaClienteComponent},
   {path:'perfil',component:PerfilComponent},
   {path:'cambiar_contraseña',component:ChangePasswordComponent},
+  {path:'view-company',component:ViewCompanyComponent},
+  {path:'profile-user',component:ProfileUserComponent},
+  {path:'documentos-company',component:DocumentosCompanyComponent},
 ];
 
 @NgModule({

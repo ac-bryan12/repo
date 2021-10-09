@@ -1,0 +1,44 @@
+#container{
+    display: flex;
+    flex-direction: row;
+}
+
+a {
+    color: #00B7FF;
+  }
+
+  th{
+      text-align: center;
+  }
+
+  td{
+      font-size: smaller;
+      width: 120px;
+      text-align: center;
+  }
+
+#seccion-botones{
+    display: flex;
+    justify-content: space-around;
+}
+
+  #iconos{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      height: 76.95px;
+
+  }
+  
+  table tbody tr:nth-child(odd){
+    background: #b9b9b9;
+  }
+  
+  table tbody tr:nth-child(even){
+    background: #fff8e5;
+  }
+  
+  #tableBody{
+    border: none;
+  }
