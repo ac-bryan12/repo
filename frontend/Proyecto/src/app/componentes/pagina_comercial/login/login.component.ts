@@ -38,17 +38,16 @@ export class LoginComponent implements OnInit {
     
   }
 
-  cambiarVistas(group:string){
-    
-    let groupFormated =JSON.parse(decodeURI(group.replace(/\\054/g, ',')))
-    let groupName = JSON.parse(groupFormated)[0]['name']
-    if(groupName=='admin_facturacion' || groupName == 'admin_empresa'){
+  cambiarVistas(groups:string[]){
+    if(groups.includes('admin_facturacion')){
       this.route.navigate(["/admin"])
-    }else if(groupName == 'cliente'){
+    }else if(groups.includes('cliente')){
       this.route.navigate(["/cliente"])
-    }/*else if(groupName == 'admin_empresa'){
-      console.log("Vista del admin_empresa")
-    }*/
+    }else if(groups.includes('admin_empresa')){
+      this.route.navigate(["/view-company"])
+    }else{
+      this.route.navigate(["/login"])
+    }
   }
 
 
@@ -69,7 +68,7 @@ export class LoginComponent implements OnInit {
   }
   grupos_permisos() {
     this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
-      this.cambiarVistas(this.cookie.get('group'))
+      this.cambiarVistas(res['groups'])
     })
 
 

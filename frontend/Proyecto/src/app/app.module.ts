@@ -22,7 +22,7 @@ import { EmpresaComponent } from './componentes/sitioAdmin/empresa/empresa.compo
 import { NavAdminComponent } from './componentes/sitioAdmin/partials/nav-admin/nav-admin.component';
 import { HeaderComponent } from './componentes/sitioAdmin/partials/header/header.component';
 import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
-import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
+import { PopUpComponent } from './componentes/empresa/pop-up/pop-up.component';
 import { CookieService } from 'ngx-cookie-service';
 import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
 import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vista-empresa.component';

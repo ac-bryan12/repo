@@ -13,7 +13,7 @@ import { CreacionExitosaComponent } from './componentes/pagina_comercial/creacio
 import { VistaAdminComponent } from './componentes/sitioAdmin/vista-admin/vista-admin.component';
 import { EmpresaComponent } from './componentes/sitioAdmin/empresa/empresa.component';
 import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
-import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
+import { PopUpComponent } from './componentes/empresa/pop-up/pop-up.component';
 import { AuthGuard } from './services/guards/auth/auth.guard';
 import { UtilGuard } from './services/guards/utils/util.guard';
 import { GruposPermisosComponent } from './componentes/empresa/grupos-permisos/grupos-permisos.component';
@@ -25,6 +25,10 @@ import { ChangePasswordComponent } from './componentes/cliente/change-password/c
 import { ViewCompanyComponent} from './componentes/empresa/view-company/view-company.component';
 import { ProfileUserComponent } from './componentes/empresa/profile-user/profile-user.component';
 import { DocumentosCompanyComponent } from './componentes/empresa/documentos-company/documentos-company.component';
+import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vista-empresa.component';
+import { DocumentosComponent } from './componentes/cliente/documentos/documentos.component';
+import { EmpresaGuard } from './services/guards/admin_empresa/empresa.guard';
+import { ClienteGuard } from './services/guards/cliente/cliente.guard';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -39,18 +43,31 @@ const routes: Routes = [
   {path:'pago',component:PagoComponent},
   //{path:'portal',component:PortalComponent,},
   {path:'',redirectTo:'home',pathMatch:'full'},
-  {path:'admin',component:VistaAdminComponent,canActivate: [AuthGuard]},
-  {path:'empresas',component:EmpresaComponent,canActivate: [AdminGuard]},
-  {path:'empresasTemp',component:EmpresaTempComponent,canActivate: [AdminGuard]},
-  {path:'editarUser',component:PopUpComponent},
   {path:'creacion-exitosa',component:CreacionExitosaComponent,canActivate: [UtilGuard]},
-  {path:'grupos-permisos',component:GruposPermisosComponent},
-  {path:'cliente',component:VistaClienteComponent},
-  {path:'perfil',component:PerfilComponent},
-  {path:'cambiar_contraseña',component:ChangePasswordComponent},
-  {path:'view-company',component:ViewCompanyComponent},
-  {path:'profile-user',component:ProfileUserComponent},
-  {path:'documentos-company',component:DocumentosCompanyComponent},
+  {path:'admin',component:VistaAdminComponent,
+    children:[
+      {path:'',redirectTo:'vista-empresa',pathMatch:'full'},
+      {path:'empresas',component:EmpresaComponent,canActivate: [AdminGuard]},
+      {path:'empresasTemp',component:EmpresaTempComponent,canActivate: [AdminGuard]},
+      {path:'vista-empresa',component:VistaEmpresaComponent,canActivate:[AdminGuard]},
+    ]
+  },
+  {path:'cliente',component:VistaClienteComponent,
+    children:[
+      {path:'',redirectTo:'perfil',pathMatch:'full'},
+      {path:'perfil',component:PerfilComponent,canActivate:[ClienteGuard]},
+      {path:'cambiar_contrasenia',component:ChangePasswordComponent,canActivate:[ClienteGuard]},
+      {path:'documentos',component:DocumentosComponent,canActivate:[ClienteGuard]},
+
+    ]},
+  {path:'view-company',component:ViewCompanyComponent,
+  children:[
+    {path:'',redirectTo:'profile-user',pathMatch:'full'},
+      {path:'profile-user',component:ProfileUserComponent,canActivate:[EmpresaGuard]},
+      {path:'documentos-company',component:DocumentosCompanyComponent,canActivate:[EmpresaGuard]},
+      {path:'grupos-permisos',component:GruposPermisosComponent,canActivate:[EmpresaGuard]},
+      {path:'editarUser',component:PopUpComponent,canActivate:[EmpresaGuard]},
+    ]},
 ];
 
 @NgModule({

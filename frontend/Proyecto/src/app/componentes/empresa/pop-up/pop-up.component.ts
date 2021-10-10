@@ -112,10 +112,10 @@ export class PopUpComponent implements OnInit {
     if(this.id != ""){
         this.service.peticionGet(environment.url+`/api/user/getPermisosRoles/${this.id}`).subscribe((res)=>{
         for(let grupo of res.groups){
-          this.listGruposSeleccionados.push(grupo.name)
+          this.listGruposSeleccionados.push(grupo)
         } 
         for(let permiso of res.permissions){
-          this.listPermisosSeleccionados.push(permiso.codename)
+          this.listPermisosSeleccionados.push(permiso)
         }
         this.permisosGrupos2()
       }, error =>{
@@ -131,8 +131,8 @@ export class PopUpComponent implements OnInit {
   permisosGrupos2(){
     this.service.peticionGet(environment.url+"/api/user/grupos/").subscribe((res)=>{
             for(let grupo of res){
-              if(this.listGruposSeleccionados.indexOf(grupo.name)==-1){
-                this.listGrupos.push(grupo.name)
+              if(this.listGruposSeleccionados.indexOf(grupo)==-1){
+                this.listGrupos.push(grupo)
               }
             }
           }, error =>{
@@ -141,8 +141,8 @@ export class PopUpComponent implements OnInit {
           })
     this.service.peticionGet(environment.url+"/api/user/permisos").subscribe((res) =>{
             for(let permisosEmpresa of res.permissions){
-              if(this.listPermisosSeleccionados.indexOf(permisosEmpresa.codename)==-1){
-                this.listPermisos.push(permisosEmpresa.codename)
+              if(this.listPermisosSeleccionados.indexOf(permisosEmpresa)==-1){
+                this.listPermisos.push(permisosEmpresa)
               }  
             }
           }, error =>{

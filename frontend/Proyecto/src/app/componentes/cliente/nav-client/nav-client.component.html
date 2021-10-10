@@ -1,25 +1,42 @@
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-    <div class="position-sticky">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/cliente">
-                    <span data-feather="cliente"></span>
-                    Inicio
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/cambiar_contraseña">
-                    <span data-feather="cambiar_contraseña"></span>
-                    Cambiar Contraseña
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/perfil">
-                    <span data-feather="perfil"></span>
-                    Perfil
-                </a>
-            </li>
-             
-        </ul>
-    </div>
-</nav>
+<div id="container-body">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/cliente">
+                        <span data-feather="cliente"></span>
+                        Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" routerLink="cambiar_contrasenia">
+                        <span data-feather="cambiar_contraseña"></span>
+                        Cambiar Contraseña
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" routerLink="perfil">
+                        <span data-feather="perfil"></span>
+                        Perfil
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="documentos">
+                        <span data-feather="layers"></span>
+                        Documentos
+                    </a>
+                </li>
+                <!-- 
+                <li *ngIf="isUser" class="nav-item">
+                    <a class="nav-link">
+                        <span data-feather="layers"></span>
+                        Reportes
+                    </a>
+                </li> -->
+            </ul>
+        </div>
+    </nav>
+    <section id="dashboard-content" class="col">
+        <router-outlet></router-outlet>
+    </section>
+</div>

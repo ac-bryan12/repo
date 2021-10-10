@@ -4,10 +4,11 @@
 
 #container-nav{
     display: flex;
-    width: 224px;}
+    width: 100%;
+}
 
 ul{
-    width: 229px;
+    width: 100%;
 }
 
 a{
@@ -17,4 +18,10 @@ a{
     border: 0.1px solid black;
     padding-top: 20px;
     padding-bottom: 20px;
+}
+
+#container-body{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
 }

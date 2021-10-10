@@ -17,7 +17,6 @@ export class EmpresaTempComponent implements OnInit {
 
 
   grupos_permisos() {
-    this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe()
     let contenedor = document.getElementById("tablasEmptmp") as HTMLElement
     this.request.peticionGet(environment.url+'/api/empresa/empresaTemps/lista-de-empresaTemps/').subscribe(res => {
       for (let emp of res) {

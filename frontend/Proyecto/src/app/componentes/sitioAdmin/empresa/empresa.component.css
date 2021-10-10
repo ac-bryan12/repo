@@ -16,7 +16,7 @@ h2{
 #tabla{
     display: flex;
     flex-direction: column;
-    width: 1400px;
+    width: 100%;
 }
 
 #formulario{

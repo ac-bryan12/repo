@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestService } from 'src/app/services/request/request.service';
 import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { reference } from '@popperjs/core';
 
 @Component({
   selector: 'app-grupos-permisos',
@@ -11,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class GruposPermisosComponent implements OnInit {
   listUsuarios :any[]
-  constructor(private service:RequestService, private cookie:CookieService, private router:Router) { 
+  constructor(private service:RequestService, private cookie:CookieService, private router:Router,private route:ActivatedRoute) { 
 
     this.listUsuarios = []
   }
@@ -36,9 +37,9 @@ export class GruposPermisosComponent implements OnInit {
       }    
     }
     let id2 = id as HTMLElement
-    this.router.navigate(["/editarUser"],{queryParams:{id:id2.innerText,usuario:JSON.stringify(usuario)}})
+    this.router.navigate(["../editarUser"],{relativeTo:this.route,queryParams:{id:id2.innerText,usuario:JSON.stringify(usuario)}})
   }
   crearUser(){
-    this.router.navigate(["/editarUser"],{queryParams:{id:""}})
+    this.router.navigate(["../editarUser"],{queryParams:{id:""},relativeTo:this.route})
   }
 }
