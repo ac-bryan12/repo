@@ -81,12 +81,11 @@ class UserPermissionView(APIView):
     def get(self,request):
         serializer_group = self.serializer_class(request.user.groups.all(),many=True)
         serializer_permission = PermissionSerializer(request.user.user_permissions.all(),many=True)
-        response = Response()
-        group = JSONRenderer().render(serializer_group.data)
-        permissions = JSONRenderer().render(serializer_permission.data)
-        response.set_cookie('group',group.decode("utf-8"))
-        response.set_cookie('permissions',permissions.decode("utf-8"))
-        return response
+        response = {
+            'groups':serializer_group.data,
+            'permissions':serializer_permission.data
+        }
+        return Response(response)
 
 # views.profile.py
 
@@ -367,3 +366,10 @@ class PasswordResetView(APIView):
                 return Response({"error":"Por favor envie una contraseña valida"},status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"error":"Unauthorized"},status=status.HTTP_403_FORBIDDEN)
+
+class isLogged(APIView):
+    permission_classes = [permissions.AllowAny]
+    def get(self,request):
+        if request.user.is_anonymous:
+            return Response({'logged':False})
+        return Response({'logged':True})

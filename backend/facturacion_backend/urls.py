@@ -18,12 +18,12 @@ from django.contrib import admin
 from django.urls import path,include,re_path
 from django.conf.urls.static import static
 from django.conf import settings
-from usuario.views import LoginView,LogoutView, PasswordResetTokenView, PasswordResetView,UserPermissionView
+from usuario.views import LoginView,LogoutView, PasswordResetTokenView, PasswordResetView,UserPermissionView, isLogged
 from empresa.views import CreateView
 from .views import front_end
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('auth/admin/', admin.site.urls),
     path('api/',include('api.urls')),
     path('auth/login/',LoginView.as_view()),
     path('auth/logout/',LogoutView.as_view()),
@@ -33,6 +33,7 @@ urlpatterns = [
     path('auth/reset_password_token/<str:email>',PasswordResetTokenView.as_view()),
     path('auth/reset_password_verification/<str:token>',PasswordResetView.as_view()),
     path('auth/reset_password/',PasswordResetView.as_view()),
+    path('auth/isLogged/',isLogged.as_view()),
     path('',front_end),
     path('home/',front_end),
     path('login/',front_end),

@@ -21,6 +21,9 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model=Group
         fields = ['name']
+    
+    def to_representation(self, instance):
+        return instance.name
 
 class PermissionSerializer(serializers.ModelSerializer):
     codename = serializers.CharField(max_length=100)
@@ -28,6 +31,9 @@ class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model=Permission
         fields = ['codename']
+
+    def to_representation(self, instance):
+        return instance.codename
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.CharField(required=False)
@@ -153,3 +159,13 @@ class LoginSerializer(serializers.ModelSerializer):
         except User.DoesNotExist:
             attrs['email'] = None
         return attrs
+
+# class PermissionsListSerializer(serializers.ModelSerializer):
+#     codename = serializers.CharField(max_length=100)
+
+#     class Meta:
+#         model=Permission
+#         fields = ['codename']
+
+#     def to_representation(self, instance):
+#         return instance.codename
