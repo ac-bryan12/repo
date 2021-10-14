@@ -12,62 +12,71 @@
                                         su cuenta</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form #form
-                                    [formGroup]="createAccount"
-                                    autocomplete="off"
-                                    novalidate
-                                    #formRef="ngForm" 
-                                    (ngSubmit) = "enviar(createAccount.value)">
+                                    <form #form [formGroup]="createAccount" autocomplete="off" novalidate
+                                        #formRef="ngForm" (ngSubmit)="enviar(createAccount.value)">
                                         <div class='{{response_d}}'>
                                             {{response_content}}
                                         </div>
                                         <div class="row mb-3" formGroupName="empresa">
                                             <p id="nameOrg" class="subtitle-form">Organización</p>
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating mb-3 mb-md-0" >
-                                                    <input #rucInput class="form-control"
-                                                        id="inputRUC" (input)="validate.validarCampNum(rucInput,13)" name="ruc" type="text"
-                                                        placeholder="Ingrese el RUC de su empresa" formControlName="ruc">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input #rucInput class="form-control" id="inputRUC"
+                                                        (input)="validate.validarCampNum(rucInput,13)" name="ruc"
+                                                        type="text" placeholder="Ingrese el RUC de su empresa"
+                                                        formControlName="ruc">
                                                     <label for="inputRUC">RUC</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('empresa.ruc')?.hasError('required')) || createAccount.get('empresa.ruc')?.hasError('minlength') || createAccount.get('empresa.ruc')?.hasError('maxlength') || createAccount.get('empresa.ruc')?.hasError('pattern') || validarRuc()">Ingrese RUC válido</span>
+                                                    <span class="lead error"
+                                                        *ngIf="(formRef.submitted && createAccount.get('empresa.ruc')?.hasError('required')) || createAccount.get('empresa.ruc')?.hasError('minlength') || createAccount.get('empresa.ruc')?.hasError('maxlength') || createAccount.get('empresa.ruc')?.hasError('pattern') || validarRuc()">Ingrese
+                                                        RUC válido</span>
                                                     <!-- <div class={{ruc_d}} style='color:red'>{{ruc_content}}</div> -->
 
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating mb-3 mb-md-0" >
+                                                <div class="form-floating mb-3 mb-md-0">
                                                     <input class="form-control" id="inputEmail" name="mailorganizacion"
-                                                        type="email" placeholder="name@example.com" formControlName="email">
+                                                        type="email" placeholder="name@example.com"
+                                                        formControlName="email">
                                                     <label for="inputEmail">Correo Electrónico Organización</label>
-                                                    <span class="lead error" *ngIf="(createAccount.get('empresa.email')?.hasError('minlength') ||  createAccount.get('empresa.email')?.hasError('pattern'))">Ingrese email válido</span>
-                                                    
+                                                    <span class="lead error"
+                                                        *ngIf="(createAccount.get('empresa.email')?.hasError('minlength') ||  createAccount.get('empresa.email')?.hasError('pattern'))">Ingrese
+                                                        email válido</span>
+
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating mb-3 mb-md-0" >
-                                                    <input class="form-control"
-                                                        id="inputRazonSocial" name="razonsocial" type="text"
-                                                        placeholder="Ingrese la Razon social de su empresa" formControlName="razonSocial"> 
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputRazonSocial" name="razonsocial"
+                                                        type="text" placeholder="Ingrese la Razon social de su empresa"
+                                                        formControlName="razonSocial">
                                                     <label for="inputRazonSocial">Razón Social</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('empresa.razonSocial')?.hasError('required')) || createAccount.get('empresa.razonSocial')?.hasError('minlength') || createAccount.get('empresa.razonSocial')?.hasError('maxlength') ||   createAccount.get('empresa.razonSocial')?.hasError('pattern')">Ingrese nombre de la razon social correctamente</span>
+                                                    <span class="lead error"
+                                                        *ngIf="(formRef.submitted && createAccount.get('empresa.razonSocial')?.hasError('required')) || createAccount.get('empresa.razonSocial')?.hasError('minlength') || createAccount.get('empresa.razonSocial')?.hasError('maxlength') ||   createAccount.get('empresa.razonSocial')?.hasError('pattern')">Ingrese
+                                                        nombre de la razon social correctamente</span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating" >
+                                                <div class="form-floating">
                                                     <input #telf class="form-control" id="inputNumphone" name="telefono"
-                                                        type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf,10)" formControlName='telefono' maxlength="10">
+                                                        type="text" placeholder="Ingrese su numero de telefono"
+                                                        (input)="validate.validarCampNum(telf,10)"
+                                                        formControlName='telefono' maxlength="10">
                                                     <label for="inputNumphone">Teléfono</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('empresa.telefono')?.hasError('required')) || createAccount.get('empresa.telefono')?.hasError('minlength') || createAccount.get('empresa.telefono')?.hasError('maxlength')">Ingrese numero telefono válido</span>
+                                                    <span class="lead error"
+                                                        *ngIf="(formRef.submitted && createAccount.get('empresa.telefono')?.hasError('required')) || createAccount.get('empresa.telefono')?.hasError('minlength') || createAccount.get('empresa.telefono')?.hasError('maxlength')">Ingrese
+                                                        numero telefono válido</span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating" >
+                                                <div class="form-floating">
                                                     <input class="form-control" id="inputDireccion" name="direccion"
-                                                        type="text" placeholder="Ingrese su dirección" formControlName='direccion'> 
+                                                        type="text" placeholder="Ingrese su dirección"
+                                                        formControlName='direccion'>
                                                     <label for="inputDireccion">Dirección</label>
                                                 </div>
                                             </div>
@@ -76,64 +85,86 @@
                                         <div class="row" formGroupName="user">
                                             <p id="contacto" class="subtitle-form">Contacto</p>
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating mb-3 mb-md-0" >
-                                                    <input class="form-control"
-                                                        id="inputNames" name="nombre" type="text"
-                                                        placeholder="Enter your names" formControlName="first_name">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputNames" name="nombre"
+                                                        type="text" placeholder="Enter your names"
+                                                        formControlName="first_name">
                                                     <label for="inputNames">Nombre</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.first_name')?.hasError('required')) || createAccount.get('user.first_name')?.hasError('pattern') || createAccount.get('user.first_name')?.hasError('minlength') || createAccount.get('user.first_name')?.hasError('maxlength')">Ingrese un nombre válido
+                                                    <span class="lead error"
+                                                        *ngIf="(formRef.submitted && createAccount.get('user.first_name')?.hasError('required')) || createAccount.get('user.first_name')?.hasError('pattern') || createAccount.get('user.first_name')?.hasError('minlength') || createAccount.get('user.first_name')?.hasError('maxlength')">Ingrese
+                                                        un nombre válido
                                                     </span>
                                                 </div>
                                             </div>
 
-                                            
+
 
                                             <div class="col-md-6">
-                                                <div class="form-floating mb-3 mb-md-0" >
-                                                    <input class="form-control"
-                                                        id="inputApellidos" name="apellido" type="text"
-                                                        placeholder="Enter your names" formControlName="last_name">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputApellidos" name="apellido"
+                                                        type="text" placeholder="Enter your names"
+                                                        formControlName="last_name">
                                                     <label for="inputApellidos">Apellido</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.last_name')?.hasError('required')) || createAccount.get('user.last_name')?.hasError('pattern') || createAccount.get('user.last_name')?.hasError('minlength') || createAccount.get('user.last_name')?.hasError('maxlength')">Ingrese apellido válido</span>
+                                                    <span class="lead error"
+                                                        *ngIf="(formRef.submitted && createAccount.get('user.last_name')?.hasError('required')) || createAccount.get('user.last_name')?.hasError('pattern') || createAccount.get('user.last_name')?.hasError('minlength') || createAccount.get('user.last_name')?.hasError('maxlength')">Ingrese
+                                                        apellido válido</span>
                                                 </div>
                                             </div>
 
 
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating" >
-                                                    <input class="form-control"
-                                                        id="inputPassword" name="password" type="text"
-                                                        placeholder="Ingrese su contraseña" formControlName="password">
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="inputPassword" name="password"
+                                                        type="text" placeholder="Ingrese su contraseña"
+                                                        formControlName="password">
                                                     <label for="inputPassword">Contraseña</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.password')?.hasError('required')) || createAccount.get('user.password')?.hasError('pattern')">contraseñas no válida</span>
+                                                    <span class="lead error"
+                                                        *ngIf="(formRef.submitted && createAccount.get('user.password')?.hasError('required')) || createAccount.get('user.password')?.hasError('pattern')">
+                                                        Ingrese contraseña que contenga:<br>
+                                                        ◆ Al menos 1 minuscula<br>
+                                                        ◆ Al menos 1 mayuscula<br>
+                                                        ◆ Al menos 1 numero<br>
+                                                        ◆ Al menos 1 caracter especial<br>
+                                                        ◆ Mínimo 8 caracteres</span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating mb-3 mb-md-0" >
-                                                    <input class="form-control"
-                                                        id="inputEmailUser" name="mailcontacto" type="email"
-                                                        placeholder="name@example.com" formControlName="email">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputEmailUser" name="mailcontacto"
+                                                        type="email" placeholder="name@example.com"
+                                                        formControlName="email">
                                                     <label for="inputEmailUser">Correo Electrónico Contacto</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.email')?.hasError('required')) || createAccount.get('user.email')?.hasError('minlength') ||  createAccount.get('user.email')?.hasError('pattern')">Ingrese email válido</span>
+                                                    <span class="lead error"
+                                                        *ngIf="(formRef.submitted && createAccount.get('user.email')?.hasError('required')) || createAccount.get('user.email')?.hasError('minlength') ||  createAccount.get('user.email')?.hasError('pattern')">Ingrese
+                                                        email válido</span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating" >
+                                                <div class="form-floating">
                                                     <input class="form-control" id="validatePassword"
                                                         name="passwordvalidate" type="password"
-                                                        placeholder="Ingrese su contraseña nuevamente" formControlName="confpassword">
+                                                        placeholder="Ingrese su contraseña nuevamente"
+                                                        formControlName="confpassword">
                                                     <label for="inputvalidatePassword">Valide su contraseña</label>
-                                                    <span class="lead error"*ngIf="validacionPassword()">La contraseñas no coinciden</span>
+                                                    <span class="lead error" *ngIf="validacionPassword()">
+                                                        Ingrese una contraseña que contenga:<br>
+                                                        ◆ Al menos 1 Minuscula<br>
+                                                        ◆ Al menos 1 Mayúscula<br>
+                                                        ◆ Al menos 1 Numero<br>
+                                                        ◆ Al menos 1 Caracter especial<br>
+                                                        ◆ Mínimo 8 caracteres
+                                                    </span>
                                                 </div>
                                             </div>
 
-                                            
+
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating" >
+                                                <div class="form-floating">
                                                     <input class="form-control" id="inputCodigo" name="codigodireccion"
-                                                        type="password" placeholder="código de verificación" formControlName="token">
+                                                        type="password" placeholder="código de verificación"
+                                                        formControlName="token">
                                                     <label for="inputDireccionUser">Código de verificación</label>
                                                 </div>
                                             </div>
@@ -141,35 +172,44 @@
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating" >
-                                                    <input class="form-control"
-                                                        id="inputCargo" name="cargo" type="text"
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="inputCargo" name="cargo" type="text"
                                                         placeholder="Enter your cargo" formControlName="cargoEmpres">
                                                     <label for="inputCargo">Cargo Contacto</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('cargoEmpres')?.hasError('required')) || createAccount.get('cargoEmpres')?.hasError('pattern') || createAccount.get('cargoEmpres')?.hasError('minlength') || createAccount.get('cargoEmpres')?.hasError('maxlength')">Ingrese cargo válido</span>
+                                                    <span class="lead error"
+                                                        *ngIf="(formRef.submitted && createAccount.get('cargoEmpres')?.hasError('required')) || createAccount.get('cargoEmpres')?.hasError('pattern') || createAccount.get('cargoEmpres')?.hasError('minlength') || createAccount.get('cargoEmpres')?.hasError('maxlength')">Ingrese
+                                                        cargo válido</span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating" >
-                                                    <input #telf2 class="form-control" id="inputNumphoneUser" name="telefono"
-                                                        type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf2,10)" formControlName='telefono' maxlength="10">
+                                                <div class="form-floating">
+                                                    <input #telf2 class="form-control" id="inputNumphoneUser"
+                                                        name="telefono" type="text"
+                                                        placeholder="Ingrese su numero de telefono"
+                                                        (input)="validate.validarCampNum(telf2,10)"
+                                                        formControlName='telefono' maxlength="10">
                                                     <label for="inputNumphoneUser">Teléfono</label>
-                                                    <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('telefono')?.hasError('required')) || createAccount.get('telefono')?.hasError('minlength') || createAccount.get('telefono')?.hasError('maxlength')">Ingrese numero telefono válido</span>
+                                                    <span class="lead error"
+                                                        *ngIf="(formRef.submitted && createAccount.get('telefono')?.hasError('required')) || createAccount.get('telefono')?.hasError('minlength') || createAccount.get('telefono')?.hasError('maxlength')">Ingrese
+                                                        numero telefono válido</span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 mb-3">
-                                                <div class="form-floating" >
+                                                <div class="form-floating">
                                                     <input class="form-control" id="inputDireccionUser" name="direccion"
-                                                        type="text" placeholder="Ingrese su dirección" formControlName="direccion">
+                                                        type="text" placeholder="Ingrese su dirección"
+                                                        formControlName="direccion">
                                                     <label for="inputDireccionUser">Dirección</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mt-4 mb-0">
                                             <div class="d-grid">
-                                                <input type="submit" value="Siguiente" [disabled]="formRef.control.invalid"   class="btn btn-primary btn-block">
+                                                <input type="submit" value="Siguiente"
+                                                    [disabled]="formRef.control.invalid"
+                                                    class="btn btn-primary btn-block">
                                             </div>
                                         </div>
                                     </form>

@@ -10,9 +10,6 @@ export class Validacion implements OnInit{
     }
 
   validarConfPassword(password:string,confpassword:string): boolean{
-    if(password === "" || confpassword === ""){
-      return true 
-    }
     if(password != confpassword){
       return true;
     }
