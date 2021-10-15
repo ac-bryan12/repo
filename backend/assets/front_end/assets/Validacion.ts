@@ -10,9 +10,6 @@ export class Validacion implements OnInit{
     }
 
   validarConfPassword(password:string,confpassword:string): boolean{
-    if(password === "" || confpassword === ""){
-      return true 
-    }
     if(password != confpassword){
       return true;
     }
@@ -74,8 +71,8 @@ export class Validacion implements OnInit{
       return true
     return false
   }
-  validarRuc(ruc:string){
-    if (ruc.length === 13) {
+  validarRuc(ruc:string, len:Number = 13){
+    if (ruc.length === len) {
       const ultimoDigito = ruc.substring(9, 10);
       const digitoRegion = ruc.substring(0, 2)
       if (digitoRegion >= String("01") && digitoRegion <= String("24") || digitoRegion == String(30) && ultimoDigito>=String("1")) {
