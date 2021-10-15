@@ -15,6 +15,8 @@ from .serializers import EmpresaTempSerializer, planSerializer,EmpresaSerializer
 from rest_framework import parsers, serializers, permissions, generics, status, renderers
 from rest_framework.authentication import BaseAuthentication, SessionAuthentication, TokenAuthentication
 
+
+
 class planViewSet(generics.ListAPIView):
     queryset = Plan.objects.all()
     serializer_class = planSerializer
@@ -28,32 +30,32 @@ class empresaViewSet(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     serializer_class = EmpresaSerializer
-    def validarCodigoVerificacion(self,token):
-        try:
-            if Token.objects.filter(key=token).exists() :
-                return True
-            else:
-                print
-                return False
-        except:
-            return False
-    def validarSuperUser(self,token):
-        try:
-            t = Token.objects.get(key=token)
-            if User.objects.get(id= t.user_id).is_superuser:
-                return True
-            else:
-                return False
-        except User.DoesNotExist:
-            raise False
-        except: 
-            return False
+    # def validarCodigoVerificacion(self,token):
+    #     try:
+    #         if Token.objects.filter(key=token).exists() :
+    #             return True
+    #         else:
+    #             print
+    #             return False
+    #     except:
+    #         return False
+    # def validarSuperUser(self,token):
+    #     try:
+    #         t = Token.objects.get(key=token)
+    #         if User.objects.get(id= t.user_id).is_superuser:
+    #             return True
+    #         else:
+    #             return False
+    #     except User.DoesNotExist:
+    #         raise False
+    #     except: 
+    #         return False
 
-    def get_object(self, pk):
-        try:
-            return Empresa.objects.get(pk=pk)
-        except Empresa.DoesNotExist:
-            raise Http404
+    # def get_object(self, pk):
+    #     try:
+    #         return Empresa.objects.get(pk=pk)
+    #     except Empresa.DoesNotExist:
+    #         raise Http404
 
     def get(self, request,format=None):
 
@@ -79,22 +81,15 @@ class empresaViewSet(generics.ListAPIView):
     #     else:
     #         return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)   
 
-    def put(self, request, pk, format=None):
-        if 'Authorization' in request.headers.keys():
-            token:str = request.headers.get('Authorization')
-            token = token.removeprefix('Token ')
-            if self.validarCodigoVerificacion(token) & self.validarSuperUser(token) :
-                empresa = self.get_object(self,pk)
-                serializer = EmpresaSerializer(empresa, data=request.data)
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response(serializer.data)
-                else:
-                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED) 
+    def post(self, request):
+        empresa = request.user.profile.empresa
+        serializer = EmpresaSerializer(empresa, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"msg":"Se han actualizado sus datos"},status=status.HTTP_200_OK)
         else:
-            return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)   
+            print(serializer.errors)
+            return Response({"error":"Ocurrió un error al intentar actualizar sus datos."}, status=status.HTTP_400_BAD_REQUEST)  
 
     def delete(self, request, pk, format=None):
         if 'Authorization' in request.headers.keys():
@@ -111,7 +106,7 @@ class empresaViewSet(generics.ListAPIView):
             return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)
 
 
-# createEmpresa.py - Registrar solicitud
+# /create-cuenta 
 class CreateView(APIView):
     permission_classes = [permissions.AllowAny]
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
@@ -149,8 +144,9 @@ class CreateView(APIView):
 
         if self.validarCodigoVerificacion(token) :
             if serializer.is_valid(raise_exception=True):
-                profile = serializer.save()
+                profile,password = serializer.save()
                 self.eliminarSolicitud(token)
+                RegisterView.send_mail(profile.user.email,{"name":profile.user.first_name,"email":profile.user.email,"password":password},"Creación de Cuenta","create_account.html")
                 return Response({'msg':"Su cuenta se ha creado con éxito"})
         else:
             raise serializers.ValidationError('Ingrese un código de verificación valido')
@@ -196,7 +192,7 @@ class EmpresaTempViewSet(APIView):
                 empr = EmpresaTemp.objects.get(correo=request.data['correo'])
                 print(empr)
                 print(empr.token)
-                RegisterView.send_mail(empr.correo,empr.razonSocial,empr.token)
+                RegisterView.send_mail(empr.correo,{'razonSocial':empr.razonSocial,'token':empr.token},"Creación de cuenta","envioCorreo.html")
                 return Response(status=status.HTTP_201_CREATED)
             except EmpresaTemp.DoesNotExist: 
                 return Response(status=status.HTTP_404_NOT_FOUND) 

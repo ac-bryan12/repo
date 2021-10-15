@@ -46,6 +46,9 @@ urlpatterns = [
     path('empresasTemp/',front_end),
     path('creacion-exitosa/',front_end),
     path('grupos-permisos/',front_end),
+    path('admin/',front_end),
+    path('view-company/',front_end),
+    path('cliente',front_end)
 
 
 

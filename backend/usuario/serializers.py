@@ -1,5 +1,4 @@
-from typing import OrderedDict
-
+from django.contrib.auth.base_user import BaseUserManager
 from rest_framework.exceptions import ValidationError
 import empresa
 from django.contrib.auth import authenticate
@@ -37,7 +36,7 @@ class PermissionSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.CharField(required=False)
-    password = serializers.CharField(min_length=8,write_only=True,allow_blank=True)
+    password = serializers.CharField(min_length=8,write_only=True,allow_blank=True,required=False)
     username = serializers.CharField(max_length=150,required=False)
     first_name = serializers.CharField(min_length=3,max_length=50)
     last_name = serializers.CharField(min_length=3,max_length=50)
@@ -70,11 +69,23 @@ class UserSerializer(serializers.ModelSerializer):
                 raise ValidationError({"error": "El usuario no existe"})
         else:
             user = User()
+            user.set_unusable_password()
         print("crear usuario")
         user.username = validated_data['email']
         user.email = validated_data['email']
-        if validated_data.get("password") != "":
-            user.set_password(validated_data['password'])
+        print("validar: ",validated_data.get("password"),user.has_usable_password())
+        if validated_data.get("password"):
+            if validated_data.get("password") != "":
+                user.set_password(validated_data['password'])
+                print("usable_password:",user.has_usable_password())
+                newPassword = validated_data['password']
+        elif not user.has_usable_password():
+            allow_chars = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789_.=<>;:,$%*?&"
+            newPassword = BaseUserManager.make_random_password(self,length=16,allowed_chars=allow_chars)
+            print(newPassword)
+            user.set_password(newPassword)
+        else:
+            newPassword = None
         user.first_name = validated_data['first_name']
         user.last_name = validated_data['last_name']
         user.save()
@@ -89,14 +100,14 @@ class UserSerializer(serializers.ModelSerializer):
                     print(Group.objects.get(name=group.get('name')).permissions.all())
                     user.user_permissions.set(Group.objects.get(name=group.get('name')).permissions.all())
         user.save()
-        return user
+        return user,newPassword
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     empresa = EmpresaSerializer(required=False)
-    direccion = serializers.CharField(max_length=30,required=False)
+    direccion = serializers.CharField(max_length=150,required=False)
     telefono =  serializers.CharField(max_length=10,min_length=10,required=False)
-    cargoEmpres = serializers.CharField(max_length=30,required=False)
+    cargoEmpres = serializers.CharField(max_length=150,required=False)
     # firmaElectronica = serializers.CharField(max_length=100,required=False) # Ni idea de que va aca
 
     class Meta:
@@ -114,7 +125,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         user_serializer = UserSerializer(data=validated_data.get('user'))
 
         if user_serializer.is_valid():
-            user = user_serializer.save()
+            user,newPassword = user_serializer.save()
             profile:Profile = user.profile
             profile.direccion = validated_data['direccion']
             profile.telefono = validated_data['telefono']
@@ -122,7 +133,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             if empresa:
                 profile.empresa = empresa
             profile.save()
-            return profile
+            return profile,newPassword
         return None
 
     # def addPermissions(self,user:User):

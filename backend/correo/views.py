@@ -29,11 +29,12 @@ class RegisterView(APIView):
         print("Correo enviado ")
         print(mail)
         email.send()
+        
 
     # @csrf_exempt
-    def send_mail_admin(self,empresa):
+    def send_mail_admin(self,empresa,msg):
 
-        context ={'mail':empresa.correo,'nombre':empresa.razonSocial,'telefono':empresa.telefono,}
+        context ={'mail':empresa.correo,'nombre':empresa.razonSocial,'telefono':empresa.telefono,"msg":msg,"razonSocial":empresa.razonSocial}
         template =get_template('envioCorreoAdmin.html')
         content =template.render(context)
         email = EmailMultiAlternatives( 
@@ -52,13 +53,14 @@ class RegisterView(APIView):
     def post(self,request):
         # if request.method == 'POST':
             serializer = self.serializer_class(data=request.data)
+            msg = request.data['descripcion']
             serializer.is_valid(raise_exception=True)
             print("Es valido")
             empresa = serializer.save()
             # mail = request.POST.get('email')
             # razonsocial = request.POST.get('razonsocial')
             # telefono = request.POST.get('telefono')
-            self.send_mail_admin(empresa)
+            self.send_mail_admin(empresa,msg)
             return Response({"msg":"Creación de cuenta exitosa"})
             
         

@@ -5,6 +5,8 @@ from django.utils import tree
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+
+from empresa.models import Empresa
 from .models import Profile
 from .serializers import LoginSerializer, ProfileSerializer, UserSerializer, GroupSerializer, PermissionSerializer
 from rest_framework import serializers,parsers, renderers,status, permissions, generics, status
@@ -305,10 +307,24 @@ class PermisosGruposViewSet(APIView):
                 serializer = ProfileSerializer(data=request.data)
             
             if serializer.is_valid(raise_exception=True):
-                profile = serializer.save()
+                profile:Profile
+                profile,newPassword = serializer.save()
                 profile.empresa = request.user.profile.empresa
                 profile.save()
-                return Response({'msg':'Usuario creado con éxito'},status=status.HTTP_201_CREATED)
+                try:
+                    if newPassword:
+                        RegisterView.send_mail(profile.user.email,{'name':profile.user.first_name,'email':profile.user.email,'password':newPassword},"Creación de cuenta de usuario","create_account.html")
+                except Exception:
+                    if profile.user is not None:
+                        profile.user.delete()
+                    if profile.empresa is not None:
+                        profile.empresa.delete()
+                    profile.delete()
+                    return Response({"error":"Error al crear usuario"},status=status.HTTP_400_BAD_REQUEST)
+                if newPassword:
+                    return Response({'msg':'Usuario creado con éxito'},status=status.HTTP_201_CREATED)
+                else:
+                    return Response({'msg':'Se han actualizado sus datos'},status=status.HTTP_201_CREATED)
         return Response({"error":"Acceso denegado"},status=status.HTTP_403_FORBIDDEN)    
 
     def get(self,request,pk):
@@ -355,17 +371,22 @@ class PasswordResetView(APIView):
             return Response({"error":"Código incorrecto","validated":False},status=status.HTTP_400_BAD_REQUEST)
     
     def post(self,request):
-        
         if not request.user.is_anonymous:
             user:User = request.user
+        
             if request.data.get('password'):
+                if request.data.get('actual_password'):
+                    if not user.check_password(request.data.get('actual_password')):
+                        return Response({"error":"Contraseña actual invalida"},status=status.HTTP_400_BAD_REQUEST)        
                 user.set_password(request.data.get('password'))
                 user.save()
+                RegisterView.send_mail(user.email,{'nombre':user.first_name},"Cambio de contraseña","change_password.html")
                 return Response({"msg":"Se cambió con exito su contraseña"},status=status.HTTP_200_OK)
             else:
                 return Response({"error":"Por favor envie una contraseña valida"},status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"error":"Unauthorized"},status=status.HTTP_403_FORBIDDEN)
+
 
 class isLogged(APIView):
     permission_classes = [permissions.AllowAny]
