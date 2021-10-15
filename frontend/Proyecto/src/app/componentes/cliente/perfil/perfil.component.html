@@ -9,45 +9,84 @@
                 <div id="campos">
                     <div class="col-md-5 mt-5 mb-4 w-50">
                         <div class="form-floating">
-                            <input #razonSocial readonly class="form-control" id="inputRazonSocial" name="razonsocial"
-                                type="text">
-                            <label for="inputRazonSocial">Razón Social</label>
+                            <input class="form-control" id="inputnombre" name="nombre" type="text"
+                                placeholder="Ingrese su nombre" formControlName="first_name">
+                            <label for="inputnombre">Nombres</label>
+                            <span class="lead error"
+                                *ngIf="(formRef.submitted && profile.get('first_name')?.hasError('required')) || profile.get('first_name')?.hasError('pattern') || profile.get('first_name')?.hasError('minlength') || profile.get('first_name')?.hasError('maxlength')">Ingrese
+                                un nombre válido
+                            </span>
                         </div>
                     </div>
 
-                    <div class="col-md-5 mt-4 mb-4 w-50">
-                        <div class="form-floating">                            
-                            <input #rucInput class="form-control" readonly id="inputRUC" name="ruc" type="text">
-                            <label for="inputRUC">RUC</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-5 mt-4 mb-4 w-50">
+                    <div class="col-md-5 mb-4 w-50">
                         <div class="form-floating">
-                            
-                            <input class="form-control" id="inputDireccion" name="direccion" type="text" placeholder="Ingrese su dirección" formControlName='direccion'>
+                            <input class="form-control" id="inputapellido" name="apellido" type="text"
+                                placeholder="Ingrese su apellido" formControlName="last_name">
+                            <label for="inputapellido">Apellidos</label>
+                            <span class="lead error"
+                                *ngIf="(formRef.submitted && profile.get('last_name')?.hasError('required')) || profile.get('last_name')?.hasError('pattern') || profile.get('last_name')?.hasError('minlength') || profile.get('last_name')?.hasError('maxlength')">Ingrese
+                                un nombre válido
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <p>Selecciona un tipo:</p>
+                        <input #inputRUC (input)="prueba(inputRUC)" type="radio" id="RUC" name="tipo" value="RUC"
+                            checked>
+                        <label class="me-4" for="RUC">RUC</label>
+
+                        <input #inputCedula (input)="prueba(inputCedula)" type="radio" id="CEDULA" name="tipo"
+                            value="CEDULA">
+                        <label for="CEDULA">CEDULA</label>
+                    </div>
+
+                    <div class="col-md-5 mb-4 w-50">
+                        <div class="form-floating">
+                            <input class="form-control" maxlength="13" id="inputTipo" type="text" formControlName="tipo">
+                            <label id="tipo" for="inputTipo">{{tipo}}</label>
+                            <span class="lead error"
+                                *ngIf="(formRef.submitted && profile.get('tipo')?.hasError('required'))|| profile.get('tipo')?.hasError('pattern') || validarRucCedula()">Ingrese
+                                {{tipo}} válido</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 mb-4 w-50">
+                        <div class="form-floating">
+                            <input class="form-control" id="inputDireccion" name="direccion" type="text"
+                                placeholder="Ingrese su dirección" formControlName='direccion'>
                             <label for="inputDireccion">Dirección</label>
                         </div>
                     </div>
 
-                    <div class="col-md-5 mt-4 mb-4 w-50">
+                    <div class="col-md-5 mb-4 w-50">
                         <div class="form-floating">
-                            <input class="form-control" id="inputEmail" name="mailorganizacion" type="email" placeholder="name@example.com" formControlName='email'>
+                            <input class="form-control" id="inputEmail" name="mailorganizacion" type="email"
+                                placeholder="name@example.com" formControlName='email'>
                             <label for="inputEmail">Correo Electrónico</label>
-                            <span class="lead error" *ngIf="(formRef.submitted && profile.get('email')?.hasError('required')) || profile.get('email')?.hasError('minlength') ||  profile.get('email')?.hasError('pattern')">Ingrese email válido</span>
+                            <span class="lead error"
+                                *ngIf="(formRef.submitted && profile.get('email')?.hasError('required')) || profile.get('email')?.hasError('minlength') ||  profile.get('email')?.hasError('pattern')">Ingrese
+                                email válido</span>
                         </div>
                     </div>
 
-                    <div class="col-md-5 mt-4 mb-4 w-50">
+                    <div class="col-md-5 mb-4 w-50">
                         <div class="form-floating">
-                            <input #telf class="form-control" id="inputNumphone" name="telefono" type="text" placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf,10)" formControlName='telefono' maxlength="10">
+                            <input #telf class="form-control" id="inputNumphone" name="telefono" type="text"
+                                placeholder="Ingrese su numero de telefono" (input)="validate.validarCampNum(telf,10)"
+                                formControlName='telefono' maxlength="10">
                             <label for="inputNumphone">Teléfono</label>
-                            <span class="lead error" *ngIf="(formRef.submitted && profile.get('telefono')?.hasError('required')) || profile.get('telefono')?.hasError('minlength') || profile.get('telefono')?.hasError('maxlength')">Ingrese numero telefono válido</span>
+                            <span class="lead error"
+                                *ngIf="(formRef.submitted && profile.get('telefono')?.hasError('required')) || profile.get('telefono')?.hasError('minlength') || profile.get('telefono')?.hasError('maxlength')">Ingrese
+                                numero telefono válido</span>
                         </div>
                     </div>
 
                     <div class="col-md-5 mb-5 w-50 text-center">
-                        <input value="Actualizar" [disabled]="formRef.control.invalid" class="btn btn-primary btn-block w-75">
+                        <input value="Actualizar" [disabled]="formRef.control.invalid"
+                            class="btn btn-primary btn-block w-75">
                     </div>
                 </div>
             </div>

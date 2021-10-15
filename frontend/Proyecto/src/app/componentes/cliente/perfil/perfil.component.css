@@ -47,3 +47,12 @@
     color:red;
     font-size: 12px;
 }
+
+p,
+label {
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input {
+    margin: .4rem;
+}
