@@ -64,7 +64,7 @@ ROOT_URLCONF = 'facturacion_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['assets/templates','assets/front_end'],
+        'DIRS': [os.path.join(BASE_DIR,"assets/front_end"),os.path.join(BASE_DIR,'assets/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

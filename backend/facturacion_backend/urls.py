@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.views.generic.base import TemplateView
 from correo.views import RegisterView
 from django.contrib import admin
 from django.urls import path,include,re_path
@@ -34,35 +35,21 @@ urlpatterns = [
     path('auth/reset_password_verification/<str:token>',PasswordResetView.as_view()),
     path('auth/reset_password/',PasswordResetView.as_view()),
     path('auth/isLogged/',isLogged.as_view()),
-    path('',front_end),
-    path('home/',front_end),
-    path('login/',front_end),
-    path('create-cuenta/',front_end),
-    path('registro/',front_end),
-    path('planes/',front_end),
-    path('confirmacion/',front_end),
-    path('env-informacion/',front_end),
-    path('empresas/',front_end),
-    path('empresasTemp/',front_end),
-    path('creacion-exitosa/',front_end),
-    path('grupos-permisos/',front_end),
-    path('admin/',front_end),
-    path('view-company/',front_end),
-    path('cliente',front_end)
+    re_path(r'^.*', TemplateView.as_view(template_name="index.html"), name="home")
+    # path('',front_end),
+    # path('home/',front_end),
+    # path('login/',front_end),
+    # path('create-cuenta/',front_end),
+    # path('registro/',front_end),
+    # path('planes/',front_end),
+    # path('confirmacion/',front_end),
+    # path('env-informacion/',front_end),
+    # path('empresas/',front_end),
+    # path('empresasTemp/',front_end),
+    # path('creacion-exitosa/',front_end),
+    # path('grupos-permisos/',front_end),
+    # path('admin/',front_end),
+    # path('view-company/',front_end),
+    # path('cliente',front_end)
 
-
-
-    # path('',include('app.views.hola'),name="hola"),
-    # path('api/',include('app.views.accounts.login')),
-    # path('api/',include('app.views.accounts.createEmpresa')),
-    # # path('login/',include('app.views.accounts.login')),
-    # path('', include('app.views.correo')),
-    # path('', include('app.serializers.serializers')),
-    # path('portal/',include('app.views.accounts.userAccount')),
-    # path('api/', include('app.views.accounts.profile')),
-    # path('api/',include('app.views.accounts.users')),
-    # path('api/',include('app.views.empresaTemp')),
-    # path('api/',include('app.views.groups')),
-    
-
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
