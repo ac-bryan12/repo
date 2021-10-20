@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { NONE_TYPE } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder,Validators} from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
 import { environment } from 'src/environments/environment';
@@ -25,22 +26,23 @@ export class PopUpComponent implements OnInit {
   listPermisosEmpresa:any[]
   msg:string =""
   constructor(
+    private route: ActivatedRoute,
     private service: RequestService,
     private router:Router,
     private fb: FormBuilder) {
     this.addEmp = this.fb.group({
       user: this.fb.group({
-        first_name: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(3),Validators.maxLength(50)]),
-        last_name: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(3),Validators.maxLength(50)]),
-        password: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_:@.\-]+$'),Validators.minLength(8)]),
-        confpassword: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9_:@.\-]+$')]),
-        email: this.fb.control('', [Validators.required,Validators.pattern('^[a-z0-9._%+\-]+@[a-z0-9.\-]+\\.[a-z]{2,4}'),Validators.minLength(7)]),
+        first_name: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'),Validators.minLength(3)]),
+        last_name: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'),Validators.minLength(3)]),
+        // password: this.fb.control('', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[_.{}=<>;:,\+$@$!%*?&])[A-Za-z\d_.{}=<>;:,\+$@$!%*?&].{7,}')]),
+        // confpassword: this.fb.control('', [Validators.required]),
+        email: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._%+\-]+@[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9.\-]+\\.[a-zA-ZñÑáéíóúÁÉÍÓÚ]{2,4}'),Validators.minLength(7)]),
         groups:this.fb.control(''),
         permissions: this.fb.control('')
       }),
-      telefono: this.fb.control('', [Validators.required,Validators.minLength(10),Validators.maxLength(11)]),
-      direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._ ]+$')]),
-      cargoEmpres: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(4),Validators.maxLength(50)],),
+      telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10)]),
+      direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$'),Validators.minLength(4)]),
+      cargoEmpres: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'),Validators.minLength(4)],),
 
     })
     this.listGrupos = []
@@ -53,9 +55,9 @@ export class PopUpComponent implements OnInit {
   ngOnInit(): void {
     this.enviar()
     }
-  validacionPassword(){
-      return this.validate.validarConfPassword(this.addEmp.get(["user.password"])?.value,this.addEmp.get(["user.confpassword"])?.value)    
-  }
+  // validacionPassword(){
+  //     return this.validate.validarConfPassword(this.addEmp.get(["user","password"])?.value,this.addEmp.get(["user","confpassword"])?.value)    
+  // }
 
   enviarInfo(values:any){
     console.log(values)
@@ -77,6 +79,7 @@ export class PopUpComponent implements OnInit {
         this.service.isCreatedAccount= true
         this.service.isRegistered = false
         alert("Proceso exitoso")
+        this.router.navigate(["../grupos-permisos"],{relativeTo:this.route})
       }
     },(err:HttpErrorResponse)=>{
       if(err.error.hasOwnProperty('usuario')){
@@ -103,7 +106,7 @@ export class PopUpComponent implements OnInit {
       this.usuario = JSON.parse(this.usuario)
       this.addEmp.get(["user","first_name"])?.setValue(this.usuario.user.first_name)
       this.addEmp.get(["user","last_name"])?.setValue(this.usuario.user.last_name)   
-      this.addEmp.get(["user","password"])?.setValue("") 
+      // this.addEmp.get(["user","password"])?.setValue("") 
       this.addEmp.get(["user","email"])?.setValue(this.usuario.user.email)
       this.addEmp.get("telefono")?.setValue(0+this.usuario.telefono) 
       this.addEmp.get("direccion")?.setValue(this.usuario.direccion) 
@@ -130,33 +133,41 @@ export class PopUpComponent implements OnInit {
   }
   permisosGrupos2(){
     this.service.peticionGet(environment.url+"/api/user/grupos/").subscribe((res)=>{
-            for(let grupo of res){
-              if(this.listGruposSeleccionados.indexOf(grupo)==-1){
-                this.listGrupos.push(grupo)
-              }
-            }
-          }, error =>{
-            this.msg = "Ocurrió un error al cargar los datos"
-            this.listGrupos.push(this.msg)
-          })
+      for(let grupo of res){
+        if(this.listGruposSeleccionados.indexOf(grupo)==-1){
+          this.listGrupos.push(grupo)
+        }
+      }
+      if (this.listGruposSeleccionados.length != 0){
+        let btnGroup:any = document.getElementById('btnGroup')
+        btnGroup.disabled = true
+      }
+    }, error =>{
+      this.msg = "Ocurrió un error al cargar los datos"
+      this.listGrupos.push(this.msg)
+    })
     this.service.peticionGet(environment.url+"/api/user/permisos").subscribe((res) =>{
-            for(let permisosEmpresa of res.permissions){
-              if(this.listPermisosSeleccionados.indexOf(permisosEmpresa)==-1){
-                this.listPermisos.push(permisosEmpresa)
-              }  
-            }
-          }, error =>{
-            this.msg = "Ocurrió un erro al cargar los datos"
-            this.listPermisos.push(this.msg)
-          })  
+      for(let permisosEmpresa of res.permissions){
+        if(this.listPermisosSeleccionados.indexOf(permisosEmpresa)==-1){
+          this.listPermisos.push(permisosEmpresa)
+        }  
+      }
+    }, error =>{
+      this.msg = "Ocurrió un erro al cargar los datos"
+      this.listPermisos.push(this.msg)
+    })
+          
   }
 
-    asignarSelect(name:string){
+    asignarSelect(name:string,inputButton:any = null){
       let input = document.getElementById(name) as HTMLSelectElement
       if(name ==="grupos"){     
         if(input.value != "" && input.value !==null && this.listGrupos.indexOf(input.value)!=-1){
-            this.listGruposSeleccionados.push(input.value)
-            this.listGrupos.splice(this.listGrupos.indexOf(input.value),1)
+          if (inputButton){
+            inputButton.disabled = true
+          }
+          this.listGruposSeleccionados.push(input.value)
+          this.listGrupos.splice(this.listGrupos.indexOf(input.value),1)
         }
       }else{
         if(input.value != "" && input.value !==null && this.listPermisos.indexOf(input.value)!=-1){
@@ -165,10 +176,13 @@ export class PopUpComponent implements OnInit {
         }
       }
     }
-    removerSelect(name:string){
+    removerSelect(name:string,inputButton:any = null){
       let input = document.getElementById(name) as HTMLSelectElement
       if(name == "gruposSelect"){
         if(input.value != "" && input.value !==null && this.listGruposSeleccionados.indexOf(input.value)!=-1){
+          if (inputButton){
+            inputButton.disabled = false
+          }
           this.listGrupos.push(input.value)
           this.listGruposSeleccionados.splice(this.listGruposSeleccionados.indexOf(input.value),1)
         }

@@ -15,7 +15,7 @@ export class AdminGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const url: string = state.url;
-    let acceso = [["view_empresa","/empresas"],["view_empresatemp","/empresasTemp"],["view_profile","/vista-empresa"]]
+    let acceso = [["view_empresa","/empresas"],["view_empresatemp","/empresasTemp"],["change_user","/cambiar_contrasenia"]]
     return this.service.check(url,acceso,'admin_facturacion');
   }
   

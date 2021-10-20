@@ -27,7 +27,7 @@ export class EmpresaTempComponent implements OnInit {
             <td>${emp.telefono}</td>
             <td>${emp.correo}</td>
             <td id="botones-acciones">
-            <input id="${emp.correo}" type="submit" value="Enviar Correo" class="btn btn-primary btn-block">
+            <input id="${emp.correo}" type="submit" value="Aceptar" class="btn btn-primary btn-block">
             <input type="submit" value="Eliminar" class="btn btn-danger btn-block">
             </td>
           </tr>
@@ -38,6 +38,7 @@ export class EmpresaTempComponent implements OnInit {
           for(let b=0; b<boton.length;b++){
             boton[b].addEventListener('click',() =>{ 
               let correo = boton[b].getAttribute("id")
+              alert("Se le enviará un correo al usuario.")
               this.request.peticionPost(environment.url+'/api/empresa/empresaTemps/buscar-empresaTemp/',{"correo" : correo}).subscribe()
             })
           }

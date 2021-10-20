@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router, UrlTree } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class RequestService {
     "Authorization":`Token ${localStorage.getItem("token")}`,
   }
   
-  constructor(private http:HttpClient,private router:Router) { 
+  constructor(private http:HttpClient,private router:Router,private cookies:CookieService) { 
     this.redirectUrl = ""
   }
 
@@ -45,12 +46,13 @@ export class RequestService {
   }
 
   checkPermissions(acceso:any,url:string,permissions:string[]):boolean{
-    console.log(url)
     for(let [permiso,ruta]of acceso){
-      if (permissions.includes(permiso)  && url.endsWith(ruta)) {
+      if (permissions.includes(permiso)  && url.includes(ruta)) {
+        this.cookies.set("return_to",url)
         return true
       }
     }
+    this.cookies.set("return_to",'')
     return false
   }
 

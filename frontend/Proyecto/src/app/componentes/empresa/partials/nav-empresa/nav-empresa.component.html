@@ -2,17 +2,30 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="position-sticky">
             <ul class="nav flex-column">
+                
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/view-company">
+                    <a class="nav-link active" aria-current="page" routerLink="perfil">
+                        <span data-feather="profile-user"></span>
+                        Perfil
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" routerLink="cambiar-contrasenia">
+                        <span data-feather="cambiar_contraseña"></span>
+                        Cambiar Contraseña
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" routerLink="vista-empresa">
                         <span data-feather="view-company"></span>
-                        Inicio
+                        Empresa
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" routerLink="profile-user">
-                        <span data-feather="profile-user"></span>
-                        Perfil
+                    <a class="nav-link active" aria-current="page" routerLink="grupos-permisos">
+                        <span data-feather="grupos-permisos"></span>
+                        Usuarios/roles
                     </a>
                 </li>
 
@@ -20,12 +33,6 @@
                     <a class="nav-link active" aria-current="page" routerLink="documentos-company">
                         <span data-feather="documentos-company"></span>
                         Documentos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" routerLink="grupos-permisos">
-                        <span data-feather="grupos-permisos"></span>
-                        Permisos y Grupos
                     </a>
                 </li>
             </ul>

@@ -28,10 +28,14 @@
                                             <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="">
                                             <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
                                         </div>
-                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-4">
                                             <a class="small" href="olvido-password">Forgot Password?</a>
-                                            <input type="button" (click)="iniciarSesion(login.value)" value="Ingresar">
+                                            <input type="button" (click)="iniciarSesion(login.value)" value="Ingresar" [disabled]="formRef.control.invalid">
                                             <input type='hidden' name="csrfmiddlewaretoken">
+                                        </div>
+                                        <div *ngIf="loanding" class="w-100">
+                                            <mat-progress-spinner class="mx-auto" [color]="color" [mode]="mode">
+                                            </mat-progress-spinner>
                                         </div>
                                     </form>
                                 </div>

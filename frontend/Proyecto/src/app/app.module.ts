@@ -25,7 +25,7 @@ import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empr
 import { PopUpComponent } from './componentes/empresa/pop-up/pop-up.component';
 import { CookieService } from 'ngx-cookie-service';
 import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
-import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vista-empresa.component';
+import { VistaEmpresaComponent } from './componentes/empresa/vista-empresa/vista-empresa.component';
 import { GruposPermisosComponent } from './componentes/empresa/grupos-permisos/grupos-permisos.component';
 import { RestablecerPasswordComponent } from './componentes/pagina_comercial/restablecer-password/restablecer-password.component';
 import { NavClientComponent } from './componentes/cliente/nav-client/nav-client.component';
@@ -40,6 +40,10 @@ import { ViewCompanyComponent } from './componentes/empresa/view-company/view-co
 import { ProfileCompanyComponent } from './componentes/empresa/profile-company/profile-company.component';
 import { ProfileUserComponent } from './componentes/empresa/profile-user/profile-user.component';
 import { DocumentosCompanyComponent } from './componentes/empresa/documentos-company/documentos-company.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFound/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -78,13 +82,16 @@ import { DocumentosCompanyComponent } from './componentes/empresa/documentos-com
     ProfileCompanyComponent,
     ProfileUserComponent,
     DocumentosCompanyComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

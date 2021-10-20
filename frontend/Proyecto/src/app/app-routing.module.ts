@@ -25,10 +25,11 @@ import { ChangePasswordComponent } from './componentes/cliente/change-password/c
 import { ViewCompanyComponent} from './componentes/empresa/view-company/view-company.component';
 import { ProfileUserComponent } from './componentes/empresa/profile-user/profile-user.component';
 import { DocumentosCompanyComponent } from './componentes/empresa/documentos-company/documentos-company.component';
-import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vista-empresa.component';
+import { VistaEmpresaComponent } from './componentes/empresa/vista-empresa/vista-empresa.component';
 import { DocumentosComponent } from './componentes/cliente/documentos/documentos.component';
 import { EmpresaGuard } from './services/guards/admin_empresa/empresa.guard';
 import { ClienteGuard } from './services/guards/cliente/cliente.guard';
+import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFound/page-not-found.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -45,29 +46,33 @@ const routes: Routes = [
   {path:'',redirectTo:'home',pathMatch:'full'},
   {path:'creacion-exitosa',component:CreacionExitosaComponent,canActivate: [UtilGuard]},
   {path:'admin',component:VistaAdminComponent,
-    children:[
-      {path:'',redirectTo:'vista-empresa',pathMatch:'full'},
-      {path:'empresas',component:EmpresaComponent,canActivate: [AdminGuard]},
-      {path:'empresasTemp',component:EmpresaTempComponent,canActivate: [AdminGuard]},
-      {path:'vista-empresa',component:VistaEmpresaComponent,canActivate:[AdminGuard]},
+  children:[
+    {path:'',redirectTo:'empresasTemp',pathMatch:'full'},
+    {path:'empresas',component:EmpresaComponent,canActivate: [AdminGuard]},
+    {path:'empresasTemp',component:EmpresaTempComponent,canActivate: [AdminGuard]},
+    {path:'cambiar_contrasenia',component:ChangePasswordComponent,canActivate:[AdminGuard]},
     ]
   },
   {path:'cliente',component:VistaClienteComponent,
-    children:[
-      {path:'',redirectTo:'perfil',pathMatch:'full'},
-      {path:'perfil',component:PerfilComponent,canActivate:[ClienteGuard]},
-      {path:'cambiar_contrasenia',component:ChangePasswordComponent,canActivate:[ClienteGuard]},
-      {path:'documentos',component:DocumentosComponent,canActivate:[ClienteGuard]},
-
-    ]},
+  children:[
+    {path:'',redirectTo:'perfil',pathMatch:'full'},
+    {path:'perfil',component:PerfilComponent,canActivate:[ClienteGuard]},
+    {path:'cambiar_contrasenia',component:ChangePasswordComponent,canActivate:[ClienteGuard]},
+    {path:'documentos',component:DocumentosComponent,canActivate:[ClienteGuard]},
+    
+  ]},
   {path:'view-company',component:ViewCompanyComponent,
   children:[
-    {path:'',redirectTo:'profile-user',pathMatch:'full'},
-      {path:'profile-user',component:ProfileUserComponent,canActivate:[EmpresaGuard]},
-      {path:'documentos-company',component:DocumentosCompanyComponent,canActivate:[EmpresaGuard]},
-      {path:'grupos-permisos',component:GruposPermisosComponent,canActivate:[EmpresaGuard]},
-      {path:'editarUser',component:PopUpComponent,canActivate:[EmpresaGuard]},
-    ]},
+    {path:'',redirectTo:'perfil',pathMatch:'full'},
+    {path:'vista-empresa',component:VistaEmpresaComponent,canActivate:[EmpresaGuard]},
+    // {path:'profile-user',component:ProfileUserComponent,canActivate:[EmpresaGuard]},
+    {path:'documentos-company',component:DocumentosCompanyComponent,canActivate:[EmpresaGuard]},
+    {path:'grupos-permisos',component:GruposPermisosComponent,canActivate:[EmpresaGuard]},
+    {path:'editarUser',component:PopUpComponent,canActivate:[EmpresaGuard]},
+    {path:'perfil',component:PerfilComponent,canActivate:[EmpresaGuard]},
+    {path:'cambiar-contrasenia',component:ChangePasswordComponent,canActivate:[EmpresaGuard]},
+  ]},
+  {path:'**',component:PageNotFoundComponent},
 ];
 
 @NgModule({

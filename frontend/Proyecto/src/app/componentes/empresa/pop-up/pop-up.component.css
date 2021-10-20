@@ -1,4 +1,4 @@
-#title{
+/* #title{
     text-align: center;
     margin-top: 50px;
 }
@@ -55,8 +55,9 @@ select{
     width: 20px;
     height: 10px;
 }
+*/
 .error {
     color: #f82929;
     font-size: 13px;
     margin-top: 2px;
-  }
+  } 

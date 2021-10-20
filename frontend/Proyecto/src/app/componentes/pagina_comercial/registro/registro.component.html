@@ -58,8 +58,12 @@
                                             <span class="lead error" *ngIf="(formRef.submitted && registroForm.get('descripcion')?.hasError('required')) || registroForm.get('descripcion')?.hasError('minlength') || registroForm.get('descripcion')?.hasError('maxlength')">*Llene este campo por favor</span>
                                         </div>
 
-                                        <div class="mt-4 mb-0">
+                                        <div class="mt-4 mb-4">
                                             <div class="d-grid"><input type="submit" value="Enviar" [disabled]="formRef.control.invalid" class="btn btn-primary btn-block"></div>
+                                        </div>
+                                        <div *ngIf="loanding" class="w-100">
+                                            <mat-progress-spinner class="mx-auto" [color]="color" [mode]="mode">
+                                            </mat-progress-spinner>
                                         </div>
                                     </form>
                                 </div>

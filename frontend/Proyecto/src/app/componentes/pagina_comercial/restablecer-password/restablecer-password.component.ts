@@ -25,8 +25,8 @@ export class RestablecerPasswordComponent implements OnInit {
     private fb2: FormBuilder
   ) {
     this.restablecerPassword = this.fb.group({
-        password: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_:@.\-]+$'),Validators.minLength(8)]),
-        confpassword: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-Z0-9_:@.\-]+$')]),
+        password: this.fb.control('', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[_.{}=<>;:,\+$@$!%*?&])[A-Za-z\d_.{}=<>;:,\+$@$!%*?&].{7,}')]),
+        confpassword: this.fb.control('', [Validators.required]),
     });
     this.codeVerificacion = this.fb2.group({
         code : this.fb2.control('', [Validators.required])
@@ -43,14 +43,24 @@ export class RestablecerPasswordComponent implements OnInit {
     this.response_d ="d-block"
     this.response_content ="Verificando su codigo"
     this.service.peticionGet(environment.url+"/auth/reset_password_verification/"+code, true).subscribe((res) =>{
-      console.log(res)
       this.response_content = res.msg
       this.response_button = !res.validated
+      localStorage.setItem('token', code);
     },error => {
       if(error.hasOwnProperty("error")){
         this.response_content = error.error.error
         this.response_button = !error.validated
       }
+    })
+  }
+
+  enviar(value:any){
+    console.log(value)
+    this.service.peticionPost(environment.url+"/auth/reset_password/",{"password":value}).subscribe(res =>{
+      alert(res["msg"])
+      this.router.navigate(["/login"])
+    },err =>{
+      alert(err.error.error)
     })
   }
 }
