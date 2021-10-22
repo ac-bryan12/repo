@@ -28,7 +28,6 @@ export class GruposPermisosComponent implements OnInit {
     })
   }
   envioId(id:any){
-    console.log(id.innerText)
     let usuario = {}
     for(let user of this.listUsuarios){
       if(user.user.id === id.innerText){
@@ -40,6 +39,6 @@ export class GruposPermisosComponent implements OnInit {
     this.router.navigate(["../editarUser"],{relativeTo:this.route,queryParams:{id:id2.innerText,usuario:JSON.stringify(usuario)}})
   }
   crearUser(){
-    this.router.navigate(["../editarUser"],{queryParams:{id:""},relativeTo:this.route})
+    this.router.navigate(["../editarUser"],{relativeTo:this.route})
   }
 }

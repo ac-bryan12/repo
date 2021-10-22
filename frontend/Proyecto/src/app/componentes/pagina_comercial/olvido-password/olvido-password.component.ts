@@ -25,7 +25,7 @@ export class OlvidoPasswordComponent implements OnInit {
       this.router.navigate(["/restablecer-password"])
     }, error=>{
       if(error.hasOwnProperty("error")){
-        this.response_content = "No existe en el sistema"
+        alert("El email no existe en el sistema")
       }
     })
   }

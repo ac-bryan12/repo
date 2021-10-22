@@ -32,7 +32,7 @@ export class CreateCuentaComponent implements OnInit {
   ) {
     this.createAccount = this.fb.group({
       empresa: this.fb.group({
-        ruc: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.maxLength(13),Validators.minLength(13),]),
+        ruc: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(13),]),
         correo: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._%+\-]+@[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9.\-]+\\.[a-zA-ZñÑáéíóúÁÉÍÓÚ]{2,4}'),Validators.minLength(7)]),
         razonSocial: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$'),Validators.minLength(5), Validators.maxLength(150)]),
         telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10)]),
@@ -44,12 +44,14 @@ export class CreateCuentaComponent implements OnInit {
         password: this.fb.control('', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[_.{}=<>;:,\+$@$!%*?&])[A-Za-z\d_.{}=<>;:,\+$@$!%*?&].{7,}')]),
         confpassword: this.fb.control('', [Validators.required,Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[_.{}=<>;:,\+$@$!%*?&])[A-Za-z\d_.{}=<>;:,\+$@$!%*?&].{7,}')]),
         email: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._%+\-]+@[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9.\-]+\\.[a-zA-ZñÑáéíóúÁÉÍÓÚ]{2,4}'),Validators.minLength(7)]),
-        token: this.fb.control('', [Validators.required,Validators.minLength(4)]),
         groups:''
       }),
+      n_identificacion: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10),]),
+      tipo_identificacion: "CEDULA" ,
       telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10)]),
       direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$'),Validators.minLength(4)]),
       cargoEmpres: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'),Validators.minLength(4)],),
+      token: this.fb.control('', [Validators.required,Validators.minLength(4)]),
 
     });
     this.btn = null;
@@ -57,7 +59,6 @@ export class CreateCuentaComponent implements OnInit {
 
   ngOnInit(): void {
     this.btn = document.getElementById("submit_create_cuenta")
-    console.log(this.btn)
   }
 
   enviar(values:any){
@@ -65,7 +66,6 @@ export class CreateCuentaComponent implements OnInit {
     values.user.groups = [
       {name:'admin_empresa'}
     ]
-    console.log(values)
     // localStorage.setItem('token',values.usuario.token)
     this.envio.peticionPost(environment.url+"/auth/create/",values,true).subscribe((res)=>{
       if(res['msg']!= ''){
@@ -78,17 +78,14 @@ export class CreateCuentaComponent implements OnInit {
       this.loanding = false;
       if(err.error.hasOwnProperty('usuario')){
         if(err.error.usuario.hasOwnProperty('non_field_errors')){
-          // this.response_d = 'd-block'
-          alert(err.error.usuario.non_field_errors[0])
+          alert("Contacto: "+err.error.usuario.non_field_errors[0])
         }
       }else if(err.error.hasOwnProperty('empresa')){
-        if(err.error.usuario.hasOwnProperty('non_field_errors')){
-          this.response_d = 'd-block'
-          this.response_content = err.error.empresa.non_field_errors[0]
+        if(err.error.empresa.hasOwnProperty('non_field_errors')){
+          alert("Organización: "+err.error.empresa.non_field_errors[0])
         }
       }else{
-        this.response_d = 'd-block'
-        this.response_content = err.error[0]
+        alert("Contacto: "+err.error.error)
       }
     
     })

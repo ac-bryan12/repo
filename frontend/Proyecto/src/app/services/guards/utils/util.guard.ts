@@ -20,7 +20,6 @@ export class UtilGuard implements CanActivate {
   }
 
   checkState(url:string):true|UrlTree{
-    console.log(url)
     if(this.service.isRegistered && url.endsWith('/env-informacion') ) { 
       return true; 
     }else if(this.service.isCreatedAccount && url.endsWith('/creacion-exitosa')){

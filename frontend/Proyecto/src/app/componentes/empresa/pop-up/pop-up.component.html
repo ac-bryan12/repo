@@ -11,6 +11,29 @@
                         {{response_content}}
                     </div>
 
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p>Selecciona un tipo:</p>
+                            <input #inputRUC (input)="changeValue(inputRUC.value)" type="radio" id="RUC" name="tipo" value="RUC"
+                                checked>
+                            <label class="me-4" for="RUC">RUC</label>
+
+                            <input #inputCedula (input)="changeValue(inputCedula.value)" type="radio" id="CEDULA" name="tipo"
+                                value="CEDULA">
+                            <label for="CEDULA">CEDULA</label>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" maxlength="13" id="inputTipo" type="text" formControlName="n_identificacion">
+                                <label id="n_identificacion" for="inputTipo">{{tipo}}</label>
+                                <span class="lead error"
+                                    *ngIf="(formRef.submitted && addEmp.get('n_identificacion')?.hasError('required'))|| addEmp.get('n_identificacion')?.hasError('pattern') || validarRucCedula()">Ingrese
+                                    {{tipo}} válido</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="inputs-edit" class="mb-5">
                         <div class="mb-3 row grupos-permisos" formGroupName="user">
                             <div class="col-md-6">
@@ -182,10 +205,11 @@
                             </div>
                         </div>
                     </div>
-
+                    <span class="lead error"
+                    *ngIf="validarGrupo()"> Debe de seleccionar un grupo </span>
                     <div id="buttons" class="mt-4 mb-0">
                         <!-- <input type="button" value="Close" class="btn btn-primary btn-block"> -->
-                        <input type="submit" [disabled]="formRef.control.invalid" (click)="enviarInfo(addEmp.value)" value="Guardar"
+                        <input type="submit" [disabled]="formRef.control.invalid || validarRucCedula() || validarGrupo()" (click)="enviarInfo(addEmp.value)" value="Guardar"
                             class="btn btn-primary btn-block">
                     </div>
                 </div>

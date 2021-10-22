@@ -69,7 +69,6 @@ export class LoginComponent implements OnInit {
           this.loanding = false
           // this.msg_d = 'd-block'
           alert(err.error.error);
-          [0]
         });
     }
   }

@@ -55,7 +55,6 @@ export class RestablecerPasswordComponent implements OnInit {
   }
 
   enviar(value:any){
-    console.log(value)
     this.service.peticionPost(environment.url+"/auth/reset_password/",{"password":value}).subscribe(res =>{
       alert(res["msg"])
       this.router.navigate(["/login"])

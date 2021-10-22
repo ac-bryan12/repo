@@ -10,18 +10,18 @@
                 <thead>
                     <tr>
                         <th>ID usuario</th>
-                        <th>Superusuario</th>
-                        <th>Username</th>
+                        <th>Nombre</th>
                         <th>Correo</th>
+                        <th>Grupo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody *ngFor="let user of listUsuarios">
                     <tr>
                         <td #id >{{user.user.id}}</td>
-                        <td>{{user.user.is_superuser}}</td>
-                        <td>{{user.user.username}}</td>
+                        <td>{{user.user.first_name+" "+user.user.last_name}}</td>
                         <td>{{user.user.email}}</td>
+                        <td>{{user.user.groups}}</td>
                         <td>
                             <button (click) = "envioId(id)" class="btn btn-primary btn-block">Editar</button>
                         </td>
@@ -29,7 +29,7 @@
 
                 </tbody>
             </table>
-            <div id="indices">
+            <!-- <div id="indices">
                 <div id="cantidad" class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                 <ul id="paginacion" class="pagination">
                     <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
@@ -40,7 +40,7 @@
                     <li class="page-item"><a href="#" class="page-link">5</a></li>
                     <li class="page-item"><a href="#" class="page-link">Next</a></li>
                 </ul>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
