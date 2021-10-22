@@ -7,6 +7,13 @@ a {
     color: #00B7FF;
   }
 
+  #caja{
+    display: flex;
+    background-color: black;
+    height: 120px;
+    border-bottom-right-radius: 18% 75%;
+}
+
   th{
       text-align: center;
   }

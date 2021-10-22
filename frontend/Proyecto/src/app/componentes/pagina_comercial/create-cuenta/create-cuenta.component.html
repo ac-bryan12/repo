@@ -215,8 +215,8 @@
                                                     [disabled]="formRef.invalid || validacionPassword()" class="btn btn-primary btn-block">
                                             </div>
                                         </div>
-                                        <div *ngIf="loanding" class="w-100">
-                                            <mat-progress-spinner class="mx-auto" [color]="color" [mode]="mode">
+                                        <div *ngIf="loanding" id="loader" class="w-100">
+                                            <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="color" [mode]="mode">
                                             </mat-progress-spinner>
                                         </div>
                                     </form>

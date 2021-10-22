@@ -1,7 +1,7 @@
-<div id="container">
+<div id="container" class="w-100">
     <div id="caja"></div>
-    <div id="title">
-        <h1>Perfil Empresa</h1>
+    <div>
+        <h1  id="title" class="text-center font-weight-bold mt-5 mb-4">Perfil Empresa</h1>
     </div>
     <form #form
     autocomplete="off"
@@ -10,9 +10,9 @@
     [formGroup]="formulario" 
     >
         <div class="row col-md-9 mb-3 mx-auto" id="formulario">
-            <div class="col-md-6 mt-5 mb-5 ">
+            <div class="col-md-6 mt-5 mb-5">
                 <label for="inputRUC">RUC</label>
-                <input #rucInput class="form-control" readonly id="inputRUC" name="ruc" type="text" formControlName="ruc" maxlength="13">
+                <input #rucInput class="form-control " readonly id="inputRUC" name="ruc" type="text" formControlName="ruc" maxlength="13">
                 <span class="lead error" *ngIf="(formRef.submitted && formulario.get('ruc')?.hasError('required')) ">
                     Ingrese un ruc valido</span>
             </div>

@@ -22,7 +22,7 @@ export class EmpresaTempComponent implements OnInit {
       for (let emp of res) {
         let plantilla =
           `  
-          <tr>
+          <tr class="text-center">
             <td>${emp.razonSocial}</td>
             <td>${emp.telefono}</td>
             <td>${emp.correo}</td>

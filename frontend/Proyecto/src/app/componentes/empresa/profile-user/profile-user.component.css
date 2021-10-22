@@ -3,16 +3,9 @@
     flex-direction: row;
 }
 
-#perfil{
-    display: flex;
-    flex-direction: column;
-    width: 1125px;
-}
-
 #caja{
     display: flex;
     background-color: black;
-    height: 120px;
     border-bottom-right-radius: 18% 75%;
 }
 

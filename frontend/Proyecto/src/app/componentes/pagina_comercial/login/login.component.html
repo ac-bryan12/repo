@@ -1,66 +1,71 @@
 <nav_bar></nav_bar>
-
-<section class="bg-primary">
-    <div id="layoutAuthentication bg-primary">
-        <div id="layoutAuthentication_content">
-            <main>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
-                                <div class="card-body">
-                                    <form
-                                    [formGroup]="login"
-                                    #formRef="ngForm">
-                                        <div class="{{msg_d}}" id="user_invalid">
-                                            {{msg_content}}
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input formControlName="email" (input)="validacion('email')" class="form-control" id="inputUser" type="text" placeholder="email" name="username" minlength='4'>
-                                            <label for="inputEmail">Email</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input formControlName="password" (input)="validacion('password')" class="form-control" id="inputPassword" type="password" placeholder="password" name="password" minlength='8'>
-                                            <label for="inputPassword">Password</label>
-                                        </div>
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="">
-                                            <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-4">
-                                            <a class="small" href="olvido-password">Forgot Password?</a>
-                                            <input type="button" (click)="iniciarSesion(login.value)" value="Ingresar" [disabled]="formRef.control.invalid">
-                                            <input type='hidden' name="csrfmiddlewaretoken">
-                                        </div>
-                                        <div *ngIf="loanding" class="w-100">
-                                            <mat-progress-spinner class="mx-auto" [color]="color" [mode]="mode">
-                                            </mat-progress-spinner>
-                                        </div>
-                                    </form>
-                                </div>
+<div id="body">
+    <div id="layoutAuthentication_content" class="vh-100">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center w-100">
+                    <div class="col-9 vh-100 d-flex flex-column justify-content-center">
+                        <div class="card h-60">
+                            <div class="card-header">
+                                <h3 class="text-center font-weight-light my-4">Login</h3>
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="login" #formRef="ngForm">
+                                    <div class="{{msg_d}}" id="user_invalid">
+                                        {{msg_content}}
+                                    </div>
+                                    <div class="form-floating mt-5 mb-3">
+                                        <input formControlName="email" (input)="validacion('email')"
+                                            class="form-control" id="inputUser" type="text" placeholder="email"
+                                            name="username" minlength='4'>
+                                        <label for="inputEmail">Email</label>
+                                    </div>
+                                    <div class="form-floating mt-5 mb-3">
+                                        <input formControlName="password" (input)="validacion('password')"
+                                            class="form-control" id="inputPassword" type="password"
+                                            placeholder="password" name="password" minlength='8'>
+                                        <label for="inputPassword">Password</label>
+                                    </div>
+                                    <div class="form-check mt-5 mb-3">
+                                        <input class="form-check-input" id="inputRememberPassword" type="checkbox"
+                                            value="">
+                                        <label class="form-check-label" for="inputRememberPassword">Remember
+                                            Password</label>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between mt-5 mb-4">
+                                        <a class="small" href="olvido-password">Forgot Password?</a>
+                                        <input type="button" (click)="iniciarSesion(login.value)" value="Ingresar"
+                                            [disabled]="formRef.control.invalid">
+                                        <input type='hidden' name="csrfmiddlewaretoken">
+                                    </div>
+                                    <div *ngIf="loanding" id="loader" class="w-100">
+                                        <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga"
+                                            [color]="color" [mode]="mode">
+                                        </mat-progress-spinner>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
-        <div id="layoutAuthentication_footer">
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright © Your Website 2021</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            ·
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
+            </div>
+        </main>
+    </div>
+    <div id="layoutAuthentication_footer">
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright © Your Website 2021</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        ·
+                        <a href="#">Terms &amp; Conditions</a>
                     </div>
                 </div>
-            </footer>
-        </div>
+            </div>
+        </footer>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
-
-</section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
