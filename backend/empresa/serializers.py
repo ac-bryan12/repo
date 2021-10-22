@@ -16,7 +16,6 @@ class EmpresaSerializer(serializers.ModelSerializer):
         fields = ['ruc', 'razonSocial','direccion','telefono','correo']
 
     def validate(self, attrs):
-        print(attrs)
         msg:any
         if not self.instance:
             if Empresa.objects.filter(ruc=attrs['ruc']).exists() :
@@ -26,25 +25,27 @@ class EmpresaSerializer(serializers.ModelSerializer):
             else :
                 return attrs
         else:
-            return attrs
+            if Empresa.objects.filter(correo=attrs['correo']).exclude(correo = self.instance.correo).exists() :
+                msg = _("El email ingresado ya existe en el sistema")
+            else:
+                return attrs
         raise serializers.ValidationError(msg)
         
 
-    def create(self,validated_data):
-        print(validated_data)
-        empresa:Empresa = Empresa()
-        print("crear empresa")
-        empresa.ruc = validated_data['ruc']
-        empresa.razonSocial = validated_data['razonSocial']
-        empresa.correo = validated_data['correo']
-        empresa.direccion = validated_data['direccion']
-        empresa.telefono = validated_data['telefono']
-        empresa.save()
-        return empresa 
+    # def create(self,validated_data):
+    #     empresa:Empresa = Empresa()
+    #     empresa.ruc = validated_data['ruc']
+    #     empresa.razonSocial = validated_data['razonSocial']
+    #     empresa.correo = validated_data['correo']
+    #     empresa.direccion = validated_data['direccion']
+    #     empresa.telefono = validated_data['telefono']
+    #     empresa.save()
+    #     return empresa 
+
+    def create(self, validated_data):
+        return super().create(validated_data)
 
     def update(self, instance, validated_data):
-        print(validated_data)
-        print("actualizar empresa")
         instance.correo = validated_data['correo']
         instance.direccion = validated_data['direccion']
         instance.telefono = validated_data['telefono']

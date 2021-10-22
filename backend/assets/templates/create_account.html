@@ -7,7 +7,10 @@
                     Señor/a {{name}}, este mensaje se generó debido a su registro en nuestra plataforma.<br>
                     Puede ingresar a través de la url: https://raochoa.pythonanywhere.com/login con las siguientes
                     credenciales: <br><br>
-                    <strong>email:<strong>{{email}}<br>
+                    <strong>email: <strong>{{email}}<br>
+                    {% if password %}
+                    <strong>password: <strong>{{password}}<br>
+                    {% endif  %}
                 </p>       
          </div>
     </body>

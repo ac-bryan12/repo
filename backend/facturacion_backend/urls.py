@@ -31,8 +31,8 @@ urlpatterns = [
     path('auth/register/',RegisterView.as_view()),
     path('auth/create/',CreateView.as_view()),
     path('auth/userPermissions/',UserPermissionView.as_view()),
-    path('auth/reset_password_token/<str:email>',PasswordResetTokenView.as_view()),
-    path('auth/reset_password_verification/<str:token>',PasswordResetView.as_view()),
+    path('auth/reset_password_token/<str:email>/',PasswordResetTokenView.as_view()),
+    path('auth/reset_password_verification/<str:token>/',PasswordResetView.as_view()),
     path('auth/reset_password/',PasswordResetView.as_view()),
     path('auth/isLogged/',isLogged.as_view()),
     re_path(r'^.*', TemplateView.as_view(template_name="index.html"), name="home")

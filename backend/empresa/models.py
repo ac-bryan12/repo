@@ -6,12 +6,11 @@ class DetallePago(models.Model):
     codigoTransaccion = models.PositiveIntegerField(blank=False)
 
 class Empresa(models.Model):
-    
     correo = models.EmailField(max_length=150, blank=True)
-    ruc = models.PositiveBigIntegerField(primary_key=True)
+    ruc = models.CharField(max_length=150,primary_key=True)
     razonSocial =  models.CharField(max_length=150,blank=True)
-    direccion = models.CharField(max_length=30,blank= True)
-    telefono = models.PositiveBigIntegerField(blank=True)
+    direccion = models.CharField(max_length=150,blank= True)
+    telefono = models.CharField(max_length=13,blank=True)
     class Meta:
         verbose_name = "Empresa"
         verbose_name_plural = "Empresas"

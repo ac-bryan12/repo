@@ -128,28 +128,35 @@ class CreateView(APIView):
 
     @csrf_exempt
     def post(self, request):
-        serializer: ProfileSerializer 
-        profile = None
-        token = ""
+        serializer: ProfileSerializer
+        empresa_serializer: EmpresaSerializer
+        user_serializer: UserSerializer
+        data = None
+
         if 'application/json' in request.META['CONTENT_TYPE']:
             j_data = request.body
             stream = io.BytesIO(j_data)
-            q_data = parsers.JSONParser().parse(stream)
-            serializer = ProfileSerializer(data=q_data)
-
-            token = q_data['user']['token']
+            data = parsers.JSONParser().parse(stream)
         else:
-            serializer = ProfileSerializer(data=request.data)
-            token = request.data['user']['token']
+            data = request.data
 
+        token =data['token']
+        serializer = ProfileSerializer(data=data)
+        empresa_serializer = EmpresaSerializer(data=data['empresa'])
+        user_serializer = UserSerializer(data=data['user'])
         if self.validarCodigoVerificacion(token) :
-            if serializer.is_valid(raise_exception=True):
-                profile,password = serializer.save()
+            if serializer.is_valid(raise_exception=True) and empresa_serializer.is_valid(raise_exception=True) and user_serializer.is_valid(raise_exception=True):
+                profile = serializer.save()
+                user, password = user_serializer.save()
+                empresa = empresa_serializer.save()
+                profile.user = user
+                profile.empresa = empresa
+                profile.save()
                 self.eliminarSolicitud(token)
-                RegisterView.send_mail(profile.user.email,{"name":profile.user.first_name,"email":profile.user.email,"password":password},"Creación de Cuenta","create_account.html")
+                RegisterView.send_mail(user.email,{"name":user.first_name,"email":user.email,"password":password},"Creación de Cuenta","create_account.html")
                 return Response({'msg':"Su cuenta se ha creado con éxito"})
         else:
-            raise serializers.ValidationError('Ingrese un código de verificación valido')
+            raise serializers.ValidationError({"error":'Ingrese un código de verificación valido'})
 
 # views.empresaTemp.py
 class listEmpresaTempViewSet(generics.ListAPIView):

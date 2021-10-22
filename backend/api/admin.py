@@ -47,7 +47,7 @@ class ProfileAdmin(admin.ModelAdmin):
                 'modified'
         }
         list_display = (
-                'id','user','direccion','telefono','cargoEmpres','firmaElectronica','empresa',
+                'n_identificacion','tipo_identificacion','user','direccion','telefono','cargoEmpres','empresa',
         )
 
 

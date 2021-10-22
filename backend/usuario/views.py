@@ -5,8 +5,10 @@ from django.utils import tree
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+import empresa
 
 from empresa.models import Empresa
+from empresa.serializers import EmpresaSerializer
 from .models import Profile
 from .serializers import LoginSerializer, ProfileSerializer, UserSerializer, GroupSerializer, PermissionSerializer
 from rest_framework import serializers,parsers, renderers,status, permissions, generics, status
@@ -64,7 +66,7 @@ class LoginView(APIView):
                     return Response({"token":token.key})
                     
         else: 
-            return Response({'error':'El usuario no existe en el sistema'},status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error':'Correo electrónico o contraseña incorrectos.'},status=status.HTTP_400_BAD_REQUEST)
       
 
 class LogoutView(APIView):
@@ -99,8 +101,9 @@ class listProfileViewSet(generics.ListAPIView):
         admin = request.user
         if admin.user_permissions.filter(codename='view_user').exists():
             profile =ProfileSerializer(Profile.objects.filter(empresa_id = admin.profile.empresa.pk).exclude(pk=admin.profile.pk),many =True)
+            profile.data.empresa = ""
             return Response({'profile':profile.data})
-        return Response({"msg":"Acceso denegado"},status=status.HTTP_403_FORBIDDEN)    
+        return Response({"error":"Acceso denegado"},status=status.HTTP_403_FORBIDDEN)    
 
 
 class profileViewSet(generics.ListAPIView):
@@ -278,7 +281,7 @@ class UserViewSet(generics.ListAPIView):
 
 # views.grupos.py
 class GroupViewSet(generics.ListAPIView):
-    queryset = Group.objects.all()
+    queryset = Group.objects.all().exclude(name="admin_facturacion")
     serializer_class = GroupSerializer
 
 class PermisosViewSet(generics.ListAPIView):
@@ -296,35 +299,59 @@ class PermisosGruposViewSet(APIView):
 
     def post(self,request):
         admin= request.user
-        if admin.user_permissions.filter(codename='change_user').exists() and admin.user_permissions.filter(codename='add_user').exists() and admin.user_permissions.filter(codename='view_group').exists() and admin.user_permissions.filter(codename='view_permission').exists():
-            serializer:serializers.Serializer
-            if 'application/json' in request.META['CONTENT_TYPE']:
-                j_data = request.body
-                stream = io.BytesIO(j_data)
-                q_data = parsers.JSONParser().parse(stream)
-                serializer = ProfileSerializer(data=q_data)
-            else:
-                serializer = ProfileSerializer(data=request.data)
+        serializer:serializers.Serializer
+        user_serializer: UserSerializer
+        data = None
+        if 'application/json' in request.META['CONTENT_TYPE']:
+            j_data = request.body
+            stream = io.BytesIO(j_data)
+            data = parsers.JSONParser().parse(stream)
             
-            if serializer.is_valid(raise_exception=True):
+        else:
+            data = request.data
+
+        if (not data.get('user').get('id') ) and admin.user_permissions.filter(codename='add_user').exists() and admin.user_permissions.filter(codename='view_group').exists() and admin.user_permissions.filter(codename='view_permission').exists():
+            print("crear usuario")
+            serializer = ProfileSerializer(data=data)
+            user_serializer = UserSerializer(data=data['user'])
+            if serializer.is_valid(raise_exception=True) and user_serializer.is_valid(raise_exception=True):
                 profile:Profile
-                profile,newPassword = serializer.save()
-                profile.empresa = request.user.profile.empresa
+                profile = serializer.save()
+                user, newPassword = user_serializer.save()
+                profile.empresa = admin.profile.empresa
+                profile.user = user
                 profile.save()
+
                 try:
                     if newPassword:
-                        RegisterView.send_mail(profile.user.email,{'name':profile.user.first_name,'email':profile.user.email,'password':newPassword},"Creación de cuenta de usuario","create_account.html")
+                        RegisterView.send_mail(user.email,{'name':user.first_name,'email':user.email,'password':newPassword},"Creación de cuenta de usuario","create_account.html")
+                        return Response({'msg':'Usuario creado con éxito'},status=status.HTTP_201_CREATED)
+                    else:
+                        RegisterView.send_mail(profile.user.email,{'name':profile.user.first_name,'email':profile.user.email},"Creación de cuenta de usuario","create_account.html")
+                        return Response({'msg':'Se han actualizado sus datos'},status=status.HTTP_201_CREATED)
+
                 except Exception:
                     if profile.user is not None:
                         profile.user.delete()
-                    if profile.empresa is not None:
-                        profile.empresa.delete()
                     profile.delete()
-                    return Response({"error":"Error al crear usuario"},status=status.HTTP_400_BAD_REQUEST)
-                if newPassword:
-                    return Response({'msg':'Usuario creado con éxito'},status=status.HTTP_201_CREATED)
-                else:
-                    return Response({'msg':'Se han actualizado sus datos'},status=status.HTTP_201_CREATED)
+                    return Response({"error":"Error al crear usuario"},status=status.HTTP_400_BAD_REQUEST)                    
+
+        elif admin.user_permissions.filter(codename='change_user').exists() and admin.user_permissions.filter(codename='view_group').exists() and admin.user_permissions.filter(codename='view_permission').exists():
+            
+            if User.objects.filter(pk=data['user']['id']).exists() :
+                user = User.objects.get(pk=data['user']['id'])
+                user_serializer = UserSerializer(user,data=data['user'])
+                data.pop("user")
+                profile_serializer = ProfileSerializer(user.profile,data=data)
+
+                if profile_serializer.is_valid(raise_exception=True) and user_serializer.is_valid(raise_exception=True):
+                    user_serializer.save()
+                    profile_serializer.save()
+                    return Response({'msg':"Éxito al actualizar información del usuario."})
+
+            else:
+                raise Response({"error": "El usuario no existe"},status=status.HTTP_404_NOT_FOUND)
+
         return Response({"error":"Acceso denegado"},status=status.HTTP_403_FORBIDDEN)    
 
     def get(self,request,pk):
@@ -394,3 +421,30 @@ class isLogged(APIView):
         if request.user.is_anonymous:
             return Response({'logged':False})
         return Response({'logged':True})
+
+class ProfileUserViewSet(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = (TokenAuthentication,)
+
+    def get(self,request):
+        profile = request.user.profile
+        serializer = ProfileSerializer(profile)
+        return Response({'profile':serializer.data})
+
+    def post(self,request):
+        data = None
+        if 'application/json' in request.META['CONTENT_TYPE']:
+            j_data = request.body
+            stream = io.BytesIO(j_data)
+            data = parsers.JSONParser().parse(stream)
+        else:
+            data = request.data
+        user = request.user
+        user_serializer = UserSerializer(user,data=data['user'])
+        data.pop('user')
+        profile_serializer = ProfileSerializer(user.profile,data=data)
+        if profile_serializer.is_valid(raise_exception=True):
+            if user_serializer.is_valid():
+                profile_serializer.save()
+                user_serializer.save()
+                return Response({"msg":"Éxito al actualizar sus datos."})
