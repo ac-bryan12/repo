@@ -37,11 +37,11 @@ class PermissionSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.CharField(required=False,allow_blank=True)
-    password = serializers.CharField(min_length=8,write_only=True,allow_blank=True,required=False)
+    password = serializers.CharField(min_length=8,max_length=60,write_only=True,allow_blank=True,required=False)
     username = serializers.CharField(max_length=150,required=False)
-    first_name = serializers.CharField(min_length=3,max_length=50)
-    last_name = serializers.CharField(min_length=3,max_length=50)
-    email = serializers.EmailField(min_length=7)
+    first_name = serializers.CharField(min_length=3,max_length=150)
+    last_name = serializers.CharField(min_length=3,max_length=150)
+    email = serializers.EmailField(min_length=7,max_length=250)
     groups = GroupSerializer(required=False,many=True)
     permissions = PermissionSerializer(required=False,many=True,write_only=True)
 
@@ -131,7 +131,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(required=False)
     empresa = EmpresaSerializer(required=False,write_only=True)
     direccion = serializers.CharField(max_length=150,required=False)
-    telefono =  serializers.CharField(max_length=10,min_length=10,required=False)
+    telefono =  serializers.CharField(max_length=13,required=False)
     cargoEmpres = serializers.CharField(max_length=150,required=False)
     # firmaElectronica = serializers.CharField(max_length=100,required=False) # Ni idea de que va aca
 
@@ -169,8 +169,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         
 
 class LoginSerializer(serializers.ModelSerializer):
-    email = serializers.CharField(max_length=30)
-    password = serializers.CharField(max_length=30,write_only=True)
+    email = serializers.CharField(max_length=150)
+    password = serializers.CharField(max_length=60,write_only=True)
 
     class Meta:
         model = User

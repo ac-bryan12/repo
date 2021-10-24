@@ -21,10 +21,10 @@ class EmpresaTempAdmin(admin.ModelAdmin):
         'modified'
     )
     list_display = (
-            'id','razonSocial', 'direccion', 'telefono', 'correo',
+            'id','razonSocial', 'telefono', 'correo',
             )
     readonly_fields = (
-            'id','razonSocial', 'direccion', 'telefono', 'correo', 
+            'id','razonSocial', 'telefono', 'correo', 
             )
     actions= [envioCorreoTemp]
 

@@ -6,10 +6,10 @@ from django.utils.translation import gettext_lazy as _
 
 class EmpresaSerializer(serializers.ModelSerializer):
     ruc = serializers.CharField(max_length=13)
-    razonSocial =  serializers.CharField(min_length=5,max_length=50)
-    direccion = serializers.CharField(max_length=30)
-    telefono = serializers.CharField(max_length=10,min_length=10)
-    correo =  serializers.EmailField(min_length=7,required=False)
+    razonSocial =  serializers.CharField(max_length=150)
+    direccion = serializers.CharField(max_length=150)
+    telefono = serializers.CharField(max_length=13)
+    correo =  serializers.EmailField(min_length=7,max_length=150)
 
     class Meta:
         model = Empresa
@@ -53,14 +53,17 @@ class EmpresaSerializer(serializers.ModelSerializer):
         return instance
 
 class EmpresaTempSerializer(serializers.ModelSerializer):
-    razonSocial =  serializers.CharField(min_length=5,max_length=50)
-    # direccion = serializers.CharField(max_length=255)
-    telefono = serializers.CharField(max_length=10,min_length=10)
-    correo =  serializers.EmailField(min_length=7,required=False)
+    razonSocial =  serializers.CharField(max_length=150)
+    telefono = serializers.CharField(max_length=13)
+    correo =  serializers.EmailField(min_length=7,max_length=150)
+    # direccion = serializers.CharField(max_length=150)
+    descripcion = serializers.CharField(max_length=250)
+    cargo = serializers.CharField(max_length=150)
+    nombre = serializers.CharField(max_length=150)
 
     class Meta:
         model = Empresa
-        fields = ['razonSocial','telefono','correo']
+        fields = ['razonSocial','telefono','correo','direccion','descripcion','cargo','nombre']
 
     def validate(self, attrs):
         msg:any
@@ -72,13 +75,14 @@ class EmpresaTempSerializer(serializers.ModelSerializer):
         
 
     def create(self,validated_data):
-        print("crear empresa temporal")
-        # empresaAttrs = validated_data.pop('organizacion')
-        empresa:Empresa = EmpresaTemp()
+        empresa:EmpresaTemp = EmpresaTemp()
         empresa.razonSocial = validated_data['razonSocial']
         # empresa.direccion = validated_data['direccion']
         empresa.telefono = validated_data['telefono']
         empresa.correo = validated_data['correo']
+        empresa.nombre = validated_data['nombre']
+        empresa.descripcion = validated_data['descripcion']
+        empresa.cargo = validated_data['cargo']
         empresa.save()
         return empresa 
 

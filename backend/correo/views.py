@@ -51,17 +51,12 @@ class RegisterView(APIView):
 
     # @csrf_exempt
     def post(self,request):
-        # if request.method == 'POST':
-            serializer = self.serializer_class(data=request.data)
-            msg = request.data['descripcion']
-            serializer.is_valid(raise_exception=True)
-            print("Es valido")
-            empresa = serializer.save()
-            # mail = request.POST.get('email')
-            # razonsocial = request.POST.get('razonsocial')
-            # telefono = request.POST.get('telefono')
-            self.send_mail_admin(empresa,msg)
-            return Response({"msg":"Creación de cuenta exitosa"})
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        msg = request.data['descripcion']
+        empresa = serializer.save()
+        self.send_mail_admin(empresa,msg)
+        return Response({"msg":"Creación de cuenta exitosa"})
             
         
     

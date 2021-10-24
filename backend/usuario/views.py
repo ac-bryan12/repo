@@ -386,7 +386,7 @@ class PasswordResetTokenView(APIView):
             RegisterView.send_mail(email,context,"Restablecimiento de Contraseña","password_reset.html")
             return Response({"msg":"Se le enviará un token a su correo electrónico."},status=status.HTTP_200_OK)
         else:
-            return Response({"error":"No existe en el sistema"},status=status.HTTP_404_NOT_FOUND)
+            return Response({"error":"Su usuario no existe en el sistema"},status=status.HTTP_404_NOT_FOUND)
 
 class PasswordResetView(APIView):
     permission_classes = [permissions.AllowAny]

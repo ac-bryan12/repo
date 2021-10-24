@@ -38,11 +38,14 @@ class EmpresaPlan(models.Model):
 
 
 class EmpresaTemp(models.Model):
-    razonSocial =  models.TextField(max_length=150,blank=False)
-    direccion = models.CharField(max_length=30,blank= False)
-    telefono = models.PositiveBigIntegerField(blank=False)
-    correo = models.EmailField(max_length=150, blank=False)
-    token = models.UUIDField(max_length=36,default=uuid.uuid4)
+    razonSocial =  models.TextField(max_length=150,blank= True)
+    # direccion = models.CharField(max_length=150,blank= True)
+    telefono = models.CharField(max_length=13,blank=True)
+    correo = models.EmailField(max_length=150, blank=True)
+    token = models.UUIDField(max_length=150,default=uuid.uuid4)
+    cargo = models.CharField(max_length=150,blank=True)
+    nombre = models.CharField(max_length=150,blank=True)
+    descripcion = models.CharField(max_length=250,blank=True)
     
 class TipoPago(models.Model):
     nombre = models.TextField(max_length=50,blank=False)
