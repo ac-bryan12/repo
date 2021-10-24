@@ -26,3 +26,10 @@
     color:red;
     font-size: 12px;
 }
+.cargaArchivo{
+    color:rgb(9, 181, 141);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.cargaArchivo label:first-child{
+    color: black;
+}

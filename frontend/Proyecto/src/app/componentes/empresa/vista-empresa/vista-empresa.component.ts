@@ -3,6 +3,7 @@ import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
 import { environment } from 'src/environments/environment';
 import { FormGroup, FormBuilder,Validators} from '@angular/forms';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'vista-empresa',
@@ -12,6 +13,7 @@ import { FormGroup, FormBuilder,Validators} from '@angular/forms';
 export class VistaEmpresaComponent implements OnInit {
   public validate: Validacion = new Validacion();
   public formulario: FormGroup;
+  previsualizacion:any;
 
   constructor(private envio: RequestService,private fb: FormBuilder,private service: RequestService ) {
     this.formulario = this.fb.group({
@@ -43,6 +45,35 @@ export class VistaEmpresaComponent implements OnInit {
       this.formulario.get('direccion')?.setValue(res.direccion)      
     })
     
+  }
+  capturarFile(firma:HTMLInputElement){
+    var  file = firma.files?.item(0)
+    if(file!=null){
+      this.previsualizacion = file.name
+    }
+    else{
+      this.previsualizacion =""
+    }
+  }
+  envioFirma(firma:HTMLInputElement, form:any){
+    let forms  = new FormData()
+    var file:any = firma.files?.item(0)
+    console.log(file)
+    forms.append("file",file)
+    forms.append("content_type",file.type)
+    this.envio.peticionPost(environment.url+'/api/empresa/firma/',forms).subscribe((res)=>{
+      console.log(res)
+    })
+    
+  }
+  descargarFirma(){
+    this.envio.peticionGet(environment.url+'/api/empresa/firma/23/').subscribe((res)=>{
+      const downloadLink = document.createElement("a");
+      const fileName = "sample.pdf";
+      const Filepath = 'data:application/pdf;base64,'+res._file
+
+      saveAs(Filepath,fileName)
+    })
   }
 
   enviarInfo(values:any){

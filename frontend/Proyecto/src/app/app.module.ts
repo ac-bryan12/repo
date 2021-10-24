@@ -44,6 +44,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFound/page-not-found.component';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import {MatIconModule} from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+
+
+
 
 @NgModule({
   declarations: [
@@ -91,7 +97,10 @@ import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFou
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

@@ -20,6 +20,8 @@ export class CreateCuentaComponent implements OnInit {
   mode: ProgressSpinnerMode = 'indeterminate';
   loanding = false
   //Other variables
+  hide = true
+  hideConf = true
   public createAccount: FormGroup;
   response_d = ''
   response_content = ''
@@ -48,7 +50,7 @@ export class CreateCuentaComponent implements OnInit {
       }),
       n_identificacion: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10),]),
       tipo_identificacion: "CEDULA" ,
-      telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10)]),
+      telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(9)]),
       direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$'),Validators.minLength(4)]),
       cargoEmpres: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'),Validators.minLength(4)],),
       token: this.fb.control('', [Validators.required,Validators.minLength(4)]),

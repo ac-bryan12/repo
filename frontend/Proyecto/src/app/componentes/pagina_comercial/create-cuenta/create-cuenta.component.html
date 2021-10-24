@@ -142,13 +142,30 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-12 mb-3">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputEmailUser" name="mailcontacto"
+                                                        type="email" placeholder="name@example.com"
+                                                        formControlName="email">
+                                                    <label for="inputEmailUser">Correo Electrónico Contacto</label>
+                                                    <span class="lead error"
+                                                        *ngIf="(formRef.submitted && createAccount.get('user.email')?.hasError('required')) || createAccount.get('user.email')?.hasError('minlength') ||  createAccount.get('user.email')?.hasError('pattern')">Ingrese
+                                                        email válido</span>
+                                                </div>
+                                            </div>
 
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating">
-                                                    <input class="form-control" id="inputPassword" name="password"
-                                                        type="password" placeholder="Ingrese su contraseña"
-                                                        formControlName="password" maxlength="24">
-                                                    <label for="inputPassword">Contraseña</label>
+                                                    <div class = "d-flex align-items-center">
+                                                        <div class="form-floating w-100">
+                                                            <input matInput [type]="hide ? 'password' : 'text'" class="form-control" id="inputPassword" name="password"
+                                                            formControlName="password" placeholder="Ingrese una contraseña" maxlength="24">
+                                                            <label for = "inputPassword">Contraseña</label>
+                                                        </div>
+                                                        <a class ="icon-password" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                                        </a>
+                                                    </div>
                                                     <span class="lead error"
                                                         *ngIf="(formRef.submitted && createAccount.get('user.password')?.hasError('required')) || createAccount.get('user.password')?.hasError('pattern')">
                                                         Ingrese contraseña que contenga:<br>
@@ -160,25 +177,20 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6 mb-3">
-                                                <div class="form-floating mb-3 mb-md-0">
-                                                    <input class="form-control" id="inputEmailUser" name="mailcontacto"
-                                                        type="email" placeholder="name@example.com"
-                                                        formControlName="email" maxlength="150">
-                                                    <label for="inputEmailUser">Correo Electrónico Contacto</label>
-                                                    <span class="lead error"
-                                                        *ngIf="(formRef.submitted && createAccount.get('user.email')?.hasError('required')) || createAccount.get('user.email')?.hasError('minlength') ||  createAccount.get('user.email')?.hasError('pattern')">Ingrese
-                                                        email válido</span>
-                                                </div>
-                                            </div>
+                                            
 
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating">
-                                                    <input class="form-control" id="validatePassword"
-                                                        name="passwordvalidate" type="password"
-                                                        placeholder="Ingrese su contraseña nuevamente"
-                                                        formControlName="confpassword" maxlength="24">
-                                                    <label for="inputvalidatePassword">Valide su contraseña</label>
+                                                    <div class = "d-flex align-items-center">
+                                                        <div class="form-floating w-100">
+                                                            <input matInput [type]="hideConf ? 'password' : 'text'" class="form-control" id="validatePassword" name="passwordvalidate"
+                                                            formControlName="confpassword" placeholder="Ingrese su contraseña nuevamente" maxlength="24">
+                                                            <label for="inputvalidatePassword">Valide su contraseña</label>
+                                                        </div>
+                                                        <a class ="icon-password" mat-icon-button matSuffix (click)="hideConf = !hideConf" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                                            <mat-icon>{{hideConf ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                                        </a>
+                                                    </div>
                                                     <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.confpassword')?.hasError('required')) || createAccount.get('user.confpassword')?.hasError('pattern') || validacionPassword()">
                                                         La contraseña no coincide
                                                     </span>

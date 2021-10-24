@@ -120,8 +120,12 @@ export class Validacion implements OnInit{
   }
 
   validarCampNum(tlf:any,numMaximo: number) {
-    if( tlf.value.length > numMaximo ){
+    if(tlf.value.substring(0,2)==="09"){
+      console.log(tlf.value.substring(0,2)==="09")
       tlf.value = tlf.value.substring(0,numMaximo)
+    }
+    else{
+      tlf.value = tlf.value.substring(0,--numMaximo)
     }
     for(let i=0; i<tlf.value.length;i++){
       if(!tlf.value[i].match(/[0-9]/i)){       

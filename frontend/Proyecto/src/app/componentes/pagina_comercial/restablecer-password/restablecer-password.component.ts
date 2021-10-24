@@ -23,6 +23,8 @@ export class RestablecerPasswordComponent implements OnInit {
   response_d = ''
   response_button:boolean
   response_content = ''
+  hide:boolean = true
+  hideConf:boolean = true 
   public validate:Validacion = new Validacion();
   
   constructor(

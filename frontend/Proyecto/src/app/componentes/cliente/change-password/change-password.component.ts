@@ -14,6 +14,9 @@ export class ChangePasswordComponent implements OnInit {
   public changePassword: FormGroup;
   public validate: Validacion = new Validacion();
   btn: any;
+  hide:boolean=true
+  hideAct:boolean =true
+  hideConf:boolean=true
   constructor(
     private fb: FormBuilder,private service: RequestService
   ) {

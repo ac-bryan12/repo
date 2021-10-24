@@ -27,3 +27,7 @@ div[class="row justify-content-center"]{
     background: no-repeat rgb(249,249,249);
     opacity: .8;
 }
+.icon-password{
+    z-index: 10;
+    margin-left: -30px;
+}
