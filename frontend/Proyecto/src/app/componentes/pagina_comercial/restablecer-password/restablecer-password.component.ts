@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
@@ -11,6 +13,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./restablecer-password.component.css']
 })
 export class RestablecerPasswordComponent implements OnInit {
+  // Progress Bar
+  color: ThemePalette = 'primary';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  loanding = false
+  //Other variables
   public restablecerPassword: FormGroup;
   public codeVerificacion: FormGroup;
   response_d = ''
@@ -55,10 +62,13 @@ export class RestablecerPasswordComponent implements OnInit {
   }
 
   enviar(value:any){
+    this.loanding = true;
     this.service.peticionPost(environment.url+"/auth/reset_password/",{"password":value}).subscribe(res =>{
+      this.loanding = false;
       alert(res["msg"])
       this.router.navigate(["/login"])
     },err =>{
+      this.loanding = false;
       alert(err.error.error)
     })
   }
