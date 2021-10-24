@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
   loanding = false
-
+  hide:boolean =true
   msg_content = ''
   msg_d = 'd-none'
 
@@ -74,6 +74,7 @@ export class LoginComponent implements OnInit {
   }
   grupos_permisos() {
     this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
+      console.log(res)
       this.cambiarVistas(res['groups'])
     })
 

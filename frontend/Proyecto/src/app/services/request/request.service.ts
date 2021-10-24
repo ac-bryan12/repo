@@ -17,6 +17,9 @@ export class RequestService {
   private headers = { 
     "Authorization":`Token ${localStorage.getItem("token")}`,
   }
+  private headerFiles = {
+    "Authorization":`Token ${localStorage.getItem("token")}`,
+  }
   
   constructor(private http:HttpClient,private router:Router,private cookies:CookieService) { 
     this.redirectUrl = ""
@@ -28,6 +31,14 @@ export class RequestService {
       return this.http.post(url,user,{headers:this.headers,withCredentials:true})
     }else{
       return this.http.post(url,user)
+    }
+  }
+  peticionPostFiles(url:string,firma:any,isLogin:boolean=false):Observable<any>{
+    if(!isLogin){
+      this.setToken()
+      return this.http.post(url,firma,{headers:this.headers,withCredentials:true})
+    }else{
+      return this.http.post(url,firma)
     }
   }
 
