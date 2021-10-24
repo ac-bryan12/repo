@@ -22,7 +22,7 @@ export class HeaderClientComponent implements OnInit {
       localStorage.setItem('Autenticated',"")
     })
     localStorage.setItem('token','')
-    this.cookie.set("return_to","/",{"path":"/"})
+    this.cookie.set("return_to","/login",{"path":"/"})
     this.router.navigate(['/login'])
   }
 }

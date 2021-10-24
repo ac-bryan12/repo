@@ -52,5 +52,9 @@
             <input type="submit" [disabled]="formRef.control.invalid" (click)="enviarInfo(formulario.value)" value="Guardar"
                             class="btn btn-primary btn-block">
         </div>
+        <div *ngIf="loanding" id="loader" class="w-100">
+            <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="color" [mode]="mode">
+            </mat-progress-spinner>
+        </div>
     </form>
 </div>

@@ -3,6 +3,8 @@ import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
 import { environment } from 'src/environments/environment';
 import { FormGroup, FormBuilder,Validators} from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'vista-empresa',
@@ -10,6 +12,11 @@ import { FormGroup, FormBuilder,Validators} from '@angular/forms';
   styleUrls: ['./vista-empresa.component.css']
 })
 export class VistaEmpresaComponent implements OnInit {
+  // Progress Bar
+  color: ThemePalette = 'primary';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  loanding = false
+  //Other variables
   public validate: Validacion = new Validacion();
   public formulario: FormGroup;
 
@@ -46,10 +53,13 @@ export class VistaEmpresaComponent implements OnInit {
   }
 
   enviarInfo(values:any){
+    this.loanding = true;
     this.service.peticionPost(environment.url+"/api/empresa/buscar-empresa/",values).subscribe(res =>{
+      this.loanding = false;
       alert(res["msg"])
     },err =>{
-      console.log(err.error)
+      this.loanding = false;
+      alert(err.error.error)
     })
   }
 

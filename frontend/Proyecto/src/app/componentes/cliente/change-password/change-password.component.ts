@@ -1,6 +1,8 @@
 import { NONE_TYPE } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
 import { environment } from 'src/environments/environment';
@@ -11,6 +13,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {
+  // Progress Bar
+  color: ThemePalette = 'primary';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  loanding = false
+  //Other variables 
   public changePassword: FormGroup;
   public validate: Validacion = new Validacion();
   btn: any;
@@ -33,9 +40,12 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   actualizar(form:any){
+    this.loanding = true;
     this.service.peticionPost(environment.url+"/auth/reset_password/",form).subscribe(res=>{
+      this.loanding = false;
       alert(res["msg"])
     },err=>{
+      this.loanding = false;
       alert(err.error.error)
     })
   }
