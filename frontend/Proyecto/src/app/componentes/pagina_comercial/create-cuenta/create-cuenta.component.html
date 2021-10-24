@@ -38,7 +38,7 @@
                                                 <div class="form-floating mb-3 mb-md-0">
                                                     <input class="form-control" id="inputEmail" name="mailorganizacion"
                                                         type="email" placeholder="name@example.com"
-                                                        formControlName="correo">
+                                                        formControlName="correo" maxlength="130">
                                                     <label for="inputEmail">Correo Electrónico Organización</label>
                                                     <span class="lead error"
                                                         *ngIf="(formRef.submitted && createAccount.get('empresa.correo')?.hasError('required') ) || createAccount.get('empresa.correo')?.hasError('minlength') ||  createAccount.get('empresa.correo')?.hasError('pattern')">Ingrese
@@ -51,10 +51,10 @@
                                                 <div class="form-floating mb-3 mb-md-0">
                                                     <input class="form-control" id="inputRazonSocial" name="razonsocial"
                                                         type="text" placeholder="Ingrese la Razon social de su empresa"
-                                                        formControlName="razonSocial">
+                                                        formControlName="razonSocial" maxlength="130">
                                                     <label for="inputRazonSocial">Razón Social</label>
                                                     <span class="lead error"
-                                                        *ngIf="(formRef.submitted && createAccount.get('empresa.razonSocial')?.hasError('required')) || createAccount.get('empresa.razonSocial')?.hasError('minlength') || createAccount.get('empresa.razonSocial')?.hasError('maxlength') ||   createAccount.get('empresa.razonSocial')?.hasError('pattern')">Ingrese
+                                                        *ngIf="(formRef.submitted && createAccount.get('empresa.razonSocial')?.hasError('required')) || createAccount.get('empresa.razonSocial')?.hasError('minlength') ||   createAccount.get('empresa.razonSocial')?.hasError('pattern')">Ingrese
                                                         nombre de la razon social correctamente</span>
                                                 </div>
                                             </div>
@@ -67,7 +67,7 @@
                                                         formControlName='telefono' maxlength="10">
                                                     <label for="inputNumphone">Teléfono</label>
                                                     <span class="lead error"
-                                                        *ngIf="(formRef.submitted && createAccount.get('empresa.telefono')?.hasError('required')) || createAccount.get('empresa.telefono')?.hasError('minlength') || createAccount.get('empresa.telefono')?.hasError('maxlength')">Ingrese
+                                                        *ngIf="(formRef.submitted && createAccount.get('empresa.telefono')?.hasError('required')) || createAccount.get('empresa.telefono')?.hasError('minlength') ">Ingrese
                                                         numero telefono válido</span>
                                                 </div>
                                             </div>
@@ -76,7 +76,7 @@
                                                 <div class="form-floating">
                                                     <input class="form-control" id="inputDireccion" name="direccion"
                                                         type="text" placeholder="Ingrese su dirección"
-                                                        formControlName='direccion' maxlength="30">
+                                                        formControlName='direccion' maxlength="130">
                                                     <label for="inputDireccion">Dirección</label>
                                                     <span class="lead error"
                                                         *ngIf="(formRef.submitted && createAccount.get('empresa.direccion')?.hasError('required')) || createAccount.get('empresa.direccion')?.hasError('minlength') || createAccount.get('empresa.direccion')?.hasError('pattern')">Ingrese
@@ -119,10 +119,10 @@
                                                 <div class="form-floating mb-3 mb-md-0">
                                                     <input class="form-control" id="inputNames" name="nombre"
                                                         type="text" placeholder="Enter your names"
-                                                        formControlName="first_name">
+                                                        formControlName="first_name" maxlength="130">
                                                     <label for="inputNames">Nombre</label>
                                                     <span class="lead error"
-                                                        *ngIf="(formRef.submitted && createAccount.get('user.first_name')?.hasError('required')) || createAccount.get('user.first_name')?.hasError('pattern') || createAccount.get('user.first_name')?.hasError('minlength') || createAccount.get('user.first_name')?.hasError('maxlength')">Ingrese
+                                                        *ngIf="(formRef.submitted && createAccount.get('user.first_name')?.hasError('required')) || createAccount.get('user.first_name')?.hasError('pattern') || createAccount.get('user.first_name')?.hasError('minlength')">Ingrese
                                                         un nombre válido
                                                     </span>
                                                 </div>
@@ -134,10 +134,10 @@
                                                 <div class="form-floating mb-3 mb-md-0">
                                                     <input class="form-control" id="inputApellidos" name="apellido"
                                                         type="text" placeholder="Enter your names"
-                                                        formControlName="last_name">
+                                                        formControlName="last_name" maxlength="130">
                                                     <label for="inputApellidos">Apellido</label>
                                                     <span class="lead error"
-                                                        *ngIf="(formRef.submitted && createAccount.get('user.last_name')?.hasError('required')) || createAccount.get('user.last_name')?.hasError('pattern') || createAccount.get('user.last_name')?.hasError('minlength') || createAccount.get('user.last_name')?.hasError('maxlength')">Ingrese
+                                                        *ngIf="(formRef.submitted && createAccount.get('user.last_name')?.hasError('required')) || createAccount.get('user.last_name')?.hasError('pattern') || createAccount.get('user.last_name')?.hasError('minlength')">Ingrese
                                                         apellido válido</span>
                                                 </div>
                                             </div>
@@ -147,7 +147,7 @@
                                                 <div class="form-floating">
                                                     <input class="form-control" id="inputPassword" name="password"
                                                         type="password" placeholder="Ingrese su contraseña"
-                                                        formControlName="password">
+                                                        formControlName="password" maxlength="24">
                                                     <label for="inputPassword">Contraseña</label>
                                                     <span class="lead error"
                                                         *ngIf="(formRef.submitted && createAccount.get('user.password')?.hasError('required')) || createAccount.get('user.password')?.hasError('pattern')">
@@ -164,7 +164,7 @@
                                                 <div class="form-floating mb-3 mb-md-0">
                                                     <input class="form-control" id="inputEmailUser" name="mailcontacto"
                                                         type="email" placeholder="name@example.com"
-                                                        formControlName="email">
+                                                        formControlName="email" maxlength="150">
                                                     <label for="inputEmailUser">Correo Electrónico Contacto</label>
                                                     <span class="lead error"
                                                         *ngIf="(formRef.submitted && createAccount.get('user.email')?.hasError('required')) || createAccount.get('user.email')?.hasError('minlength') ||  createAccount.get('user.email')?.hasError('pattern')">Ingrese
@@ -177,7 +177,7 @@
                                                     <input class="form-control" id="validatePassword"
                                                         name="passwordvalidate" type="password"
                                                         placeholder="Ingrese su contraseña nuevamente"
-                                                        formControlName="confpassword">
+                                                        formControlName="confpassword" maxlength="24">
                                                     <label for="inputvalidatePassword">Valide su contraseña</label>
                                                     <span class="lead error" *ngIf="(formRef.submitted && createAccount.get('user.confpassword')?.hasError('required')) || createAccount.get('user.confpassword')?.hasError('pattern') || validacionPassword()">
                                                         La contraseña no coincide
@@ -192,7 +192,7 @@
                                                 <div class="form-floating">
                                                     <input class="form-control" id="inputCargo" name="cargo" type="text"
                                                         placeholder="Enter your cargo" formControlName="cargoEmpres"
-                                                        maxlength="50">
+                                                        maxlength="130">
                                                     <label for="inputCargo">Cargo Contacto</label>
                                                     <span class="lead error"
                                                         *ngIf="(formRef.submitted && createAccount.get('cargoEmpres')?.hasError('required')) || createAccount.get('cargoEmpres')?.hasError('pattern') || createAccount.get('cargoEmpres')?.hasError('minlength')">Ingrese
@@ -209,7 +209,7 @@
                                                         formControlName='telefono' maxlength="10">
                                                     <label for="inputNumphoneUser">Teléfono</label>
                                                     <span class="lead error"
-                                                        *ngIf="(formRef.submitted && createAccount.get('telefono')?.hasError('required')) || createAccount.get('telefono')?.hasError('minlength') || createAccount.get('telefono')?.hasError('maxlength')">Ingrese
+                                                        *ngIf="(formRef.submitted && createAccount.get('telefono')?.hasError('required')) || createAccount.get('telefono')?.hasError('minlength')">Ingrese
                                                         numero telefono válido</span>
                                                 </div>
                                             </div>
@@ -218,7 +218,7 @@
                                                 <div class="form-floating">
                                                     <input class="form-control" id="inputDireccionUser" name="direccion"
                                                         type="text" placeholder="Ingrese su dirección"
-                                                        formControlName="direccion" maxlength="50">
+                                                        formControlName="direccion" maxlength="130">
                                                     <label for="inputDireccionUser">Dirección</label>
                                                     <span class="lead error"
                                                         *ngIf="(formRef.submitted && createAccount.get('direccion')?.hasError('required')) || createAccount.get('direccion')?.hasError('minlength') || createAccount.get('direccion')?.hasError('pattern')">Ingrese

@@ -39,7 +39,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating mb-6 mb-md-0">
                                     <input class="form-control campos" id="nombre" name="nombres" type="text"
-                                        placeholder="Nombres de la persona" maxlength="50" formControlName="first_name">
+                                        placeholder="Nombres de la persona" maxlength="130" formControlName="first_name">
                                     <label for="nombre">Nombres</label>
                                     <span class="lead error"
                                         *ngIf="(formRef.submitted && addEmp.get('user.first_name')?.hasError('required')) || addEmp.get('user.first_name')?.hasError('minlength') || addEmp.get('user.first_name')?.hasError('pattern')">Ingrese
@@ -49,10 +49,10 @@
                             <div class="col-md-6">
                                 <div class="form-floating mb-12 mb-md-0">
                                     <input class="form-control campos" id="apellido" name="apellidos" type="text"
-                                        placeholder="Nombres de la persona" maxlength="50" formControlName="last_name">
+                                        placeholder="Nombres de la persona" maxlength="130" formControlName="last_name">
                                     <label for="nombre">Apellidos</label>
                                     <span class="lead error"
-                                        *ngIf="(formRef.submitted && addEmp.get('user.last_name')?.hasError('required')) || addEmp.get('user.last_name')?.hasError('minlength') || addEmp.get('user.last_name')?.hasError('pattern') || addEmp.get('user.last_name')?.hasError('maxlength')">Ingrese
+                                        *ngIf="(formRef.submitted && addEmp.get('user.last_name')?.hasError('required')) || addEmp.get('user.last_name')?.hasError('minlength') || addEmp.get('user.last_name')?.hasError('pattern')">Ingrese
                                         un nombre válido</span>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                             <div class="col-12" formGroupName="user">
                                 <div class="form-floating mb-12 mb-md-0">
                                     <input class="form-control campos" id="correo" name="correo" type="text"
-                                        placeholder="Nombres de la persona" maxlength="200" formControlName="email">
+                                        placeholder="Nombres de la persona" maxlength="150" formControlName="email">
                                     <label for="correo">Correo</label>
                                     <span class="lead error"
                                         *ngIf="(formRef.submitted && addEmp.get('user.email')?.hasError('required')) || addEmp.get('user.email')?.hasError('minlength') || addEmp.get('user.email')?.hasError('pattern')">Ingrese
@@ -109,7 +109,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating mb-12 mb-md-0">
                                     <input class="form-control campos" id="cargoEmpresa" name="ruc" type="text"
-                                        placeholder="Cargo en la Empresa" maxlength="150" formControlName="cargoEmpres">
+                                        placeholder="Cargo en la Empresa" maxlength="130" formControlName="cargoEmpres">
                                     <label for="cargoEmpresa">Cargo en la Empresa</label>
                                     <span class="lead error"
                                         *ngIf="(formRef.submitted && addEmp.get('cargoEmpres')?.hasError('required')) ||addEmp.get('cargoEmpres')?.hasError('minlength') || addEmp.get('cargoEmpres')?.hasError('pattern')">Por
@@ -121,7 +121,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input class="form-control campos" id="inputDireccion" name="direccion" type="text"
-                                        placeholder="Ingrese su dirección" formControlName='direccion' maxlength="150">
+                                        placeholder="Ingrese su dirección" formControlName='direccion' maxlength="130">
                                     <label for="inputDireccion">Dirección</label>
                                     <span class="lead error"
                                         *ngIf="(formRef.submitted && addEmp.get('direccion')?.hasError('required')) ||addEmp.get('direccion')?.hasError('minlength') || addEmp.get('cargoEmpres')?.hasError('pattern')">Por

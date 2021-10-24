@@ -33,11 +33,11 @@
                     <div class="w-50" formGroupName="user">
                         <div class="col-md-5 mb-3 w-100">
                             <div class="form-floating">
-                                <input class="form-control" id="inputnombre" name="nombre" type="text"
+                                <input class="form-control" id="inputnombre" name="nombre" type="text" maxlength="130"
                                     placeholder="Ingrese su nombre" formControlName="first_name" readonly>
                                 <label for="inputnombre">Nombres</label>
                                 <span class="lead error"
-                                    *ngIf="(formRef.submitted && profile.get('user.first_name')?.hasError('required')) || profile.get('user.first_name')?.hasError('pattern') || profile.get('user.first_name')?.hasError('minlength') || profile.get('user.first_name')?.hasError('maxlength')">Ingrese
+                                    *ngIf="(formRef.submitted && profile.get('user.first_name')?.hasError('required')) || profile.get('user.first_name')?.hasError('pattern') || profile.get('user.first_name')?.hasError('minlength')">Ingrese
                                     un nombre válido
                                 </span>
                             </div>
@@ -45,11 +45,11 @@
 
                         <div class="col-md-5 mb-3 w-100">
                             <div class="form-floating">
-                                <input class="form-control" id="inputapellido" name="apellido" type="text"
+                                <input class="form-control" id="inputapellido" name="apellido" type="text" maxlength="130"
                                     placeholder="Ingrese su apellido" formControlName="last_name" readonly>
                                 <label for="inputapellido">Apellidos</label>
                                 <span class="lead error"
-                                    *ngIf="(formRef.submitted && profile.get('user.last_name')?.hasError('required')) || profile.get('user.last_name')?.hasError('pattern') || profile.get('user.last_name')?.hasError('minlength') || profile.get('user.last_name')?.hasError('maxlength')">Ingrese
+                                    *ngIf="(formRef.submitted && profile.get('user.last_name')?.hasError('required')) || profile.get('user.last_name')?.hasError('pattern') || profile.get('user.last_name')?.hasError('minlength')">Ingrese
                                     un nombre válido
                                 </span>
                             </div>
@@ -57,7 +57,7 @@
 
                         <div class="col-md-5 mb-3 w-100">
                             <div class="form-floating">
-                                <input class="form-control" id="inputEmail" name="mailorganizacion" type="email"
+                                <input class="form-control" id="inputEmail" name="mailorganizacion" type="email" maxlength="150"
                                     placeholder="name@example.com" formControlName='email'>
                                 <label for="inputEmail">Correo Electrónico</label>
                                 <span class="lead error"
@@ -70,9 +70,12 @@
 
                     <div class="col-md-5 mb-3 w-50">
                         <div class="form-floating">
-                            <input class="form-control" id="inputDireccion" name="direccion" type="text"
+                            <input class="form-control" id="inputDireccion" name="direccion" type="text" maxlength="130"
                                 placeholder="Ingrese su dirección" formControlName='direccion'>
                             <label for="inputDireccion">Dirección</label>
+                            <span class="lead error"
+                                    *ngIf="(formRef.submitted && profile.get('user.direccion')?.hasError('required')) || profile.get('user.direccion')?.hasError('minlength') ||  profile.get('user.direccion')?.hasError('pattern')">Ingrese
+                                    email válido</span>
                         </div>
                     </div>
 
@@ -83,7 +86,7 @@
                                 formControlName='telefono' maxlength="10">
                             <label for="inputNumphone">Teléfono</label>
                             <span class="lead error"
-                                *ngIf="(formRef.submitted && profile.get('telefono')?.hasError('required')) || profile.get('telefono')?.hasError('minlength') || profile.get('telefono')?.hasError('maxlength')">Ingrese
+                                *ngIf="(formRef.submitted && profile.get('telefono')?.hasError('required')) || profile.get('telefono')?.hasError('minlength')">Ingrese
                                 numero telefono válido</span>
                         </div>
                     </div>

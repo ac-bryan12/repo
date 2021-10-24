@@ -26,7 +26,7 @@ export class RestablecerPasswordComponent implements OnInit {
   ) {
     this.restablecerPassword = this.fb.group({
         password: this.fb.control('', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[_.{}=<>;:,\+$@$!%*?&])[A-Za-z\d_.{}=<>;:,\+$@$!%*?&].{7,}')]),
-        confpassword: this.fb.control('', [Validators.required]),
+        confpassword: this.fb.control('', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[_.{}=<>;:,\+$@$!%*?&])[A-Za-z\d_.{}=<>;:,\+$@$!%*?&].{7,}')]),
     });
     this.codeVerificacion = this.fb2.group({
         code : this.fb2.control('', [Validators.required])
@@ -42,7 +42,7 @@ export class RestablecerPasswordComponent implements OnInit {
   enviarCode(code:string){
     this.response_d ="d-block"
     this.response_content ="Verificando su codigo"
-    this.service.peticionGet(environment.url+"/auth/reset_password_verification/"+code, true).subscribe((res) =>{
+    this.service.peticionGet(environment.url+"/auth/reset_password_verification/"+code+"/", true).subscribe((res) =>{
       this.response_content = res.msg
       this.response_button = !res.validated
       localStorage.setItem('token', code);

@@ -19,14 +19,14 @@
 
             <div class="col-md-6 mt-5 mb-5">
                 <label for="inputRazonSocial">Razón Social</label>
-                <input #razonSocial readonly class="form-control" id="inputRazonSocial" name="razonsocial" type="text" formControlName="razonSocial" maxlength="50">
+                <input #razonSocial readonly class="form-control" id="inputRazonSocial" name="razonsocial" type="text" formControlName="razonSocial" maxlength="150">
                 <span class="lead error" *ngIf="(formRef.submitted && formulario.get('razonSocial')?.hasError('required')) ">
                     Ingrese un nombre valido</span>
             </div>
 
             <div class="col-md-6 mb-5">
                 <label for="inputEmail">Correo Electrónico Organización</label>
-                <input class="form-control" id="inputEmail" name="mailorganizacion" type="email" formControlName="correo" maxlength="150">
+                <input class="form-control" id="inputEmail" name="mailorganizacion" type="email" formControlName="correo" maxlength="130">
                 <span class="lead error" *ngIf="(formRef.submitted && formulario.get('correo')?.hasError('required')) || formulario.get('correo')?.hasError('minlength') || formulario.get('correo')?.hasError('pattern')">
                     Ingrese un email valido</span>
             </div>
@@ -40,7 +40,7 @@
 
             <div class="col-md-6 mb-5 justify-content-start">
                 <label for="inputDireccion">Dirección</label>
-                <input class="form-control" id="inputDireccion" name="direccion" type="text" formControlName="direccion" maxlength="30">
+                <input class="form-control" id="inputDireccion" name="direccion" type="text" formControlName="direccion" maxlength="130">
                 <span class="lead error" *ngIf="(formRef.submitted && formulario.get('direccion')?.hasError('required')) || formulario.get('direccion')?.hasError('minlength') || formulario.get('direccion')?.hasError('pattern')">
                     Ingrese una dirección valido</span>
             </div>
