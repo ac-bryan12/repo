@@ -63,7 +63,6 @@ export class RestablecerPasswordComponent implements OnInit {
 
   enviar(value:any){
     this.loanding = true;
-    console.log(value)
     this.service.peticionPost(environment.url+"/auth/reset_password/",{"password":value}).subscribe(res =>{
       this.loanding = false;
       alert(res["msg"])

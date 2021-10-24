@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./pop-up.component.css']
 })
 export class PopUpComponent implements OnInit {
+  tipo = ''
   public addEmp: FormGroup;
   public validate:Validacion = new Validacion();
   id:string = ""
@@ -43,7 +44,8 @@ export class PopUpComponent implements OnInit {
       telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10)]),
       direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$'),Validators.minLength(4)]),
       cargoEmpres: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'),Validators.minLength(4)],),
-
+      n_identificacion: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$')]),
+      tipo_identificacion: ""
     })
     this.listGrupos = []
     this.listGruposSeleccionados =[]
@@ -53,6 +55,8 @@ export class PopUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.tipo = "RUC"
+    this.addEmp.get('tipo_identificacion')?.setValue("RUC")
     this.enviar()
     }
   // validacionPassword(){
@@ -60,7 +64,6 @@ export class PopUpComponent implements OnInit {
   // }
 
   enviarInfo(values:any){
-    console.log(values)
     let list:any = []
     for(let group of this.listGruposSeleccionados){
       list.push({name:group})
@@ -73,7 +76,7 @@ export class PopUpComponent implements OnInit {
     values.user.permissions = list
     if(this.id!="")
       values.user.id =this.id
-    // localStorage.setItem('token',values.usuario.token)
+    
     this.service.peticionPost(environment.url+"/api/user/asignarPermisosRoles/",values).subscribe((res)=>{
       if(res['msg']!= ''){
         this.service.isCreatedAccount= true
@@ -82,19 +85,16 @@ export class PopUpComponent implements OnInit {
         this.router.navigate(["../grupos-permisos"],{relativeTo:this.route})
       }
     },(err:HttpErrorResponse)=>{
-      if(err.error.hasOwnProperty('usuario')){
-        if(err.error.usuario.hasOwnProperty('non_field_errors')){
-          this.response_d = 'd-block'
-          this.response_content = err.error.usuario.non_field_errors[0]
+      console.log(err)
+      if(err.error.hasOwnProperty('user')){
+        if(err.error.user.hasOwnProperty('non_field_errors')){
+          alert(err.error.user.non_field_errors[0])
         }
-      }else if(err.error.hasOwnProperty('empresa')){
-        if(err.error.usuario.hasOwnProperty('non_field_errors')){
-          this.response_d = 'd-block'
-          this.response_content = err.error.empresa.non_field_errors[0]
+        if (err.error.user.hasOwnProperty('error')){
+          alert(err.error.user.error[0])
         }
       }else{
-        this.response_d = 'd-block'
-        this.response_content = err.error[0]
+        alert(err.error.error[0])
       } 
     })
   }
@@ -108,18 +108,23 @@ export class PopUpComponent implements OnInit {
       this.addEmp.get(["user","last_name"])?.setValue(this.usuario.user.last_name)   
       // this.addEmp.get(["user","password"])?.setValue("") 
       this.addEmp.get(["user","email"])?.setValue(this.usuario.user.email)
-      this.addEmp.get("telefono")?.setValue(0+this.usuario.telefono) 
+      this.addEmp.get("telefono")?.setValue(this.usuario.telefono) 
       this.addEmp.get("direccion")?.setValue(this.usuario.direccion) 
       this.addEmp.get("cargoEmpres")?.setValue(this.usuario.cargoEmpres)  
+      this.addEmp.get("n_identificacion")?.setValue(this.usuario.n_identificacion)
+      let inputDNI:HTMLInputElement = document.getElementById(this.usuario.tipo_identificacion) as HTMLInputElement
+      inputDNI.checked = true
+      this.changeValue(this.usuario.tipo_identificacion)
     }
-    if(this.id != ""){
-        this.service.peticionGet(environment.url+`/api/user/getPermisosRoles/${this.id}`).subscribe((res)=>{
+    if(this.id){
+        this.service.peticionGet(environment.url+`/api/user/getPermisosRoles/${this.id}/`).subscribe((res)=>{
         for(let grupo of res.groups){
           this.listGruposSeleccionados.push(grupo)
         } 
         for(let permiso of res.permissions){
           this.listPermisosSeleccionados.push(permiso)
         }
+        console.log("grupos")
         this.permisosGrupos2()
       }, error =>{
         this.msg = "Ocurrió un error al cargar los datos"
@@ -146,7 +151,7 @@ export class PopUpComponent implements OnInit {
       this.msg = "Ocurrió un error al cargar los datos"
       this.listGrupos.push(this.msg)
     })
-    this.service.peticionGet(environment.url+"/api/user/permisos").subscribe((res) =>{
+    this.service.peticionGet(environment.url+"/api/user/permisos/").subscribe((res) =>{
       for(let permisosEmpresa of res.permissions){
         if(this.listPermisosSeleccionados.indexOf(permisosEmpresa)==-1){
           this.listPermisos.push(permisosEmpresa)
@@ -202,6 +207,26 @@ export class PopUpComponent implements OnInit {
         this.listPermisos = this.listPermisos.concat(lista)
       }
 
+    }
+
+    changeValue(text: any) {
+      this.tipo = text
+      let input = document.getElementById("n_identificacion") as HTMLElement
+      input.innerText = this.tipo
+    }
+  
+    validarRucCedula(){
+      let tipo = this.addEmp.get('n_identificacion')?.value
+      let identificadores = document.querySelector('input[name="tipo"]:checked') as HTMLInputElement
+      this.addEmp.get("tipo_identificacion")?.setValue(identificadores.value)
+      if(identificadores.value == 'CEDULA'){
+        return !this.validate.validarRuc(tipo,10)
+      }
+      return !this.validate.validarRuc(tipo)
+    }
+
+    validarGrupo(){
+      return this.listGruposSeleccionados.length == 0
     }
 
 }

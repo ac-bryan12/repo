@@ -48,11 +48,11 @@ export class RequestService {
   checkPermissions(acceso:any,url:string,permissions:string[]):boolean{
     for(let [permiso,ruta]of acceso){
       if (permissions.includes(permiso)  && url.includes(ruta)) {
-        this.cookies.set("return_to",url)
+        this.cookies.set("return_to",url,{"path":"/"})
         return true
       }
     }
-    this.cookies.set("return_to",'')
+    this.cookies.set("return_to",'/login')
     return false
   }
 
@@ -62,8 +62,6 @@ export class RequestService {
         return res['logged']
     })
     .catch(err => {return false})
-
-    console.log(authenticated)
     if(authenticated){
       let rol = await this.peticionGet(environment.url+"/auth/userPermissions/").toPromise().then( res => {return res}).catch(err => console.log(err))
       if(rol.groups.includes(grupo)){
