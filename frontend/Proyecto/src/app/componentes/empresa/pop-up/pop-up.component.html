@@ -1,4 +1,6 @@
+<div id="caja"></div>
 <div class="row p-md-5">
+
     <div class="col-9 mx-auto">
         <div id="title"><span>
                 <h1 class="text-center">Editar informacion de usuario</h1>
@@ -70,29 +72,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="mb-3 row grupos-permisos" formGroupName="user">
-                            <div class="col-md-6">
-                                <div class="form-floating mb-12 mb-md-0">
-                                    <input class="form-control campos" id="contraseña" name="ruc" type="password"
-                                        placeholder="Escriba sus ocntraseña" formControlName="password" maxlength="30">
-                                    <label for="contraseña">Contraseña</label>
-                                    <span class="lead error"
-                                        *ngIf="(formRef.submitted && addEmp.get('user.password')?.hasError('required')) || addEmp.get('user.password')?.hasError('maxlength') || addEmp.get('user.password')?.hasError('pattern')">Por
-                                        favor llene este campo con una contraseña segura</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating mb-12 mb-md-0">
-                                    <input type="password" class="form-control campos" id="confpassword" name="ruc"
-                                        placeholder="Ecriba de nuevo su contraseña" formControlName="confpassword"
-                                        maxlength="30">
-                                    <label for="confcontraseña">Confirmar contraseña</label>
-                                    <span class="lead error" *ngIf="validacionPassword()">La contraseñas no
-                                        coinciden</span>
-                                </div>
-                            </div>
-                        </div> -->
-
+                        
                         <div class="mb-3 row grupos-permisos">
                             <div class="col-md-6">
                                 <div class="form-floating mb-12 mb-md-0">
@@ -136,22 +116,22 @@
                                     <h4>Grupos disponibles</h4>
                                 </span> </div>
                             <div class="form-floating">
-                                <select id="grupos" name="miselect" multiple class="filtered campos w-100">
-                                    <option [value]="item" *ngFor="let item of listGrupos">{{item}}</option>
+                                <select #inputGrupos id="grupos" name="miselect" (change)="buscarPermisos(inputGrupos.value)" class="filtered campos w-100">
+                                    <option  [value]="item.id" *ngFor="let item of listGrupos">{{item.name}}</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-md-2 containerSelect ">
+                        <!--<div class="col-md-2 containerSelect ">
                             <div class=" row align-content-around justify-content-center h-100 px-4">
                                 <button id="btnGroup" #btnGroup (click)="asignarSelect('grupos',btnGroup)" class="btnSelect btn btn-primary btn-block h-25"> >
                                 </button>
                                 <button  (click)="removerSelect('gruposSelect',btnGroup)" class="btnSelect btn btn-primary btn-block h-25"> < 
                                 </button>
                             </div>
-                        </div>
+                        </div>-->
 
-                        <div class="col-md-5">
+                        <!--<div class="col-md-5">
                             <div><span>
                                     <h4>Grupos seleccionados</h4>
                                 </span></div>
@@ -165,10 +145,28 @@
                                 <button (click)="removeAll('Grupos')"
                                     class="btn btn-primary btn-block">RemoverTodo</button>
                             </div>
+                        </div>-->
+
+                        <div class="col-md-5">
+                            <div><span>
+                                    <h4>Permisos seleccionados</h4>
+                                </span></div>
+                            <div class="form-floating">
+                                <select id="permisosSelect" name="miselect4" multiple class="filtered campos w-100">
+                                    <option [value]="item" *ngFor="let item of listPermisosSeleccionados">
+                                        {{item}}</option>
+                                </select>
+                            </div>
+                            <!--
+                            <div>
+                                <button (click)="removeAll('Permisos')"
+                                    class="btn btn-primary btn-block">RemoverTodo</button>
+                            </div>
+                            -->
                         </div>
                     </div>
 
-                    <div class="mb-md-6 row grupos-permisos">
+                  <!--  <div class="mb-md-6 row grupos-permisos">
                         <div class="col-md-5">
                             <div><span>
                                     <h4>Permisos disponibles</h4>
@@ -204,12 +202,12 @@
                                     class="btn btn-primary btn-block">RemoverTodo</button>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <span class="lead error"
-                    *ngIf="validarGrupo()"> Debe de seleccionar un grupo </span>
+                    *ngIf="validarGrupo(inputGrupos)"> Debe de seleccionar un grupo </span>
                     <div id="buttons" class="mt-4 mb-0">
                         <!-- <input type="button" value="Close" class="btn btn-primary btn-block"> -->
-                        <input type="submit" [disabled]="formRef.control.invalid || validarRucCedula() || validarGrupo()" (click)="enviarInfo(addEmp.value)" value="Guardar"
+                        <input type="submit" [disabled]="formRef.control.invalid || validarRucCedula() || validarGrupo(inputGrupos)" (click)="enviarInfo(addEmp.value)" value="Guardar"
                             class="btn btn-primary btn-block">
                     </div>
                 </div>

@@ -37,7 +37,7 @@ export class CreateCuentaComponent implements OnInit {
         ruc: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(13),]),
         correo: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._%+\-]+@[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9.\-]+\\.[a-zA-ZñÑáéíóúÁÉÍÓÚ]{2,4}'),Validators.minLength(7)]),
         razonSocial: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$'),Validators.minLength(3)]),
-        telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10)]),
+        telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(9)]),
         direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$'),Validators.minLength(4)])
       }),
       user: this.fb.group({

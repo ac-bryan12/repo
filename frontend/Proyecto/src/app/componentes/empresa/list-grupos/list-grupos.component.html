@@ -1,35 +1,34 @@
 <div id="container">
     <div id="tabla" class="table-responsive">
         <div id="caja"></div>
-        <h1 id="title" class="text-center font-weight-bold mt-5">Permisos y Grupos</h1>
+        <h1 id="title" class="text-center font-weight-bold mt-5">Grupos</h1>
         <div class="mt-2 mb-4 d-flex flex-row justify-content-around">
             <div>
-                <button (click)="crearUser()" class="btn btn-primary btn-block">Agregar nuevo usuario</button>
+                <button (click)="crearGrupo()" class="btn btn-primary btn-block">Agregar nuevo Grupo</button>
             </div>
         </div>
         <div class="table-wrapper">
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>ID usuario</th>
+                        <th>Id</th>
                         <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Grupo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody *ngFor="let user of listUsuarios">
+                <!--<tbody *ngFor="let user of listUsuarios">
                     <tr>
                         <td #id>{{user.user.id}}</td>
                         <td>{{user.user.first_name+" "+user.user.last_name}}</td>
                         <td>{{user.user.email}}</td>
                         <td>{{user.user.groups}}</td>
                         <td>
+                            
                             <button (click)="envioId(id)" class="btn btn-primary btn-block">Editar</button>
                         </td>
                     </tr>
 
-                </tbody>
+                </tbody>-->
             </table>
             <!-- <div id="indices">
                 <div id="cantidad" class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>

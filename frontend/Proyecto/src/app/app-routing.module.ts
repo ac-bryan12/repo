@@ -30,6 +30,8 @@ import { DocumentosComponent } from './componentes/cliente/documentos/documentos
 import { EmpresaGuard } from './services/guards/admin_empresa/empresa.guard';
 import { ClienteGuard } from './services/guards/cliente/cliente.guard';
 import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFound/page-not-found.component';
+import { GruposEmpresaComponent } from './componentes/empresa/grupos-empresa/grupos-empresa.component';
+import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grupos.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -69,6 +71,8 @@ const routes: Routes = [
     {path:'documentos-company',component:DocumentosCompanyComponent,canActivate:[EmpresaGuard]},
     {path:'grupos-permisos',component:GruposPermisosComponent,canActivate:[EmpresaGuard]},
     {path:'editarUser',component:PopUpComponent,canActivate:[EmpresaGuard]},
+    {path:'grupos',component:ListGruposComponent},
+    {path:'editarGrupos',component:GruposEmpresaComponent},
     {path:'perfil',component:PerfilComponent,canActivate:[EmpresaGuard]},
     {path:'cambiar-contrasenia',component:ChangePasswordComponent,canActivate:[EmpresaGuard]},
   ]},

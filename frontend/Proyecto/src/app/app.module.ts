@@ -47,6 +47,8 @@ import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFou
 import { MatFormFieldModule } from "@angular/material/form-field";
 import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { GruposEmpresaComponent } from './componentes/empresa/grupos-empresa/grupos-empresa.component';
+import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grupos.component';
 
 
 
@@ -89,6 +91,8 @@ import { MatInputModule } from '@angular/material/input';
     ProfileUserComponent,
     DocumentosCompanyComponent,
     PageNotFoundComponent,
+    GruposEmpresaComponent,
+    ListGruposComponent,
   ],
   imports: [
     BrowserModule,

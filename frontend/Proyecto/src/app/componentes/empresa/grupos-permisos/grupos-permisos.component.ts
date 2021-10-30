@@ -23,10 +23,11 @@ export class GruposPermisosComponent implements OnInit {
 
   listaUsuarios(){
     this.service.peticionGet(environment.url+"/api/user/lista-de-profiles/").subscribe((res)=>{
-      var campos = document.getElementById("usuarios") as HTMLElement
+      console.log(res.profile)
       this.listUsuarios = res.profile
     })
   }
+  
   envioId(id:any){
     let usuario = {}
     for(let user of this.listUsuarios){
@@ -41,4 +42,5 @@ export class GruposPermisosComponent implements OnInit {
   crearUser(){
     this.router.navigate(["../editarUser"],{relativeTo:this.route})
   }
+
 }
