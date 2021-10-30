@@ -7,10 +7,10 @@
                 Volver
             </button>
         </div>
-        <div class="alertas" *ngIf = "progressInfo.length > 0">
+        <div class="alertas" *ngIf = "notificaciones.length > 0">
             <div id="contenedor">
                 <div *ngFor = 'let alert of notificaciones'>
-                    <alerts mensaje="Su archivo: {{alert}} se ha cargado correctamente" color = "alert-warning" [nombreNotify] = "alert" [shownotify] = "notificaciones" ></alerts>
+                    <alerts (propagarLista) ="procesaPropagar($event)" mensaje="{{alert.name}}" [tipo] = "alert.value" nombreNotify = "{{alert.name}}" [shownotify] = "notificaciones" ></alerts>
                 </div> 
             </div>
         </div>
@@ -36,7 +36,7 @@
                             <label>{{previsualizacion}}</label>
                         </label>
                     </div>
-                    <input type="submit" [disabled]="!previsualizacion" (click) = "subirArchivos(doc)">
+                    <input type="submit" [disabled]="!enviar " (click) = "subirArchivos(doc)">
                 </div>
                 <div class="center ">
                     <div *ngIf = "progressInfo.length > 0" mode="buffer">

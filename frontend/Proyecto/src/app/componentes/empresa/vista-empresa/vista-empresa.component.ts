@@ -3,11 +3,8 @@ import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
 import { environment } from 'src/environments/environment';
 import { FormGroup, FormBuilder,Validators} from '@angular/forms';
-<<<<<<< Updated upstream
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
-=======
->>>>>>> Stashed changes
 import { saveAs } from 'file-saver';
 
 @Component({

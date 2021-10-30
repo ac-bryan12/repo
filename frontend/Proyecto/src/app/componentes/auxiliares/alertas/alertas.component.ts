@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'alerts',
@@ -6,11 +6,12 @@ import { Component, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./alertas.component.css']
 })
 export class AlertasComponent implements OnInit {
-  @Input() color: string=''
+  @Input() tipo: number = 0
   @Input() mensaje: string=''
   @Input() shownotify:any[]= []
   @Input() nombreNotify:string = ''
-  @Output() sendNotify:any[] = []
+  @Output()
+  propagarLista = new EventEmitter<any[]>();    
 
   constructor() { }
 
@@ -26,7 +27,7 @@ export class AlertasComponent implements OnInit {
     }
     this.shownotify.splice(index,1)
     console.log(this.shownotify)
-    this.sendNotify = this.shownotify
+    this.propagarLista.emit(this.shownotify)
   }
 
   cerrarToast(toast:HTMLElement) {
@@ -37,10 +38,6 @@ export class AlertasComponent implements OnInit {
     toast.classList.add("cerrar")
     toast.classList.remove("cerrar")
     console.log(toast.id)
-    this.buscarToast(toast.id)
-    setTimeout(function(){ 
-      
-    },100,containerToast,toast);
-       
+    this.buscarToast(toast.id)       
   }
 }

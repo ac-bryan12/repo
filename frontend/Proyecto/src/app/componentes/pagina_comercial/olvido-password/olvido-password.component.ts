@@ -28,10 +28,7 @@ export class OlvidoPasswordComponent implements OnInit {
     //Verificar que si el correo existe en el sistema, verificar que no sea un cliente
     this.response_content = "Espere unos segundos, revise su correo por favor"
     this.response_d = "d-block"
-<<<<<<< Updated upstream
     this.loanding = true;
-=======
->>>>>>> Stashed changes
     this.service.peticionGet(environment.url+"/auth/reset_password_token/"+email+"/", true).subscribe((res)=>{
       this.router.navigate(["/restablecer-password"])
       this.loanding = false;
