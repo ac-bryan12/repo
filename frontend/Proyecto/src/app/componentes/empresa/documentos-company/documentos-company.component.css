@@ -49,3 +49,17 @@ a {
   #tableBody{
     border: none;
   }
+
+  .archivos-cargados{
+    color: rgb(22, 88, 220);
+  }
+
+  .alertas{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 2;
+    right: -4px;
+    margin-bottom: 2%;
+    top: 25%;
+  }

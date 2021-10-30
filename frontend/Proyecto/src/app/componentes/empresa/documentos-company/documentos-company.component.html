@@ -7,6 +7,13 @@
                 Volver
             </button>
         </div>
+        <div class="alertas" *ngIf = "progressInfo.length > 0">
+            <div id="contenedor">
+                <div *ngFor = 'let alert of notificaciones'>
+                    <alerts mensaje="Su archivo: {{alert}} se ha cargado correctamente" color = "alert-warning" [nombreNotify] = "alert" [shownotify] = "notificaciones" ></alerts>
+                </div> 
+            </div>
+        </div>
         <div id="seccion-botones" class="mt-4 mb-4">
             <div>
                 <input type="text">
@@ -21,10 +28,25 @@
             </div>
 
             <div>
-                <button class="btn btn-primary btn-block" type="file">
-                    <img alt="agregar" src="assets/agregar.png" width="25px">
-                    Agregar Documento
-                </button>
+                <div>
+                    <input #doc (change)="capturarFile(doc)" class="form-control"
+                    id="inputDoc" name="inputDoc" type="file" accept=".xml" multiple> <!-- Aqu se ccambia se el tipo de archivo también aceppt y el multiple sirve para cargara varios-->
+                    <div *ngIf="previsualizacion">
+                        <label class="cargaArchivo">Archivos cargado:
+                            <label>{{previsualizacion}}</label>
+                        </label>
+                    </div>
+                    <input type="submit" [disabled]="!previsualizacion" (click) = "subirArchivos(doc)">
+                </div>
+                <div class="center ">
+                    <div *ngIf = "progressInfo.length > 0" mode="buffer">
+                        <span id = "porcentaje" class = 'archivos-cargados' >Progreso : {{progreso}}%</span>
+                        <div id="progressbar">
+                            <mat-progress-bar id="progress-bar" mode="buffer" value={{progreso}}>
+                            </mat-progress-bar>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -45,74 +67,25 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <tr class="fila">
-                        <td>#Ft00102020</td>
+                    <tr *ngFor="let doc of listaDocumentos"  class="fila">
+                        <td>{{doc.id}}</td>
                         <td>14-06-2021</td>
-                        <td>14:22</td>
-                        <td>Comandato</td>
-                        <td>Compra-lampara-rojo.pdf</td>
-                        <td>Factura</td>
-                        <td>Juan Pedro</td>
-                        <td>Pendiente</td>
-                        <td>Plataforma</td>
+                        <td>{{doc.hora}}</td>
+                        <td>-----------</td>
+                        <td>{{doc.nombreDoc}}</td>
+                        <td>{{doc.tipoDocumento}}</td>
+                        <td>----------</td>
+                        <td>{{doc.estado}}</td>
+                        <td>{{doc.tipoCreacion}}</td>
                         <td id="iconos" class="w-100">
                             <img alt="visualizar" src="assets/vision.png" width="25px">
-                            <img alt="recharge" src="assets/cargando-flechas.png" width="18px">
-                            <img alt="download" src="assets/descargar.png" width="18px">
+                            <img alt="recharge" src="assets/cargando-flechas.png" width="18px">}
+                            <button class="btn btn-primary" (click) = "descargardoc(doc.id)">
+                                <img alt="download" src="assets/descargar.png" width="18px">
+                            </button>
                             <img alt="delete" src="assets/eliminar.png" width="18px">
                         </td>
 
-                    </tr>
-                    <tr class="fila">
-                        <td>#Ft00102020</td>
-                        <td>14-06-2021</td>
-                        <td>14:22</td>
-                        <td>Comandato</td>
-                        <td>Compra-lampara-rojo.pdf</td>
-                        <td>Factura</td>
-                        <td>Juan Pedro</td>
-                        <td>Pendiente</td>
-                        <td>Plataforma</td>
-                        <td id="iconos" class="w-100">
-                            <img alt="visualizar" src="assets/vision.png" width="25px">
-                            <img alt="recharge" src="assets/cargando-flechas.png" width="18px">
-                            <img alt="recharge" src="assets/descargar.png" width="18px">
-                            <img alt="recharge" src="assets/eliminar.png" width="18px">
-                        </td>
-                    </tr>
-                    <tr class="fila">
-                        <td>#Ft00102020</td>
-                        <td>14-06-2021</td>
-                        <td>14:22</td>
-                        <td>Comandato</td>
-                        <td>Compra-lampara-rojo.pdf</td>
-                        <td>Factura</td>
-                        <td>Juan Pedro</td>
-                        <td>Pendiente</td>
-                        <td>Plataforma</td>
-                        <td id="iconos" class="w-100">
-                            <img alt="visualizar" src="assets/vision.png" width="25px">
-                            <img alt="recharge" src="assets/cargando-flechas.png" width="18px">
-                            <img alt="recharge" src="assets/descargar.png" width="18px">
-                            <img alt="recharge" src="assets/eliminar.png" width="18px">
-                        </td>
-                    </tr>
-                    <tr class="fila">
-                        <td>#Ft00102020</td>
-                        <td>14-06-2021</td>
-                        <td>14:22</td>
-                        <td>Comandato</td>
-                        <td>Compra-lampara-rojo.pdf</td>
-                        <td>Factura</td>
-                        <td>Juan Pedro</td>
-                        <td>Pendiente</td>
-                        <td>Plataforma</td>
-                        <td id="iconos" class="w-100">
-                            <img alt="visualizar" src="assets/vision.png" width="25px">
-                            <img alt="recharge" src="assets/cargando-flechas.png" width="18px">
-                            <img alt="recharge" src="assets/descargar.png" width="18px">
-                            <img alt="recharge" src="assets/eliminar.png" width="18px">
-                        </td>
                     </tr>
                 </tbody>
             </table>

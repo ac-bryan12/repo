@@ -21,12 +21,12 @@ export class RegistroComponent implements OnInit {
 
   constructor(private fb: FormBuilder,private request:RequestService,private router:Router) {
     this.registroForm = this.fb.group({
-      razonSocial: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$'), Validators.minLength(3)]),
-      nombre: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'),Validators.minLength(3)]),
-      correo: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._%+\-]+@[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9.\-]+\\.[a-zA-ZñÑáéíóúÁÉÍÓÚ]{2,4}'),Validators.minLength(7)]),
-      telefono: this.fb.control('', [Validators.required, Validators.pattern('^[+_0-9]+$'),Validators.minLength(10)]),
-      cargo: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ. ]+$'), Validators.minLength(3)],),
-      descripcion: this.fb.control('', [Validators.required, Validators.minLength(5)])
+      razonSocial: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$'), Validators.minLength(5), Validators.maxLength(150)]),
+      nombre: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'), Validators.maxLength(150)]),
+      correo: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._%+\-]+@[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9.\-]+\\.[a-zA-ZñÑáéíóúÁÉÍÓÚ]{2,4}'), Validators.minLength(7),Validators.maxLength(150)]),
+      telefono: this.fb.control('', [Validators.required, Validators.pattern('^[+_0-9]+$'), Validators.minLength(9)]),
+      cargo: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ. ]+$'), Validators.minLength(3), Validators.maxLength(30)],),
+      descripcion: this.fb.control('', [Validators.required, Validators.minLength(10), Validators.maxLength(250)])
     });
   }
 

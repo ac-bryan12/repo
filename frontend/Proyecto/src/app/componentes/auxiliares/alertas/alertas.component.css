@@ -1,0 +1,57 @@
+.toastC {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s;
+  animation: fadein 0.5s;
+  position: relative;
+  z-index: 1;
+  right: 2.5%;
+  top: 50%;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: .25rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.1);
+  max-width: 310px;
+  width: 310px;
+  background-color: #ffffff;
+  opacity: 1;
+}
+  
+@-webkit-keyframes fadein {
+  from {right: 0; opacity: 0;} 
+  to {right: 2.5%; opacity: 1;}
+}
+ 
+@keyframes fadein {
+  from {right: 0; opacity: 0;}
+  to {right: 2.5%; opacity: 1;}
+}
+ 
+@-webkit-keyframes fadeout {
+  from {right: 2.5%; opacity: 1;} 
+  to {right: 0; opacity: 0;}
+}
+ 
+@keyframes fadeout {
+  from {right: 2.5%; opacity: 1;}
+  to {right: 0; opacity: 0;}
+}
+ 
+.toastC.cerrar {
+  /* visibility: visible; */
+  -webkit-animation: fadeout 0.5s 4.8s;
+  animation: fadeout 0.5s 4.8s;
+}
+ 
+@-webkit-keyframes fadeout {
+  from {right: 2.5%; opacity: 1;} 
+  to {right: 0; opacity: 0;}
+}
+ 
+@keyframes fadeout {
+  from {right: 2.5%; opacity: 1;}
+  to {right: 0; opacity: 0;}
+}
+
+.textAlert{
+  display: flex!important;
+  align-items: center;
+}

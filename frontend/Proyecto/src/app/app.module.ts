@@ -47,6 +47,11 @@ import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFou
 import { MatFormFieldModule } from "@angular/material/form-field";
 import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+<<<<<<< Updated upstream
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { AlertasComponent } from './componentes/auxiliares/alertas/alertas.component';
+=======
+>>>>>>> Stashed changes
 
 
 
@@ -89,6 +94,7 @@ import { MatInputModule } from '@angular/material/input';
     ProfileUserComponent,
     DocumentosCompanyComponent,
     PageNotFoundComponent,
+    AlertasComponent,
   ],
   imports: [
     BrowserModule,
@@ -101,6 +107,10 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+<<<<<<< Updated upstream
+    MatProgressBarModule
+=======
+>>>>>>> Stashed changes
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

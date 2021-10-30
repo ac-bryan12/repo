@@ -30,5 +30,8 @@ div[class="row justify-content-center"]{
 .icon-password{
     z-index: 10;
     margin-left: -30px;
+<<<<<<< Updated upstream
     cursor: pointer;
+=======
+>>>>>>> Stashed changes
 }

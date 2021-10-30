@@ -24,7 +24,11 @@
                                         <div class = "d-flex align-items-center">
                                             <div class="form-floating w-100">
                                                 <input #password matInput [type]="hide ? 'password' : 'text'" class="form-control" id="inputPassword" name="password"
+<<<<<<< Updated upstream
                                                 formControlName="password" placeholder="Ingrese una contraseña" minlength='8' (input)="validacion('password')" maxlength="24">
+=======
+                                                formControlName="password" placeholder="Ingrese una contraseña" minlength='8' (input)="validacion('password')">
+>>>>>>> Stashed changes
                                                 <label for = "inputPassword">Contraseña</label>
                                             </div>
                                             <a class ="icon-password" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">

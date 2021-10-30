@@ -45,10 +45,6 @@
                     Ingrese una dirección valido</span>
             </div>
 
-            <!-- <div class="col-md-5 mb-5">
-                <label for="inputFirmaElect">Firma Electrónica</label>
-                <input class="form-control" id="inputFirmaElect" name="firmaElect" type="file">
-            </div> -->
             <input type="submit" [disabled]="formRef.control.invalid" (click)="enviarInfo(formulario.value)" value="Guardar"
                             class="btn btn-primary btn-block">
         </div>

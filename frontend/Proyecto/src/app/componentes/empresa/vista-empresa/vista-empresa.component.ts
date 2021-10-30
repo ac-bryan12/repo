@@ -3,8 +3,11 @@ import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
 import { environment } from 'src/environments/environment';
 import { FormGroup, FormBuilder,Validators} from '@angular/forms';
+<<<<<<< Updated upstream
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+=======
+>>>>>>> Stashed changes
 import { saveAs } from 'file-saver';
 
 @Component({
@@ -22,7 +25,7 @@ export class VistaEmpresaComponent implements OnInit {
   public formulario: FormGroup;
   previsualizacion:any;
 
-  constructor(private envio: RequestService,private fb: FormBuilder,private service: RequestService ) {
+  constructor(private envio: RequestService,private fb: FormBuilder ) {
     this.formulario = this.fb.group({
       ruc : this.fb.control('',[Validators.required]),
       razonSocial :  this.fb.control('',[Validators.required]),
@@ -85,7 +88,7 @@ export class VistaEmpresaComponent implements OnInit {
 
   enviarInfo(values:any){
     this.loanding = true;
-    this.service.peticionPost(environment.url+"/api/empresa/buscar-empresa/",values).subscribe(res =>{
+    this.envio.peticionPost(environment.url+"/api/empresa/buscar-empresa/",values).subscribe(res =>{
       this.loanding = false;
       alert(res["msg"])
     },err =>{
