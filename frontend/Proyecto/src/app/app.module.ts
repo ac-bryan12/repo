@@ -47,11 +47,12 @@ import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFou
 import { MatFormFieldModule } from "@angular/material/form-field";
 import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-<<<<<<< Updated upstream
+
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AlertasComponent } from './componentes/auxiliares/alertas/alertas.component';
-=======
->>>>>>> Stashed changes
+import { GruposEmpresaComponent } from './componentes/empresa/grupos-empresa/grupos-empresa.component';
+import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grupos.component';
+
 
 
 
@@ -95,6 +96,8 @@ import { AlertasComponent } from './componentes/auxiliares/alertas/alertas.compo
     DocumentosCompanyComponent,
     PageNotFoundComponent,
     AlertasComponent,
+    GruposEmpresaComponent,
+    ListGruposComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,10 +110,7 @@ import { AlertasComponent } from './componentes/auxiliares/alertas/alertas.compo
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-<<<<<<< Updated upstream
     MatProgressBarModule
-=======
->>>>>>> Stashed changes
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

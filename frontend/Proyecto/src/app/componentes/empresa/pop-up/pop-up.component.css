@@ -56,6 +56,13 @@ select{
     height: 10px;
 }
 */
+#caja{
+    display: flex;
+    background-color: black;
+    height: 120px;
+    border-bottom-right-radius: 18% 75%;
+}
+
 .error {
     color: #f82929;
     font-size: 13px;

@@ -226,7 +226,7 @@
                                                         name="telefono" type="text"
                                                         placeholder="Ingrese su numero de telefono"
                                                         (input)="validate.validarCampNum(telf2,10)"
-                                                        formControlName='telefono' maxlength="10">
+                                                        formControlName='telefono' minlength="9" maxlength="10">
                                                     <label for="inputNumphoneUser">Teléfono</label>
                                                     <span class="lead error"
                                                         *ngIf="(formRef.submitted && createAccount.get('telefono')?.hasError('required')) || createAccount.get('telefono')?.hasError('minlength')">Ingrese

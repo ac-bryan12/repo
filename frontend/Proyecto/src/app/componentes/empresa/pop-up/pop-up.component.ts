@@ -28,10 +28,10 @@ export class PopUpComponent implements OnInit {
   response_content = ''
   usuario: any = {}
   listGrupos: any[]
-  listPermisos: any[]
-  listGruposSeleccionados: any[]
+//  listPermisos: any[]
+//  listGruposSeleccionados: any[]
   listPermisosSeleccionados: any[]
-  listPermisosEmpresa: any[]
+//  listPermisosEmpresa: any[]
   msg: string = ""
   constructor(
     private route: ActivatedRoute,
@@ -55,32 +55,38 @@ export class PopUpComponent implements OnInit {
       tipo_identificacion: ""
     })
     this.listGrupos = []
-    this.listGruposSeleccionados = []
     this.listPermisosSeleccionados = []
+/*
     this.listPermisos = []
     this.listPermisosEmpresa = []
+    */
   }
 
   ngOnInit(): void {
     this.tipo = "RUC"
     this.addEmp.get('tipo_identificacion')?.setValue("RUC")
-    this.enviar()
+    this.inicializarValores()
   }
   // validacionPassword(){
   //     return this.validate.validarConfPassword(this.addEmp.get(["user","password"])?.value,this.addEmp.get(["user","confpassword"])?.value)    
   // }
 
+  validarGrupo(inputGrupo:any){
+    if(inputGrupo.value != "" || inputGrupo.value != null){
+      return true;
+    }
+    return false;
+  }
+
   enviarInfo(values: any) {
     let list: any = []
+/*
     for (let group of this.listGruposSeleccionados) {
       list.push({ name: group })
     }
+*/
     values.user.groups = list
-    list = []
-    for (let permiso of this.listPermisosSeleccionados) {
-      list.push({ codename: permiso })
-    }
-    values.user.permissions = list
+    
     if (this.id != "") {
       values.user.id = this.id
     }
@@ -108,7 +114,7 @@ export class PopUpComponent implements OnInit {
     })
   }
 
-  enviar() {
+  inicializarValores() {
     this.id = this.router.parseUrl(this.router.url).queryParams["id"]
     this.usuario = this.router.parseUrl(this.router.url).queryParams["usuario"]
     if (this.usuario) {
@@ -125,98 +131,68 @@ export class PopUpComponent implements OnInit {
       inputDNI.checked = true
       this.changeValue(this.usuario.tipo_identificacion)
     }
-    if (this.id) {
-      this.service.peticionGet(environment.url + `/api/user/getPermisosRoles/${this.id}/`).subscribe((res) => {
-        for (let grupo of res.groups) {
-          this.listGruposSeleccionados.push(grupo)
-        }
-        for (let permiso of res.permissions) {
-          this.listPermisosSeleccionados.push(permiso)
-        }
-        console.log("grupos")
-        this.permisosGrupos2()
-      }, error => {
-        this.msg = "Ocurrió un error al cargar los datos"
-        this.listGruposSeleccionados.push(this.msg)
-        this.listPermisosSeleccionados.push(this.msg)
-      })
-    }
-    else {
-      this.permisosGrupos2()
-    }
-  }
-  permisosGrupos2() {
+
     this.service.peticionGet(environment.url + "/api/user/grupos/").subscribe((res) => {
       for (let grupo of res) {
-        if (this.listGruposSeleccionados.indexOf(grupo) == -1) {
           this.listGrupos.push(grupo)
-        }
-      }
-      if (this.listGruposSeleccionados.length != 0) {
-        let btnGroup: any = document.getElementById('btnGroup')
-        btnGroup.disabled = true
       }
     }, error => {
       this.msg = "Ocurrió un error al cargar los datos"
-      this.listGrupos.push(this.msg)
+      alert(this.msg)
     })
-    this.service.peticionGet(environment.url + "/api/user/permisos/").subscribe((res) => {
-      for (let permisosEmpresa of res.permissions) {
-        if (this.listPermisosSeleccionados.indexOf(permisosEmpresa) == -1) {
-          this.listPermisos.push(permisosEmpresa)
+
+    if (this.id) {
+      this.service.peticionGet(environment.url + `/api/user/getPermisosRoles/${this.id}/`).subscribe((res) => {
+        
+        for (let permiso of res.permissions) {
+          this.listPermisosSeleccionados.push(permiso)
         }
+        let inputGrupos : any = document.getElementById("grupos")
+        inputGrupos.value = res.groups
+
+      }, error => {
+        this.msg = "Ocurrió un error al cargar los datos"
+        //this.listGruposSeleccionados.push(this.msg)
+        alert(this.msg)
+      })
+    }
+    
+  }
+  buscarPermisos(grupoId:any) {
+    console.log(grupoId)
+/*
+    this.service.peticionGet(environment.url + "/api/user/permisos/"+ grupoId+"/").subscribe((res) => {
+      
+      this.listPermisosSeleccionados = []
+      
+      for (let permisosEmpresa of res.permissions) {
+        this.listPermisosSeleccionados.push(permisosEmpresa)
       }
     }, error => {
       this.msg = "Ocurrió un erro al cargar los datos"
-      this.listPermisos.push(this.msg)
+      alert(this.msg)
     })
+    */
 
   }
 
-  asignarSelect(name: string, inputButton: any = null) {
-    let input = document.getElementById(name) as HTMLSelectElement
-    if (name === "grupos") {
-      if (input.value != "" && input.value !== null && this.listGrupos.indexOf(input.value) != -1) {
-        if (inputButton) {
-          inputButton.disabled = true
-        }
-        this.listGruposSeleccionados.push(input.value)
-        this.listGrupos.splice(this.listGrupos.indexOf(input.value), 1)
-      }
-    } else {
-      if (input.value != "" && input.value !== null && this.listPermisos.indexOf(input.value) != -1) {
-        this.listPermisosSeleccionados.push(input.value)
-        this.listPermisos.splice(this.listPermisos.indexOf(input.value), 1)
-      }
-    }
-  }
-  removerSelect(name: string, inputButton: any = null) {
-    let input = document.getElementById(name) as HTMLSelectElement
-    if (name == "gruposSelect") {
-      if (input.value != "" && input.value !== null && this.listGruposSeleccionados.indexOf(input.value) != -1) {
-        if (inputButton) {
-          inputButton.disabled = false
-        }
-        this.listGrupos.push(input.value)
-        this.listGruposSeleccionados.splice(this.listGruposSeleccionados.indexOf(input.value), 1)
-      }
-    } else {
-      if (input.value != "" && input.value !== null && this.listPermisosSeleccionados.indexOf(input.value) != -1) {
-        this.listPermisos.push(input.value)
-        this.listPermisosSeleccionados.splice(this.listPermisosSeleccionados.indexOf(input.value), 1)
-      }
-    }
-  }
-  removeAll(nameLista: string) {
-    if (nameLista === "Grupos") {
-      let lista = this.listGruposSeleccionados.splice(0, this.listGruposSeleccionados.length)
-      this.listGrupos = this.listGrupos.concat(lista)
-    } else {
-      let lista = this.listPermisosSeleccionados.splice(0, this.listPermisosSeleccionados.length)
-      this.listPermisos = this.listPermisos.concat(lista)
-    }
-
-  }
+  // asignarSelect(name: string, inputButton: any = null) {
+  //   let 
+  //   let input = document.getElementById(name) as HTMLSelectElement
+  //   if (name === "grupos") {
+  //     if (input.value != "" && input.value !== null && this.listGrupos.indexOf(input.value) != -1) {
+  //       this.listGruposSeleccionados.push(input.value)
+  //       this.listGrupos.splice(this.listGrupos.indexOf(input.value), 1)
+  //     }
+  //   } else {
+  //     if (input.value != "" && input.value !== null && this.listPermisos.indexOf(input.value) != -1) {
+  //       this.listPermisosSeleccionados.push(input.value)
+  //       this.listPermisos.splice(this.listPermisos.indexOf(input.value), 1)
+  //     }
+  //   }
+  // }
+  
+  
 
   changeValue(text: any) {
     this.tipo = text
@@ -233,9 +209,4 @@ export class PopUpComponent implements OnInit {
     }
     return !this.validate.validarRuc(tipo)
   }
-
-  validarGrupo() {
-    return this.listGruposSeleccionados.length == 0
-  }
-
 }
