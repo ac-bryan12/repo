@@ -55,24 +55,27 @@ export class DocumentosCompanyComponent implements OnInit {
         this.enviodoc(i,file.item(i),file.length)
       }
     }
-    if(this.listaDocumentosAux.length!=0){ //Se comprueba la lista auxiliar
-      for(let j = 0;j<this.listaDocumentosAux.length;j++){ 
-        if(this.listaDocumentosAux[j] == file.item(j).name){
-          this.notificaciones.push({value:"recargar",name:file.item(j).name})
+    for(let i = 0;i<file.length;i++){
+      if(this.listaDocumentosAux.length!=0){ //Se comprueba la lista auxiliar
+        for(let j = 0;j<this.listaDocumentosAux.length;j++){ 
+          if(this.listaDocumentosAux[j] == file.item(i).name){
+            this.notificaciones.push({value:"recargar",name:file.item(i).name}) //Aqui se repite, aqui puede que encuentre alguno si se subio sin recargar
+          }
         }
       }
+      if(this.listaDocumentosAux.length==0 && this.listaDocumentos.length!=0){ //No hay lista auxiliar
+        for(let j = 0;j<this.listaDocumentos.length;j++){ 
+          console.log("Lista aux" + this.listaDocumentos[j].nombreDoc)
+          if(this.listaDocumentos[j].nombreDoc == file.item(i).name){ 
+            this.notificaciones.push({value:"existe",name:file.item(i).name})
+          }else{ //Aqui se agregar a files 
+            this.listaDocumentosAux.push(file.item(i).name) //Aqui esta el error, debe verse que solo agregue una vez el i y no varias 
+            files.push(file.item(i))                        // Controlalo con alguna variable, recuerda que arriba tambien se ve si se repite
+          }
+        }
+      }  
     }
-    if(this.listaDocumentosAux.length==0 && this.listaDocumentos.length!=0){ //No hay lista auxiliar
-      for(let j = 0;j<this.listaDocumentos.length;j++){ 
-        console.log("Lista aux" + this.listaDocumentos[j].nombreDoc)
-        if(this.listaDocumentos[j].nombreDoc == file.item(j).name){ 
-          this.notificaciones.push({value:"existe",name:file.item(j).name})
-        }else{
-          this.listaDocumentosAux.push(file.item(j).name)
-          files.push(file.item(j))
-        }
-      }
-    }  
+    //A partir de aqui hace todo 
     for(let i = 0; i<files.length;i++){
       console.log(files[i])
       this.enviodoc(i,files[i],files.length)
