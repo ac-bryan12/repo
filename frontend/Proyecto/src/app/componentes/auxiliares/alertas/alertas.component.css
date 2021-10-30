@@ -54,4 +54,17 @@
 .textAlert{
   display: flex!important;
   align-items: center;
+  justify-content: space-between;
+}
+.error{
+  background-color: #ff9797;
+}
+.recargar{
+  background-color: rgb(169, 241, 243);
+}
+.existe{
+  background-color: rgb(255, 240, 182);
+}
+.creado{
+  background-color: rgb(196, 255, 173);
 }

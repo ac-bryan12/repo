@@ -1,14 +1,14 @@
 <div id = "{{nombreNotify}}" #toast class="{{tipo}} toastC textAlert" role="alert">
-    <div *ngIf = "tipo === 1"class = "">
+    <div *ngIf = "tipo === 'creado'"class = "">
         Se ha cargado con éxito: {{mensaje}}
     </div>
-    <div *ngIf = "tipo === 0">
+    <div *ngIf = "tipo === 'existe'">
         El documento ya existe en el sistema: {{mensaje}}
     </div>
-    <div *ngIf = "tipo === -1">
+    <div *ngIf = "tipo === 'error'">
         Ocurrió un error al cargar su documento: {{mensaje}}
     </div>
-    <div *ngIf = "tipo === 2">
+    <div *ngIf = "tipo === 'recargar'">
         Recargue para ver los últimos cambios 
     </div>
     <button  type="button" class="btn btn-outline-dark" data-dismiss="toast" aria-label="Close" (click)="cerrarToast(toast)">

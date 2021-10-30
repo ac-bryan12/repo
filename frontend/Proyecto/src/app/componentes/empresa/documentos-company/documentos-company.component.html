@@ -10,7 +10,7 @@
         <div class="alertas" *ngIf = "notificaciones.length > 0">
             <div id="contenedor">
                 <div *ngFor = 'let alert of notificaciones'>
-                    <alerts (propagarLista) ="procesaPropagar($event)" mensaje="{{alert.name}}" [tipo] = "alert.value" nombreNotify = "{{alert.name}}" [shownotify] = "notificaciones" ></alerts>
+                    <alerts (propagarLista) ="procesaPropagar($event)" mensaje="{{alert.name}}" tipo = "{{alert.value}}" nombreNotify = "{{alert.name}}" [shownotify] = "notificaciones" ></alerts>
                 </div> 
             </div>
         </div>

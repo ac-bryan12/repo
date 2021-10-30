@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./alertas.component.css']
 })
 export class AlertasComponent implements OnInit {
-  @Input() tipo: number = 0
+  @Input() tipo: string = ''
   @Input() mensaje: string=''
   @Input() shownotify:any[]= []
   @Input() nombreNotify:string = ''

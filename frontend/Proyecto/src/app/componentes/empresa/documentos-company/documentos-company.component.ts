@@ -18,7 +18,6 @@ export class DocumentosCompanyComponent implements OnInit {
   progressInfo:any = []
   notificaciones:any = [] 
   progreso:any
-  message = '';
   fileName = "";
   enviar = false
 
@@ -48,39 +47,36 @@ export class DocumentosCompanyComponent implements OnInit {
     this.enviar = false
     var file:any = doc.files 
     let files:any = new Array
-    for(let i = 0; i<file?.length;i++){
-      var control = 0 
-      if(this.listaDocumentos.length<this.listaDocumentosAux.length){ //Recargue
-        for(let j = 0;j<this.listaDocumentosAux.length;j++){ 
-          if(this.listaDocumentosAux[i] == file[i].name){
-            this.notificaciones.push({value:2,name:file[i].name})
-            control+=1
-          }
-        }
-      }
-      if(this.listaDocumentos.length>0 && this.listaDocumentosAux.length==0){  //condicion
-        for(let j = 0;j<this.listaDocumentos.length;j++){ 
-          if(this.listaDocumentos[j].nombreDoc == file[i].name){ 
-            this.notificaciones.push({value:0,name:file[i].name})
-            control+=1
-          }
-        }
-      }
-      if(control==0){
-        console.log(control)
-        console.log(this.listaDocumentosAux)
-        this.listaDocumentosAux.push(file[i].name)
-        files.push(file[i])
-      }
-      if(this.listaDocumentos.length==0 && this.listaDocumentosAux.length==0){ //Primera vez 
-        this.listaDocumentosAux.push(file[i].name)
-        this.enviodoc(i,file[i],file.length)
+    console.log(file.item(0).name)
+    if(this.listaDocumentos.length==0 && this.listaDocumentosAux.length==0){ 
+      for(let i = 0; i<file?.length;i++){ //Comprueba la lista servidor
+        console.log(file[i])
+        this.listaDocumentosAux.push(file.item(i).name)
+        this.enviodoc(i,file.item(i),file.length)
       }
     }
+    if(this.listaDocumentosAux.length!=0){ //Se comprueba la lista auxiliar
+      for(let j = 0;j<this.listaDocumentosAux.length;j++){ 
+        if(this.listaDocumentosAux[j] == file.item(j).name){
+          this.notificaciones.push({value:"recargar",name:file.item(j).name})
+        }
+      }
+    }
+    if(this.listaDocumentosAux.length==0 && this.listaDocumentos.length!=0){ //No hay lista auxiliar
+      for(let j = 0;j<this.listaDocumentos.length;j++){ 
+        console.log("Lista aux" + this.listaDocumentos[j].nombreDoc)
+        if(this.listaDocumentos[j].nombreDoc == file.item(j).name){ 
+          this.notificaciones.push({value:"existe",name:file.item(j).name})
+        }else{
+          this.listaDocumentosAux.push(file.item(j).name)
+          files.push(file.item(j))
+        }
+      }
+    }  
     for(let i = 0; i<files.length;i++){
+      console.log(files[i])
       this.enviodoc(i,files[i],files.length)
     }
-    this.notificaciones.push({value:2,name:''})
     this.enviar = true
   }
   enviodoc(index:any,file:any,totalDocs:any){
@@ -88,18 +84,17 @@ export class DocumentosCompanyComponent implements OnInit {
     forms.append("file",file)
     forms.append("content_type",file.type)
     forms.append("nombreDoc",file.name)
-    this.progressInfo[index] = { value: 0, fileName: file.name };
+    this.progressInfo[index] = { value: "existe", fileName: file.name };
     this.envio.peticionPost(environment.url+'/api/empresa/documentos/guardar-documentos/',forms).subscribe((res)=>{
       console.log(res)
         if (res.type === HttpEventType.UploadProgress) {
           this.progressInfo[index].value = Math.round(100 * (index+1) / totalDocs)
           this.progreso = Math.round(100 * (index+1) / totalDocs)
-          this.notificaciones.push({value:1,name:file.name})
+          this.notificaciones.push({value:"creado",name:file.name})
         }
       },err => {
         this.progressInfo[index].value = 0;
-        this.message = 'No se puede subir el archivo ' + file.name;
-        this.notificaciones.push({value:-1,name:file.name})
+        this.notificaciones.push({value:"error",name:file.name})
       })
   }
   descargardoc(id:any){
