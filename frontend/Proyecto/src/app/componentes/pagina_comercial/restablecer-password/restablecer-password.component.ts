@@ -52,12 +52,13 @@ export class RestablecerPasswordComponent implements OnInit {
     this.response_d ="d-block"
     this.response_content ="Verificando su codigo"
     this.service.peticionGet(environment.url+"/auth/reset_password_verification/"+code+"/", true).subscribe((res) =>{
-      this.response_content = res.msg
+      // this.response_content = res.msg
       this.response_button = !res.validated
+      alert(res.msg)
       localStorage.setItem('token', code);
     },error => {
       if(error.hasOwnProperty("error")){
-        this.response_content = error.error.error
+        alert(error.error.error)
         this.response_button = !error.validated
       }
     })
