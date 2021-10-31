@@ -34,8 +34,6 @@ a {
       flex-direction: row;
       align-items: center;
       justify-content: space-around;
-      height: 76.95px;
-
   }
   
   table tbody tr:nth-child(odd){
@@ -62,4 +60,8 @@ a {
     right: -4px;
     margin-bottom: 2%;
     top: 25%;
+  }
+
+  [class="fila"]{
+    height: 20px;
   }

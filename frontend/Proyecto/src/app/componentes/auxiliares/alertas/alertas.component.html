@@ -1,4 +1,4 @@
-<div id = "{{nombreNotify}}" #toast class="{{tipo}} toastC textAlert" role="alert">
+<div id = "{{nombreNotify}}" #toast class="{{tipo}} toastC textAlert mb-2" role="alert">
     <div *ngIf = "tipo === 'creado'"class = "">
         Se ha cargado con éxito: {{mensaje}}
     </div>
@@ -10,6 +10,9 @@
     </div>
     <div *ngIf = "tipo === 'recargar'">
         Recargue para ver los últimos cambios 
+    </div>
+    <div *ngIf = "tipo === 'repetida'">
+        Los documento ya existe en el sistema
     </div>
     <button  type="button" class="btn btn-outline-dark" data-dismiss="toast" aria-label="Close" (click)="cerrarToast(toast)">
         <span aria-hidden="true">×</span>

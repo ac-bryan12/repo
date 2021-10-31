@@ -39,10 +39,10 @@
                     <input type="submit" [disabled]="!enviar " (click) = "subirArchivos(doc)">
                 </div>
                 <div class="center ">
-                    <div *ngIf = "progressInfo.length > 0" mode="buffer">
-                        <span id = "porcentaje" class = 'archivos-cargados' >Progreso : {{progreso}}%</span>
+                    <div *ngIf = "totalDocs > 0" mode="buffer">
+                        <span id = "porcentaje" class = 'archivos-cargados' >Cargando...</span>
                         <div id="progressbar">
-                            <mat-progress-bar id="progress-bar" mode="buffer" value={{progreso}}>
+                            <mat-progress-bar id="progress-bar" mode="determinate" value="100">
                             </mat-progress-bar>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                         <th scope="col">Cliente</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Tipo de Creación</th>
-                        <th scope="col">Descargar</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -73,17 +73,17 @@
                         <td>{{doc.hora}}</td>
                         <td>-----------</td>
                         <td>{{doc.nombreDoc}}</td>
-                        <td>{{doc.tipoDocumento}}</td>
                         <td>----------</td>
-                        <td>{{doc.estado}}</td>
-                        <td>{{doc.tipoCreacion}}</td>
-                        <td id="iconos" class="w-100">
-                            <img alt="visualizar" src="assets/vision.png" width="25px">
-                            <img alt="recharge" src="assets/cargando-flechas.png" width="18px">}
+                        <td>----------</td>
+                        <td>----------</td>
+                        <td>----------</td>
+                        <td id="iconos" class="w-100 h-40">
+                            <img alt="visualizar" src="assets/vision.png" width="15px">
+                            <img alt="recharge" src="assets/cargando-flechas.png" width="10px">
                             <button class="btn btn-primary" (click) = "descargardoc(doc.id)">
-                                <img alt="download" src="assets/descargar.png" width="18px">
+                                <img alt="download" src="assets/descargar.png" width="10px">
                             </button>
-                            <img alt="delete" src="assets/eliminar.png" width="18px">
+                            <img alt="delete" src="assets/eliminar.png" width="10px">
                         </td>
 
                     </tr>

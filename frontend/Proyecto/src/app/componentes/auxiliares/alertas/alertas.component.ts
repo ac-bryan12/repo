@@ -26,18 +26,14 @@ export class AlertasComponent implements OnInit {
       }
     }
     this.shownotify.splice(index,1)
-    console.log(this.shownotify)
     this.propagarLista.emit(this.shownotify)
   }
 
   cerrarToast(toast:HTMLElement) {
-    console.log("HOLA")
-    console.log(this.shownotify)
     var containerToast = document.getElementById("contenedor")
     containerToast?.getElementsByTagName("alerts")
     toast.classList.add("cerrar")
     toast.classList.remove("cerrar")
-    console.log(toast.id)
     this.buscarToast(toast.id)       
   }
 }
