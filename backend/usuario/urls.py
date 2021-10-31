@@ -11,7 +11,7 @@ urlpatterns = [
     path('lista-de-profiles/', listProfileViewSet.as_view(), name = "Profiles"),
     path('PerfilInfo/',ProfileUserViewSet.as_view()),
     path('grupos/',GroupViewSet.as_view(), name = "Grupos"),
-    path('permisos/',PermisosViewSet.as_view(), name ="Permisos"),
+    path('permisos/<int:pk>/',PermisosViewSet.as_view(), name ="Permisos"),
     path('asignarPermisosRoles/',PermisosGruposViewSet.as_view()),
     path('getPermisosRoles/<int:pk>/',PermisosGruposViewSet.as_view())
 ]

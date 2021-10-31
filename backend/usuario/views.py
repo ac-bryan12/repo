@@ -1,22 +1,19 @@
-import datetime
 import io
 from django.contrib.auth.models import Group, Permission, User
-from django.utils import tree
+from django.db.models.query import QuerySet
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-import empresa
+from django.contrib.admin.models import ACTION_FLAG_CHOICES, LogEntry
 
-from empresa.models import Empresa
-from empresa.serializers import EmpresaSerializer
+import empresa
 from .models import Profile
 from .serializers import LoginSerializer, ProfileSerializer, UserSerializer, GroupSerializer, PermissionSerializer
 from rest_framework import serializers,parsers, renderers,status, permissions, generics, status
 from rest_framework.response import Response
-from rest_framework.renderers import JSONRenderer
-from django.contrib.sessions.models import Session
 from django.http import Http404
 from correo.views import RegisterView
+from django.contrib.contenttypes.models import ContentType
 
 
 
@@ -91,19 +88,96 @@ class UserPermissionView(APIView):
         }
         return Response(response)
 
+    def post(self,request):
+        if request.user.user_permissions.filter(codename="add_group").exists():
+            group = request.data['groups']['name']
+            permissions = request.data['permissions']
+            newGroup: Group
+
+            if group :
+                try :
+                    profiles = Profile.objects.filter(empresa=request.user.profile.empresa) 
+                    users = User.objects.filter(profile__in=profiles)
+                    logs= LogEntry.objects.filter(action_flag=1,content_type_id=3,user__in=users)
+                    for log in logs :
+                        if Group.objects.filter(pk=log.object_id).exists():
+                            groupSeleccionado = Group.objects.get(pk=log.object_id)
+                            if groupSeleccionado.name.upper() == group.upper():
+                                return Response({'error':'Ya se ha creado un grupo con ese nombre.'},status=status.HTTP_400_BAD_REQUEST)
+
+                    newGroup: Group = Group.objects.create(name=group)
+                    for permiso in permissions:
+                        if Permission.objects.filter(name=permiso['name']).exists():
+                            permiso = Permission.objects.get(name=permiso['name'])
+                            newGroup.permissions.add(permiso)
+
+                    content_type = ContentType.objects.get(model='group')
+                    log = LogEntry()
+                    log.object_id = newGroup.pk
+                    log.object_repr = newGroup.name
+                    log.action_flag = 1
+                    log.change_message = '[{"added": {}}]'
+                    log.content_type = content_type
+                    log.user = request.user
+                    log.save()
+
+                    return Response({'msg':'Se creó con éxito el grupo.'})
+                except Exception:
+                    newGroup.permissions.clear()
+                    newGroup.delete()
+                    return Response({'error':'Ocurrió un error al crear el grupo.'})
+
+            return Response({'error':'Debe enviar el nombre de un grupo.'},status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error':'Acceso denegado'},status=status.HTTP_403_FORBIDDEN)
+
+    def put(self,request):
+        if request.user.user_permissions.filter(codename="change_group").exists():
+            if request.data.get('id'):
+                if Group.objects.filter(pk=request.data.get('id')):
+                    if request.data.get('id') != 3 or request.data.get('id') != 2:
+                        group = Group.objects.get(pk=request.data.get('id'))
+                        profiles = Profile.objects.filter(empresa=request.user.profile.empresa) 
+                        users = User.objects.filter(profile__in=profiles)
+                        logs = LogEntry.objects.filter(action_flag=1,content_type_id=3,user__in=users)
+                        for log in logs :
+                            if Group.objects.filter(pk=log.object_id).exists():
+                                grupoSeleccionar = Group.objects.get(pk=log.object_id)
+                                if grupoSeleccionar.name.upper() ==  request.data.get('groups').get('name').upper() and grupoSeleccionar.name.upper() != group.name.upper() :
+                                    return Response({'error':'Ya se ha creado un grupo con ese nombre.'},status=status.HTTP_400_BAD_REQUEST)
+                                    
+                        if request.data.get('groups'):
+                            group.name = request.data.get('groups').get('name')
+                        if request.data.get('permissions'):
+                            group.permissions.clear()
+                            for permiso in request.data.get('permissions'):
+                                if Permission.objects.filter(name=permiso['name']).exists():
+                                    permiso = Permission.objects.get(name=permiso['name'])
+                                    group.permissions.add(permiso)
+                        group.save()
+                        return Response({'msg':'Se modificó con éxito el grupo.'})
+                    else:
+                        return Response({'error':'No tiene permitido modificar esos grupos.'},status=status.HTTP_404_NOT_FOUND)    
+                else:
+                    return Response({'error':'No se econtró el grupo solicitado.'},status=status.HTTP_404_NOT_FOUND)
+                            
+            return Response({'error':'Debe enviar el id de un grupo.'},status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'error':'Acceso denegado'},status=status.HTTP_403_FORBIDDEN)
+
 # views.profile.py
 
 class listProfileViewSet(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ProfileSerializer
     authentication_classes = [TokenAuthentication]
+
     def get(self,request):
         admin = request.user
         if admin.user_permissions.filter(codename='view_user').exists():
             profile =ProfileSerializer(Profile.objects.filter(empresa_id = admin.profile.empresa.pk).exclude(pk=admin.profile.pk),many =True)
             profile.data.empresa = ""
             return Response({'profile':profile.data})
-        return Response({"error":"Acceso denegado"},status=status.HTTP_403_FORBIDDEN)    
+        return Response({"error":"No tiene permitido visualizar a los usuarios."},status=status.HTTP_403_FORBIDDEN)    
 
 
 class profileViewSet(generics.ListAPIView):
@@ -281,16 +355,38 @@ class UserViewSet(generics.ListAPIView):
 
 # views.grupos.py
 class GroupViewSet(generics.ListAPIView):
-    queryset = Group.objects.all().exclude(name="admin_facturacion")
-    serializer_class = GroupSerializer
-
-class PermisosViewSet(generics.ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self,request):
-        permissions = PermissionSerializer(Group.objects.get(name = "admin_empresa").permissions.all(),many=True)
-        return Response({'permissions':permissions.data},status=status.HTTP_200_OK)
+        if request.user.user_permissions.filter(codename="view_group").exists():
+            profiles = Profile.objects.filter(empresa=request.user.profile.empresa) 
+            users = User.objects.filter(profile__in=profiles)
+            logs= LogEntry.objects.filter(action_flag=1,content_type_id=3,user__in=users)
+            grupos:set = set()
+            for log in logs :
+                if Group.objects.filter(pk=log.object_id).exists():
+                    group = Group.objects.get(pk=log.object_id)
+                    grupos.add(group)
+            grupos.add(Group.objects.get(name='admin_empresa'))
+            grupos.add(Group.objects.get(name='cliente'))
+            serializer = GroupSerializer(grupos,many=True)
+            return Response(serializer.data)
+        return Response({'error':'Acceso denegado'},status=status.HTTP_403_FORBIDDEN)
+
+class PermisosViewSet(generics.ListAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PermissionSerializer
+
+    def get(self,request,pk):
+        if request.user.user_permissions.filter(codename="view_permission").exists():
+            if Group.objects.filter(pk=pk).exists():
+                group = Group.objects.get(pk=pk)
+                permissions = PermissionSerializer(group.permissions.all(),many=True)
+                return Response({'permissions':permissions.data},status=status.HTTP_200_OK)
+            return Response({'error':'No existe el grupo solicitado'},status=status.HTTP_404_NOT_FOUND)    
+        return Response({'error':'Acceso denegado'},status=status.HTTP_403_FORBIDDEN)
 
 # Permisos grupos del usuario requerido
 class PermisosGruposViewSet(APIView):
@@ -310,8 +406,12 @@ class PermisosGruposViewSet(APIView):
         else:
             data = request.data
 
-        if (not data.get('user').get('id') ) and admin.user_permissions.filter(codename='add_user').exists() and admin.user_permissions.filter(codename='view_group').exists() and admin.user_permissions.filter(codename='view_permission').exists():
-            print("crear usuario")
+        if (not data.get('user').get('id') ) and admin.user_permissions.filter(codename='add_user').exists():
+            if not admin.user_permissions.filter(codename='view_group').exists():
+                data['user']['groups'] = []
+            if not admin.user_permissions.filter(codename='view_permission').exists():
+                data['user']['permissions'] = []
+
             serializer = ProfileSerializer(data=data)
             user_serializer = UserSerializer(data=data['user'])
             if serializer.is_valid(raise_exception=True) and user_serializer.is_valid(raise_exception=True):
@@ -336,8 +436,12 @@ class PermisosGruposViewSet(APIView):
                     profile.delete()
                     return Response({"error":"Error al crear usuario"},status=status.HTTP_400_BAD_REQUEST)                    
 
-        elif admin.user_permissions.filter(codename='change_user').exists() and admin.user_permissions.filter(codename='view_group').exists() and admin.user_permissions.filter(codename='view_permission').exists():
-            
+        elif admin.user_permissions.filter(codename='change_user').exists():
+            if not admin.user_permissions.filter(codename='view_group').exists():
+                data['user']['groups'] = []
+            if not admin.user_permissions.filter(codename='view_permission').exists():
+                data['user']['permissions'] = []
+
             if User.objects.filter(pk=data['user']['id']).exists() :
                 user = User.objects.get(pk=data['user']['id'])
                 user_serializer = UserSerializer(user,data=data['user'])
@@ -427,9 +531,11 @@ class ProfileUserViewSet(APIView):
     authentication_classes = (TokenAuthentication,)
 
     def get(self,request):
-        profile = request.user.profile
-        serializer = ProfileSerializer(profile)
-        return Response({'profile':serializer.data})
+        user = request.user
+        if user.user_permissions.filter(codename='view_profile').exists():
+            serializer = ProfileSerializer(user.profile)
+            return Response({'profile':serializer.data})
+        return Response({'error':'No tiene permitido ver la información de perfil.'},status=status.HTTP_403_FORBIDDEN)
 
     def post(self,request):
         data = None
@@ -440,11 +546,15 @@ class ProfileUserViewSet(APIView):
         else:
             data = request.data
         user = request.user
-        user_serializer = UserSerializer(user,data=data['user'])
-        data.pop('user')
-        profile_serializer = ProfileSerializer(user.profile,data=data)
-        if profile_serializer.is_valid(raise_exception=True):
-            if user_serializer.is_valid():
-                profile_serializer.save()
-                user_serializer.save()
-                return Response({"msg":"Éxito al actualizar sus datos."})
+        if user.user_permissions.filter(codename='change_profile'):
+            user_serializer = UserSerializer(user,data=data['user'])
+            data.pop('user')
+            profile_serializer = ProfileSerializer(user.profile,data=data)
+            if profile_serializer.is_valid(raise_exception=True):
+                if user_serializer.is_valid(raise_exception=True):
+                    profile_serializer.save()
+                    user_serializer.save()
+                    return Response({"msg":"Éxito al actualizar sus datos."})
+
+        return Response({'error':'No tiene permitido cambiar la información de perfil.'},status=status.HTTP_403_FORBIDDEN)
+        

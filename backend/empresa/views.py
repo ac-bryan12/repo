@@ -34,68 +34,28 @@ class listEmpresaViewSet(generics.ListAPIView):
 class empresaViewSet(generics.ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
-
     serializer_class = EmpresaSerializer
-    # def validarCodigoVerificacion(self,token):
-    #     try:
-    #         if Token.objects.filter(key=token).exists() :
-    #             return True
-    #         else:
-    #             print
-    #             return False
-    #     except:
-    #         return False
-    # def validarSuperUser(self,token):
-    #     try:
-    #         t = Token.objects.get(key=token)
-    #         if User.objects.get(id= t.user_id).is_superuser:
-    #             return True
-    #         else:
-    #             return False
-    #     except User.DoesNotExist:
-    #         raise False
-    #     except: 
-    #         return False
-
-    # def get_object(self, pk):
-    #     try:
-    #         return Empresa.objects.get(pk=pk)
-    #     except Empresa.DoesNotExist:
-    #         raise Http404
 
     def get(self, request,format=None):
-
-# if 'Authorization' in request.headers.keys():
-    # token:str = request.headers.get('Authorization')
-    # token = token.removeprefix('Token ')
-    # if self.validarCodigoVerificacion(token) & self.validarSuperUser(token) :
-        profile:Profile = request.user.profile
-        serializer = EmpresaSerializer(profile.empresa)
-        return Response(serializer.data)
-    # else:
-    #     return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)
-# else:
-#     return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)
-
-    # def post(self, request,pk, format=None):
-    #     if request.user.is_superuser:
-    #         serializer = empresaSerializer(data=request.data)
-    #         if serializer.is_valid():
-    #             serializer.save()
-    #             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
-    #     else:
-    #         return Response("No se ha encontrado su pagina",status = status.HTTP_401_UNAUTHORIZED)   
+        if request.user.user_permissions.filter(codename="view_empresa"):
+            profile:Profile = request.user.profile
+            serializer = EmpresaSerializer(profile.empresa)
+            return Response(serializer.data)
+        return Response({'error':'No tiene permitido visualizar la información de la empresa.'},status=status.HTTP_403_FORBIDDEN)
+  
 
     def post(self, request):
-        empresa = request.user.profile.empresa
-        serializer = EmpresaSerializer(empresa, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"msg":"Se han actualizado sus datos"},status=status.HTTP_200_OK)
-        else:
-            print(serializer.errors)
-            return Response({"error":"Ocurrió un error al intentar actualizar sus datos."}, status=status.HTTP_400_BAD_REQUEST)  
+        if request.user.user_permissions.filter(codename="change_empresa"):
+            empresa = request.user.profile.empresa
+            serializer = EmpresaSerializer(empresa, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response({"msg":"Se han actualizado sus datos"},status=status.HTTP_200_OK)
+            # else:
+            #     print(serializer.errors)
+            #     return Response({"error":"Ocurrió un error al intentar actualizar sus datos."}, status=status.HTTP_400_BAD_REQUEST)  
+        return Response({'error':'No tiene permitido cambiar la información de la empresa.'},status=status.HTTP_403_FORBIDDEN)
+
 
     def delete(self, request, pk, format=None):
         if 'Authorization' in request.headers.keys():
@@ -166,8 +126,15 @@ class CreateView(APIView):
 
 # views.empresaTemp.py
 class listEmpresaTempViewSet(generics.ListAPIView):
-    queryset = EmpresaTemp.objects.all()
-    serializer_class = EmpresaTempSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated]
+    # queryset = EmpresaTemp.objects.all()
+
+    def get(self,request):
+        if request.user.user_permissions.filter(codename="view_empresatemp"):
+            serializer= EmpresaTempSerializer(EmpresaTemp.objects.all(),many=True)
+            return Response(serializer.data)
+        return Response({'error':'Acceso denegado.'},status=status.HTTP_403_FORBIDDEN)
 
 class EmpresaTempViewSet(APIView):
     authentication_classes = (TokenAuthentication,)
@@ -201,6 +168,7 @@ class EmpresaTempViewSet(APIView):
             raise Http404
     
     def post(self, request):
+        if request.user.user_permissions.filter(codename="view_empresatemp"):
             try:
                 empr = EmpresaTemp.objects.get(correo=request.data['correo'])
                 print(empr)
@@ -209,6 +177,7 @@ class EmpresaTempViewSet(APIView):
                 return Response(status=status.HTTP_201_CREATED)
             except EmpresaTemp.DoesNotExist: 
                 return Response(status=status.HTTP_404_NOT_FOUND) 
+        return Response({'error':'Acceso denegado.'},status=status.HTTP_403_FORBIDDEN)
 
 
     def delete(self, request, pk, format=None):

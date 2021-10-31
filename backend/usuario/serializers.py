@@ -17,23 +17,21 @@ from .models import RUC,CEDULA
 
 class GroupSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=150)
-
+    id  = serializers.CharField(required=False)
+    
     class Meta:
         model=Group
-        fields = ['name']
-    
-    def to_representation(self, instance):
-        return instance.name
+        fields = ['name','id']
 
 class PermissionSerializer(serializers.ModelSerializer):
-    codename = serializers.CharField(max_length=100)
-
+    codename = serializers.CharField(max_length=100,required=False)
+    name = serializers.CharField(max_length=255,required=False)
     class Meta:
         model=Permission
-        fields = ['codename']
+        fields = ['codename','name']
 
-    def to_representation(self, instance):
-        return instance.codename
+    # def to_representation(self, instance):
+    #     return instance.codename
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.CharField(required=False,allow_blank=True)
@@ -90,7 +88,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         if validated_data.get('permissions') :
             for permission in validated_data['permissions'] :
-                user.user_permissions.add(Permission.objects.get(codename=permission.get('codename')))
+                user.user_permissions.add(Permission.objects.get(name=permission.get('name')))
         elif validated_data.get('groups'): 
             user.user_permissions.set(Group.objects.get(name=group.get('name')).permissions.all())
 
@@ -117,7 +115,7 @@ class UserSerializer(serializers.ModelSerializer):
         
         if validated_data.get('permissions'):
             for permission in validated_data['permissions'] :
-                user.user_permissions.add(Permission.objects.get(codename=permission.get('codename')))
+                user.user_permissions.add(Permission.objects.get(name=permission.get('name')))
         else:
             if validated_data.get('groups'):
                 user.user_permissions.set(Group.objects.get(name=group.get('name')).permissions.all())

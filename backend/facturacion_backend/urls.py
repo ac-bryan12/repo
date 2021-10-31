@@ -36,20 +36,5 @@ urlpatterns = [
     path('auth/reset_password/',PasswordResetView.as_view()),
     path('auth/isLogged/',isLogged.as_view()),
     re_path(r'^.*', TemplateView.as_view(template_name="index.html"), name="home")
-    # path('',front_end),
-    # path('home/',front_end),
-    # path('login/',front_end),
-    # path('create-cuenta/',front_end),
-    # path('registro/',front_end),
-    # path('planes/',front_end),
-    # path('confirmacion/',front_end),
-    # path('env-informacion/',front_end),
-    # path('empresas/',front_end),
-    # path('empresasTemp/',front_end),
-    # path('creacion-exitosa/',front_end),
-    # path('grupos-permisos/',front_end),
-    # path('admin/',front_end),
-    # path('view-company/',front_end),
-    # path('cliente',front_end)
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
