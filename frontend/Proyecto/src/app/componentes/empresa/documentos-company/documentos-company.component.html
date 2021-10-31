@@ -7,10 +7,14 @@
                 Volver
             </button>
         </div>
+        <div *ngIf="loanding" id="loader" class="w-100">
+            <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="'primary'" [mode]="'indeterminate'">
+            </mat-progress-spinner>
+        </div>
         <div class="alertas" *ngIf = "notificaciones.length > 0">
             <div id="contenedor">
                 <div *ngFor = 'let alert of notificaciones'>
-                    <alerts (propagarLista) ="procesaPropagar($event)" mensaje="{{alert.name}}" tipo = "{{alert.value}}" nombreNotify = "{{alert.name}}" [shownotify] = "notificaciones" ></alerts>
+                    <alerts (propagarLista) ="procesaPropagar($event)" (OnPropagarCierre)="procesarCierre()" mensaje="{{alert.name}}" tipo = "{{alert.value}}" nombreNotify = "{{alert.name}}" [shownotify] = "notificaciones" [cantidad]="totalDocs" ></alerts>
                 </div> 
             </div>
         </div>
@@ -32,11 +36,11 @@
                     <input #doc (change)="capturarFile(doc)" class="form-control"
                     id="inputDoc" name="inputDoc" type="file" accept=".xml" multiple> <!-- Aqu se ccambia se el tipo de archivo también aceppt y el multiple sirve para cargara varios-->
                     <div *ngIf="previsualizacion">
-                        <label class="cargaArchivo">Archivos cargado:
+                        <label class="cargaArchivo">Archivos cargados:
                             <label>{{previsualizacion}}</label>
                         </label>
                     </div>
-                    <input type="submit" [disabled]="!enviar " (click) = "subirArchivos(doc)">
+                    <input type="submit" [disabled]="enviar" (click) = "subirArchivos(doc)">
                 </div>
                 <div class="center ">
                     <div *ngIf = "totalDocs > 0" mode="buffer">

@@ -10,8 +10,11 @@ export class AlertasComponent implements OnInit {
   @Input() mensaje: string=''
   @Input() shownotify:any[]= []
   @Input() nombreNotify:string = ''
+  @Input() cantidad:number = 0
   @Output()
-  propagarLista = new EventEmitter<any[]>();    
+  propagarLista = new EventEmitter<any[]>()    
+  @Output()
+  propagarCierre = new EventEmitter<any[]>()
 
   constructor() { }
 
@@ -27,6 +30,26 @@ export class AlertasComponent implements OnInit {
     }
     this.shownotify.splice(index,1)
     this.propagarLista.emit(this.shownotify)
+  }
+
+  OnPropagarCierre(){
+    if(this.shownotify.length>0)
+      this.cerrarToastAuto()
+      this.propagarCierre.emit(this.shownotify)
+  }
+
+  cerrarToastAuto(){
+    let var1 = this
+    setTimeout(function(){
+      var containerToast = document.getElementById("contenedor")
+      var lista = containerToast?.getElementsByTagName("alerts") as HTMLCollectionOf<HTMLElement>
+      for(let i = 0; i<lista.length;i++){
+          let toast = lista.item(i) as HTMLElement
+          toast?.classList.add("cerrar")
+          toast?.classList.remove("cerrar")
+          var1.buscarToast(toast.id)
+      } 
+    },3000,var1)
   }
 
   cerrarToast(toast:HTMLElement) {

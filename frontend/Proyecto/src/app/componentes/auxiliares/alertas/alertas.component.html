@@ -1,6 +1,9 @@
 <div id = "{{nombreNotify}}" #toast class="{{tipo}} toastC textAlert mb-2" role="alert">
-    <div *ngIf = "tipo === 'creado'"class = "">
+    <!--div *ngIf = "tipo === 'creado'"class = "">
         Se ha cargado con éxito: {{mensaje}}
+    </div-->
+    <div *ngIf = "tipo === 'creados'" (OnPropagarCierre) = true>
+        Se ha cargado con éxito {{cantidad}} documentos
     </div>
     <div *ngIf = "tipo === 'existe'">
         El documento ya existe en el sistema: {{mensaje}}

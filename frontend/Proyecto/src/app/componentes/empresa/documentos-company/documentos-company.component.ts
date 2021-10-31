@@ -13,13 +13,17 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 })
 export class DocumentosCompanyComponent implements OnInit {
   previsualizacion: any
+  loanding = false
   listaDocumentos: Array<any> = [];
   listaDocumentosAux: Array<any> = [];
   notificaciones: any = []
   fileName = "";
-  enviar = false
+  enviar = true
   namesFilesAux = new Set()
-  totalDocs: number = 0
+  totalDocs:number = 0
+  DocsTotal:number = 0
+  existDocs:number = 0
+  errorDocs:number = 0
 
   constructor(private envio: RequestService,) {
   }
@@ -28,65 +32,67 @@ export class DocumentosCompanyComponent implements OnInit {
     this.cargarDocumentos()
   }
   procesaPropagar(lista: any) {
-    console.log(lista)
+    this.notificaciones = lista
+  }
+  procesarCierre(){
   }
 
   capturarFile(firma: HTMLInputElement) {
     var file = firma.files?.item(0)
     if (file != null) {
-      this.previsualizacion = file.name
-      this.enviar = true
+      this.previsualizacion = firma.files?.length
+      this.enviar = false
     }
     else {
       this.previsualizacion = ""
-      this.enviar = false
+      this.enviar = true
     }
-  }
+  } 
 
-  subirArchivos(doc: HTMLInputElement) {
-    this.enviar = false
-    var file: any = doc.files
+  subirArchivos(docs: HTMLInputElement) {
+    this.enviar = true
+    var file: any = docs.files
     for(let docs of this.listaDocumentos){
       this.namesFilesAux.add(docs.nombreDoc)
     }
-    if (this.listaDocumentos.length != 0) {
-      for (let i = 0; i < file.length; i++) {
-        if (this.listaDocumentosAux.length != 0) {
-          for (let datos of this.namesFilesAux) {
-            if (datos == file.item(i).name) {
-              this.notificaciones.push({ value: "existe", name: file.item(i).name })
-            }
-          }
-        }
-      }
-    }
     for (let i = 0; i < file.length; i++) {
       if (!(this.namesFilesAux.has(file.item(i).name))) {
-        this.totalDocs++
         this.enviodoc(file[i])
         this.listaDocumentosAux.push(file.item(i).name)
         this.namesFilesAux.add(file.item(i).name)
       }
       else {
         this.notificaciones.push({ value: "existe", name: file.item(i).name })
+        this.existDocs++
       }
     }
-    this.enviar = true
+    let var1 = this
+    setTimeout(function(){
+      if(var1.totalDocs>0){
+        var1.notificaciones.push({value:"creados", name: ""})
+        var1.notificaciones.push({value:"recargar",name: ""})
+      }
+      var1.enviar = false
+      var1.loanding = false
+    },4000,var1)
   }
 
 
-  enviodoc(file: any,) {
+  enviodoc(file: any) {
     let forms = new FormData()
     forms.append("file", file)
     forms.append("content_type", file.type)
     forms.append("nombreDoc", file.name)
+    this.loanding = true
     this.envio.peticionPost(environment.url + '/api/empresa/documentos/guardar-documentos/', forms).subscribe((res) => {
       if (res.type === HttpEventType.UploadProgress) {
-        this.notificaciones.push({ value: "creado", name: file.name })
+        this.totalDocs++
       }
     }, err => {
       this.notificaciones.push({ value: "error", name: file.name })
+      this.errorDocs++
     })
+    this.procesarCierre()
   }
   descargardoc(id: any) {
     this.envio.peticionGet(environment.url + '/api/empresa/documentos/descargar-documento/' + id + '/').subscribe((res) => {
