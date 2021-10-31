@@ -407,10 +407,11 @@ class PermisosGruposViewSet(APIView):
             data = request.data
 
         if (not data.get('user').get('id') ) and admin.user_permissions.filter(codename='add_user').exists():
-            if not admin.user_permissions.filter(codename='view_group').exists():
-                data['user']['groups'] = []
+            # if not admin.user_permissions.filter(codename='view_group').exists():
+            #     data['user']['groups'] = []
             if not admin.user_permissions.filter(codename='view_permission').exists():
-                data['user']['permissions'] = []
+                data['user']['groups'] = []
+                # data['user']['permissions'] = []
 
             serializer = ProfileSerializer(data=data)
             user_serializer = UserSerializer(data=data['user'])
@@ -437,10 +438,11 @@ class PermisosGruposViewSet(APIView):
                     return Response({"error":"Error al crear usuario"},status=status.HTTP_400_BAD_REQUEST)                    
 
         elif admin.user_permissions.filter(codename='change_user').exists():
-            if not admin.user_permissions.filter(codename='view_group').exists():
-                data['user']['groups'] = []
+            # if not admin.user_permissions.filter(codename='view_group').exists():
+            #     data['user']['groups'] = []
             if not admin.user_permissions.filter(codename='view_permission').exists():
-                data['user']['permissions'] = []
+                data['user']['groups'] = []
+                # data['user']['permissions'] = []
 
             if User.objects.filter(pk=data['user']['id']).exists() :
                 user = User.objects.get(pk=data['user']['id'])
