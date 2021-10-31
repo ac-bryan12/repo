@@ -49,10 +49,25 @@ export class VistaEmpresaComponent implements OnInit {
       this.formulario.get('correo')?.setValue(res.correo)
       this.formulario.get('razonSocial')?.setValue(res.razonSocial)
       this.formulario.get('telefono')?.setValue(res.telefono)
-      this.formulario.get('direccion')?.setValue(res.direccion)      
+      this.formulario.get('direccion')?.setValue(res.direccion)
+      this.desabilitarForm()      
     })
     
   }
+
+  desabilitarForm(){
+    let form :any = document.getElementById("empresa_form")
+    form.disabled = true
+    this.envio.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
+      for(let permiso of res.permissions){
+        if (permiso.codename == "change_empresa" ){
+          form.disabled = false
+          break
+        }
+      }
+    })
+  }
+
   capturarFile(firma:HTMLInputElement){
     var  file = firma.files?.item(0)
     if(file!=null){
@@ -90,7 +105,11 @@ export class VistaEmpresaComponent implements OnInit {
       alert(res["msg"])
     },err =>{
       this.loanding = false;
-      alert(err.error.error)
+      if(err.error.hasOwnProperty("non_field_errors")){
+        alert(err.error.non_field_errors[0])
+      }else{
+        alert(err.error.error)
+      }
     })
   }
 

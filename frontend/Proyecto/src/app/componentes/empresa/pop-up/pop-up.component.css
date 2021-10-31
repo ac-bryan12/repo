@@ -79,3 +79,7 @@ select{
     background: no-repeat rgb(249,249,249);
     opacity: .8;
 }
+
+#permisosSelect{
+    height: 240px;
+}

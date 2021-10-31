@@ -23,7 +23,7 @@
                         <td #id>{{user.user.id}}</td>
                         <td>{{user.user.first_name+" "+user.user.last_name}}</td>
                         <td>{{user.user.email}}</td>
-                        <td>{{user.user.groups}}</td>
+                        <td>{{user.user.groups[0].name}}</td>
                         <td>
                             <button (click)="envioId(id)" class="btn btn-primary btn-block">Editar</button>
                         </td>

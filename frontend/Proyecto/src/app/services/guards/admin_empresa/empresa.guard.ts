@@ -13,8 +13,8 @@ export class EmpresaGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const url: string = state.url;
-      let acceso = [["view_user","/grupos-permisos"],["change_user","/editarUser"],["view_profile","/perfil"],["view_profile","/documentos-company"],["view_empresa","/vista-empresa"],["change_user","/cambiar-contrasenia"]]
-      return this.service.check(url,acceso,'admin_empresa');
+      let acceso = [["view_group","/grupos"],["add_group","/editarGrupos"],["change_group","/editarGrupos"],["view_user","/grupos-permisos"],["view_user","/editarUser"],["view_profile","/perfil"],["view_profile","/documentos-company"],["view_empresa","/vista-empresa"],["change_profile","/cambiar-contrasenia"]]
+      return this.service.check(url,acceso);
   }
   
 }

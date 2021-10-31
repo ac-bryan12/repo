@@ -21,3 +21,7 @@
     background: no-repeat rgb(249,249,249);
     opacity: .8;
 }
+
+.select-input{
+    height: 240px;
+}

@@ -3,7 +3,7 @@
         <div id="caja"></div>
         <h1 id="title" class="text-center font-weight-bold mt-5">Grupos</h1>
         <div class="mt-2 mb-4 d-flex flex-row justify-content-around">
-            <div>
+            <div *ngIf = "listPermissions.includes('add_group')">
                 <button (click)="crearGrupo()" class="btn btn-primary btn-block">Agregar nuevo Grupo</button>
             </div>
         </div>
@@ -13,22 +13,19 @@
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Acciones</th>
+                        <th *ngIf = "listPermissions.includes('change_group')">Acciones</th>
                     </tr>
                 </thead>
-                <!--<tbody *ngFor="let user of listUsuarios">
+                <tbody *ngFor="let grupo of listGrupos">
                     <tr>
-                        <td #id>{{user.user.id}}</td>
-                        <td>{{user.user.first_name+" "+user.user.last_name}}</td>
-                        <td>{{user.user.email}}</td>
-                        <td>{{user.user.groups}}</td>
-                        <td>
-                            
+                        <td #id>{{grupo.id}}</td>
+                        <td>{{grupo.name}}</td>
+                        <td *ngIf = "listPermissions.includes('change_group')" > 
                             <button (click)="envioId(id)" class="btn btn-primary btn-block">Editar</button>
                         </td>
                     </tr>
 
-                </tbody>-->
+                </tbody>
             </table>
             <!-- <div id="indices">
                 <div id="cantidad" class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>

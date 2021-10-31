@@ -13,7 +13,7 @@ export class ClienteGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const url: string = state.url;
       let acceso = [["view_profile","/perfil"],["change_profile","/cambiar_contrasenia"],["view_profile","/documentos"]]
-      return this.service.check(url,acceso,'cliente');
+      return this.service.check(url,acceso);
   }
   
 }

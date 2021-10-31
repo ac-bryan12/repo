@@ -23,7 +23,6 @@ export class GruposPermisosComponent implements OnInit {
 
   listaUsuarios(){
     this.service.peticionGet(environment.url+"/api/user/lista-de-profiles/").subscribe((res)=>{
-      console.log(res.profile)
       this.listUsuarios = res.profile
     })
   }

@@ -3,54 +3,61 @@
     <div>
         <h1  id="title" class="text-center font-weight-bold mt-5 mb-4">Perfil Empresa</h1>
     </div>
-    <form #form
-    autocomplete="off"
-    novalidate
-    #formRef="ngForm"
-    [formGroup]="formulario" 
-    >
-        <div class="row col-md-9 mb-3 mx-auto" id="formulario">
-            <div class="col-md-6 mt-5 mb-5">
-                <label for="inputRUC">RUC</label>
-                <input #rucInput class="form-control " readonly id="inputRUC" name="ruc" type="text" formControlName="ruc" maxlength="13">
-                <span class="lead error" *ngIf="(formRef.submitted && formulario.get('ruc')?.hasError('required')) ">
-                    Ingrese un ruc valido</span>
-            </div>
+    <fieldset id="empresa_form">
+        <form #form
+        autocomplete="off"
+        novalidate
+        #formRef="ngForm"
+        [formGroup]="formulario" 
+        >
+            <div class="row col-md-9 mb-3 mx-auto" id="formulario">
+                <div class="col-md-6 mt-5 mb-5">
+                    <label for="inputRUC">RUC</label>
+                    <input #rucInput class="form-control " readonly id="inputRUC" name="ruc" type="text" formControlName="ruc" maxlength="13">
+                    <span class="lead error" *ngIf="(formRef.submitted && formulario.get('ruc')?.hasError('required')) ">
+                        Ingrese un ruc valido</span>
+                </div>
 
-            <div class="col-md-6 mt-5 mb-5">
-                <label for="inputRazonSocial">Razón Social</label>
-                <input #razonSocial readonly class="form-control" id="inputRazonSocial" name="razonsocial" type="text" formControlName="razonSocial" maxlength="150">
-                <span class="lead error" *ngIf="(formRef.submitted && formulario.get('razonSocial')?.hasError('required')) ">
-                    Ingrese un nombre valido</span>
-            </div>
+                <div class="col-md-6 mt-5 mb-5">
+                    <label for="inputRazonSocial">Razón Social</label>
+                    <input #razonSocial readonly class="form-control" id="inputRazonSocial" name="razonsocial" type="text" formControlName="razonSocial" maxlength="150">
+                    <span class="lead error" *ngIf="(formRef.submitted && formulario.get('razonSocial')?.hasError('required')) ">
+                        Ingrese un nombre valido</span>
+                </div>
 
-            <div class="col-md-6 mb-5">
-                <label for="inputEmail">Correo Electrónico Organización</label>
-                <input class="form-control" id="inputEmail" name="mailorganizacion" type="email" formControlName="correo" maxlength="130">
-                <span class="lead error" *ngIf="(formRef.submitted && formulario.get('correo')?.hasError('required')) || formulario.get('correo')?.hasError('minlength') || formulario.get('correo')?.hasError('pattern')">
-                    Ingrese un email valido</span>
-            </div>
-            
-            <div class="col-md-6 mb-5">
-                <label for="inputNumphone">Teléfono</label>
-                <input class="form-control" id="inputNumphone" name="telefono" type="text" formControlName="telefono" maxlength="10">
-                <span class="lead error" *ngIf="(formRef.submitted && formulario.get('telefono')?.hasError('required')) || formulario.get('telefono')?.hasError('minlength') || formulario.get('telefono')?.hasError('pattern')">
-                    Ingrese un número de télefono valido</span>
-            </div>
+                <div class="col-md-6 mb-5">
+                    <label for="inputEmail">Correo Electrónico Organización</label>
+                    <input class="form-control" id="inputEmail" name="mailorganizacion" type="email" formControlName="correo" maxlength="130">
+                    <span class="lead error" *ngIf="(formRef.submitted && formulario.get('correo')?.hasError('required')) || formulario.get('correo')?.hasError('minlength') || formulario.get('correo')?.hasError('pattern')">
+                        Ingrese un email valido</span>
+                </div>
+                
+                <div class="col-md-6 mb-5">
+                    <label for="inputNumphone">Teléfono</label>
+                    <input class="form-control" id="inputNumphone" name="telefono" type="text" formControlName="telefono" maxlength="10">
+                    <span class="lead error" *ngIf="(formRef.submitted && formulario.get('telefono')?.hasError('required')) || formulario.get('telefono')?.hasError('minlength') || formulario.get('telefono')?.hasError('pattern')">
+                        Ingrese un número de télefono valido</span>
+                </div>
 
-            <div class="col-md-6 mb-5 justify-content-start">
-                <label for="inputDireccion">Dirección</label>
-                <input class="form-control" id="inputDireccion" name="direccion" type="text" formControlName="direccion" maxlength="130">
-                <span class="lead error" *ngIf="(formRef.submitted && formulario.get('direccion')?.hasError('required')) || formulario.get('direccion')?.hasError('minlength') || formulario.get('direccion')?.hasError('pattern')">
-                    Ingrese una dirección valido</span>
-            </div>
+                <div class="col-md-6 mb-5 justify-content-start">
+                    <label for="inputDireccion">Dirección</label>
+                    <input class="form-control" id="inputDireccion" name="direccion" type="text" formControlName="direccion" maxlength="130">
+                    <span class="lead error" *ngIf="(formRef.submitted && formulario.get('direccion')?.hasError('required')) || formulario.get('direccion')?.hasError('minlength') || formulario.get('direccion')?.hasError('pattern')">
+                        Ingrese una dirección valido</span>
+                </div>
 
-            <input type="submit" [disabled]="formRef.control.invalid" (click)="enviarInfo(formulario.value)" value="Guardar"
-                            class="btn btn-primary btn-block">
-        </div>
-        <div *ngIf="loanding" id="loader" class="w-100">
-            <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="color" [mode]="mode">
-            </mat-progress-spinner>
-        </div>
-    </form>
+
+                <!-- <div class="col-md-5 mb-5">
+                    <label for="inputFirmaElect">Firma Electrónica</label>
+                    <input class="form-control" id="inputFirmaElect" name="firmaElect" type="file">
+                </div> -->
+                <input type="submit" [disabled]="formRef.control.invalid" (click)="enviarInfo(formulario.value)" value="Guardar"
+                                class="btn btn-primary btn-block">
+            </div>
+            <div *ngIf="loanding" id="loader" class="w-100">
+                <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="color" [mode]="mode">
+                </mat-progress-spinner>
+            </div>
+        </form>
+    </fieldset>
 </div>

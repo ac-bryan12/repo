@@ -33,6 +33,16 @@ export class RequestService {
       return this.http.post(url,user)
     }
   }
+
+  peticionPut(url:string,user:any,isLogin:boolean=false):Observable<any>{
+    if(!isLogin){
+      this.setToken()
+      return this.http.put(url,user,{headers:this.headers,withCredentials:true})
+    }else{
+      return this.http.post(url,user)
+    }
+  }
+
   peticionPostFiles(url:string,firma:any,isLogin:boolean=false):Observable<any>{
     if(!isLogin){
       this.setToken()
@@ -56,18 +66,20 @@ export class RequestService {
     this.headers.Authorization= `Token ${localStorage.getItem("token")}`
   }
 
-  checkPermissions(acceso:any,url:string,permissions:string[]):boolean{
+  checkPermissions(acceso:any,url:string,permissions:any):boolean{
     for(let [permiso,ruta]of acceso){
-      if (permissions.includes(permiso)  && url.includes(ruta)) {
-        this.cookies.set("return_to",url,{"path":"/"})
-        return true
+      for (let permission of permissions){
+        if (permission.codename.includes(permiso)  && url.includes(ruta)) {
+          this.cookies.set("return_to",url,{"path":"/"})
+          return true
+        }
       }
     }
     this.cookies.set("return_to",'/login')
     return false
   }
 
-  async check(url: string,acceso:any,grupo:string): Promise<true | UrlTree>{
+  async check(url: string,acceso:any): Promise<true | UrlTree>{
     let authenticated:boolean = await this.peticionGet(environment.url+"/auth/isLogged/",false).toPromise()
     .then(res=> {
         return res['logged']
@@ -75,11 +87,10 @@ export class RequestService {
     .catch(err => {return false})
     if(authenticated){
       let rol = await this.peticionGet(environment.url+"/auth/userPermissions/").toPromise().then( res => {return res}).catch(err => console.log(err))
-      if(rol.groups.includes(grupo)){
-        if(this.checkPermissions(acceso,url,rol.permissions)){
-          return true
-        }
+      if(this.checkPermissions(acceso,url,rol.permissions)){
+        return true
       }
+
     }
 
     this.redirectUrl = url;

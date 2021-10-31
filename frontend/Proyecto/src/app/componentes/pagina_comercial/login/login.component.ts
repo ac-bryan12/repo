@@ -42,17 +42,17 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  cambiarVistas(groups:string[]){
-    if(groups.includes('admin_facturacion')){
-      this.route.navigate(["/admin"])
-    }else if(groups.includes('cliente')){
-      this.route.navigate(["/cliente"])
-    }else if(groups.includes('admin_empresa')){
-      this.route.navigate(["/view-company"])
-    }else{
-      this.route.navigate(["/login"])
-    }
-  }
+  // cambiarVistas(groups:string[]){
+  //   if(groups.includes('admin_facturacion')){
+  //     this.route.navigate(["/admin"])
+  //   }else if(groups.includes('cliente')){
+  //     this.route.navigate(["/cliente"])
+  //   }else if(groups.includes('admin_empresa')){
+  //     this.route.navigate(["/view-company"])
+  //   }else{
+  //     this.route.navigate(["/login"])
+  //   }
+  // }
 
 
   iniciarSesion(value: any) {
@@ -64,7 +64,8 @@ export class LoginComponent implements OnInit {
           this.request.isLoggedIn = true
           localStorage.setItem('token', res['token']);
           localStorage.setItem('Autenticated', "true");
-          this.grupos_permisos()   
+          // this.grupos_permisos()   
+          this.route.navigate(["/portal"])
         }, (err: HttpErrorResponse) => {
           this.loanding = false
           // this.msg_d = 'd-block'
@@ -72,15 +73,12 @@ export class LoginComponent implements OnInit {
         });
     }
   }
-  grupos_permisos() {
-    this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
-      console.log(res)
-      this.cambiarVistas(res['groups'])
-    })
-
-
-    
-  }
+  // grupos_permisos() {
+  //   this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
+  //     console.log(res)
+  //     this.cambiarVistas(res['groups'])
+  //   })
+  // }
   validacion(v: string): boolean {
     this.msg_d = 'd-none'
     if (this.login.get(v)?.hasError('required')) {

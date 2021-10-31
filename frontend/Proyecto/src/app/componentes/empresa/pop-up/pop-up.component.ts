@@ -28,10 +28,7 @@ export class PopUpComponent implements OnInit {
   response_content = ''
   usuario: any = {}
   listGrupos: any[]
-//  listPermisos: any[]
-//  listGruposSeleccionados: any[]
   listPermisosSeleccionados: any[]
-//  listPermisosEmpresa: any[]
   msg: string = ""
   constructor(
     private route: ActivatedRoute,
@@ -42,11 +39,8 @@ export class PopUpComponent implements OnInit {
       user: this.fb.group({
         first_name: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'), Validators.minLength(3)]),
         last_name: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'), Validators.minLength(3)]),
-        // password: this.fb.control('', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[_.{}=<>;:,\+$@$!%*?&])[A-Za-z\d_.{}=<>;:,\+$@$!%*?&].{7,}')]),
-        // confpassword: this.fb.control('', [Validators.required]),
         email: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._%+\-]+@[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9.\-]+\\.[a-zA-ZñÑáéíóúÁÉÍÓÚ]{2,4}'), Validators.minLength(7)]),
         groups: this.fb.control(''),
-        permissions: this.fb.control('')
       }),
       telefono: this.fb.control('', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(10)]),
       direccion: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$'), Validators.minLength(4)]),
@@ -56,37 +50,27 @@ export class PopUpComponent implements OnInit {
     })
     this.listGrupos = []
     this.listPermisosSeleccionados = []
-/*
-    this.listPermisos = []
-    this.listPermisosEmpresa = []
-    */
   }
 
   ngOnInit(): void {
     this.tipo = "RUC"
     this.addEmp.get('tipo_identificacion')?.setValue("RUC")
     this.inicializarValores()
+    this.desabilitarForm()
   }
-  // validacionPassword(){
-  //     return this.validate.validarConfPassword(this.addEmp.get(["user","password"])?.value,this.addEmp.get(["user","confpassword"])?.value)    
-  // }
 
   validarGrupo(inputGrupo:any){
-    if(inputGrupo.value != "" || inputGrupo.value != null){
-      return true;
+    if(inputGrupo.value){
+      return false;
     }
-    return false;
+    return true;
   }
 
-  enviarInfo(values: any) {
-    let list: any = []
-/*
-    for (let group of this.listGruposSeleccionados) {
-      list.push({ name: group })
-    }
-*/
+  enviarInfo(values: any,inputGroup:any) {
+    let list = []
+    list.push({"name":inputGroup.querySelector("option:checked").textContent})
     values.user.groups = list
-    
+
     if (this.id != "") {
       values.user.id = this.id
     }
@@ -109,7 +93,7 @@ export class PopUpComponent implements OnInit {
           alert(err.error.user.error[0])
         }
       } else {
-        alert(err.error.error[0])
+        alert(err.error.error)
       }
     })
   }
@@ -121,7 +105,6 @@ export class PopUpComponent implements OnInit {
       this.usuario = JSON.parse(this.usuario)
       this.addEmp.get(["user", "first_name"])?.setValue(this.usuario.user.first_name)
       this.addEmp.get(["user", "last_name"])?.setValue(this.usuario.user.last_name)
-      // this.addEmp.get(["user","password"])?.setValue("") 
       this.addEmp.get(["user", "email"])?.setValue(this.usuario.user.email)
       this.addEmp.get("telefono")?.setValue(this.usuario.telefono)
       this.addEmp.get("direccion")?.setValue(this.usuario.direccion)
@@ -136,44 +119,67 @@ export class PopUpComponent implements OnInit {
       for (let grupo of res) {
           this.listGrupos.push(grupo)
       }
+
+      if (this.id) {
+        this.service.peticionGet(environment.url + `/api/user/getPermisosRoles/${this.id}/`).subscribe((res) => {
+          
+          for (let permiso of res.permissions) {
+            this.listPermisosSeleccionados.push(permiso)
+          }
+          // Seteando el grupo del usuario
+          let inputGrupos : any = document.querySelector(`option[value$='${res.groups[0].id}']`)
+          inputGrupos.selected = true
+          
+        }, error => {
+          this.msg = "Ocurrió un error al cargar los datos"
+          alert(this.msg)
+        })
+      }
+      
     }, error => {
       this.msg = "Ocurrió un error al cargar los datos"
       alert(this.msg)
     })
 
-    if (this.id) {
-      this.service.peticionGet(environment.url + `/api/user/getPermisosRoles/${this.id}/`).subscribe((res) => {
-        
-        for (let permiso of res.permissions) {
-          this.listPermisosSeleccionados.push(permiso)
-        }
-        let inputGrupos : any = document.getElementById("grupos")
-        inputGrupos.value = res.groups
 
-      }, error => {
-        this.msg = "Ocurrió un error al cargar los datos"
-        //this.listGruposSeleccionados.push(this.msg)
-        alert(this.msg)
-      })
-    }
     
+
   }
   buscarPermisos(grupoId:any) {
-    console.log(grupoId)
-/*
     this.service.peticionGet(environment.url + "/api/user/permisos/"+ grupoId+"/").subscribe((res) => {
       
       this.listPermisosSeleccionados = []
       
       for (let permisosEmpresa of res.permissions) {
         this.listPermisosSeleccionados.push(permisosEmpresa)
+
       }
     }, error => {
       this.msg = "Ocurrió un erro al cargar los datos"
       alert(this.msg)
     })
-    */
+  }
 
+  desabilitarForm(){
+    this.service.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
+      let form:any = document.getElementById('user-form-edit')
+      // let sectionGroups:any = document.getElementById('section-groups')
+      // let sectionPermissions:any = document.getElementById('section-permissions')
+      form.disabled = true
+      // sectionGroups.classList.toggle('d-none')
+      // sectionPermissions.classList.toggle('d-none')
+      for (let permiso of res.permissions){
+        if(permiso.codename == 'change_user' || ( !this.id || this.id=="")){
+          form.disabled = false
+        }
+        // if(permiso.codename == 'view_group'){
+        //   sectionGroups.classList.toggle('d-none')
+        // }
+        // if(permiso.codename == 'view_permissions'){
+        //   sectionPermissions.classList.toggle('d-none')
+        // }
+      }
+    })
   }
 
   // asignarSelect(name: string, inputButton: any = null) {
@@ -191,7 +197,6 @@ export class PopUpComponent implements OnInit {
   //     }
   //   }
   // }
-  
   
 
   changeValue(text: any) {

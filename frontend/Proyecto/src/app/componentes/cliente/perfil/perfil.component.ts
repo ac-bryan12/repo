@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
 import { Validacion } from 'src/assets/Validacion';
 import { environment } from 'src/environments/environment';
@@ -20,9 +21,12 @@ export class PerfilComponent implements OnInit {
   public profile: FormGroup;
   public validate: Validacion = new Validacion;
   tipo = ''
+  permissions: any = []
+
   constructor(
     private fb: FormBuilder,
-    private service: RequestService
+    private service: RequestService,
+    private router: Router,
   ) {
     this.profile = this.fb.group({
       user: this.fb.group({
@@ -39,8 +43,8 @@ export class PerfilComponent implements OnInit {
     this.tipo = 'RUC'
   }
 
-  ngOnInit(): void {
-    this.obtenerInfo()
+  async ngOnInit(){
+    this.obtenerPermisos()
   }
 
   changeTipo(value: any) {
@@ -65,7 +69,7 @@ export class PerfilComponent implements OnInit {
       alert(res.msg)
     },err =>{
       this.loanding = false;
-      alert(err.error);
+      alert(err.error.error);
     })
   }
 
@@ -83,9 +87,51 @@ export class PerfilComponent implements OnInit {
       this.changeTipo(profile.tipo_identificacion)
       let dni:HTMLInputElement = document.getElementById(profile.tipo_identificacion) as HTMLInputElement
       dni.checked = true
-
+      this.desabilitarForm()
     },err =>{
-      alert("Ha ocurrido un error al cargar los datos.")
+      if(err.error.error == undefined){
+        alert("Ha ocurrido un error al cargar los datos.")
+      }else{
+        alert(err.error.error);
+      }
     })
+  }
+
+  async obtenerPermisos(){
+    this.service.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
+      this.permissions = res.permissions
+      let form:any = document.getElementById('perfil_form')
+      form.disabled = true
+      let continuar = true
+      for (let permiso of this.permissions){
+        if(permiso.codename == 'change_profile'){
+          form.disabled = false
+        }
+
+        if(permiso.codename == 'view_empresatemp'){
+          this.router.navigate(['/portal/empresasTemp'])
+          continuar = false          
+        }
+      }
+
+      if(continuar){
+        this.obtenerInfo()
+      }
+      
+    },err =>{
+      alert('Ocurrió un error al cargar los permisos, por favor recargue la página.')
+    })
+  }
+
+  desabilitarForm(){
+    let form:any = document.getElementById('perfil_form')
+    form.disabled = true
+    for (let permiso of this.permissions){
+      if(permiso.codename == 'change_profile'){
+        form.disabled = false
+        break
+      }
+    }
+    
   }
 }

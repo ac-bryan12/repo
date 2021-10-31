@@ -21,15 +21,13 @@ export class GruposEmpresaComponent implements OnInit {
   loanding = false;
 
   id: string = ""
-  usuario: any = {}
+  name: any = ""
 
   listGrupos: any[];
   listPermisos: any[];
-  listGruposSeleccionados: any[];
-  listPermisosSeleccionados: any[];
-  listPermisosEmpresa: any[];
+  listPermisosAsignados: any[];
   msg: string = ""
-  public addEmp: FormGroup;
+  public addGroup: FormGroup;
   public validate: Validacion = new Validacion();
 
 
@@ -37,50 +35,65 @@ export class GruposEmpresaComponent implements OnInit {
     private service: RequestService,
     private router: Router,
     private fb: FormBuilder) {
-    this.addEmp = this.fb.group({
-      user: this.fb.group({
-        first_name: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'), Validators.minLength(3)]),
+    this.addGroup = this.fb.group({
+      groups: this.fb.group({
+        name: this.fb.control('', [Validators.required, Validators.pattern('^[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_.\-]+$'), Validators.minLength(3)]),
       })
-
-    }
-    )
+    })
     this.listGrupos = []
-    this.listGruposSeleccionados = []
-    this.listPermisosSeleccionados = []
+    this.listPermisosAsignados = []
     this.listPermisos = []
-    this.listPermisosEmpresa = []
   }
 
   ngOnInit(): void {
-    this.enviar()
+    this.inicializarValores()
   }
 
   enviarInfo(values: any) {
-    console.log(values)
     let list: any = []
-    for (let permiso of this.listPermisosSeleccionados) {
-      list.push({ codename: permiso })
-      values.user.permissions = list
+    for (let permiso of this.listPermisosAsignados) {
+      list.push({ name: permiso })
+      values.permissions = list
     }
+    if(!this.id){
+      
+      this.service.peticionPost(environment.url+"/auth/userPermissions/",values).subscribe(res =>{
+        alert(res.msg)
+      },err =>{
+        alert(err.error.error)
+      })
+    }else{
+      values.id = this.id
+      console.log(values)
+      this.service.peticionPut(environment.url+"/auth/userPermissions/",values).subscribe(res =>{
+        alert(res.msg)
+      },err =>{
+        alert(err.error.error)
+      })
+    }
+
 
   }
 
-  enviar() {
+  inicializarValores() {
     this.id = this.router.parseUrl(this.router.url).queryParams["id"]
-    this.usuario = this.router.parseUrl(this.router.url).queryParams["usuario"]
-    if (this.usuario) {
-      this.usuario = JSON.parse(this.usuario)
-      this.addEmp.get(["user", "first_name"])?.setValue(this.usuario.user.first_name)
+    this.name = this.router.parseUrl(this.router.url).queryParams["name"]
+    
+    if(this.id == '2' || this.id == '3' ){
+      let formGroup : any = document.getElementById('group-form')
+      formGroup.disabled = true
     }
-    if (this.id) {
-      this.service.peticionGet(environment.url + `/api/user/getPermisosRoles/${this.id}/`).subscribe((res) => {
+
+    if (this.name && this.id) {
+      this.addGroup.get(["groups","name"])?.setValue(this.name)
+      this.service.peticionGet(environment.url + `/api/user/permisos/${this.id}/`).subscribe((res) => {
         for (let permiso of res.permissions) {
-          this.listPermisosSeleccionados.push(permiso)
+          this.listPermisosAsignados.push(permiso.name)
         }
         this.permisosGrupos2()
       }, error => {
         this.msg = "Ocurrió un error al cargar los datos"
-        this.listPermisosSeleccionados.push(this.msg)
+        alert(this.msg)
       })
     }
     else {
@@ -90,28 +103,28 @@ export class GruposEmpresaComponent implements OnInit {
   }
 
   permisosGrupos2() {
-    this.service.peticionGet(environment.url + "/api/user/permisos/").subscribe((res) => {
-      for (let permisosEmpresa of res.permissions) {
-        if (this.listPermisosSeleccionados.indexOf(permisosEmpresa) == -1) {
-          this.listPermisos.push(permisosEmpresa)
+    this.service.peticionGet(environment.url + "/api/user/permisos/2/").subscribe((res) => {
+      for (let permisos of res.permissions) {
+        if (this.listPermisosAsignados.indexOf(permisos.name) == -1) {
+          this.listPermisos.push(permisos.name)
         }
       }
     }, error => {
       this.msg = "Ocurrió un erro al cargar los datos"
-      this.listPermisos.push(this.msg)
+      alert(this.msg)
     })
 
   }
 
   removeAll(nameLista: string) {
-    let lista = this.listPermisosSeleccionados.splice(0, this.listPermisosSeleccionados.length)
+    let lista = this.listPermisosAsignados.splice(0, this.listPermisosAsignados.length)
     this.listPermisos = this.listPermisos.concat(lista)
   }
 
   asignarSelect(name: string, inputButton: any = null) {
     let input = document.getElementById(name) as HTMLSelectElement
     if (input.value != "" && input.value !== null && this.listPermisos.indexOf(input.value) != -1) {
-      this.listPermisosSeleccionados.push(input.value)
+      this.listPermisosAsignados.push(input.value)
       this.listPermisos.splice(this.listPermisos.indexOf(input.value), 1)
     }
   }
@@ -120,9 +133,9 @@ export class GruposEmpresaComponent implements OnInit {
   removerSelect(name: string, inputButton: any = null) {
     let input = document.getElementById(name) as HTMLSelectElement
 
-    if (input.value != "" && input.value !== null && this.listPermisosSeleccionados.indexOf(input.value) != -1) {
+    if (input.value != "" && input.value !== null && this.listPermisosAsignados.indexOf(input.value) != -1) {
       this.listPermisos.push(input.value)
-      this.listPermisosSeleccionados.splice(this.listPermisosSeleccionados.indexOf(input.value), 1)
+      this.listPermisosAsignados.splice(this.listPermisosAsignados.indexOf(input.value), 1)
     }
   }
 
