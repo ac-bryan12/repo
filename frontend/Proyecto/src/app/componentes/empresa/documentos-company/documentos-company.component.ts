@@ -19,9 +19,9 @@ export class DocumentosCompanyComponent implements OnInit {
   notificaciones: any = []
   fileName = "";
   enviar = true
+  enviarDocumentos = false
   namesFilesAux = new Set()
   totalDocs:number = 0
-  DocsTotal:number = 0
   existDocs:number = 0
   errorDocs:number = 0
 
@@ -30,7 +30,21 @@ export class DocumentosCompanyComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarDocumentos()
+    this.habilitarControles()
   }
+
+  habilitarControles(){
+    this.envio.peticionGet(environment.url+"/auth/userPermissions/").subscribe( res => {
+      for( let permiso of res.permissions){
+        if(permiso.codename == 'add_documentos'){
+          this.enviarDocumentos = true
+        }
+      }
+    },err =>{
+      alert(err.error.error);
+    })
+  }
+
   procesaPropagar(lista: any) {
     this.notificaciones = lista
   }

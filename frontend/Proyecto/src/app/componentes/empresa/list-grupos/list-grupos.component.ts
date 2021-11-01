@@ -11,23 +11,27 @@ import { environment } from 'src/environments/environment';
 })
 export class ListGruposComponent implements OnInit {
   listGrupos :any[]
-  listPermissions :any[]
+  agregarGrupo = "disabled"
+  editarGrupo = "disabled"
   constructor(private service:RequestService, private cookie:CookieService, private router:Router,private route:ActivatedRoute){
     this.listGrupos = []
-    this.listPermissions = []
   }
 
   ngOnInit(): void {
     this.listaGrupos()
-    this.obtenerPermisos()
+    this.habilitarControles()
   }
 
-  obtenerPermisos(){
+  habilitarControles(){
     this.service.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
       for(let permiso of res.permissions){
-        this.listPermissions.push(permiso.codename)
+        if(permiso.codename == 'add_group'){
+          this.agregarGrupo = ""
+        }
+        if(permiso.codename == 'change_group'){
+          this.editarGrupo = ""
+        }
       }
-      console.log(this.listPermissions)
     },err =>{
       alert(err.error.error);
     })

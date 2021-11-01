@@ -47,9 +47,32 @@ export class GruposEmpresaComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarValores()
+    this.habilitarControles()
+  }
+
+  habilitarControles(){
+    this.service.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
+      let formGroup : any = document.getElementById('group-form')
+      formGroup.disabled = true
+      for(let permiso of res.permissions){
+        if(permiso.codename == 'add_group' && !this.id){
+          formGroup.disabled = false
+        }
+        if(permiso.codename == 'change_group' && this.id){
+          formGroup.disabled = false
+        }
+        
+      }
+      if(this.id == '2' || this.id == '3' ){
+        formGroup.disabled = true
+      }
+    },err =>{
+      alert(err.error.error);
+    })
   }
 
   enviarInfo(values: any) {
+    this.loanding = true;
     let list: any = []
     for (let permiso of this.listPermisosAsignados) {
       list.push({ name: permiso })
@@ -58,32 +81,29 @@ export class GruposEmpresaComponent implements OnInit {
     if(!this.id){
       
       this.service.peticionPost(environment.url+"/auth/userPermissions/",values).subscribe(res =>{
+        this.loanding = false;
         alert(res.msg)
       },err =>{
+        this.loanding = false;
         alert(err.error.error)
       })
     }else{
       values.id = this.id
       console.log(values)
       this.service.peticionPut(environment.url+"/auth/userPermissions/",values).subscribe(res =>{
+        this.loanding = false;
         alert(res.msg)
       },err =>{
+        this.loanding = false;
         alert(err.error.error)
       })
     }
-
-
   }
 
   inicializarValores() {
     this.id = this.router.parseUrl(this.router.url).queryParams["id"]
     this.name = this.router.parseUrl(this.router.url).queryParams["name"]
-    
-    if(this.id == '2' || this.id == '3' ){
-      let formGroup : any = document.getElementById('group-form')
-      formGroup.disabled = true
-    }
-
+  
     if (this.name && this.id) {
       this.addGroup.get(["groups","name"])?.setValue(this.name)
       this.service.peticionGet(environment.url + `/api/user/permisos/${this.id}/`).subscribe((res) => {

@@ -1,7 +1,7 @@
 <div id="container">
     <div id="documentos" class="w-100">
         <div id="caja"></div>
-        <div id="boton-volver" class="mt-4 ms-4">
+        <div id="boton-volver" class="mt-4 ms-4 d-none">
             <button class="btn btn-primary btn-block">
                 <img alt="volver" src="assets/volver.png" width="25px">
                 Volver
@@ -19,19 +19,19 @@
             </div>
         </div>
         <div id="seccion-botones" class="mt-4 mb-4">
-            <div>
+            <div class="invisible">
                 <input type="text">
                 <img alt="buscador" src="assets/lupa.png" width="25px">
             </div>
 
-            <div>
+            <div class="invisible">
                 <img alt="buscador" src="assets/filtro.png" width="25px">
                 <select aria-label="Todos" id="documentos">
                     <option value="TODOS" selected>Seleccione una opción</option>
                 </select>
             </div>
 
-            <div>
+            <fieldset [disabled]=!enviarDocumentos>
                 <div>
                     <input #doc (change)="capturarFile(doc)" class="form-control"
                     id="inputDoc" name="inputDoc" type="file" accept=".xml" multiple> <!-- Aqu se ccambia se el tipo de archivo también aceppt y el multiple sirve para cargara varios-->
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </fieldset>
 
         </div>
         <div>
@@ -80,7 +80,7 @@
                         <td>----------</td>
                         <td>----------</td>
                         <td>----------</td>
-                        <td>----------</td>
+                        <td>{{doc.tipoCreacion}}</td>
                         <td id="iconos" class="w-100 h-40">
                             <img alt="visualizar" src="assets/vision.png" width="15px">
                             <img alt="recharge" src="assets/cargando-flechas.png" width="10px">

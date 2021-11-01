@@ -12,6 +12,8 @@ import { reference } from '@popperjs/core';
 })
 export class GruposPermisosComponent implements OnInit {
   listUsuarios :any[]
+  agregarUsuario = "disabled"
+  editarUsuario = "disabled"
   constructor(private service:RequestService, private cookie:CookieService, private router:Router,private route:ActivatedRoute) { 
 
     this.listUsuarios = []
@@ -19,6 +21,20 @@ export class GruposPermisosComponent implements OnInit {
 
   ngOnInit(): void {
     this.listaUsuarios()
+    this.habilitarControles()
+  }
+
+  habilitarControles(){
+    this.service.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res => {
+      for(let permiso of res.permissions){
+        if(permiso.codename == 'add_user'){
+          this.agregarUsuario = ""
+        }
+        if(permiso.codename == 'change_user'){
+          this.editarUsuario = ""
+        }
+      }
+    })
   }
 
   listaUsuarios(){

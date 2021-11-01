@@ -1,10 +1,10 @@
 <div id="container">
     <div id="tabla" class="table-responsive">
         <div id="caja"></div>
-        <h1 id="title" class="text-center font-weight-bold mt-5">Permisos y Grupos</h1>
+        <h1 id="title" class="text-center font-weight-bold mt-5">Usuarios</h1>
         <div class="mt-2 mb-4 d-flex flex-row justify-content-around">
             <div>
-                <button (click)="crearUser()" class="btn btn-primary btn-block">Agregar nuevo usuario</button>
+                <button (click)="crearUser()" class=" {{agregarUsuario}} btn btn-primary btn-block">Agregar nuevo usuario</button>
             </div>
         </div>
         <div class="table-wrapper">
@@ -15,7 +15,7 @@
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Grupo</th>
-                        <th>Acciones</th>
+                        <th class="{{editarUsuario}}">Acciones</th>
                     </tr>
                 </thead>
                 <tbody *ngFor="let user of listUsuarios">
@@ -24,8 +24,8 @@
                         <td>{{user.user.first_name+" "+user.user.last_name}}</td>
                         <td>{{user.user.email}}</td>
                         <td>{{user.user.groups[0].name}}</td>
-                        <td>
-                            <button (click)="envioId(id)" class="btn btn-primary btn-block">Editar</button>
+                        <td >
+                            <button (click)="envioId(id)" class=" {{editarUsuario}} btn btn-primary btn-block">Editar</button>
                         </td>
                     </tr>
 

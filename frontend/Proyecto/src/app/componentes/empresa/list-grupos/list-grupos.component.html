@@ -3,8 +3,8 @@
         <div id="caja"></div>
         <h1 id="title" class="text-center font-weight-bold mt-5">Grupos</h1>
         <div class="mt-2 mb-4 d-flex flex-row justify-content-around">
-            <div *ngIf = "listPermissions.includes('add_group')">
-                <button (click)="crearGrupo()" class="btn btn-primary btn-block">Agregar nuevo Grupo</button>
+            <div >
+                <button (click)="crearGrupo()" class="{{agregarGrupo}} btn btn-primary btn-block">Agregar nuevo Grupo</button>
             </div>
         </div>
         <div class="table-wrapper">
@@ -13,15 +13,15 @@
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th *ngIf = "listPermissions.includes('change_group')">Acciones</th>
+                        <th class="{{editarGrupo}}">Acciones</th>
                     </tr>
                 </thead>
                 <tbody *ngFor="let grupo of listGrupos">
                     <tr>
                         <td #id>{{grupo.id}}</td>
                         <td>{{grupo.name}}</td>
-                        <td *ngIf = "listPermissions.includes('change_group')" > 
-                            <button (click)="envioId(id)" class="btn btn-primary btn-block">Editar</button>
+                        <td> 
+                            <button (click)="envioId(id)" class=" {{editarGrupo}} btn btn-primary btn-block">Editar</button>
                         </td>
                     </tr>
 

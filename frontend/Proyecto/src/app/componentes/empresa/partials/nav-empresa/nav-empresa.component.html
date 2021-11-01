@@ -23,13 +23,13 @@
                     </a>
                 </li>
 
-                <li class="nav-item" *ngIf="permissions.view_user">
+                <li class="nav-item" *ngIf="permissions.view_user || permissions.add_user">
                     <a class="nav-link active" aria-current="page" routerLink="grupos-permisos">
                         <span data-feather="grupos-permisos"></span>
                         Usuarios/roles
                     </a>
                 </li>
-                <li class="nav-item" *ngIf="permissions.view_group">
+                <li class="nav-item" *ngIf="permissions.view_group || permissions.add_group">
                     <a class="nav-link active" aria-current="page" routerLink="grupos">
                         <span data-feather="grupos"></span>
                         Grupos

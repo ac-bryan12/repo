@@ -154,30 +154,23 @@ export class PopUpComponent implements OnInit {
         this.listPermisosSeleccionados.push(permisosEmpresa)
 
       }
-    }, error => {
-      this.msg = "Ocurrió un erro al cargar los datos"
-      alert(this.msg)
+    }, err => {
+      alert(err.error.error)
     })
   }
 
   desabilitarForm(){
     this.service.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
       let form:any = document.getElementById('user-form-edit')
-      // let sectionGroups:any = document.getElementById('section-groups')
-      // let sectionPermissions:any = document.getElementById('section-permissions')
       form.disabled = true
-      // sectionGroups.classList.toggle('d-none')
-      // sectionPermissions.classList.toggle('d-none')
+      console.log(this.id)
       for (let permiso of res.permissions){
-        if(permiso.codename == 'change_user' || ( !this.id || this.id=="")){
+        if(permiso.codename == 'change_user' && (this.id)){
           form.disabled = false
         }
-        // if(permiso.codename == 'view_group'){
-        //   sectionGroups.classList.toggle('d-none')
-        // }
-        // if(permiso.codename == 'view_permissions'){
-        //   sectionPermissions.classList.toggle('d-none')
-        // }
+        if(permiso.codename == 'add_user' && !this.id){
+          form.disabled = false
+        }
       }
     })
   }

@@ -13,7 +13,9 @@ export class NavEmpresaComponent implements OnInit {
     "change_profile":false,
     "view_empresa":false,
     "view_user":false,
+    "add_user":false,
     "view_group":false,
+    "add_group":false,
     "view_empresatemp":false,
     "view_documentos":false,
   }
