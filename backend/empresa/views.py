@@ -225,7 +225,7 @@ class DocumentosViewSet(APIView):
                 if request.data["content_type"]=="text/xml": # Aqui se cambia el campo
                     read = archivo.file.read()
                     file = io.BytesIO(read)
-                    archivo = Documentos.objects.create(_file = base64.encodebytes(file.getvalue()), content_type = request.data["content_type"],nombreDoc = request.data["nombreDoc"])
+                    archivo = Documentos.objects.create(_file = base64.encodebytes(file.getvalue()), content_type = request.data["content_type"],nombreDoc = request.data["nombreDoc"],tipoCreacion="SUBIDO")
                     if archivo:
                         return Response({'msg':"Documento guardado",'type':1},status=status.HTTP_201_CREATED)
                     else:

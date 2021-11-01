@@ -359,7 +359,7 @@ class GroupViewSet(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self,request):
-        if request.user.user_permissions.filter(codename="view_group").exists():
+        if request.user.user_permissions.filter(codename="view_group").exists() or request.user.user_permissions.filter(codename="view_permission").exists():
             profiles = Profile.objects.filter(empresa=request.user.profile.empresa) 
             users = User.objects.filter(profile__in=profiles)
             logs= LogEntry.objects.filter(action_flag=1,content_type_id=3,user__in=users)
@@ -381,11 +381,14 @@ class PermisosViewSet(generics.ListAPIView):
 
     def get(self,request,pk):
         if request.user.user_permissions.filter(codename="view_permission").exists():
-            if Group.objects.filter(pk=pk).exists():
-                group = Group.objects.get(pk=pk)
-                permissions = PermissionSerializer(group.permissions.all(),many=True)
-                return Response({'permissions':permissions.data},status=status.HTTP_200_OK)
-            return Response({'error':'No existe el grupo solicitado'},status=status.HTTP_404_NOT_FOUND)    
+            if pk :
+                if Group.objects.filter(pk=pk).exists():
+                    group = Group.objects.get(pk=pk)
+                    permissions = PermissionSerializer(group.permissions.all(),many=True)
+                    return Response({'permissions':permissions.data},status=status.HTTP_200_OK)
+                return Response({'error':'No existe el grupo solicitado'},status=status.HTTP_404_NOT_FOUND)    
+            else:
+                return Response({'error':'Seleccione un grupo valido'},status=status.HTTP_404_NOT_FOUND)    
         return Response({'error':'Acceso denegado'},status=status.HTTP_403_FORBIDDEN)
 
 # Permisos grupos del usuario requerido
