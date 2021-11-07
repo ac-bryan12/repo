@@ -60,7 +60,7 @@ export class PopUpComponent implements OnInit {
   }
 
   validarGrupo(inputGrupo:any){
-    if(inputGrupo.value){
+    if(inputGrupo.value && inputGrupo.value!="0"){
       return false;
     }
     return true;

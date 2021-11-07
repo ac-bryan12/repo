@@ -37,7 +37,7 @@ export class CreateCuentaComponent implements OnInit {
         ruc: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(13),]),
         correo: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._%+\-]+@[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9.\-]+\\.[a-zA-ZñÑáéíóúÁÉÍÓÚ]{2,4}'),Validators.minLength(7)]),
         razonSocial: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$'),Validators.minLength(5), Validators.maxLength(150)]),
-        telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(9)]),
+        telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10)]),
         direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$')])
       }),
       user: this.fb.group({
@@ -50,7 +50,7 @@ export class CreateCuentaComponent implements OnInit {
       }),
       n_identificacion: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10),]),
       tipo_identificacion: "CEDULA" ,
-      telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(9)]),
+      telefono: this.fb.control('', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(10)]),
       direccion: this.fb.control('', [Validators.required,Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$'),Validators.minLength(4)]),
       cargoEmpres: this.fb.control('', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$'),Validators.minLength(4)],),
       token: this.fb.control('', [Validators.required,Validators.minLength(4)]),
