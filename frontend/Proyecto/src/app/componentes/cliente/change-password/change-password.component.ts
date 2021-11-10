@@ -47,9 +47,14 @@ export class ChangePasswordComponent implements OnInit {
     this.service.peticionPost(environment.url+"/auth/reset_password/",form).subscribe(res=>{
       this.loanding = false;
       alert(res["msg"])
+      this.limpiarFormulario()
     },err=>{
       this.loanding = false;
       alert(err.error.error)
     })
+  }
+
+  limpiarFormulario(){
+    window.location.reload()
   }
 }

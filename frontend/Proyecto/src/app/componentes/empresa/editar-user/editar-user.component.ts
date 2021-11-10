@@ -10,11 +10,11 @@ import { Validacion } from 'src/assets/Validacion';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'pop-up',
-  templateUrl: './pop-up.component.html',
-  styleUrls: ['./pop-up.component.css']
+  selector: 'editar-user',
+  templateUrl: './editar-user.component.html',
+  styleUrls: ['./editar-user.component.css']
 })
-export class PopUpComponent implements OnInit {
+export class EditarUserComponent implements OnInit {
   // Progress Bar
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';

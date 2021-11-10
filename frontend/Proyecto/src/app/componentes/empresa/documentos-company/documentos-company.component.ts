@@ -21,9 +21,9 @@ export class DocumentosCompanyComponent implements OnInit {
   enviar = true
   enviarDocumentos = false
   namesFilesAux = new Set()
-  totalDocs:number = 0
-  existDocs:number = 0
-  errorDocs:number = 0
+  totalDocs: number = 0
+  existDocs: number = 0
+  errorDocs: number = 0
 
   constructor(private envio: RequestService,) {
   }
@@ -33,14 +33,14 @@ export class DocumentosCompanyComponent implements OnInit {
     this.habilitarControles()
   }
 
-  habilitarControles(){
-    this.envio.peticionGet(environment.url+"/auth/userPermissions/").subscribe( res => {
-      for( let permiso of res.permissions){
-        if(permiso.codename == 'add_documentos'){
+  habilitarControles() {
+    this.envio.peticionGet(environment.url + "/auth/userPermissions/").subscribe(res => {
+      for (let permiso of res.permissions) {
+        if (permiso.codename == 'add_documentos') {
           this.enviarDocumentos = true
         }
       }
-    },err =>{
+    }, err => {
       alert(err.error.error);
     })
   }
@@ -48,7 +48,7 @@ export class DocumentosCompanyComponent implements OnInit {
   procesaPropagar(lista: any) {
     this.notificaciones = lista
   }
-  procesarCierre(){
+  procesarCierre() {
   }
 
   capturarFile(firma: HTMLInputElement) {
@@ -61,12 +61,12 @@ export class DocumentosCompanyComponent implements OnInit {
       this.previsualizacion = ""
       this.enviar = true
     }
-  } 
+  }
 
   subirArchivos(docs: HTMLInputElement) {
     this.enviar = true
     var file: any = docs.files
-    for(let docs of this.listaDocumentos){
+    for (let docs of this.listaDocumentos) {
       this.namesFilesAux.add(docs.nombreDoc)
     }
     for (let i = 0; i < file.length; i++) {
@@ -81,14 +81,14 @@ export class DocumentosCompanyComponent implements OnInit {
       }
     }
     let var1 = this
-    setTimeout(function(){
-      if(var1.totalDocs>0){
-        var1.notificaciones.push({value:"creados", name: ""})
-        var1.notificaciones.push({value:"recargar",name: ""})
+    setTimeout(function () {
+      if (var1.totalDocs > 0) {
+        var1.notificaciones.push({ value: "creados", name: "" })
+        var1.notificaciones.push({ value: "recargar", name: "" })
       }
       var1.enviar = false
       var1.loanding = false
-    },4000,var1)
+    }, 4000, var1)
   }
 
 
@@ -120,4 +120,35 @@ export class DocumentosCompanyComponent implements OnInit {
     })
   }
 
+  buscador() {
+    let search = document.getElementById("buscador") as HTMLElement
+    let inputsearch = document.getElementById("inputbuscador") as HTMLDataElement
+    let nameDoc = document.getElementsByClassName("nameDocs")
+    let filas = document.getElementsByClassName("fila");
+    inputsearch.addEventListener("change",()=>{
+      if(inputsearch.value == ''){
+        for (let i = 0; i < nameDoc.length; i++) {
+          filas[i].classList.remove("class","d-none")
+        }
+      }
+    })
+
+    search.addEventListener("click", () => {
+      this.evento(search,nameDoc,filas, inputsearch)
+    })
+  }
+
+  evento(tag: HTMLElement, nameDoc: HTMLCollectionOf<Element>, filas: HTMLCollectionOf<Element>, inputsearch:HTMLDataElement){
+    tag.addEventListener("click", () => {
+      for (let i = 0; i < nameDoc.length; i++) {
+        if (!nameDoc[i].textContent?.toLocaleLowerCase().includes(inputsearch.value.toLocaleLowerCase())) {
+          filas[i].classList.add("class", "d-none")
+        }
+        else {
+          filas[i].classList.remove("class","d-none")
+        }
+      }
+    })
+
+  }
 }

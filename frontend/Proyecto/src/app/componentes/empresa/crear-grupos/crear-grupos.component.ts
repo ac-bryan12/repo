@@ -9,10 +9,10 @@ import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'editar-grupo',
-  templateUrl: './grupos-empresa.component.html',
-  styleUrls: ['./grupos-empresa.component.css']
+  templateUrl: './crear-grupos.component.html',
+  styleUrls: ['./crear-grupos.component.css']
 })
-export class GruposEmpresaComponent implements OnInit {
+export class CrearGruposComponent implements OnInit {
   response_d = ''
   response_content = ''
   // Progress Bar
@@ -83,6 +83,7 @@ export class GruposEmpresaComponent implements OnInit {
       this.service.peticionPost(environment.url+"/auth/userPermissions/",values).subscribe(res =>{
         this.loanding = false;
         alert(res.msg)
+        this.router.navigate(["../grupos"], { relativeTo: this.route })
       },err =>{
         this.loanding = false;
         alert(err.error.error)
@@ -93,6 +94,7 @@ export class GruposEmpresaComponent implements OnInit {
       this.service.peticionPut(environment.url+"/auth/userPermissions/",values).subscribe(res =>{
         this.loanding = false;
         alert(res.msg)
+        this.router.navigate(["../grupos"], { relativeTo: this.route })
       },err =>{
         this.loanding = false;
         alert(err.error.error)
