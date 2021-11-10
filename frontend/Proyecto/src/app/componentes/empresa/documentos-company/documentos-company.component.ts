@@ -30,14 +30,14 @@ export class DocumentosCompanyComponent implements OnInit {
     this.habilitarControles()
   }
 
-  habilitarControles(){
-    this.envio.peticionGet(environment.url+"/auth/userPermissions/").subscribe( res => {
-      for( let permiso of res.permissions){
-        if(permiso.codename == 'add_documentos'){
+  habilitarControles() {
+    this.envio.peticionGet(environment.url + "/auth/userPermissions/").subscribe(res => {
+      for (let permiso of res.permissions) {
+        if (permiso.codename == 'add_documentos') {
           this.enviarDocumentos = true
         }
       }
-    },err =>{
+    }, err => {
       alert(err.error.error);
     })
   }
@@ -56,7 +56,7 @@ export class DocumentosCompanyComponent implements OnInit {
       this.previsualizacion = ""
       this.enviar = true
     }
-  } 
+  }
 
   subirArchivos(docs: HTMLInputElement) {
     this.enviar = true
@@ -103,4 +103,35 @@ export class DocumentosCompanyComponent implements OnInit {
     })
   }
 
+  buscador() {
+    let search = document.getElementById("buscador") as HTMLElement
+    let inputsearch = document.getElementById("inputbuscador") as HTMLDataElement
+    let nameDoc = document.getElementsByClassName("nameDocs")
+    let filas = document.getElementsByClassName("fila");
+    inputsearch.addEventListener("change",()=>{
+      if(inputsearch.value == ''){
+        for (let i = 0; i < nameDoc.length; i++) {
+          filas[i].classList.remove("class","d-none")
+        }
+      }
+    })
+
+    search.addEventListener("click", () => {
+      this.evento(search,nameDoc,filas, inputsearch)
+    })
+  }
+
+  evento(tag: HTMLElement, nameDoc: HTMLCollectionOf<Element>, filas: HTMLCollectionOf<Element>, inputsearch:HTMLDataElement){
+    tag.addEventListener("click", () => {
+      for (let i = 0; i < nameDoc.length; i++) {
+        if (!nameDoc[i].textContent?.toLocaleLowerCase().includes(inputsearch.value.toLocaleLowerCase())) {
+          filas[i].classList.add("class", "d-none")
+        }
+        else {
+          filas[i].classList.remove("class","d-none")
+        }
+      }
+    })
+
+  }
 }

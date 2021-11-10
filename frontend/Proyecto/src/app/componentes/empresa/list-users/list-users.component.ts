@@ -7,10 +7,10 @@ import { reference } from '@popperjs/core';
 
 @Component({
   selector: 'app-grupos-permisos',
-  templateUrl: './grupos-permisos.component.html',
-  styleUrls: ['./grupos-permisos.component.css']
+  templateUrl: './list-users.component.html',
+  styleUrls: ['./list-users.component.css']
 })
-export class GruposPermisosComponent implements OnInit {
+export class ListUsersComponent implements OnInit {
   listUsuarios :any[]
   agregarUsuario = "disabled"
   editarUsuario = "disabled"

@@ -19,15 +19,16 @@
             </div>
         </div>
         <div id="seccion-botones" class="mt-4 mb-4">
-            <div class="invisible">
-                <input type="text">
-                <img alt="buscador" src="assets/lupa.png" width="25px">
+            <div class="d-flex align-items-center">
+                <input id="inputbuscador" type="text">
+                <button id="buscador" (click)="buscador()" class="btn btn-outline-secondary"><img alt="buscador" src="assets/lupa.png" width="25px"></button>
             </div>
 
-            <div class="invisible">
-                <img alt="buscador" src="assets/filtro.png" width="25px">
+            <div class="d-flex justify-content-center align-items-center">
+                <img class="me-1" alt="buscador" src="assets/filtro.png" width="30px">
                 <select aria-label="Todos" id="documentos">
                     <option value="TODOS" selected>Seleccione una opción</option>
+                    <option></option>
                 </select>
             </div>
 
@@ -71,12 +72,12 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <tr *ngFor="let doc of listaDocumentos"  class="fila">
+                    <tr *ngFor="let doc of listaDocumentos" class="fila">
                         <td>{{doc.id}}</td>
                         <td>14-06-2021</td>
                         <td>{{doc.hora}}</td>
                         <td>-----------</td>
-                        <td>{{doc.nombreDoc}}</td>
+                        <td class="nameDocs">{{doc.nombreDoc}}</td>
                         <td>----------</td>
                         <td>----------</td>
                         <td>----------</td>

@@ -14,6 +14,21 @@ a {
     border-bottom-right-radius: 18% 75%;
 }
 
+#buscador{
+  height: 50px;
+  width: 55px;
+}
+
+#inputbuscador{
+  height: 50px;
+  width: 250px;
+}
+
+#documentos{
+  height: 40px;
+  width: 225px;
+}
+
   th{
       text-align: center;
   }

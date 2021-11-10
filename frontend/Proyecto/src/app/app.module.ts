@@ -22,11 +22,11 @@ import { EmpresaComponent } from './componentes/sitioAdmin/empresa/empresa.compo
 import { NavAdminComponent } from './componentes/sitioAdmin/partials/nav-admin/nav-admin.component';
 import { HeaderComponent } from './componentes/sitioAdmin/partials/header/header.component';
 import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
-import { PopUpComponent } from './componentes/empresa/pop-up/pop-up.component';
+import { EditarUserComponent } from './componentes/empresa/editar-user/editar-user.component';
 import { CookieService } from 'ngx-cookie-service';
 import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
 import { VistaEmpresaComponent } from './componentes/empresa/vista-empresa/vista-empresa.component';
-import { GruposPermisosComponent } from './componentes/empresa/grupos-permisos/grupos-permisos.component';
+import { ListUsersComponent } from './componentes/empresa/list-users/list-users.component';
 import { RestablecerPasswordComponent } from './componentes/pagina_comercial/restablecer-password/restablecer-password.component';
 import { NavClientComponent } from './componentes/cliente/nav-client/nav-client.component';
 import { HeaderClientComponent } from './componentes/cliente/header-client/header-client.component';
@@ -50,7 +50,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AlertasComponent } from './componentes/auxiliares/alertas/alertas.component';
-import { GruposEmpresaComponent } from './componentes/empresa/grupos-empresa/grupos-empresa.component';
+import { CrearGruposComponent } from './componentes/empresa/crear-grupos/crear-grupos.component';
 import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grupos.component';
 
 
@@ -77,10 +77,10 @@ import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grup
     NavAdminComponent,
     HeaderComponent,
     EmpresaTempComponent,
-    PopUpComponent,
+    EditarUserComponent,
     PortalComponent,
     VistaEmpresaComponent,
-    GruposPermisosComponent,
+    ListUsersComponent,
     RestablecerPasswordComponent,
     NavClientComponent,
     HeaderClientComponent,
@@ -96,7 +96,7 @@ import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grup
     DocumentosCompanyComponent,
     PageNotFoundComponent,
     AlertasComponent,
-    GruposEmpresaComponent,
+    CrearGruposComponent,
     ListGruposComponent,
   ],
   imports: [
