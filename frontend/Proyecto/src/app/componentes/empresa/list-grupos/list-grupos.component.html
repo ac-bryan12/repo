@@ -1,10 +1,10 @@
 <div id="container">
     <div id="tabla" class="table-responsive">
         <div id="caja"></div>
-        <h1 id="title" class="text-center font-weight-bold mt-5">Grupos</h1>
+        <h1 id="title" class="text-center font-weight-bold mt-5">Roles</h1>
         <div class="mt-2 mb-4 d-flex flex-row justify-content-around">
             <div >
-                <button (click)="crearGrupo()" class="{{agregarGrupo}} btn btn-primary btn-block">Agregar nuevo Grupo</button>
+                <button (click)="crearGrupo()" class="{{agregarGrupo}} btn btn-primary btn-block">Agregar nuevo rol</button>
             </div>
         </div>
         <div class="table-wrapper">
@@ -22,6 +22,7 @@
                         <td>{{grupo.name}}</td>
                         <td> 
                             <button (click)="envioId(id)" class=" {{editarGrupo}} btn btn-primary btn-block">Editar</button>
+                            <button class="delete {{eliminarGrupo}} btn btn-block"> Borrar </button>
                         </td>
                     </tr>
 

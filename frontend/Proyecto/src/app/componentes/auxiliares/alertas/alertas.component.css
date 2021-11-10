@@ -1,7 +1,7 @@
 .toastC {
   visibility: visible;
-  -webkit-animation: fadein 0.5s;
-  animation: fadein 0.5s;
+  -webkit-animation: fadein 0.5s 2.6s;
+  animation: fadein 0.5s 2.6s;
   position: relative;
   z-index: 1;
   right: 2.5%;
@@ -34,8 +34,23 @@
   from {right: 2.5%; opacity: 1;}
   to {right: 0; opacity: 0;}
 }
- 
-.toastC.cerrar {
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
+  position: relative;
+  z-index: 1;
+  right: 2.5%;
+  top: 50%;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: .25rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.1);
+  max-width: 310px;
+  width: 310px;
+  background-color: #ffffff;
+  opacity: 1;
+}
+.cerrar {
   /* visibility: visible; */
   -webkit-animation: fadeout 0.5s 4.8s;
   animation: fadeout 0.5s 4.8s;

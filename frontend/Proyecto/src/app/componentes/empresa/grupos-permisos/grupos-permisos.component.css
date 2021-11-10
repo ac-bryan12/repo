@@ -18,3 +18,11 @@
 th,td{
     text-align: center;
 }
+
+button{
+    margin: 0 2% 0 0;
+}
+
+button.delete{
+    background-color: rgb(232, 78, 78);
+}

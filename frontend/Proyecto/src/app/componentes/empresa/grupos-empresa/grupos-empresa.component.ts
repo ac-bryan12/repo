@@ -76,10 +76,9 @@ export class GruposEmpresaComponent implements OnInit {
     let list: any = []
     for (let permiso of this.listPermisosAsignados) {
       list.push({ name: permiso })
-      values.permissions = list
     }
+    values.permissions = list
     if(!this.id){
-      
       this.service.peticionPost(environment.url+"/auth/userPermissions/",values).subscribe(res =>{
         this.loanding = false;
         alert(res.msg)
@@ -130,12 +129,16 @@ export class GruposEmpresaComponent implements OnInit {
         }
       }
     }, error => {
-      this.msg = "Ocurrió un erro al cargar los datos"
+      this.msg = "Ocurrió un error al cargar los datos"
       alert(this.msg)
     })
 
   }
 
+  addAll(){
+    let list = this.listPermisos.splice(0,this.listPermisos.length)
+    this.listPermisosAsignados = this.listPermisosAsignados.concat(list)
+  }
   removeAll(nameLista: string) {
     let lista = this.listPermisosAsignados.splice(0, this.listPermisosAsignados.length)
     this.listPermisos = this.listPermisos.concat(lista)

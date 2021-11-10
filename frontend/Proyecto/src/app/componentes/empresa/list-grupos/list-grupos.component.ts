@@ -13,6 +13,7 @@ export class ListGruposComponent implements OnInit {
   listGrupos :any[]
   agregarGrupo = "disabled"
   editarGrupo = "disabled"
+  eliminarGrupo = "disabled"
   constructor(private service:RequestService, private cookie:CookieService, private router:Router,private route:ActivatedRoute){
     this.listGrupos = []
   }
@@ -31,6 +32,9 @@ export class ListGruposComponent implements OnInit {
         if(permiso.codename == 'change_group'){
           this.editarGrupo = ""
         }
+        if(permiso.codename == 'delete_group'){
+          this.eliminarGrupo = ""
+        }
       }
     },err =>{
       alert(err.error.error);
@@ -45,6 +49,11 @@ export class ListGruposComponent implements OnInit {
 
   crearGrupo(){
     this.router.navigate(["../editarGrupos"],{relativeTo:this.route})
+  }
+
+  borrarGrupo(){
+    //peticion al servidor
+    
   }
 
   envioId(id:any){

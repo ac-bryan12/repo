@@ -26,6 +26,7 @@
                         <td>{{user.user.groups[0].name}}</td>
                         <td >
                             <button (click)="envioId(id)" class=" {{editarUsuario}} btn btn-primary btn-block">Editar</button>
+                            <button (click)="borrarUser(id)" class="delete {{eliminarUsuario}} btn btn-block"> Borrar </button>
                         </td>
                     </tr>
 

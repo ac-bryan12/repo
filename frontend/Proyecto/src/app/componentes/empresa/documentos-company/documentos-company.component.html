@@ -14,7 +14,7 @@
         <div class="alertas" *ngIf = "notificaciones.length > 0">
             <div id="contenedor">
                 <div *ngFor = 'let alert of notificaciones'>
-                    <alerts (propagarLista) ="procesaPropagar($event)" (OnPropagarCierre)="procesarCierre()" mensaje="{{alert.name}}" tipo = "{{alert.value}}" nombreNotify = "{{alert.name}}" [shownotify] = "notificaciones" [cantidad]="totalDocs" ></alerts>
+                    <alerts (propagarLista) ="procesaPropagar($event)"  mensaje="{{alert.mensaje}}" tipo = "{{alert.value}}" ></alerts>
                 </div> 
             </div>
         </div>
@@ -43,7 +43,7 @@
                     <input type="submit" [disabled]="enviar" (click) = "subirArchivos(doc)">
                 </div>
                 <div class="center ">
-                    <div *ngIf = "totalDocs > 0" mode="buffer">
+                    <div *ngIf = "totalDocs > 0 && loanding" mode="buffer">
                         <span id = "porcentaje" class = 'archivos-cargados' >Cargando...</span>
                         <div id="progressbar">
                             <mat-progress-bar id="progress-bar" mode="determinate" value="100">

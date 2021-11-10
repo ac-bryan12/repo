@@ -14,6 +14,7 @@ export class GruposPermisosComponent implements OnInit {
   listUsuarios :any[]
   agregarUsuario = "disabled"
   editarUsuario = "disabled"
+  eliminarUsuario = "disabled"
   constructor(private service:RequestService, private cookie:CookieService, private router:Router,private route:ActivatedRoute) { 
 
     this.listUsuarios = []
@@ -32,6 +33,9 @@ export class GruposPermisosComponent implements OnInit {
         }
         if(permiso.codename == 'change_user'){
           this.editarUsuario = ""
+        }
+        if(permiso.codename == 'delete_user'){
+          this.eliminarUsuario = ""
         }
       }
     })
@@ -56,6 +60,10 @@ export class GruposPermisosComponent implements OnInit {
   }
   crearUser(){
     this.router.navigate(["../editarUser"],{relativeTo:this.route})
+  }
+
+  borrarUser(id:any){
+    //peticion servidor
   }
 
 }

@@ -3,6 +3,7 @@ import { RequestService } from 'src/app/services/request/request.service';
 import { saveAs } from 'file-saver';
 import { environment } from 'src/environments/environment';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { AlertasComponent } from '../../auxiliares/alertas/alertas.component';
 
 
 
@@ -15,17 +16,13 @@ export class DocumentosCompanyComponent implements OnInit {
   previsualizacion: any
   loanding = false
   listaDocumentos: Array<any> = [];
-  listaDocumentosAux: Array<any> = [];
   notificaciones: any = []
-  fileName = "";
   enviar = true
   enviarDocumentos = false
-  namesFilesAux = new Set()
   totalDocs:number = 0
-  existDocs:number = 0
   errorDocs:number = 0
-
-  constructor(private envio: RequestService,) {
+  
+  constructor(private envio: RequestService) {
   }
 
   ngOnInit(): void {
@@ -48,8 +45,6 @@ export class DocumentosCompanyComponent implements OnInit {
   procesaPropagar(lista: any) {
     this.notificaciones = lista
   }
-  procesarCierre(){
-  }
 
   capturarFile(firma: HTMLInputElement) {
     var file = firma.files?.item(0)
@@ -66,29 +61,18 @@ export class DocumentosCompanyComponent implements OnInit {
   subirArchivos(docs: HTMLInputElement) {
     this.enviar = true
     var file: any = docs.files
-    for(let docs of this.listaDocumentos){
-      this.namesFilesAux.add(docs.nombreDoc)
-    }
     for (let i = 0; i < file.length; i++) {
-      if (!(this.namesFilesAux.has(file.item(i).name))) {
         this.enviodoc(file[i])
-        this.listaDocumentosAux.push(file.item(i).name)
-        this.namesFilesAux.add(file.item(i).name)
-      }
-      else {
-        this.notificaciones.push({ value: "existe", name: file.item(i).name })
-        this.existDocs++
-      }
     }
-    let var1 = this
-    setTimeout(function(){
-      if(var1.totalDocs>0){
-        var1.notificaciones.push({value:"creados", name: ""})
-        var1.notificaciones.push({value:"recargar",name: ""})
+    setTimeout(()=>{
+      if(this.totalDocs>0){
+        this.notificaciones.push({value:"creados", mensaje: "Se ha cargado con éxito", time:this.totalDocs})
+        this.notificaciones.push({value:"recargar", mensaje: "Recargue para ver los últimos cambios ",cantidad:this.totalDocs,time:this.totalDocs})
       }
-      var1.enviar = false
-      var1.loanding = false
-    },4000,var1)
+      this.enviar = false
+      this.loanding = false
+      AlertasComponent.prototype.cerrarToastAuto()
+    },4000)
   }
 
 
@@ -103,10 +87,9 @@ export class DocumentosCompanyComponent implements OnInit {
         this.totalDocs++
       }
     }, err => {
-      this.notificaciones.push({ value: "error", name: file.name })
       this.errorDocs++
+      this.notificaciones.push({ value: err.error.class, mensaje: err.error.error,cantidad:1,time:this.errorDocs})
     })
-    this.procesarCierre()
   }
   descargardoc(id: any) {
     this.envio.peticionGet(environment.url + '/api/empresa/documentos/descargar-documento/' + id + '/').subscribe((res) => {

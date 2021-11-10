@@ -2,7 +2,7 @@
 <div class="row p-md-5">
     <div class="col-9 mx-auto">
         <div id="title"><span>
-                <h1 class="text-center">Crear Grupo para la Empresa</h1>
+                <h1 class="text-center">Crear Rol para la Empresa</h1>
             </span>
         </div>
 
@@ -20,7 +20,7 @@
                                     <div class="form-floating mb-6 mb-md-0" formGroupName="groups">
                                         <input class="form-control campos" id="nombre" name="nombres" type="text"
                                             placeholder="Nombres de la persona" maxlength="130" formControlName="name">
-                                        <label for="nombre">Nombre del Grupo</label>
+                                        <label for="nombre">Nombre del rol</label>
                                         <span class="lead error"
                                             *ngIf="(formRef.submitted && addGroup.get('groups.name')?.hasError('required')) || addGroup.get('groups.name')?.hasError('minlength') || addGroup.get('groups.name')?.hasError('pattern')">Ingrese
                                             un nombre válido.<br>No se aceptan los espacios en blanco</span>
@@ -38,6 +38,10 @@
                                     <select id="permisos" name="miselect3" multiple class="select-input filtered campos w-100">
                                         <option [value]="item" *ngFor="let item of listPermisos">{{item}}</option>
                                     </select>
+                                </div>
+                                <div>
+                                    <button (click)="addAll()"
+                                        class="btn btn-primary btn-block">Agregar todo</button>
                                 </div>
                             </div>
 
