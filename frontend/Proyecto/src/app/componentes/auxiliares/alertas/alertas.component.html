@@ -1,0 +1,9 @@
+<div #toast class="{{tipo}} toastC textAlert mb-2" role="alert">
+    <div>
+        {{mensaje}}
+    </div>
+    <button type="button" class="btn btn-outline-dark" data-dismiss="toast" aria-label="Close"
+        (click)="cerrarToast(toast)">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>

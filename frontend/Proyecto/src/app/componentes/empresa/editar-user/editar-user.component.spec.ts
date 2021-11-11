@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GruposPermisosComponent } from './grupos-permisos.component';
+import { EditarUserComponent } from './editar-user.component';
 
-describe('GruposPermisosComponent', () => {
-  let component: GruposPermisosComponent;
-  let fixture: ComponentFixture<GruposPermisosComponent>;
+describe('PopUpComponent', () => {
+  let component: EditarUserComponent;
+  let fixture: ComponentFixture<EditarUserComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GruposPermisosComponent ]
+      declarations: [ EditarUserComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GruposPermisosComponent);
+    fixture = TestBed.createComponent(EditarUserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

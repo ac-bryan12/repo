@@ -18,7 +18,6 @@ export class PortalComponent implements OnInit {
   logout(){
     
     this.request.peticionPost(environment.url+'/auth/logout/',{}).subscribe(res =>{
-      console.log(res['estado'])
       localStorage.setItem('Autenticated',"")
       this.router.navigate(['/home'])
     })

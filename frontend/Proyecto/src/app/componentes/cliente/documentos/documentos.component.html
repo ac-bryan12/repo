@@ -1,25 +1,26 @@
 <div id="boton-volver">
-    <button class="btn btn-primary btn-block">
-        <img alt="volver" src="assets/volver.png" width="25px">
-        Volver
+    <button class="btn btn-primary btn-block mt-4 mb-4 ms-5">
+        <img class="me-2" alt="volver" src="assets/volver.png" width="18px">Volver
     </button>
 </div>
-<div id="seccion-botones">
-    <div>
-        <input type="text">
-        <img alt="buscador" src="assets/lupa.png" width="25px">
+<div id="seccion-botones" class="mb-4">
+    <div class="d-flex justify-content-start align-items-center">
+        <input class="ms-1" placeholder="Search..." type="text">
+        <button class="ms-2 btn btn-ligth btn-block">
+            <img alt="buscador" src="assets/lupa.png" width="25px">
+        </button>
     </div>
 
-    <div>
-        <img alt="buscador" src="assets/filtro.png" width="25px">
+    <div class="d-flex justify-content-start align-items-center">
+        <img class="me-2" alt="buscador" src="assets/filtro.png" width="25px">
         <select aria-label="Todos" id="documentos">
             <option value="TODOS" selected>Seleccione una opción</option>
-          </select>
+        </select>
     </div>
 
     <div>
         <button class="btn btn-primary btn-block">
-            <img alt="agregar" src="assets/agregar.png" width="25px">
+            <img class="me-2" alt="agregar" src="assets/agregar.png" width="25px">
             Agregar Documento
         </button>
     </div>
@@ -27,19 +28,19 @@
 </div>
 
 <table class="table">
-    <thead>
-      <tr class="titles">
-        <th scope="col">Id</th>
-        <th scope="col">Fecha de Emisión</th>
-        <th scope="col">Hora</th>
-        <th scope="col">Proveedor</th>
-        <th scope="col">Nombre del Documento</th>
-        <th scope="col">Tipo de Documento</th>
-        <th scope="col">Cliente</th>
-        <th scope="col">Estado</th>
-        <th scope="col">Tipo de Creación</th>
-        <th scope="col">Descargar</th>
-      </tr>
+    <thead class=" border-top border-dark">
+        <tr class="titles">
+            <th scope="col">Id</th>
+            <th scope="col">Fecha de Emisión</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Proveedor</th>
+            <th scope="col">Nombre del Documento</th>
+            <th scope="col">Tipo de Documento</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Tipo de Creación</th>
+            <th scope="col">Descargar</th>
+        </tr>
     </thead>
     <tbody id="tableBody">
         <tr class="fila">
@@ -53,10 +54,14 @@
             <td>Pendiente</td>
             <td>Plataforma</td>
             <td id="iconos">
-                <img alt="visualizar" src="assets/vision.png" width="25px">
-                <img alt="recharge" src="assets/cargando-flechas.png" width="18px">
-                <img alt="download" src="assets/descargar.png" width="18px">
-                <img alt="delete" src="assets/eliminar.png" width="18px">
+                <button class="btn btn-block w-50 p-1"><img alt="visualizar" src="assets/vision.png"
+                        width="25px"></button>
+                <button class="btn btn-block w-50 p-1"><img alt="recharge" src="assets/cargando-flechas.png"
+                        width="18px"></button>
+                <button class="btn btn-block w-50 p-1"><img alt="download" src="assets/descargar.png"
+                        width="18px"></button>
+                <button class="btn btn-block w-50 p-1"><img alt="delete" src="assets/eliminar.png"
+                        width="18px"></button>
             </td>
 
         </tr>
@@ -112,4 +117,4 @@
             </td>
         </tr>
     </tbody>
-  </table>
+</table>

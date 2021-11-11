@@ -1,0 +1,97 @@
+<div id="caja"></div>
+<div class="row p-md-5">
+    <div class="col-9 mx-auto">
+        <div id="title"><span>
+                <h1 class="text-center">Crear Rol para la Empresa</h1>
+            </span>
+        </div>
+
+        <div class="card-body">
+            <form #form [formGroup]="addGroup" autocomplete="off" novalidate #formRef="ngForm">
+                <div id="container-form" class="formulario text-center">
+                    <fieldset id="group-form">
+                        <div class='{{response_d}}'>
+                            {{response_content}}
+                        </div>
+
+                        <div id="inputs-edit" class="mb-5">
+                            <div class="mb-3 row grupos-permisos justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-6 mb-md-0" formGroupName="groups">
+                                        <input class="form-control campos" id="nombre" name="nombres" type="text"
+                                            placeholder="Nombres de la persona" maxlength="130" formControlName="name">
+                                        <label for="nombre">Nombre del rol</label>
+                                        <span class="lead error"
+                                            *ngIf="(formRef.submitted && addGroup.get('groups.name')?.hasError('required')) || addGroup.get('groups.name')?.hasError('minlength') || addGroup.get('groups.name')?.hasError('pattern')">Ingrese
+                                            un nombre válido.<br>No se aceptan los espacios en blanco</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-md-6 row grupos-permisos">
+                            <div class="col-md-5">
+                                <div><span>
+                                        <h4>Permisos disponibles</h4>
+                                    </span></div>
+                                <div class="form-floating">
+                                    <select id="permisos" name="miselect3" multiple class="select-input filtered campos w-100">
+                                        <option [value]="item" *ngFor="let item of listPermisos">{{item}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <button (click)="addAll()"
+                                        class="btn btn-primary btn-block">Agregar todo</button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 containerSelect ">
+                                <div class="row align-content-around justify-content-center h-100 px-4">
+                                    <button (click)="asignarSelect('permisos')"
+                                        class="btnSelect btn btn-primary btn-block h-25"> >
+                                    </button>
+                                    <button (click)="removerSelect('permisosSelect')"
+                                        class="btnSelect btn btn-primary btn-block h-25">
+                                        < </button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div><span>
+                                        <h4>Permisos asignados</h4>
+                                    </span></div>
+                                <div class="form-floating">
+                                    <select id="permisosSelect" name="miselect4" multiple class="select-input filtered campos w-100">
+                                        <option [value]="item" *ngFor="let item of listPermisosAsignados">
+                                            {{item}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <button (click)="removeAll('Permisos')"
+                                        class="btn btn-primary btn-block">RemoverTodo</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="buttons" class="mt-4 mb-0">
+                            <!--<input type="button" value="Close" class="btn btn-primary btn-block">-->
+                            <input type="submit" [disabled]="formRef.control.invalid || listPermisosAsignados.length==0"
+                                (click)="enviarInfo(addGroup.value)" value="Guardar" class="btn btn-primary btn-block">
+                        </div>
+                    </fieldset>
+                </div>
+                <div *ngIf="loanding" id="loader" class="w-100">
+                    <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="color"
+                        [mode]="mode">
+                    </mat-progress-spinner>
+                </div>
+                <!--<div *ngIf="loanding" id="loader" class="w-100">
+                    <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="color"
+                        [mode]="mode">
+                    </mat-progress-spinner>
+                </div>-->
+            </form>
+        </div>
+
+    </div>
+</div>

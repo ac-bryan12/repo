@@ -1,0 +1,45 @@
+<div id="container">
+    <div id="tabla" class="table-responsive">
+        <div id="caja"></div>
+        <h1 id="title" class="text-center font-weight-bold mt-5">Roles</h1>
+        <div class="mt-2 mb-4 d-flex flex-row justify-content-around">
+            <div >
+                <button (click)="crearGrupo()" class="{{agregarGrupo}} btn btn-primary btn-block">Agregar nuevo rol</button>
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th class="{{editarGrupo}}">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let grupo of listGrupos">
+                    <tr>
+                        <td #id>{{grupo.id}}</td>
+                        <td>{{grupo.name}}</td>
+                        <td> 
+                            <button (click)="envioId(id)" class=" {{editarGrupo}} btn btn-primary btn-block">Editar</button>
+                            <button id={{grupo.id}} (click)="borrarGrupo(id)" class="delete {{eliminarGrupo}} btn btn-block"> Borrar </button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div id="indices">
+                <div id="cantidad" class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                <ul id="paginacion" class="pagination">
+                    <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

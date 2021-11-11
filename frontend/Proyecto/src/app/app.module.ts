@@ -22,11 +22,11 @@ import { EmpresaComponent } from './componentes/sitioAdmin/empresa/empresa.compo
 import { NavAdminComponent } from './componentes/sitioAdmin/partials/nav-admin/nav-admin.component';
 import { HeaderComponent } from './componentes/sitioAdmin/partials/header/header.component';
 import { EmpresaTempComponent } from './componentes/sitioAdmin/empresa-temp/empresa-temp.component';
-import { PopUpComponent } from './componentes/sitioAdmin/pop-up/pop-up.component';
+import { EditarUserComponent } from './componentes/empresa/editar-user/editar-user.component';
 import { CookieService } from 'ngx-cookie-service';
 import { PortalComponent } from './componentes/pagina_comercial/portal/portal.component';
-import { VistaEmpresaComponent } from './componentes/sitioAdmin/vista-empresa/vista-empresa.component';
-import { GruposPermisosComponent } from './componentes/sitioAdmin/grupos-permisos/grupos-permisos.component';
+import { VistaEmpresaComponent } from './componentes/empresa/vista-empresa/vista-empresa.component';
+import { ListUsersComponent } from './componentes/empresa/list-users/list-users.component';
 import { RestablecerPasswordComponent } from './componentes/pagina_comercial/restablecer-password/restablecer-password.component';
 import { NavClientComponent } from './componentes/cliente/nav-client/nav-client.component';
 import { HeaderClientComponent } from './componentes/cliente/header-client/header-client.component';
@@ -34,6 +34,28 @@ import { VistaClienteComponent } from './componentes/cliente/vista-cliente/vista
 import { DocumentosComponent } from './componentes/cliente/documentos/documentos.component';
 import { PerfilComponent } from './componentes/cliente/perfil/perfil.component';
 import { ChangePasswordComponent } from './componentes/cliente/change-password/change-password.component';
+import { NavEmpresaComponent } from './componentes/empresa/partials/nav-empresa/nav-empresa.component';
+import { HeaderEmpresaComponent } from './componentes/empresa/partials/header-empresa/header-empresa.component';
+import { ViewCompanyComponent } from './componentes/empresa/view-company/view-company.component';
+import { ProfileCompanyComponent } from './componentes/empresa/profile-company/profile-company.component';
+import { ProfileUserComponent } from './componentes/empresa/profile-user/profile-user.component';
+import { DocumentosCompanyComponent } from './componentes/empresa/documentos-company/documentos-company.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFound/page-not-found.component';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import {MatIconModule} from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { AlertasComponent } from './componentes/auxiliares/alertas/alertas.component';
+import { CrearGruposComponent } from './componentes/empresa/crear-grupos/crear-grupos.component';
+import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grupos.component';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -55,10 +77,10 @@ import { ChangePasswordComponent } from './componentes/cliente/change-password/c
     NavAdminComponent,
     HeaderComponent,
     EmpresaTempComponent,
-    PopUpComponent,
+    EditarUserComponent,
     PortalComponent,
     VistaEmpresaComponent,
-    GruposPermisosComponent,
+    ListUsersComponent,
     RestablecerPasswordComponent,
     NavClientComponent,
     HeaderClientComponent,
@@ -66,13 +88,29 @@ import { ChangePasswordComponent } from './componentes/cliente/change-password/c
     DocumentosComponent,
     PerfilComponent,
     ChangePasswordComponent,
+    NavEmpresaComponent,
+    HeaderEmpresaComponent,
+    ViewCompanyComponent,
+    ProfileCompanyComponent,
+    ProfileUserComponent,
+    DocumentosCompanyComponent,
+    PageNotFoundComponent,
+    AlertasComponent,
+    CrearGruposComponent,
+    ListGruposComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressBarModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

@@ -1,43 +1,114 @@
-<header-client></header-client>
 <div id="container">
-    <nav-client></nav-client>
-    <div id="perfil">
+    <div id="perfil" class="w-100">
         <div id="caja"></div>
-        <div id="title">
-            <h1>Perfil</h1>
+        <div>
+            <h1 id="title" class="text-center mt-5 mb-4">Perfil</h1>
         </div>
-        <form #form autocomplete="off" novalidate #formRef="ngForm">
-            <div class="row mb-3" id="formulario">
-                <div id="campos">
-                    <div class="col-md-5 mt-5 mb-4 ">
-                        <label for="inputRazonSocial">Razón Social</label>
-                        <input #razonSocial readonly class="form-control" id="inputRazonSocial" name="razonsocial"
-                            type="text">
+        <fieldset id="perfil_form">
+            <form #form autocomplete="off" novalidate #formRef="ngForm" [formGroup]='profile'
+                (ngSubmit)="actualizarInfo(profile.value)">
+                <div class="row mb-3" id="formulario">
+                    <div id="campos" class="pt-3">
 
-                    </div>
-                    <div class="col-md-5 mb-4">
-                        <label for="inputRUC">RUC</label>
-                        <input #rucInput class="form-control" readonly id="inputRUC" name="ruc" type="text">
+                        <div>
+                            <p>Selecciona un tipo:</p>
+                            <input #inputRUC (input)="changeTipo(inputRUC.value)" type="radio" id="RUC" name="tipo"
+                                value="RUC" checked disabled>
+                            <label class="me-4" for="RUC">RUC</label>
 
-                    </div>
-                    <div class="col-md-5 mb-4">
-                        <label for="inputDireccion">Dirección</label>
-                        <input class="form-control" id="inputDireccion" name="direccion" type="text">
-                    </div>
+                            <input #inputCedula (input)="changeTipo(inputCedula.value)" type="radio" id="CEDULA"
+                                name="tipo" value="CEDULA" disabled>
+                            <label for="CEDULA">CEDULA</label>
+                        </div>
 
-                    <div class="col-md-5 mb-4">
-                        <label for="inputEmail">Correo Electrónico</label>
-                        <input class="form-control" id="inputEmail" name="mailorganizacion" type="email">
+                        <div class="col-md-5 mb-3 w-50">
+                            <div class="form-floating">
+                                <input class="form-control" maxlength="13" id="n_identificacion" type="text"
+                                    formControlName="n_identificacion" readonly>
+                                <label id="tipo" for="inputTipo">{{tipo}}</label>
+                                <span class="lead error"
+                                    *ngIf="(formRef.submitted && profile.get('n_identificacion')?.hasError('required'))|| profile.get('n_identificacion')?.hasError('pattern') || validarRucCedula()">Ingrese
+                                    {{tipo}} válido</span>
+                            </div>
+                        </div>
 
-                    </div>
+                        <div class="w-50" formGroupName="user">
+                            <div class="col-md-5 mb-3 w-100">
+                                <div class="form-floating">
+                                    <input class="form-control" id="inputnombre" name="nombre" type="text"
+                                        maxlength="130" placeholder="Ingrese su nombre" formControlName="first_name"
+                                        readonly>
+                                    <label for="inputnombre">Nombres</label>
+                                    <span class="lead error"
+                                        *ngIf="(formRef.submitted && profile.get('user.first_name')?.hasError('required')) || profile.get('user.first_name')?.hasError('pattern') || profile.get('user.first_name')?.hasError('minlength')">Ingrese
+                                        un nombre válido
+                                    </span>
+                                </div>
+                            </div>
 
+                            <div class="col-md-5 mb-3 w-100">
+                                <div class="form-floating">
+                                    <input class="form-control" id="inputapellido" name="apellido" type="text"
+                                        maxlength="130" placeholder="Ingrese su apellido" formControlName="last_name"
+                                        readonly>
+                                    <label for="inputapellido">Apellidos</label>
+                                    <span class="lead error"
+                                        *ngIf="(formRef.submitted && profile.get('user.last_name')?.hasError('required')) || profile.get('user.last_name')?.hasError('pattern') || profile.get('user.last_name')?.hasError('minlength')">Ingrese
+                                        un nombre válido
+                                    </span>
+                                </div>
+                            </div>
 
-                    <div class="col-md-5 mb-5">
-                        <label for="inputNumphone">Teléfono</label>
-                        <input class="form-control" id="inputNumphone" name="telefono" type="text">
+                            <div class="col-md-5 mb-3 w-100">
+                                <div class="form-floating">
+                                    <input class="form-control" id="inputEmail" name="mailorganizacion" type="email"
+                                        maxlength="150" placeholder="name@example.com" formControlName='email'>
+                                    <label for="inputEmail">Correo Electrónico</label>
+                                    <span class="lead error"
+                                        *ngIf="(formRef.submitted && profile.get('user.email')?.hasError('required')) || profile.get('user.email')?.hasError('minlength') ||  profile.get('user.email')?.hasError('pattern')">Ingrese
+                                        email válido</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-5 mb-3 w-50">
+                            <div class="form-floating">
+                                <input class="form-control" id="inputDireccion" name="direccion" type="text"
+                                    maxlength="130" placeholder="Ingrese su dirección" formControlName='direccion'>
+                                <label for="inputDireccion">Dirección</label>
+                                <span class="lead error"
+                                    *ngIf="(formRef.submitted && profile.get('user.direccion')?.hasError('required')) || profile.get('user.direccion')?.hasError('minlength') ||  profile.get('user.direccion')?.hasError('pattern')">Ingrese
+                                    email válido</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 mb-3 w-50">
+                            <div class="form-floating">
+                                <input #telf class="form-control" id="inputNumphone" name="telefono" type="text"
+                                    placeholder="Ingrese su numero de telefono"
+                                    (input)="validate.validarCampNum(telf,10)" formControlName='telefono'
+                                    maxlength="10">
+                                <label for="inputNumphone">Teléfono</label>
+                                <span class="lead error"
+                                    *ngIf="(formRef.submitted && profile.get('telefono')?.hasError('required')) || profile.get('telefono')?.hasError('minlength')">Ingrese
+                                    numero telefono válido</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 mb-3 w-50 text-center">
+                            <input type="submit" value="Actualizar"
+                                [disabled]="formRef.control.invalid || validarRucCedula()"
+                                class="btn btn-primary btn-block w-75">
+                        </div>
                     </div>
                 </div>
-            </div>
+        
+        <div *ngIf="loanding" id="loader" class="w-100">
+            <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="color" [mode]="mode">
+            </mat-progress-spinner>
+        </div>
         </form>
+    </fieldset>
     </div>
 </div>

@@ -13,11 +13,6 @@ h2{
     display: flex;
     flex-direction: row;
 }
-#tabla{
-    display: flex;
-    flex-direction: column;
-    width: 1400px;
-}
 
 #formulario{
     display: flex;

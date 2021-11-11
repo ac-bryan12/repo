@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./empresa.component.css']
 })
 export class EmpresaComponent implements OnInit {
+    
   constructor(
   ) { }
 

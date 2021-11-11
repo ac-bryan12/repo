@@ -1,4 +1,4 @@
-#title{
+/* #title{
     text-align: center;
     margin-top: 50px;
 }
@@ -55,8 +55,31 @@ select{
     width: 20px;
     height: 10px;
 }
+*/
+#caja{
+    display: flex;
+    background-color: black;
+    height: 120px;
+    border-bottom-right-radius: 18% 75%;
+}
+
 .error {
     color: #f82929;
     font-size: 13px;
     margin-top: 2px;
   }
+
+  #loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: no-repeat rgb(249,249,249);
+    opacity: .8;
+}
+
+.heigthSelect{
+    height: 240px;
+}

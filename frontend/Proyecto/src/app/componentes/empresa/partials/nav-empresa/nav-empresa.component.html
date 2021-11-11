@@ -1,0 +1,57 @@
+<div id="container-body">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky">
+
+            <ul id="ul-nav-container" class="nav flex-column" >
+                
+                <li class="nav-item" *ngIf="permissions.view_profile && !permissions.view_empresatemp">
+                    <a class="nav-link active" aria-current="page" routerLink="perfil">
+                        <span data-feather="profile-user"></span>
+                        Perfil
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="permissions.change_profile">
+                    <a class="nav-link active" aria-current="page" routerLink="cambiar-contrasenia">
+                        <span data-feather="cambiar_contraseña"></span>
+                        Cambiar Contraseña
+                    </a>
+                </li>
+                <li class="nav-item"*ngIf="permissions.view_empresa">
+                    <a class="nav-link active" aria-current="page" routerLink="vista-empresa">
+                        <span data-feather="view-company"></span>
+                        Empresa
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="permissions.view_user || permissions.add_user">
+                    <a class="nav-link active" aria-current="page" routerLink="grupos-permisos">
+                        <span data-feather="grupos-permisos"></span>
+                        Usuarios
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="permissions.view_group || permissions.add_group">
+                    <a class="nav-link active" aria-current="page" routerLink="grupos">
+                        <span data-feather="grupos"></span>
+                        Roles
+                    </a>
+                </li>
+
+                <li class="nav-item" *ngIf="permissions.view_empresatemp">
+                    <a class="nav-link" routerLink="empresasTemp">
+                        <span data-feather="empresasTemporales"></span>
+                        Consultas Empresas
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="permissions.view_documentos">
+                    <a class="nav-link active" aria-current="page" routerLink="documentos-company">
+                        <span data-feather="documentos-company"></span>
+                        Documentos
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <section id="dashboard-content" class="col">
+        <router-outlet></router-outlet>
+    </section>
+</div>

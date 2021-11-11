@@ -17,28 +17,31 @@ export class EmpresaTempComponent implements OnInit {
 
 
   grupos_permisos() {
-    this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe()
     let contenedor = document.getElementById("tablasEmptmp") as HTMLElement
     this.request.peticionGet(environment.url+'/api/empresa/empresaTemps/lista-de-empresaTemps/').subscribe(res => {
       for (let emp of res) {
         let plantilla =
           `  
-          <tr>
+          <tr class="text-center">
             <td>${emp.razonSocial}</td>
+            <td>${emp.nombre}</td>
+            <td>${emp.cargo}</td>
             <td>${emp.telefono}</td>
             <td>${emp.correo}</td>
+            <td><textarea disabled rows="4" class="w-100">${emp.descripcion}</textarea></td>
             <td id="botones-acciones">
-            <input id="${emp.correo}" type="submit" value="Enviar Correo" class="btn btn-primary btn-block">
-            <input type="submit" value="Eliminar" class="btn btn-danger btn-block">
+            <input id="${emp.correo}" type="submit" value="Aceptar" class="btn btn-primary btn-block">       
             </td>
           </tr>
           `
+          //<input type="submit" value="Eliminar" class="btn btn-danger btn-block">
           contenedor.innerHTML += plantilla
 
           let boton = document.getElementsByTagName("input")
           for(let b=0; b<boton.length;b++){
             boton[b].addEventListener('click',() =>{ 
               let correo = boton[b].getAttribute("id")
+              alert("Se le enviará un correo al usuario.")
               this.request.peticionPost(environment.url+'/api/empresa/empresaTemps/buscar-empresaTemp/',{"correo" : correo}).subscribe()
             })
           }

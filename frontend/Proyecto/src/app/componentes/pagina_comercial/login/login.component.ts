@@ -6,6 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'login',
@@ -14,12 +16,11 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginComponent implements OnInit {
   public login: FormGroup;
-  /*
-  user = {
-      email: '',
-      password: ''
-    }
-*/
+  //Progress bar
+  color: ThemePalette = 'primary';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  loanding = false
+  hide:boolean =true
   msg_content = ''
   msg_d = 'd-none'
 
@@ -30,51 +31,54 @@ export class LoginComponent implements OnInit {
     private log: FormBuilder) {
     this.login = this.log.group({
       email: this.log.control('', [Validators.required, Validators.pattern('^[a-z0-9._%+\-]+@[a-z0-9.\-]+\\.[a-z]{2,4}'), Validators.minLength(7)]),
-      password: this.log.control('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_:@*.\-]+$'), Validators.minLength(8)])
+      password: this.log.control('', [Validators.required, Validators.minLength(8)])
     })
   }
 
   ngOnInit(): void {
-    
+    let return_to = this.cookie.get("return_to")
+    if(return_to){
+      this.route.navigate([return_to])
+    }
   }
 
-  cambiarVistas(group:string){
-    
-    let groupFormated =JSON.parse(decodeURI(group.replace(/\\054/g, ',')))
-    let groupName = JSON.parse(groupFormated)[0]['name']
-    if(groupName=='admin_facturacion' || groupName == 'admin_empresa'){
-      this.route.navigate(["/admin"])
-    }else if(groupName == 'cliente'){
-      this.route.navigate(["/cliente"])
-    }/*else if(groupName == 'admin_empresa'){
-      console.log("Vista del admin_empresa")
-    }*/
-  }
+  // cambiarVistas(groups:string[]){
+  //   if(groups.includes('admin_facturacion')){
+  //     this.route.navigate(["/admin"])
+  //   }else if(groups.includes('cliente')){
+  //     this.route.navigate(["/cliente"])
+  //   }else if(groups.includes('admin_empresa')){
+  //     this.route.navigate(["/view-company"])
+  //   }else{
+  //     this.route.navigate(["/login"])
+  //   }
+  // }
 
 
   iniciarSesion(value: any) {
+    this.loanding = true
     if (this.validacion("email") && this.validacion("password")) {
       this.request.peticionPost(environment.url+'/auth/login/', value, true)
         .subscribe(res => {
+          this.loanding = false
           this.request.isLoggedIn = true
           localStorage.setItem('token', res['token']);
           localStorage.setItem('Autenticated', "true");
-          this.grupos_permisos()   
+          // this.grupos_permisos()   
+          this.route.navigate(["/portal"])
         }, (err: HttpErrorResponse) => {
-          this.msg_d = 'd-block'
-          this.msg_content = err.error.error;
-          [0]
+          this.loanding = false
+          // this.msg_d = 'd-block'
+          alert(err.error.error);
         });
     }
   }
-  grupos_permisos() {
-    this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
-      this.cambiarVistas(this.cookie.get('group'))
-    })
-
-
-    
-  }
+  // grupos_permisos() {
+  //   this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
+  //     console.log(res)
+  //     this.cambiarVistas(res['groups'])
+  //   })
+  // }
   validacion(v: string): boolean {
     this.msg_d = 'd-none'
     if (this.login.get(v)?.hasError('required')) {

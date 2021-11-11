@@ -1,0 +1,29 @@
+#caja{
+    display: flex;
+    background-color: black;
+    height: 120px;
+    border-bottom-right-radius: 18% 75%;
+}
+
+#title{
+    font-weight: bold;
+}
+
+#tabla{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+th,td{
+    text-align: center;
+}
+button{
+    margin: 0 2% 0 0;
+}
+
+button.delete{
+    background-color: rgb(232, 78, 78);
+}
+
+

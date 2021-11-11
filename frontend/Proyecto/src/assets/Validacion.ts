@@ -10,9 +10,6 @@ export class Validacion implements OnInit{
     }
 
   validarConfPassword(password:string,confpassword:string): boolean{
-    if(password === "" || confpassword === ""){
-      return true 
-    }
     if(password != confpassword){
       return true;
     }
@@ -74,8 +71,8 @@ export class Validacion implements OnInit{
       return true
     return false
   }
-  validarRuc(ruc:string){
-    if (ruc.length === 13) {
+  validarRuc(ruc:string, len:Number = 13){
+    if (ruc.length === len) {
       const ultimoDigito = ruc.substring(9, 10);
       const digitoRegion = ruc.substring(0, 2)
       if (digitoRegion >= String("01") && digitoRegion <= String("24") || digitoRegion == String(30) && ultimoDigito>=String("1")) {
@@ -123,8 +120,12 @@ export class Validacion implements OnInit{
   }
 
   validarCampNum(tlf:any,numMaximo: number) {
-    if( tlf.value.length > numMaximo ){
+    if(tlf.value.substring(0,2)==="09"){
+      console.log(tlf.value.substring(0,2)==="09")
       tlf.value = tlf.value.substring(0,numMaximo)
+    }
+    else{
+      tlf.value = tlf.value.substring(0,--numMaximo)
     }
     for(let i=0; i<tlf.value.length;i++){
       if(!tlf.value[i].match(/[0-9]/i)){       
