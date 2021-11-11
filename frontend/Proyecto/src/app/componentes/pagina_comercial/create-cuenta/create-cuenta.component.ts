@@ -66,7 +66,7 @@ export class CreateCuentaComponent implements OnInit {
   enviar(values:any){
     this.loanding = true;
     values.user.groups = [
-      {name:'admin_empresa'}
+      {id:'2'}
     ]
     // localStorage.setItem('token',values.usuario.token)
     this.envio.peticionPost(environment.url+"/auth/create/",values,true).subscribe((res)=>{

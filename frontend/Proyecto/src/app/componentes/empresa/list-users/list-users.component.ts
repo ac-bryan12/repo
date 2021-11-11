@@ -43,7 +43,7 @@ export class ListUsersComponent implements OnInit {
 
   listaUsuarios(){
     this.service.peticionGet(environment.url+"/api/user/lista-de-profiles/").subscribe((res)=>{
-      this.listUsuarios = res.profile
+      this.listUsuarios = res.results
     })
   }
   
@@ -51,7 +51,6 @@ export class ListUsersComponent implements OnInit {
     let usuario = {}
     for(let user of this.listUsuarios){
       if(user.user.id === id.innerText){
-        user.empresa = null
         usuario = user
       }    
     }
@@ -63,7 +62,16 @@ export class ListUsersComponent implements OnInit {
   }
 
   borrarUser(id:any){
-    //peticion servidor
+    let continuar = confirm("¿Seguro que desea eliminar este usuario?")
+    if(continuar){
+      this.service.peticionDelete(environment.url+"/api/user/asignarPermisosRoles/"+id.innerText+"/").subscribe(res=>{
+        alert(res.msg)
+        window.location.reload()
+      },err =>{
+        alert(err.error.error)
+      })
+    }
+    
   }
 
 }

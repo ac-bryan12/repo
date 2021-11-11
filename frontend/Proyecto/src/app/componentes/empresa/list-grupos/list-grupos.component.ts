@@ -21,6 +21,13 @@ export class ListGruposComponent implements OnInit {
   ngOnInit(): void {
     this.listaGrupos()
     this.habilitarControles()
+    setTimeout(()=>{
+      let btnBorrarAdmin:any = document.getElementById('2')
+      let btnBorrarCliente:any = document.getElementById('3')
+      btnBorrarAdmin.disabled = true
+      btnBorrarCliente.disabled = true
+    },250)
+    
   }
 
   habilitarControles(){
@@ -43,17 +50,26 @@ export class ListGruposComponent implements OnInit {
 
   listaGrupos(){
     this.service.peticionGet(environment.url+"/api/user/grupos/").subscribe((res)=>{
-      this.listGrupos = res
+      this.listGrupos = res.results
     })
+
   }
 
   crearGrupo(){
     this.router.navigate(["../editarGrupos"],{relativeTo:this.route})
   }
 
-  borrarGrupo(){
-    //peticion al servidor
-    
+  borrarGrupo(id:any){
+    let continuar = confirm("Todos los usuarios que pertenezcan al grupo perderan sus permisos "+
+                            "y solo podran ver y actualizar su información de perfil.\n¿Desea continuar?")
+    if(continuar){
+      this.service.peticionDelete(environment.url+"/auth/userPermissions/"+id.innerText+"/").subscribe(res=>{
+        alert(res.msg)
+        window.location.reload()
+      },err =>{
+        alert(err.error.error)
+      })
+    }
   }
 
   envioId(id:any){

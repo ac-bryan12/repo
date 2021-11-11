@@ -121,8 +121,8 @@
                                     <h4>Seleccionar Grupo</h4>
                                 </span> </div>
                             <div class="form-floating">
-                                <select #inputGrupos id="grupos" name="miselect"
-                                    (change)="buscarPermisos(inputGrupos.value)" class="filtered campos w-100">
+                                <select #inputGrupos id="grupos" name="miselect" size="13"
+                                    (change)="buscarPermisos(inputGrupos.value)" class="heigthSelect filtered campos w-100">
                                     <option value="0" selected></option>
                                     <option [value]="item.id" *ngFor="let item of listGrupos">{{item.name}}</option>
                                 </select>
@@ -134,7 +134,7 @@
                                     <h4>Permisos que se asignaran</h4>
                                 </span></div>
                             <div class="form-floating">
-                                <select id="permisosSelect" name="miselect4" multiple class="filtered campos w-100">
+                                <select  name="miselect4" multiple class="filtered campos w-100 heigthSelect">
                                     <option [value]="item.name" *ngFor="let item of listPermisosSeleccionados">
                                         {{item.name}}</option>
                                 </select>

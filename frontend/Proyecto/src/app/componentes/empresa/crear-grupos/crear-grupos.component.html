@@ -75,7 +75,7 @@
 
                         <div id="buttons" class="mt-4 mb-0">
                             <!--<input type="button" value="Close" class="btn btn-primary btn-block">-->
-                            <input type="submit" [disabled]="formRef.control.invalid"
+                            <input type="submit" [disabled]="formRef.control.invalid || listPermisosAsignados.length==0"
                                 (click)="enviarInfo(addGroup.value)" value="Guardar" class="btn btn-primary btn-block">
                         </div>
                     </fieldset>

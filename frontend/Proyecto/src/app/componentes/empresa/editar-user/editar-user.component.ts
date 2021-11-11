@@ -67,35 +67,49 @@ export class EditarUserComponent implements OnInit {
   }
 
   enviarInfo(values: any,inputGroup:any) {
-    let list = []
-    list.push({"name":inputGroup.querySelector("option:checked").textContent})
-    values.user.groups = list
-
-    if (this.id != "") {
-      values.user.id = this.id
-    }
+    values.user.groups =[ {"id":inputGroup.querySelector("option:checked").value}]
     this.loanding = true;
-    this.service.peticionPost(environment.url + "/api/user/asignarPermisosRoles/", values).subscribe((res) => {
-      this.loanding = false;
-      if (res['msg'] != '') {
-        this.service.isCreatedAccount = true
-        this.service.isRegistered = false
-        alert("Proceso exitoso")
-        this.router.navigate(["../grupos-permisos"], { relativeTo: this.route })
-      }
-    }, (err: HttpErrorResponse) => {
-      this.loanding = false;
-      if (err.error.hasOwnProperty('user')) {
-        if (err.error.user.hasOwnProperty('non_field_errors')) {
-          alert(err.error.user.non_field_errors[0])
+    if (!this.id){
+      this.service.peticionPost(environment.url + "/api/user/asignarPermisosRoles/", values).subscribe((res) => {
+        this.loanding = false;
+        if (res['msg'] != '') {
+          alert(res.msg)
+          this.router.navigate(["../grupos-permisos"], { relativeTo: this.route })
         }
-        if (err.error.user.hasOwnProperty('error')) {
-          alert(err.error.user.error[0])
+      }, (err: HttpErrorResponse) => {
+        this.loanding = false;
+        if (err.error.hasOwnProperty('user')) {
+          if (err.error.user.hasOwnProperty('non_field_errors')) {
+            alert(err.error.user.non_field_errors[0])
+          }
+          if (err.error.user.hasOwnProperty('error')) {
+            alert(err.error.user.error[0])
+          }
+        } else {
+          alert(err.error.error)
         }
-      } else {
-        alert(err.error.error)
-      }
-    })
+      })
+    }else{
+      this.service.peticionPut(environment.url + "/api/user/asignarPermisosRoles/"+this.id+"/" , values).subscribe((res) => {
+        this.loanding = false;
+        if (res['msg'] != '') {
+          alert(res.msg)
+          this.router.navigate(["../grupos-permisos"], { relativeTo: this.route })
+        }
+      }, (err: HttpErrorResponse) => {
+        this.loanding = false;
+        if (err.error.hasOwnProperty('user')) {
+          if (err.error.user.hasOwnProperty('non_field_errors')) {
+            alert(err.error.user.non_field_errors[0])
+          }
+          if (err.error.user.hasOwnProperty('error')) {
+            alert(err.error.user.error[0])
+          }
+        } else {
+          alert(err.error.error)
+        }
+      })
+    }
   }
 
   inicializarValores() {
@@ -115,27 +129,21 @@ export class EditarUserComponent implements OnInit {
       this.changeValue(this.usuario.tipo_identificacion)
     }
 
-    this.service.peticionGet(environment.url + "/api/user/grupos/").subscribe((res) => {
+    this.service.peticionGet(environment.url + "/api/user/all_groups/").subscribe((res) => {
       for (let grupo of res) {
           this.listGrupos.push(grupo)
       }
-
-      if (this.id) {
-        this.service.peticionGet(environment.url + `/api/user/getPermisosRoles/${this.id}/`).subscribe((res) => {
-          
-          for (let permiso of res.permissions) {
-            this.listPermisosSeleccionados.push(permiso)
+      setTimeout(()=>{
+        if (this.id) {
+          if (!['1','4'].includes(this.usuario.user.groups[0].id)){
+            let inputGrupos : any = document.querySelector(`option[value$="${this.usuario.user.groups[0].id}"]`)
+            inputGrupos.selected = true
+            this.buscarPermisos(this.usuario.user.groups[0].id)
           }
-          // Seteando el grupo del usuario
-          let inputGrupos : any = document.querySelector(`option[value$='${res.groups[0].id}']`)
-          inputGrupos.selected = true
-          
-        }, error => {
-          this.msg = "Ocurrió un error al cargar los datos"
-          alert(this.msg)
-        })
-      }
-      
+        }
+
+      },250)
+
     }, error => {
       this.msg = "Ocurrió un error al cargar los datos"
       alert(this.msg)
@@ -155,6 +163,7 @@ export class EditarUserComponent implements OnInit {
 
       }
     }, err => {
+      this.listPermisosSeleccionados = []
       alert(err.error.error)
     })
   }
@@ -163,7 +172,6 @@ export class EditarUserComponent implements OnInit {
     this.service.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
       let form:any = document.getElementById('user-form-edit')
       form.disabled = true
-      console.log(this.id)
       for (let permiso of res.permissions){
         if(permiso.codename == 'change_user' && (this.id)){
           form.disabled = false

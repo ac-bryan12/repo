@@ -15,6 +15,8 @@ import { environment } from 'src/environments/environment';
 export class CrearGruposComponent implements OnInit {
   response_d = ''
   response_content = ''
+  json:JSON = JSON
+  
   // Progress Bar
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
@@ -26,6 +28,7 @@ export class CrearGruposComponent implements OnInit {
   listGrupos: any[];
   listPermisos: any[];
   listPermisosAsignados: any[];
+  permisosObtenidos: any[];
   msg: string = ""
   public addGroup: FormGroup;
   public validate: Validacion = new Validacion();
@@ -43,6 +46,7 @@ export class CrearGruposComponent implements OnInit {
     this.listGrupos = []
     this.listPermisosAsignados = []
     this.listPermisos = []
+    this.permisosObtenidos = []
   }
 
   ngOnInit(): void {
@@ -73,11 +77,16 @@ export class CrearGruposComponent implements OnInit {
 
   enviarInfo(values: any) {
     this.loanding = true;
-    let list: any = []
+    let listToSend: any = []
     for (let permiso of this.listPermisosAsignados) {
-      list.push({ name: permiso })
+      for(let per of this.permisosObtenidos){
+        if (permiso == per.name){
+          listToSend.push(per)
+        }
+      }
+      values.permissions = listToSend
     }
-    values.permissions = list
+    values.groups = [values.groups]
     if(!this.id){
       this.service.peticionPost(environment.url+"/auth/userPermissions/",values).subscribe(res =>{
         this.loanding = false;
@@ -88,9 +97,8 @@ export class CrearGruposComponent implements OnInit {
         alert(err.error.error)
       })
     }else{
-      values.id = this.id
-      console.log(values)
-      this.service.peticionPut(environment.url+"/auth/userPermissions/",values).subscribe(res =>{
+      // values.id = this.id
+      this.service.peticionPut(environment.url+"/auth/userPermissions/"+this.id+"/",values).subscribe(res =>{
         this.loanding = false;
         alert(res.msg)
         this.router.navigate(["../grupos"], { relativeTo: this.route })
@@ -111,20 +119,21 @@ export class CrearGruposComponent implements OnInit {
         for (let permiso of res.permissions) {
           this.listPermisosAsignados.push(permiso.name)
         }
-        this.permisosGrupos2()
+        this.obtenerPermisos()
       }, error => {
         this.msg = "Ocurrió un error al cargar los datos"
         alert(this.msg)
       })
     }
     else {
-      this.permisosGrupos2()
+      this.obtenerPermisos()
     }
 
   }
 
-  permisosGrupos2() {
+  obtenerPermisos() {
     this.service.peticionGet(environment.url + "/api/user/permisos/2/").subscribe((res) => {
+      this.permisosObtenidos = res.permissions
       for (let permisos of res.permissions) {
         if (this.listPermisosAsignados.indexOf(permisos.name) == -1) {
           this.listPermisos.push(permisos.name)
@@ -146,21 +155,31 @@ export class CrearGruposComponent implements OnInit {
     this.listPermisos = this.listPermisos.concat(lista)
   }
 
-  asignarSelect(name: string, inputButton: any = null) {
+  asignarSelect(name: string) {
     let input = document.getElementById(name) as HTMLSelectElement
-    if (input.value != "" && input.value !== null && this.listPermisos.indexOf(input.value) != -1) {
-      this.listPermisosAsignados.push(input.value)
-      this.listPermisos.splice(this.listPermisos.indexOf(input.value), 1)
+    let inputOptions:any= input.options && input
+    for(let opt of inputOptions){
+      if (opt.selected){
+        if ((opt.value != "" || opt.value!=null) && this.listPermisos.indexOf(opt.value) != -1) {
+          this.listPermisosAsignados.push(opt.value)
+          this.listPermisos.splice(this.listPermisos.indexOf(opt.value), 1)
+        }    
+      }
     }
+    
   }
 
 
   removerSelect(name: string, inputButton: any = null) {
     let input = document.getElementById(name) as HTMLSelectElement
-
-    if (input.value != "" && input.value !== null && this.listPermisosAsignados.indexOf(input.value) != -1) {
-      this.listPermisos.push(input.value)
-      this.listPermisosAsignados.splice(this.listPermisosAsignados.indexOf(input.value), 1)
+    let inputOptions:any= input.options && input
+    for(let opt of inputOptions){
+      if (opt.selected){
+        if ((opt.value != "" || opt.value !== null) && this.listPermisosAsignados.indexOf(opt.value) != -1) {
+          this.listPermisos.push(opt.value)
+          this.listPermisosAsignados.splice(this.listPermisosAsignados.indexOf(opt.value), 1)
+        }
+      }
     }
   }
 

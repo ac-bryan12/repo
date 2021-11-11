@@ -39,8 +39,13 @@ export class RequestService {
       this.setToken()
       return this.http.put(url,user,{headers:this.headers,withCredentials:true})
     }else{
-      return this.http.post(url,user)
+      return this.http.put(url,user)
     }
+  }
+
+  peticionDelete(url:string):Observable<any>{
+      this.setToken()
+      return this.http.delete(url,{headers:this.headers,withCredentials:true})
   }
 
   peticionPostFiles(url:string,firma:any,isLogin:boolean=false):Observable<any>{
