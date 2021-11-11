@@ -1,0 +1,83 @@
+#container{
+    display: flex;
+    justify-content: space-around;
+}
+
+#compra{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 70%;
+    border: 1px solid black;
+    border-top-left-radius: 25px 35px;
+    border-bottom-left-radius: 25px 35px;
+    border-top-right-radius: 25px 35px;
+    border-bottom-right-radius: 25px 35px;
+    padding: 25px;
+    padding-top: 50px;
+    background-color: rgb(9, 66, 116);
+}
+
+h1,h2,h3,p{
+    color: white;
+}
+
+#precio-plan{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+#total{
+    display: flex;
+    flex-direction: row;
+}
+
+#iva,#precio{
+    margin-right: 25px;
+}
+
+#container-credit-card{
+    margin-left: 100px;
+    margin-bottom: 50px;
+}
+
+#credit-card{
+    border: 1px solid black;
+    padding: 20px;
+    border-top-left-radius: 25px 35px;
+    border-bottom-left-radius: 25px 35px;
+    border-top-right-radius: 25px 35px;
+    border-bottom-right-radius: 25px 35px;
+}
+ #pay-creditcard,#pay-tranfer{
+     display: none;
+ }
+
+ #metodos-pago{
+    display: none;
+}
+
+#img-cc{
+    display: flex;
+}
+
+#pagos{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+.credit-card-div  span { padding-top:10px; }
+.credit-card-div img { padding-top:30px; }
+.credit-card-div .small-font { font-size:9px; }
+.credit-card-div .pad-adjust { padding-top:10px; }
+
+#container-transf{
+    
+}
+
+#banco,#cuenta,#tipo,#cedula,#beneficiario,#correo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

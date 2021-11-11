@@ -1,0 +1,62 @@
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <div class="position-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/admin">
+                    <span data-feather="admin"></span>
+                    Perfil
+                </a>
+            </li>
+            <li *ngIf="viewEmpresa" class="nav-item">
+                <a class="nav-link" href="/empresas">
+                    <span data-feather="empresas"></span>
+                    Empresas
+                </a>
+            </li>
+            
+            <li *ngIf="viewEmpresaTemp" class="nav-item">
+                <a class="nav-link" href="/empresasTemp">
+                    <span data-feather="empresasTemporales"></span>
+                    Consultas Empresas 
+                </a>
+            </li>
+            
+            <!-- <li *ngIf="viewUser" class="nav-item">
+                <a class="nav-link" href="/clientes">
+                    <span data-feather="users"></span>
+                    Usuarios
+                </a>
+            </li> -->
+            <li class="nav-item">
+                <a class="nav-link" href ="/grupos-permisos">
+                    <span data-feather="bar-chart-2"></span>
+                    Grupos y Permisos
+                </a>
+            </li>
+            <li *ngIf="isUser" class="nav-item">
+                <a class="nav-link" >
+                    <span data-feather="layers"></span>
+                    Documentos
+                </a>
+            </li>
+            <li *ngIf="isUser" class="nav-item">
+                <a class="nav-link">
+                    <span data-feather="layers"></span>
+                    Reportes
+                </a>
+            </li>
+            <li *ngIf="isUser" class="nav-item">
+                <a class="nav-link" >
+                    <span data-feather="layers"></span>
+                    Usuarios/Roles
+                </a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" >
+                    <span data-feather="layers"></span>
+                    Perfil
+                </a>
+            </li> -->
+        </ul>
+    </div>
+</nav>

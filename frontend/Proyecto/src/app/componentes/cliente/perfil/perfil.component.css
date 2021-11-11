@@ -1,0 +1,49 @@
+#container{
+    display: flex;
+    flex-direction: row;
+}
+
+#perfil{
+    display: flex;
+    flex-direction: column;
+    width: 1125px;
+}
+
+#caja{
+    display: flex;
+    background-color: black;
+    height: 120px;
+    border-bottom-right-radius: 18% 75%;
+}
+
+#title{
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+#formulario{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#campos{
+    border: 2px double black;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5%;
+    box-shadow: 10px 10px 5px gray;
+    margin-bottom: 40px;
+}
+
+.error{
+    color:red;
+    font-size: 12px;
+}

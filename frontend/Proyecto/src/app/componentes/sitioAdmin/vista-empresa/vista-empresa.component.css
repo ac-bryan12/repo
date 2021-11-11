@@ -1,0 +1,30 @@
+#container{
+    display: flex;
+    flex-direction: column;
+    width: 1125px;
+}
+
+#caja{
+    display: flex;
+    background-color: black;
+    height: 120px;
+    border-bottom-right-radius: 18% 75%;
+}
+
+#title{
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+#formulario{
+    display: flex;
+    justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.error{
+    color:red;
+    font-size: 12px;
+}

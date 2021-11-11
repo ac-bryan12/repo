@@ -1,0 +1,58 @@
+h2{
+    margin-left: 20px;
+}
+
+#caja{
+    display: flex;
+    background-color: black;
+    height: 120px;
+    border-bottom-right-radius: 18% 75%;
+}
+
+#container{
+    display: flex;
+    flex-direction: row;
+}
+#tabla{
+    display: flex;
+    flex-direction: column;
+    width: 1400px;
+}
+
+#formulario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#aggEmpresa{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 50px;
+    margin-top: 25px;
+}
+
+th,td{
+    text-align: center;
+}
+
+#indices{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#cantidad{
+    margin-left: 20px;
+}
+
+#paginacion{
+    margin-right: 20px;
+}
+
+#botones-acciones{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
