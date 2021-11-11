@@ -1,12 +1,10 @@
 from django.contrib.auth.base_user import BaseUserManager
 from rest_framework.exceptions import ValidationError
-import empresa
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User,Group,Permission
 from .models import Profile
-from empresa.models import Empresa
 from empresa.serializers import EmpresaSerializer
-from rest_framework import permissions, serializers, status
+from rest_framework import serializers, status
 from django.utils.translation import gettext_lazy as _
 from .models import RUC,CEDULA
 
@@ -16,46 +14,76 @@ from .models import RUC,CEDULA
 #         fields = ['user','empresa']
 
 class GroupSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(max_length=150)
+    name = serializers.CharField(required=False,max_length=150)
     id  = serializers.CharField(required=False)
     
     class Meta:
-        model=Group
+        model = Group
         fields = ['name','id']
 
 class PermissionSerializer(serializers.ModelSerializer):
     codename = serializers.CharField(max_length=100,required=False)
     name = serializers.CharField(max_length=255,required=False)
+    
     class Meta:
         model=Permission
         fields = ['codename','name']
 
-    # def to_representation(self, instance):
-    #     return instance.codename
+    def validate(self, attrs):
+                    
+        if attrs.get('codename'):
+            
+            if not Permission.objects.filter(codename=attrs.get('codename')).exists():
+                raise ValidationError({attrs.get('codename'):"Permiso no encontrado."})
+            
+            if attrs.get('codename').endswith("empresatemp"):
+                raise ValidationError({attrs.get('codename'):"Permiso no encontrado."})
+            
+        return attrs
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.CharField(required=False,allow_blank=True)
     password = serializers.CharField(min_length=8,max_length=60,write_only=True,allow_blank=True,required=False)
     username = serializers.CharField(max_length=150,required=False)
-    first_name = serializers.CharField(min_length=3,max_length=150)
-    last_name = serializers.CharField(min_length=3,max_length=150)
-    email = serializers.EmailField(min_length=7,max_length=250)
+    first_name = serializers.CharField(min_length=3,max_length=150,required=False)
+    last_name = serializers.CharField(min_length=3,max_length=150,required=False)
+    email = serializers.EmailField(min_length=7,max_length=250,required=False)
     groups = GroupSerializer(required=False,many=True)
-    permissions = PermissionSerializer(required=False,many=True,write_only=True)
-
     class Meta:
         model = User
-        fields = ['id','username','first_name','last_name','email', 'password','groups','permissions']
+        fields = ['id','username','first_name','last_name','email', 'password','groups']
 
     def validate(self, attrs):
         if self.instance :
-            
             if User.objects.filter(email=attrs['email']).exclude(email=self.instance.email).exists() :
                 raise ValidationError({"error":"El email ingresado ya existe en el sistema"})
-        
-        else: 
             
-            if User.objects.filter(email=attrs['email']).exists() :
+            if attrs.get('groups'):
+                if attrs.get('groups')[0].get('id') == '1':
+                    raise ValidationError({"error":"No puede asignar el grupo indicado."})
+            
+        else: 
+            if not attrs.get('first_name'):
+                raise ValidationError({"error":"El campo 'first_name' es obligatorio en la creación de usuarios."})
+            
+            if not attrs.get('last_name'):
+                raise ValidationError({"error":"El campo 'last_name' es obligatorio en la creación de usuarios."})
+            
+            if not attrs.get('groups'):
+                raise ValidationError({"error":"El campo 'groups' es obligatorio en la creación de usuarios."})
+            
+            elif not attrs.get('groups')[0].get('id'):
+                raise ValidationError({"error":"El campo 'groups.id' es obligatorio en la creación de usuarios."})
+            
+            elif not Group.objects.filter(pk=attrs.get('groups')[0].get('id')).exists():
+                raise ValidationError({"error":"No existe el grupo indicado."})
+            
+            elif attrs.get('groups')[0].get('id') == '1' :
+                raise ValidationError({"error":"No puede asignar el grupo indicado."})
+
+            if not attrs.get('email'):
+                raise ValidationError({"error":"El campo 'email' es obligatorio en la creación de usuarios."})
+            elif User.objects.filter(email=attrs['email']).exists() :
                 raise ValidationError({"error":"El email ingresado ya existe en el sistema"})
                 
         return attrs
@@ -67,11 +95,10 @@ class UserSerializer(serializers.ModelSerializer):
         user.email = validated_data['email']
         user.first_name = validated_data['first_name']
         user.last_name = validated_data['last_name']
-
+        newPassword = None
         if validated_data.get("password"):
             if validated_data.get("password") != "":
                 user.set_password(validated_data['password'])
-                newPassword = None
 
         elif not user.has_usable_password():
             allow_chars = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789_.=<>;:,$%*?&"
@@ -79,49 +106,29 @@ class UserSerializer(serializers.ModelSerializer):
             user.set_password(newPassword)
         else:
             newPassword = None
-
         user.save()
-
         if validated_data.get('groups'):
-            for group in validated_data['groups'] :
-                user.groups.add(Group.objects.get(name=group.get('name')))
-
-        if validated_data.get('permissions') :
-            for permission in validated_data['permissions'] :
-                user.user_permissions.add(Permission.objects.get(name=permission.get('name')))
-        elif validated_data.get('groups'): 
-            user.user_permissions.set(Group.objects.get(name=group.get('name')).permissions.all())
+            user.groups.add(Group.objects.get(pk=validated_data['groups'][0].get('id')))
 
         user.save()
         return user,newPassword
 
     def update(self, instance, validated_data):
-        user:User = instance
-        user.first_name = validated_data['first_name']
-        user.last_name = validated_data['last_name']
-        user.email = validated_data['email']
-        user.username = validated_data['email']
-        user.save()
-
-        keys = validated_data.keys()
-        if 'groups' in keys:
-            user.groups.clear()
-            user.user_permissions.clear()
+        if validated_data.get('first_name'):
+            instance.first_name = validated_data['first_name']
+        if validated_data.get('last_name'):
+            instance.last_name = validated_data['last_name']
+        if validated_data.get('email'):
+            instance.email = validated_data['email']
+            instance.username = validated_data['email']
 
         if validated_data.get('groups'):
-            for group in validated_data['groups'] :
-                user.groups.add(Group.objects.get(name=group.get('name')))
+            if validated_data.get('groups')[0].get('id'):
+                instance.groups.clear()
+                instance.groups.add(Group.objects.get(pk=validated_data['groups'][0]['id']))
 
-        
-        if validated_data.get('permissions'):
-            for permission in validated_data['permissions'] :
-                user.user_permissions.add(Permission.objects.get(name=permission.get('name')))
-        else:
-            if validated_data.get('groups'):
-                user.user_permissions.set(Group.objects.get(name=group.get('name')).permissions.all())
-
-        user.save()
-        return user
+        instance.save()
+        return instance
 
 class ProfileSerializer(serializers.ModelSerializer):
     n_identificacion = serializers.CharField(max_length=13)
@@ -150,11 +157,15 @@ class ProfileSerializer(serializers.ModelSerializer):
         if not self.instance:
             if Profile.objects.filter(pk = attrs["n_identificacion"]).exists():
                 raise ValidationError({"error":"El número de identificación ingresado ya existe en el sistema."})
+        else:
+            if Profile.objects.filter(pk = attrs["n_identificacion"]).exists() and attrs['n_identificacion'] != self.instance.n_identificacion:
+                raise ValidationError({"error":"El número de identificación ingresado ya existe en el sistema."})
         return attrs
 
     def update(self, instance, validated_data):
-        profile:Profile = instance
-        profile.n_identificacion = validated_data['n_identificacion']
+        instance.delete()
+        profile: Profile = Profile()
+        profile.pk = validated_data['n_identificacion']
         profile.tipo_identificacion = validated_data['tipo_identificacion']
         profile.telefono = validated_data['telefono']
         profile.direccion = validated_data['direccion']

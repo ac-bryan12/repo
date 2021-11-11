@@ -37,7 +37,7 @@ class empresaViewSet(generics.ListAPIView):
     serializer_class = EmpresaSerializer
 
     def get(self, request,format=None):
-        if request.user.user_permissions.filter(codename="view_empresa"):
+        if request.user.has_perm("empresa.view_empresa"):
             profile:Profile = request.user.profile
             serializer = EmpresaSerializer(profile.empresa)
             return Response(serializer.data)
@@ -45,7 +45,7 @@ class empresaViewSet(generics.ListAPIView):
   
 
     def post(self, request):
-        if request.user.user_permissions.filter(codename="change_empresa"):
+        if request.user.has_perm("empresa.change_empresa"):
             empresa = request.user.profile.empresa
             serializer = EmpresaSerializer(empresa, data=request.data)
             if serializer.is_valid(raise_exception=True):
@@ -131,7 +131,7 @@ class listEmpresaTempViewSet(generics.ListAPIView):
     # queryset = EmpresaTemp.objects.all()
 
     def get(self,request):
-        if request.user.user_permissions.filter(codename="view_empresatemp"):
+        if request.user.has_perm("empresa.view_empresatemp"):
             serializer= EmpresaTempSerializer(EmpresaTemp.objects.all(),many=True)
             return Response(serializer.data)
         return Response({'error':'Acceso denegado.'},status=status.HTTP_403_FORBIDDEN)
@@ -168,7 +168,7 @@ class EmpresaTempViewSet(APIView):
             raise Http404
     
     def post(self, request):
-        if request.user.user_permissions.filter(codename="view_empresatemp"):
+        if request.user.has_perm("empresa.view_empresatemp"):
             try:
                 empr = EmpresaTemp.objects.get(correo=request.data['correo'])
                 print(empr)
@@ -244,7 +244,7 @@ class ListaDocumentosViewSet(APIView):
 
     def get(self,request):
         if 'Authorization' in request.headers.keys():
-            if request.user.user_permissions.filter(codename = "view_documentos"): 
+            if request.user.has_perm("empresa.view_documentos"): 
                 serializer = DocumentosSerializer(Documentos.objects.all(), many=True)
                 return Response(serializer.data)
             else:
