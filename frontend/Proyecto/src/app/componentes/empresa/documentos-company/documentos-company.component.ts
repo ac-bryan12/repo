@@ -16,7 +16,7 @@ export class DocumentosCompanyComponent implements OnInit {
   previsualizacion: any
   loanding = false
   listaDocumentos: Array<any> = [];
-  notificaciones: any = []
+  notificaciones: any[] = []
   enviar = true
   enviarDocumentos = false
   totalDocs:number = 0
@@ -42,8 +42,8 @@ export class DocumentosCompanyComponent implements OnInit {
     })
   }
 
-  procesaPropagar(lista: any) {
-    this.notificaciones = lista
+  procesaPropagar($event:any) {
+    console.log($event)
   }
 
   capturarFile(firma: HTMLInputElement) {
