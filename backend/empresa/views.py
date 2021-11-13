@@ -222,16 +222,29 @@ class DocumentosViewSet(APIView):
         if 'Authorization' in request.headers.keys():
             archivo = request.data["file"]
             if archivo != "":
+<<<<<<< Updated upstream
                 if request.data["content_type"]=="text/xml": # Aqui se cambia el campo
                     read = archivo.file.read()
                     file = io.BytesIO(read)
                     archivo = Documentos.objects.create(_file = base64.encodebytes(file.getvalue()), content_type = request.data["content_type"],nombreDoc = request.data["nombreDoc"],tipoCreacion="SUBIDO")
                     if archivo:
                         return Response({'msg':"Documento guardado",'type':1},status=status.HTTP_201_CREATED)
+=======
+                if request.data["content_type"]=="text/xml":
+                    nombre = Documentos.objects.filter(nombreDoc = request.data["nombreDoc"])
+                    if not nombre.exists(): # Aqui se cambia el campo
+                        read = archivo.file.read()
+                        file = io.BytesIO(read)
+                        archivo = Documentos.objects.create(_file = base64.encodebytes(file.getvalue()), content_type = request.data["content_type"],nombreDoc = request.data["nombreDoc"])
+                        if archivo:
+                            return Response({'msg':"Documento guardado",'type':1},status=status.HTTP_201_CREATED)
+                        else:
+                            return Response({'error':'Ha ocurrido un error al crear el documento','class':'error'},status=status.HTTP_400_BAD_REQUEST)  
+>>>>>>> Stashed changes
                     else:
-                        return Response({'error':'Ha ocurrido un error al crear el documento'},status=status.HTTP_400_BAD_REQUEST)  
-                return Response({'error':'El tipo de archivo no es compatible'},status = status.HTTP_406_NOT_ACCEPTABLE)
-            return Response({'error':'No se ha subido archivo'},status = status.HTTP_204_NO_CONTENT)
+                        return Response({'error':'El documento ya existe en el sistema '+request.data["nombreDoc"],'class':'existe'},status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error':'El tipo de archivo no es compatible','class':'error'},status = status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({'error':'No se ha subido archivo','class':'error'},status = status.HTTP_204_NO_CONTENT)
         else:
             return Response({'error':"No se ha encontrado su pagina"},status = status.HTTP_401_UNAUTHORIZED)
         
