@@ -19,7 +19,7 @@ export class ListGruposComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listaGrupos()
+    // this.obtenerGrupos()
     this.habilitarControles()
     setTimeout(()=>{
       let btnBorrarAdmin:any = document.getElementById('2')
@@ -28,6 +28,10 @@ export class ListGruposComponent implements OnInit {
       btnBorrarCliente.disabled = true
     },250)
     
+  }
+
+  obtenerObjetos(listGrupos: any){
+    this.listGrupos = listGrupos
   }
 
   habilitarControles(){
@@ -48,12 +52,6 @@ export class ListGruposComponent implements OnInit {
     })
   }
 
-  listaGrupos(){
-    this.service.peticionGet(environment.url+"/api/user/grupos/").subscribe((res)=>{
-      this.listGrupos = res.results
-    })
-
-  }
 
   crearGrupo(){
     this.router.navigate(["../editarGrupos"],{relativeTo:this.route})
