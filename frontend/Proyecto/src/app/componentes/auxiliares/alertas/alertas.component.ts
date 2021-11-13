@@ -12,40 +12,42 @@ export class AlertasComponent implements OnInit {
   @Input() tipo: string = ''
   @Input() mensaje: string=''
   @Output()
-  propagarLista = new EventEmitter<any[]>()    
+  propagarLista = new EventEmitter<number>()    
  
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  buscarToast(toast:any,indice:any){
-    if(indice!=0){
-      this.listaTotal.splice(indice,1)
-    }else{
-      for(let i = 0;i <this.shownotify.length;i++){
-        this.listaTotal.splice(indice,1)
-      }
-    }
-    this.propagarLista.emit(this.listaTotal)
-
+  cerrarToastAuto(){
+    setTimeout(()=>{
+      var containerToast = document.getElementById("contenedor")
+      var lista = containerToast?.getElementsByTagName("alerts") as HTMLCollectionOf<HTMLElement>
+      if(lista.length>0){
+        this.shownotify = lista
+        for(let i = 0;i<lista.length;i++){
+          let parent = lista.item(i)?.parentNode as Node
+          setTimeout(()=>{
+            this.cerrarToast(lista[i],true)
+            containerToast?.removeChild(parent)
+          },(i+1)*1100) 
+        }
+      }  
+    },15000)
   }
 
-  cerrarToastAuto(){
+  cerrarToast(toast:HTMLElement,auto=false) {
     var containerToast = document.getElementById("contenedor")
     var lista = containerToast?.getElementsByTagName("alerts") as HTMLCollectionOf<HTMLElement>
     this.shownotify = lista
-    for(let i = 0;i<lista.length;i++){
-      let toast = lista.item(i) as HTMLElement
-      setTimeout(()=>{
-        this.cerrarToast(toast,i)
-      },(i+1)*5000)
+    toast.classList.remove("toastC")
+    toast.classList.add("hidden")
+    if(!auto){
+      for(let i = 0;i<lista.length;i++){
+        let parent = lista.item(i)?.parentNode as Node
+        containerToast?.removeChild(parent)
+      }
     }
   }
-
-  cerrarToast(toast:HTMLElement,indice:any = 0) {
-      toast.classList.remove("toastC")
-      toast.classList.add("hidden")
-      this.buscarToast(toast,indice)     
-  }
+  
 }
