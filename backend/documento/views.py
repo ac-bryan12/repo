@@ -123,10 +123,14 @@ class ListaDocumentosPaginados(PaginationAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
     
-    def get(self,request,name):
+    def get(self,request):
         if request.user.has_perm("empresa.view_documentos"):
             # Buscar por empresa
-            query = Documentos.objects.filter(nombreDoc__icontains=name).order_by("-id")
+            if request.GET.get("name"):
+                print("si entra")
+                query = Documentos.objects.filter(nombreDoc__icontains=request.GET.get("name")).order_by("-id")
+            else:
+                query = Documentos.objects.all().order_by("-id")
             page = self.paginate_queryset(query)
             if page is not None:
                 serializer = self.get_paginated_response(DocumentosSerializer(page,many=True).data)
