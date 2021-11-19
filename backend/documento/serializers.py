@@ -25,17 +25,17 @@ class DocumentosSerializer(serializers.ModelSerializer):
 
 
 class InfoTributariaSerializer(serializers.Serializer):
-    ambiente = serializers.IntegerField(max_length=1)		
-    tipoEmision	= serializers.IntegerField(max_length=2)	
+    ambiente = serializers.RegexField("^[0-9]+$",max_length=1)		
+    tipoEmision	= serializers.RegexField("^[0-9]+$",max_length=2)	
     razonSocial	 =  serializers.CharField(max_length=300)		
-    nombreComercial	= serializers.CharField(max_lentgh=300,required=False)		
-    ruc = serializers.IntegerField(max_length=13)		 		
-    claveAcceso	= serializers.IntegerField(max_length=49)			
-    codDoc = serializers.IntegerField(max_length=2)		 	 		
-    estab = serializers.IntegerField(max_length=3)	 	 	 		
-    ptoEmi = serializers.IntegerField(max_length=3)		 		
-    secuencial = serializers.IntegerField(max_length=9)		 		
-    dirMatriz = serializers.IntegerField(max_length=300)
+    nombreComercial	= serializers.CharField(max_length=300,required=False)		
+    ruc = serializers.RegexField("^[0-9]+$",max_length=13)		 		
+    claveAcceso	= serializers.RegexField("^[0-9]+$",max_length=49)			
+    codDoc = serializers.RegexField("^[0-9]+$",max_length=2)		 	 		
+    estab = serializers.RegexField("^[0-9]+$",max_length=3)	 	 	 		
+    ptoEmi = serializers.RegexField("^[0-9]+$",max_length=3)		 		
+    secuencial = serializers.RegexField("^[0-9]+$",max_length=9)		 		
+    dirMatriz = serializers.RegexField("^[0-9]+$",max_length=300)
 
     ############valida oets valida!!!
 
@@ -44,13 +44,13 @@ class InfoFacturaGeneral(serializers.Serializer):
     fechaEmision = serializers.DateTimeField(input_formats='%d/%m/%Y')
     dirEstablecimiento = serializers.CharField(required = False, max_length = 300)
     contribuyenteEspecial = serializers.CharField(required = False, max_length = 13)
-    obligadoContabilidad = serializers.ChoiceField(requiered = False, choices=["NO","YES"])
+    obligadoContabilidad = serializers.ChoiceField(required = False, choices=["NO","YES"])
     tipoIdentifiacionComprador = serializers.CharField(max_length=2)
     identificacionComprador = serializers.CharField(max_length = 20)
     totalSinImpuestos = serializers.DecimalField(decimal_places=2,max_digits=14)
     totalDescuento = serializers.DecimalField(decimal_places=2,max_digits=14)
-    guiaRemision = serializers.IntegerField(required = False, max_length=15)
-    direccionComprador = serializers.CharField(requeired=False, max_length = 300)
+    guiaRemision = serializers.RegexField("^[0-9]+$",required = False, max_length=15)
+    direccionComprador = serializers.CharField(required=False, max_length = 300)
 
     ################validaa oets valida!!!!
     def validate_tipoIdentificacionComprador(self, value):
