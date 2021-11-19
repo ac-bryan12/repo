@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'correo.apps.CorreoConfig',
     'empresa.apps.EmpresaConfig',
     'usuario.apps.UsuarioConfig',
+    'documento.apps.DocumentoConfig',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
