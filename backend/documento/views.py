@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import parsers, serializers, permissions, generics, status, renderers
+from rest_framework import  permissions, status
 from .models import Documentos
-from rest_framework.authentication import BaseAuthentication, SessionAuthentication, TokenAuthentication
-from .serializers import DocumentosSerializer, FacturaSerializer, InfoTributariaSerializer
+from rest_framework.authentication import  TokenAuthentication
+from .serializers import DocumentosSerializer, FacturaSerializer
 import base64
 
 #Vistas para los archivos : Sirve para subir y descargar 
@@ -77,35 +77,6 @@ class RecibirDocumentoViewSet(APIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class =  FacturaSerializer
 
-
-    def validacionInfoFacturaGeneral(self,dictionary):
-        if not dictionary =="":
-            tipoId = dictionary["tipoIdentificacionComprador"]
-            totalSinImpuestos = dictionary["totalSinImpuestos"]
-            totalDescuento = dictionary["totalDescuento"]
-            if not tipoId:
-                return Response({'error':'Falta el campo de tipo identifiacion, por favor coloquelo dentro del esqueema a enviar'},status=status.HTTP_406_NOT_ACCEPTABLE)
-            if not tipoId=="04" or not tipoId=="05" or not tipoId=="06" or not tipoId=="07" or not tipoId=="08":
-                return Response({'error':'El campo del tipo de identificacion no es correcto, por favor verifíquelo'},status=status.HTTP_406_NOT_ACCEPTABLE)    
-            if not totalSinImpuestos:
-                return Response({'error':'Falta el campo de totalSinImpuestos, por favor coloquelo dentro del esquema a enviar'},status=status.HTTP_406_NOT_ACCEPTABLE)
-            if totalSinImpuestos:
-                try:
-                    numero = float(totalSinImpuestos)
-                    if len(str(numero))>14:
-                        return Response({'error':'El campo ingresdo en el totalSinImpuesto supera la cantidad admitida de 14 digitos por el sistema'},status= status.HTTP_406_NOT_ACCEPTABLE)
-                except:
-                    raise ValidationError({'error':'El campo ingresado en el totalSinImpuestos es erroneo por favor ingresar un dato valido'},status=status.HTTP_406_NOT_ACCEPTABLE)
-            if not totalDescuento:
-                return Response({'error':'Falta el campo de totalDescuento, por favor coloquelo dentro del esuqema a enviar'},status=status.HTTP_406_NOT_ACCEPTABLE)
-            if totalDescuento:
-                try:
-                    numero = float(totalDescuento)
-                    if len(str(numero))>14:
-                        return Response({'error':'EL campo ingreaso en el totalDescuento supera la cantidad admitida de 14 digitos por el sistema'},status= status.HTTP_406_NOT_ACCEPTABLE)
-                except:
-                    raise ValidationError({'error':'El campo ingresado en el totalDescuento es erroneo por favor ingresar un dato valido'},status=status.HTTP_406_NOT_ACCEPTABLE)
-            return True
 
     def post(self,request):
         if request.user.has_perm("documento.view_permiso"):  ## permiso espeficio para emitir
