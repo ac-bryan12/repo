@@ -1,8 +1,10 @@
 from django.urls import path,include,re_path
-from .views import  DocumentosViewSet, ListaDocumentosViewSet, planViewSet,empresaViewSet,listEmpresaViewSet,EmpresaTempViewSet,listEmpresaTempViewSet
+from .views import  DocumentosViewSet, ListaDocumentosPaginados, ListaDocumentosViewSet
 
 urlpatterns = [
-    path('documentos/guardar-documentos/',DocumentosViewSet.as_view()),
-    path('documentos/descargar-documento/<int:pk>/',DocumentosViewSet.as_view()),
-    path('documentos/lista-documentos-empresa/',ListaDocumentosViewSet.as_view())
+    path('guardar-documentos/',DocumentosViewSet.as_view()),
+    path('descargar-documento/<int:pk>/',DocumentosViewSet.as_view()),
+    path('lista-documentos-empresa/',ListaDocumentosViewSet.as_view()),
+    path('buscar_por_empresa/',ListaDocumentosPaginados.as_view()),
+    # path('buscar_por_empresa/',ListaDocumentosPaginados.as_view())
 ]

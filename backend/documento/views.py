@@ -1,9 +1,11 @@
+import io
 from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import  permissions, status
 from .models import Documentos
+from api.views import PaginationAPIView
 from rest_framework.authentication import  TokenAuthentication
 from .serializers import DocumentosSerializer, FacturaSerializer
 import base64
@@ -40,7 +42,7 @@ class DocumentosViewSet(APIView):
                     if not nombre.exists(): # Aqui se cambia el campo
                         read = archivo.file.read()
                         file = io.BytesIO(read)
-                        archivo = Documentos.objects.create(_file = base64.encodebytes(file.getvalue()), content_type = request.data["content_type"],nombreDoc = request.data["nombreDoc"])
+                        archivo = Documentos.objects.create(_file = base64.encodebytes(file.getvalue()), content_type = request.data["content_type"],nombreDoc = request.data["nombreDoc"],tipoCreacion=request.data["tipoCreacion"])
                         if archivo:
                             return Response({'msg':"Documento guardado",'type':1},status=status.HTTP_201_CREATED)
                         else:
@@ -86,3 +88,24 @@ class RecibirDocumentoViewSet(APIView):
                 return Response({'msg':'Documento permitido en el sistema'},status=status.status.HTTP_202_ACCEPTED)
         else:
             return Response({'error':'No se ha encontrado su página'},status=status.HTTP_401_UNAUTHORIZED)
+        
+class ListaDocumentosPaginados(PaginationAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self,request):
+        if request.user.has_perm("empresa.view_documentos"):
+            # Buscar por empresa
+            if request.GET.get("name"):
+                print("si entra")
+                query = Documentos.objects.filter(nombreDoc__icontains=request.GET.get("name")).order_by("-id")
+            else:
+                query = Documentos.objects.all().order_by("-id")
+            page = self.paginate_queryset(query)
+            if page is not None:
+                serializer = self.get_paginated_response(DocumentosSerializer(page,many=True).data)
+                return Response(serializer.data)
+            
+            return Response({"error":"Ocurrió un error con la consulta."},status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({'error':'Acceso denegado'},status=status.HTTP_403_FORBIDDEN)

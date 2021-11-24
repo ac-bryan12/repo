@@ -62,7 +62,7 @@ class InfoTributariaSerializer(serializers.Serializer):
 
 #Datos para la etiqueta de InfoFactura - B
 class TotalImpuesto(serializers.Serializer):
-    codigo = serializers.ChoiceField(required=True,choices=[2,3,5]).error_messages({"invalid_choice": _('"{input}" no es un codigo correcto')})
+    codigo = serializers.ChoiceField(required=True,choices=[2,3,5])
     codigoPorcentaje = serializers.IntegerField(required=True,max_value=9999)
     totalDescuento = serializers.DecimalField(required =False, decimal_places=2,max_digits=14)
     baseImponible = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
@@ -86,12 +86,12 @@ class TotalConImpuestos(serializers.Serializer):#B
     totalImpuesto = TotalImpuesto()
 
 class Pago(serializers.Serializer): #B
-    formaPago = serializers.ChoiceField(required=True,choices=[1,15,16,17,18,19,20,21]).error_messages({"invalid_choice": _('"{input}" no es una forma de pago correcta')})
+    formaPago = serializers.ChoiceField(required=True,choices=[1,15,16,17,18,19,20,21])
     total = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     plazo = serializers.DecimalField(required =False, decimal_places=2,max_digits=14)
     unidadTiempo = serializers.CharField(required =False, max_length = 10)
 
-class Pagos(serializers.Seriliazer):#B
+class Pagos(serializers.Serializer): #B
     pago = Pago()
     
 
@@ -133,9 +133,9 @@ class InfoFacturaGeneral(serializers.Serializer): #B
 
 #Datos para la etiqueta Detalles #B
 class Impuesto(serializers.Serializer):
-    codigo = serializers.ChoiceField(required=True,choices=[2,3,5]).error_messages({"invalid_choice": _('"{input}" no es un codigo correcto')})
+    codigo = serializers.ChoiceField(required=True,choices=[2,3,5])
     codigoPorcentaje = serializers.IntegerField(required=True,max_value=9999)
-    tarifa = serializers.IntegerField(required =True,min_length = 1,max_length = 4 )
+    tarifa = serializers.IntegerField(required =True,max_value = 9999)
     baseImponible = serializers.DecimalField(required =False, decimal_places=2,max_digits=14)
     valor = serializers.DecimalField(required =False, decimal_places=2,max_digits=14)
 
@@ -165,7 +165,7 @@ class DetallesAdicionales(serializers.Serializer): #B
 class Detalle(serializers.Serializer): #B
     codigoPrincipal = serializers.CharField(required = True,max_length = 25)
     codigoAuxiliar = serializers.CharField(required = False, max_length = 25)
-    descripcion = serializers.CharField(requiered = True, max_length = 300)
+    descripcion = serializers.CharField(required = True, max_length = 300)
     cantidad = serializers.DecimalField(required =True, decimal_places=6,max_digits=18)
     precioUnitario = serializers.DecimalField(required =True, decimal_places=6,max_digits=18)
     descuento = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)

@@ -2,19 +2,24 @@ from empresa.models import Empresa,EmpresaTemp,Plan
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 
+from usuario.validators import validar_identificacion
+
 
 
 
 class EmpresaSerializer(serializers.ModelSerializer):
     ruc = serializers.CharField(max_length=13)
-    razonSocial =  serializers.CharField(max_length=150)
-    direccion = serializers.CharField(max_length=150)
-    telefono = serializers.CharField(max_length=13)
+    razonSocial =  serializers.RegexField("^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$",max_length=150)
+    direccion = serializers.RegexField("^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$",max_length=150)
+    telefono = serializers.RegexField("^[0-9]+$",max_length=13)
     correo =  serializers.EmailField(min_length=7,max_length=150)
 
     class Meta:
         model = Empresa
         fields = ['ruc', 'razonSocial','direccion','telefono','correo']
+        
+    def validate_ruc(self,value):
+        return validar_identificacion(value)
 
     def validate(self, attrs):
         msg:any
