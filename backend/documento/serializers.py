@@ -238,7 +238,7 @@ class CampoAdicional(serializers.Serializer):
 class InfoAdicional(serializers.Serializer):
     campoAdicional = CampoAdicional(required=False)
 
-
+#Serializador Factura
 class FacturaSerializer(serializers.Serializer):
     infoTributaria = InfoTributariaSerializer()
     infoFactura = InfoFacturaGeneral()
@@ -246,11 +246,17 @@ class FacturaSerializer(serializers.Serializer):
     retenciones = Retenciones(required=False)
     infoAdicional= InfoAdicional(required=False)
 
-
+#Serializador Nota Credito
 class NotaCreditoSerializer(serializers.Serializer):
     infoTributaria = InfoTributariaSerializer()
     infoNotaCredito = InfoNotaCreditoGeneral()
     detalles = Detalles()
     infoAdicional = InfoAdicional()
-    
-    
+
+#Guia Factura
+class Factura(serializers.Serializer):
+    factura = FacturaSerializer()
+
+#Guia Nota Credito
+class NotaCredito(serializers.Serializer):
+    notaCredito = NotaCreditoSerializer()
