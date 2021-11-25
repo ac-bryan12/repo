@@ -100,9 +100,9 @@ class Pagos(serializers.Serializer): #B
 class InfoNotaCreditoGeneral(serializers.Serializer):
     #fechaEmision = serializers.DateTimeField(required =True, input_formats='%d/%m/%Y')
     dirEstablecimiento = serializers.CharField(required = False, max_length = 300)
-    tipoIdentifiacionComprador = serializers.CharField(required =True, max_length=2) #Integer
+    tipoIdentifiacionComprador = serializers.IntegerField(required =True) #Integer
     razonSocialComprador = serializers.CharField(max_length= 300)
-    identificacionComprador = serializers.CharField(required =True, max_length = 20)
+    identificacionComprador = serializers.CharField(required =True, max_length = 13) #pasaporte ??
     contribuyenteEspecial = serializers.CharField(required = False, max_length = 13)
     obligadoContabilidad = serializers.ChoiceField(required = False, choices=["NO","YES"])
     rise = serializers.CharField(max_length= 40)
@@ -117,13 +117,13 @@ class InfoNotaCreditoGeneral(serializers.Serializer):
 
     def validate_identificacionComprador(self,attrs):
         tipo  = attrs['tipoIdentificacionComprador'] 
-        if tipo == "04":
+        if tipo == 4:
             #validacion del ruc
             return attrs
-        if tipo =="05":
+        if tipo == 5:
             #validacion cedula
             return attrs
-        if tipo == "07":
+        if tipo == 7:
             if tipo.length == 13 and attrs["identificacionComprador"] == "9999999999999":
                 return attrs
             else:
@@ -137,8 +137,8 @@ class InfoFacturaGeneral(serializers.Serializer): #B
     dirEstablecimiento = serializers.CharField(required = False, max_length = 300)
     contribuyenteEspecial = serializers.CharField(required = False, max_length = 13)
     obligadoContabilidad = serializers.ChoiceField(required = False, choices=["NO","YES"])
-    tipoIdentifiacionComprador = serializers.CharField(required =True, max_length=2)
-    identificacionComprador = serializers.CharField(required =True, max_length = 20)
+    tipoIdentifiacionComprador = serializers.ChoiceField(required =True, choices=[4,5,7])
+    identificacionComprador = serializers.CharField(required =True, max_length = 13)
     totalSinImpuestos = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     totalDescuento = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     guiaRemision = serializers.IntegerField(required = False, max_value=999999999999999) #tener en cuenta
@@ -154,13 +154,13 @@ class InfoFacturaGeneral(serializers.Serializer): #B
 
     def validate_identificacionComprador(self,attrs):
         tipo  = attrs['tipoIdentificacionComprador'] 
-        if tipo == "04":
+        if tipo == 4:
             #validacion del ruc
             return attrs
-        if tipo =="05":
+        if tipo == 5:
             #validacion cedula
             return attrs
-        if tipo == "07":
+        if tipo == 7:
             if tipo.length == 13 and attrs["identificacionComprador"] == "9999999999999":
                 return attrs
             else:
@@ -192,11 +192,11 @@ class Impuestos(serializers.Serializer): #B
     impuesto = Impuesto()
 
 class DetalleAdicional(serializers.Serializer): #B
-    nombre = serializers.CharField(required = True)
-    valor = serializers.CharField(required = True)
+    nombre = serializers.CharField(required = True, max_length=250)
+    valor = serializers.CharField(required = True, max_length=50)
 
 class DetallesAdicionales(serializers.Serializer): #B
-    detAdicional = DetalleAdicional()
+    detAdicional = DetalleAdicional(required =False)
 
 class Detalle(serializers.Serializer): #B
     codigoPrincipal = serializers.CharField(required = True,max_length = 25)
@@ -244,7 +244,60 @@ class FacturaSerializer(serializers.Serializer):
     infoFactura = InfoFacturaGeneral()
     detalles = Detalles(many=True)
     retenciones = Retenciones(required=False)
-    infoAdicional= InfoAdicional(required=False)
+    infoAdicional= InfoAdicional(required=False, many = True)
+
+
+##Informacion para la Guia de remision
+class InfoGuiaRemisionSerializer(serializers.Serializer):
+    dirEstablecimiento = serializers.CharField(required= False,max_length=300)
+    dirPartida = serializers.CharField(required= True,max_length=300)
+    #razonSocialTransportista?
+    tipoIdentificacionTransportista = serializers.CharField(required =True, max_length=2)
+    rucTransportista = serializers.IntegerField(required =True, max_value = 9999999999999)
+    rise = serializers.CharField(required = False, max_length=40)
+    obligadoContabilidad = serializers.ChoiceField(required= False, choices=["SI","NO"])
+    contribuyenteEspecial = serializers.CharField(required = False, max_length = 13)
+    #fecha Inicio  Obligatorio
+    #fechaFin Obligatorio
+    placa = serializers.CharField(required = False, max_length=20)
+
+
+##Informacion para la Guia de remision
+class DetalleDestinatario(serializers.Serializer):
+    codigoInterno = serializers.CharField(required=False,max_length = 25)
+    codigoAdicional = serializers.CharField(required=False,max_length = 25)
+    descripcion = serializers.CharField(required=True,max_length = 300)
+    cantidad = serializers.DecimalField(required=True,decimal_places=6,max_digits=18)
+    detallesAdicionales = DetallesAdicionales(required = False,many=True)
+
+class Destinatario(serializers.Serializer):
+    identificacionDestinatario = serializers.CharField(required=True,max_length = 13)## pasaporte ? 
+    razonSocialDestinatario = serializers.CharField(required=True,max_length = 300)
+    dirDestinatario = serializers.CharField(required=True,max_length = 300)
+    motivoTraslado = serializers.CharField(required=True,max_length = 300)
+    docAduaneroUnico = serializers.CharField(required=False,max_length = 20)
+    codEstabDestino = serializers.IntegerField(required=False,max_value = 999)
+    ruta = serializers.CharField(required=True,max_length = 300)
+    codDocSustento = serializers.ChoiceField(required=False,choices=[1,3,4,5,6,7])
+    numDocSustento = serializers.CharField(required=False,max_length = 15)
+    numAutDocSustento = serializers.CharField(required=False,min_length = 10,max_length = 49)
+    #fechaEmisionDocSustento opcional 
+    detalles = DetalleDestinatario(required =True)
+
+##Informacion para la guia de Remision
+class Destinarios(serializers.Serializer):
+    destinario= Destinatario(required =True)
+
+##Datos la etiqueta de Guia de Remision
+class DatosGuiaRemisionSerializer(serializers.Serializer):
+    infoTributaria = InfoTributariaSerializer()
+    infoGuiaRemision = InfoGuiaRemisionSerializer()
+    destinatarios = Destinarios(many=True)
+    infoAdicional = InfoAdicional(required =False,many=True)
+
+#GuiaRemision
+class GuiaRemision(serializers.Serializer):
+    guiaRemision = DatosGuiaRemisionSerializer()
 
 #Serializador Nota Credito
 class NotaCreditoSerializer(serializers.Serializer):
