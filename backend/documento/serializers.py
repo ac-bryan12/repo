@@ -35,7 +35,7 @@ class InfoTributariaSerializer(serializers.Serializer):
     #nombreComercial	= serializers.CharField(max_lentgh=300,required=False)		
     #ruc = serializers.IntegerField(max_value = 9999999999999)		 		
     #claveAcceso	= serializers.CharField(max_length=49)			
-    codDoc = serializers.ChoiceField(choices=["01","03","04","05","06","07"])		 	 		
+    codDoc = serializers.ChoiceField(choices=[1,3,4,5,6,7])		 	 		
     estab = serializers.IntegerField(max_value = 999)	 	 	 		
     ptoEmi = serializers.IntegerField(max_value = 999)		 		
     #secuencial = serializers.IntegerField(max_value=9)		 		
@@ -54,7 +54,9 @@ class InfoTributariaSerializer(serializers.Serializer):
     def validated_codDoc(self,attrs):
         if attrs["codDoc"]=="":
             codigo = attrs["codDoc"]
-            if codigo == "01": 
+            if codigo == 1: 
+                return attrs
+            elif codigo == 4:
                 return attrs
         raise NotAcceptable({'error':'El campo del Tipo de Emisión no es correcto, por favor verifíquelo'}) 
 
@@ -93,6 +95,40 @@ class Pago(serializers.Serializer): #B
 
 class Pagos(serializers.Serializer): #B
     pago = Pago()
+    
+##Informacion de la etiqueta de InfoNotaCredito 
+class InfoNotaCreditoGeneral(serializers.Serializer):
+    #fechaEmision = serializers.DateTimeField(required =True, input_formats='%d/%m/%Y')
+    dirEstablecimiento = serializers.CharField(required = False, max_length = 300)
+    tipoIdentifiacionComprador = serializers.CharField(required =True, max_length=2) #Integer
+    razonSocialComprador = serializers.CharField(max_length= 300)
+    identificacionComprador = serializers.CharField(required =True, max_length = 20)
+    contribuyenteEspecial = serializers.CharField(required = False, max_length = 13)
+    obligadoContabilidad = serializers.ChoiceField(required = False, choices=["NO","YES"])
+    rise = serializers.CharField(max_length= 40)
+    codDocModificado = serializers.ChoiceField(choices=[1,3,4,5,6,7])
+    numDocModificado = serializers.CharField(required=False, max_length=15)
+    fechaEmisionDocSustento = serializers.DateTimeField(required = True, input_formats='%d/%m/%Y')
+    totalSinImpuestos = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
+    valorModificacion = serializers.DecimalField(required=True, decimal_places=2, max_digits=14)
+    moneda = serializers.CharField(required = True, max_length = 15)
+    totalConImpuesto = TotalConImpuestos(many = True)
+    motivo = serializers.CharField(max_length=300)
+
+    def validate_identificacionComprador(self,attrs):
+        tipo  = attrs['tipoIdentificacionComprador'] 
+        if tipo == "04":
+            #validacion del ruc
+            return attrs
+        if tipo =="05":
+            #validacion cedula
+            return attrs
+        if tipo == "07":
+            if tipo.length == 13 and attrs["identificacionComprador"] == "9999999999999":
+                return attrs
+            else:
+                raise NotAcceptable({'error':'El campo de identificacion no concuerda con el tipo de identificacion de consumidor final'}) 
+        raise NotAcceptable({'error':'El campo del tipo de identificacion no es correcto, por favor verifíquelo'})
     
 
 ##Informacion de la etiqueta de InfoFactura 
@@ -165,13 +201,15 @@ class DetallesAdicionales(serializers.Serializer): #B
 class Detalle(serializers.Serializer): #B
     codigoPrincipal = serializers.CharField(required = True,max_length = 25)
     codigoAuxiliar = serializers.CharField(required = False, max_length = 25)
+    codigoInterno = serializers.CharField(required=False, max_length=25)
+    codigoAdicional = serializers.CharField(required=False, max_length=25)
     descripcion = serializers.CharField(required = True, max_length = 300)
     cantidad = serializers.DecimalField(required =True, decimal_places=6,max_digits=18)
     precioUnitario = serializers.DecimalField(required =True, decimal_places=6,max_digits=18)
     descuento = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     precioTotalSinImpuesto = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     detallesAdicionales = DetallesAdicionales(required =False, many = True)
-    impuestos = Impuestos(many=True)
+    impuestos = Impuestos(many=True)    
 
 ##Informacion de la etiqueta de Detalles
 class Detalles(serializers.Serializer): #B
@@ -208,5 +246,11 @@ class FacturaSerializer(serializers.Serializer):
     retenciones = Retenciones(required=False)
     infoAdicional= InfoAdicional(required=False)
 
+
+class NotaCreditoSerializer(serializers.Serializer):
+    infoTributaria = InfoTributariaSerializer()
+    infoNotaCredito = InfoNotaCreditoGeneral()
+    detalles = Detalles()
+    infoAdicional = InfoAdicional()
     
     
