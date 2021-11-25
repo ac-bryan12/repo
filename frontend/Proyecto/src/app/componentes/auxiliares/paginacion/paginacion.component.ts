@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, DoCheck, SimpleChange, SimpleChanges} from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
@@ -8,7 +8,7 @@ import { RequestService } from 'src/app/services/request/request.service';
   templateUrl: './paginacion.component.html',
   styleUrls: ['./paginacion.component.css']
 })
-export class PaginacionComponent implements OnInit {
+export class PaginacionComponent implements OnChanges {
     @Input() urlRequest: string = ""
     @Output() listObjects =  new EventEmitter<any[]>()
 
@@ -22,6 +22,7 @@ export class PaginacionComponent implements OnInit {
     previousControl: string
     nextControl: string
     listObjectslength: number
+    oldUrl : string
 
 
   constructor(private service:RequestService,private router:Router) {
@@ -38,11 +39,16 @@ export class PaginacionComponent implements OnInit {
       this.nextControl = "disabled"
 
       this.listObjectslength = 0
+
+      this.oldUrl = " "
    }
 
-  ngOnInit(): void {
-    this.next = environment.url+this.urlRequest
-    this.obtenerObjetos()
+  ngOnChanges(changes:SimpleChanges): void {
+    if(changes.urlRequest){
+      this.oldUrl = this.urlRequest
+      this.next = environment.url+this.urlRequest
+      this.obtenerObjetos()
+    } 
   }
 
   cambiarPagina(pag:number){
@@ -52,21 +58,24 @@ export class PaginacionComponent implements OnInit {
     }else if(pag == this.pag_actual-1){
       urlPeticion = this.previous
     }else{
-      urlPeticion = environment.url+this.urlRequest+"?page="+pag
+      if(this.urlRequest.substr(this.urlRequest.length-1,this.urlRequest.length) == '/'){
+        urlPeticion = environment.url+this.urlRequest+"?page="+pag
+      }
+      else{
+        urlPeticion = environment.url+this.urlRequest+"&page="+pag
+      }
+      
     }
     this.obtenerObjetos(urlPeticion,pag)
   }
 
   obtenerObjetos(url: string = this.next, pag : number = 1){
-    console.log(this.next)
 
     this.service.peticionGet(url).subscribe((res)=>{
       // Change active pag
       let pagActualControl = document.getElementById('pag_'+pag)
-      console.log(pagActualControl)
       pagActualControl?.classList.add("active")
       let pagAnteriorControl = document.getElementById('pag_'+this.pag_actual)
-      console.log(pagAnteriorControl)
       pagAnteriorControl?.classList.remove("active")
 
       // 
@@ -88,7 +97,5 @@ export class PaginacionComponent implements OnInit {
         this.previousControl = "disabled"
       }
     })
-
   }
-
 }

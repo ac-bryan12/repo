@@ -21,7 +21,7 @@ export class ListUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listaUsuarios()
+    //this.listaUsuarios()
     this.habilitarControles()
   }
 
@@ -41,11 +41,12 @@ export class ListUsersComponent implements OnInit {
     })
   }
 
-  listaUsuarios(){
+  /*listaUsuarios(){
     this.service.peticionGet(environment.url+"/api/user/lista-de-profiles/").subscribe((res)=>{
       this.listUsuarios = res.results
     })
   }
+  */
   
   envioId(id:any){
     let usuario = {}
@@ -74,4 +75,7 @@ export class ListUsersComponent implements OnInit {
     
   }
 
+  obtenerObjetos(listUser:any){
+    this.listUsuarios = listUser
+  }
 }

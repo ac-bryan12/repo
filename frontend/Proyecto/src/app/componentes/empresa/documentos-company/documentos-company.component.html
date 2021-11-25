@@ -20,8 +20,8 @@
         </div>
         <div id="seccion-botones" class="mt-4 mb-4">
             <div class="d-flex align-items-center">
-                <input id="inputbuscador" type="text">
-                <button id="buscador" (click)="buscador()" class="btn btn-outline-secondary"><img alt="buscador" src="assets/lupa.png" width="25px"></button>
+                <input #valor (change)=buscador(valor) id="inputbuscador" type="text">
+                <button id="buscador" (click)=buscador(valor) class="btn btn-outline-secondary"><img alt="buscador" src="assets/lupa.png" width="25px"></button>
             </div>
 
             <div class="d-flex justify-content-center align-items-center">
@@ -94,6 +94,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+            <list-pagination urlRequest="/api/documentos/buscar_por_empresa/{{nombreDocumento}}" (listObjects)="obtenerObjetos($event)"></list-pagination>
+        </div>        
     </div>
 </div>
