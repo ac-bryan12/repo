@@ -1,5 +1,6 @@
 from datetime import datetime
 from rest_framework.exceptions import NotAcceptable
+from rest_framework.fields import FloatField
 from .models import Documentos, Estado, TipoCreacion, TipoDocumento
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
@@ -131,7 +132,7 @@ class Pagos(serializers.Serializer): #B
 class InfoNotaCreditoGeneral(serializers.Serializer):
     #fechaEmision = serializers.DateTimeField(required =True, input_formats='%d/%m/%Y')
     dirEstablecimiento = serializers.CharField(required = False, max_length = 300)
-    tipoIdentifiacionComprador = serializers.IntegerField(required =True) #Integer
+    tipoIdentifiacionComprador = serializers.CharField(required =True) #Integer
     razonSocialComprador = serializers.CharField(max_length= 300)
     identificacionComprador = serializers.CharField(required =True, max_length = 13) #pasaporte ??
     contribuyenteEspecial = serializers.CharField(required = False, max_length = 13)
@@ -148,13 +149,13 @@ class InfoNotaCreditoGeneral(serializers.Serializer):
 
     def validate_identificacionComprador(self,attrs):
         tipo  = attrs['tipoIdentificacionComprador'] 
-        if tipo == 4:
+        if tipo == "04":
             #validacion del ruc
             return attrs
-        if tipo == 5:
+        if tipo == "05":
             #validacion cedula
             return attrs
-        if tipo == 7:
+        if tipo == "07":
             if tipo.length == 13 and attrs["identificacionComprador"] == "9999999999999":
                 return attrs
             else:
@@ -267,7 +268,8 @@ class Retenciones(serializers.Serializer):
 
 #Datos para la etiqueta InfoAdicional
 class CampoAdicional(serializers.Serializer):
-    _nombre = serializers.CharField(max_length=300)
+    nombre = serializers.CharField(max_length=250)
+    valor = serializers.CharField(max_length=50)
 
 ##Informacion de la etiqueta InfoAdicional 
 class InfoAdicional(serializers.Serializer):
@@ -286,14 +288,89 @@ class FacturaSerializer(serializers.Serializer):
             factura['infoTributaria'] = InfoTributariaSerializer.create(self,factura['infoTributaria'])
         return validated_data
     
-    
+##Informacion para la Guia de remision
+class InfoGuiaRemisionSerializer(serializers.Serializer):
+    dirEstablecimiento = serializers.CharField(required= False,max_length=300)
+    dirPartida = serializers.CharField(required= True,max_length=300)
+    #razonSocialTransportista?
+    tipoIdentificacionTransportista = serializers.CharField(required =True, max_length=2)
+    rucTransportista = serializers.IntegerField(required =True, max_value = 9999999999999)
+    rise = serializers.CharField(required = False, max_length=40)
+    obligadoContabilidad = serializers.ChoiceField(required= False, choices=["SI","NO"])
+    contribuyenteEspecial = serializers.CharField(required = False, max_length = 13)
+    #fecha Inicio  Obligatorio
+    #fechaFin Obligatorio
+    placa = serializers.CharField(required = False, max_length=20)
+
+
+##Informacion para la Guia de remision
+class DetalleDestinatario(serializers.Serializer):
+    codigoInterno = serializers.CharField(required=False,max_length = 25)
+    codigoAdicional = serializers.CharField(required=False,max_length = 25)
+    descripcion = serializers.CharField(required=True,max_length = 300)
+    cantidad = serializers.DecimalField(required=True,decimal_places=6,max_digits=18)
+    detallesAdicionales = DetallesAdicionales(required = False,many=True)
+
+class Destinatario(serializers.Serializer):
+    identificacionDestinatario = serializers.CharField(required=True,max_length = 13)## pasaporte ? 
+    razonSocialDestinatario = serializers.CharField(required=True,max_length = 300)
+    dirDestinatario = serializers.CharField(required=True,max_length = 300)
+    motivoTraslado = serializers.CharField(required=True,max_length = 300)
+    docAduaneroUnico = serializers.CharField(required=False,max_length = 20)
+    codEstabDestino = serializers.IntegerField(required=False,max_value = 999)
+    ruta = serializers.CharField(required=True,max_length = 300)
+    codDocSustento = serializers.ChoiceField(required=False,choices=[1,3,4,5,6,7])
+    numDocSustento = serializers.CharField(required=False,max_length = 15)
+    numAutDocSustento = serializers.CharField(required=False,min_length = 10,max_length = 49)
+    #fechaEmisionDocSustento opcional 
+    detalles = DetalleDestinatario(required =True)
+
+##Informacion para la guia de Remision
+class Destinarios(serializers.Serializer):
+    destinario= Destinatario(required =True)
+
+##Datos la etiqueta de Guia de Remision
+class GuiaRemisionSerializer(serializers.Serializer):
+    infoTributaria = InfoTributariaSerializer()
+    infoGuiaRemision = InfoGuiaRemisionSerializer()
+    destinatarios = Destinarios(many=True)
+    infoAdicional = InfoAdicional(required =False,many=True)
+    def create(self, validated_data):
+        for guia in validated_data:
+            guia['infoTributaria'] = InfoTributariaSerializer.create(self,guia['infoTributaria'])
+        return validated_data
+
+
+#Serializador Nota Credito
+class NotaCreditoSerializer(serializers.Serializer):
+    infoTributaria = InfoTributariaSerializer()
+    infoNotaCredito = InfoNotaCreditoGeneral()
+    detalles = Detalles()
+    infoAdicional = InfoAdicional()
+
+    def create(self, validated_data):
+        for nota in validated_data:
+            nota['infoTributaria'] = InfoTributariaSerializer.create(self,nota['infoTributaria'])
+        return validated_data
+  
+        
 class ComprobanteSerializer(serializers.Serializer):
     factura = FacturaSerializer(many=True,required=False)
+    notaCredito = NotaCreditoSerializer(many = True, required =False)
+    guiaRemision = GuiaRemisionSerializer(many =True, required =False)
     
     def create(self, validated_data):
         self.context['owner'] = validated_data['owner']
         
+
         if validated_data.get("factura"):
             validated_data['factura'] = FacturaSerializer.create(self,validated_data['factura'])
+
+        if validated_data.get("guiaRemision"):
+            validated_data['guiaRemision'] = FacturaSerializer.create(self,validated_data['guiaRemision'])
+
+        if validated_data.get("notaCredito"):
+            validated_data['notaCredito'] = FacturaSerializer.create(self,validated_data['notaCredito'])
+        
         return validated_data
 
