@@ -29,7 +29,7 @@ export class DocumentosCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargarDocumentos()
+    // this.cargarDocumentos()
     this.habilitarControles()
   }
 
@@ -101,11 +101,11 @@ export class DocumentosCompanyComponent implements OnInit {
       saveAs(Filepath, res.nombreDoc)
     })
   }
-  cargarDocumentos() {
-    this.envio.peticionGet(environment.url + '/api/documentos/lista-documentos-empresa/').subscribe((res) => {
-      this.listaDocumentos = res
-    })
-  }
+  // cargarDocumentos() {
+  //   this.envio.peticionGet(environment.url + '/api/documentos/lista-documentos-empresa/').subscribe((res) => {
+  //     this.listaDocumentos = res
+  //   })
+  // }
 
   
 

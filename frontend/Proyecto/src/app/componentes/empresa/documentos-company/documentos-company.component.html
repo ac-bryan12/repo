@@ -61,27 +61,25 @@
                     <tr class="titles">
                         <th scope="col">Id</th>
                         <th scope="col">Fecha de Emisión</th>
-                        <th scope="col">Hora</th>
-                        <th scope="col">Proveedor</th>
                         <th scope="col">Nombre del Documento</th>
                         <th scope="col">Tipo de Documento</th>
+                        <th scope="col">Proveedor</th>
                         <th scope="col">Cliente</th>
-                        <th scope="col">Estado</th>
                         <th scope="col">Tipo de Creación</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
                     <tr *ngFor="let doc of listaDocumentos" class="fila">
                         <td>{{doc.id}}</td>
-                        <td>14-06-2021</td>
-                        <td>{{doc.hora}}</td>
-                        <td>-----------</td>
+                        <td>{{doc.fechaEmision!=null?doc.fechaEmision:"------"}}</td>
                         <td class="nameDocs">{{doc.nombreDoc}}</td>
-                        <td>----------</td>
-                        <td>----------</td>
-                        <td>----------</td>
-                        <td>{{doc.tipoCreacion}}</td>
+                        <td>{{doc.tipoDocumento!=null?doc.tipoDocumento.name:"------"}}</td>
+                        <td>{{doc.proveedor!=null?doc.proveedor:"------"}}</td>
+                        <td>{{doc.cliente!=null?doc.cliente:"------"}}</td>
+                        <td>{{doc.tipoCreacion!=null?doc.tipoCreacion.name:"------"}}</td>
+                        <td>{{doc.estado!=null?doc.estado.name:"------"}}</td>
                         <td id="iconos" class="w-100 h-40">
                             <img alt="visualizar" src="assets/vision.png" width="15px">
                             <img alt="recharge" src="assets/cargando-flechas.png" width="10px">
