@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<factura id="comprobante" version="1.1.0">
+    <infoTributaria>
+        <nombreComercial>MI COMISARIATO</nombreComercial>
+        <codDoc>01</codDoc>
+        <estab>001</estab>
+        <ptoEmi>001</ptoEmi>
+        <ambiente>1</ambiente>
+        <tipoEmision>1</tipoEmision>
+        <razonSocial>Mi comisariato</razonSocial>
+        <ruc>0955541008001</ruc>
+        <secuencial>000000034</secuencial>
+        <claveAcceso>2611202101095554100800110120210000000340000003415</claveAcceso>
+    </infoTributaria>
+    <infoFactura>
+        <dirEstablecimiento>COOP.UNION DE BANANEROS; SOLAR 17 MZ.44 BLOQUE 1</dirEstablecimiento>
+        <contribuyenteEspecial>6925</contribuyenteEspecial>
+        <obligadoContabilidad>SI</obligadoContabilidad>
+        <tipoIdentificacionComprador>05</tipoIdentificacionComprador>
+        <identificacionComprador>0954391579</identificacionComprador>
+        <totalSinImpuestos>5.56</totalSinImpuestos>
+        <totalDescuento>0.00</totalDescuento>
+        <totalConImpuestos>
+            <totalImpuesto>
+                <codigo>2</codigo>
+                <codigoPorcentaje>0</codigoPorcentaje>
+                <baseImponible>1.59</baseImponible>
+                <valor>0.00</valor>
+            </totalImpuesto>
+            <totalImpuesto>
+                <codigo>2</codigo>
+                <codigoPorcentaje>2</codigoPorcentaje>
+                <baseImponible>3.97</baseImponible>
+                <valor>0.48</valor>
+            </totalImpuesto>
+        </totalConImpuestos>
+        <propina>0.00</propina>
+        <importeTotal>6.04</importeTotal>
+        <moneda>DOLAR</moneda>
+        <pagos>
+            <pago>
+                <formaPago>01</formaPago>
+                <total>6.04</total>
+                <plazo>0.00</plazo>
+                <unidadTiempo>dias</unidadTiempo>
+            </pago>
+        </pagos>
+    </infoFactura>
+    <detalles>
+        <detalle>
+            <codigoPrincipal>40008404</codigoPrincipal>
+            <descripcion>TE MANZ C/MIELHORNIM</descripcion>
+            <cantidad>1.000000</cantidad>
+            <precioUnitario>1.590000</precioUnitario>
+            <descuento>0.00</descuento>
+            <precioTotalSinImpuesto>1.59</precioTotalSinImpuesto>
+            <impuestos>
+                <impuesto>
+                    <codigo>2</codigo>
+                    <codigoPorcentaje>0</codigoPorcentaje>
+                    <tarifa>0</tarifa>
+                    <baseImponible>1.59</baseImponible>
+                    <valor>0.00</valor>
+                </impuesto>
+            </impuestos>
+        </impuesto>
+        <impuesto>
+            <codigoPrincipal>40260886</codigoPrincipal>
+            <descripcion>BEBIDA ALMENDRA SIN</descripcion>
+            <cantidad>1.000000</cantidad>
+            <precioUnitario>2.350000</precioUnitario>
+            <descuento>0.00</descuento>
+            <precioTotalSinImpuesto>2.35</precioTotalSinImpuesto>
+            <impuestos>
+                <impuesto>
+                    <codigo>2</codigo>
+                    <codigoPorcentaje>2</codigoPorcentaje>
+                    <tarifa>12</tarifa>
+                    <baseImponible>2.35</baseImponible>
+                    <valor>0.28</valor>
+                </impuesto>
+            </impuestos>
+        </impuesto>
+        <impuesto>
+            <codigoPrincipal>40349461</codigoPrincipal>
+            <descripcion>CEREAL HOJUELANUTRIS</descripcion>
+            <cantidad>1.000000</cantidad>
+            <precioUnitario>1.620000</precioUnitario>
+            <descuento>0.00</descuento>
+            <precioTotalSinImpuesto>1.62</precioTotalSinImpuesto>
+            <impuestos>
+                <impuesto>
+                    <codigo>2</codigo>
+                    <codigoPorcentaje>2</codigoPorcentaje>
+                    <tarifa>12</tarifa>
+                    <baseImponible>1.62</baseImponible>
+                    <valor>0.20</valor>
+                </impuesto>
+            </impuestos>
+        </impuesto>
+    </detalles>
+    <infoAdicional>
+        <campoAdicional nombre="formaPago"></campoAdicional>
+        <campoAdicional nombre="deducibleComestible"></campoAdicional>
+        <campoAdicional nombre="logo"></campoAdicional>
+    </infoAdicional>
+</factura>

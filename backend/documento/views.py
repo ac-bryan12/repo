@@ -1,6 +1,7 @@
 import io
 import re
 from django.core.exceptions import ValidationError
+from django.utils.module_loading import autodiscover_modules
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import  permissions, renderers, status
@@ -88,26 +89,57 @@ class RecibirDocumentoViewSet(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
     # renderer_classes = (XMLDocRenderer,)
+    
+    def getDigitoVerificador(self,codigo):
+        mul = [3,2,7,6,5,4,3,2]
+        acumulador = 0
+        for i in range(len(codigo)):
+            acumulador += int(codigo[i])*mul[i]
+        acumulador = acumulador % 11
+        acumulador =  11 - acumulador 
+        return str(acumulador)
+        
+    def generarClaveAcceso(self,comprobante,doc):
+        clave = ""
+        clave += str(doc.fechaEmision.date().strftime('%d%m%Y'))
+        clave += comprobante['infoTributaria']['codDoc']
+        clave += comprobante['infoTributaria']['ruc']
+        clave += str(comprobante['infoTributaria']['ambiente'])
+        serie  = comprobante['infoTributaria']['codDoc']+str(doc.fechaEmision.date().strftime('%Y'))
+        clave += serie
+        clave += str(doc.pk).zfill(9)
+        clave += str(doc.pk).zfill(8)
+        clave += "1"
+        clave += self.getDigitoVerificador(str(doc.pk).zfill(8))
+        return clave
 
     def post(self,request):
         
         if request.user.has_perm("documento.add_documentos"):  ## permiso espeficio para emitir
-            
+            #self.context['owner'] = request.user
             renderer: XMLDocRenderer = XMLDocRenderer()
-            serializer = ComprobanteSerializer(data=request.data)
+            serializer = ComprobanteSerializer(data=request.data,context={"owner":request.user})
             self.charset = "utf-8"
             if serializer.is_valid(raise_exception=True):
-                comprobantes = serializer.save(owner=request.user)
-                comprobantes.pop('owner')
-                items = []
+                comprobantes = serializer.save()
+                #comprobantes.pop('owner')
+                items = {}
                 for key, value in six.iteritems(comprobantes):
                     renderer.root_tag_name = key
+                    new_key = []
                     for comprobante in value:
-                        print(comprobante)
-                        xml = renderer.render(data=comprobante)
-                        xmlByte = xml.encode('utf-8')
+                        
+                        
                         doc = Documentos()
                         doc.save()
+                        
+                        comprobante['infoTributaria']['secuencial'] = str(doc.pk).zfill(9)
+                        comprobante['infoTributaria']['claveAcceso'] = self.generarClaveAcceso(comprobante,doc)
+                        
+                        
+                        xml = renderer.render(data=comprobante)
+                        xmlByte = xml.encode('utf-8')
+                        
                         doc._file = base64.encodebytes(xmlByte) 
                         doc.content_type = "text/xml"
                         doc.nombreDoc = key+"_"+str(doc.pk)
@@ -117,13 +149,10 @@ class RecibirDocumentoViewSet(APIView):
                         doc.tipoDocumento = TipoDocumento.objects.get(pk=comprobante['infoTributaria']['codDoc'])
                         doc.cliente =Profile.objects.get(pk=comprobante['infoFactura']['identificacionComprador']).user
                         doc.save()
-                        #items.append(xmlByte)
-                        #new_file=open("newfile.xml",mode="w",encoding="utf-8")
-                        #new_file.write(xml)
-                        #new_file.close()
+                        new_key.append(xmlByte)
+                    items[key] = new_key
                         
-                
-                return Response("Todo bien")
+                return Response(items)
                 # return Response(comprobantes)
         else:
             return Response({'error':'No se ha encontrado su página'},status=status.HTTP_401_UNAUTHORIZED)

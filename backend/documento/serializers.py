@@ -1,8 +1,10 @@
 from datetime import datetime
+from django.core.exceptions import ValidationError
 from rest_framework.exceptions import NotAcceptable
 from .models import Documentos, Estado, TipoCreacion, TipoDocumento
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
+from usuario.models import Profile
 
 LISTA_PORCENTAJE_ICE=[3041,3041,3041,3073,3075,3077,3078,3079,3080,3081,3092,3610,3620,3630,3640,3660,3093,3101,3053,3054,3111,3043,3033,3671,3684,3686,3688,3691,3692,3695,3696,3698,3682,3681,3680,3533,3541,3541,3541,3542,3543,3544,3581,3582,3710,3720,3730,3740,3871,3873,3874,3875,3876,3877,3878,3601,3552,3553,3602,3545,3532,3671,3771,3685,3687,3689,3690,3693,3694,3697,3699,3683]
 LISTA_PORCENTAJE_IVA=[0,2,3,6,7]
@@ -191,7 +193,9 @@ class InfoFacturaGeneral(serializers.Serializer): #B
             #validacion del ruc
             return attrs
         if tipo == "05":
-            #validacion cedula
+            empresa = self.context['owner'].profile.empresa
+            if not Profile.objects.filter(pk=id,empresa=empresa).exists():
+                raise ValidationError({"error":"El comprador indicado no consta como su cliente."})
             return attrs
         if tipo == "07":
             if id.length == 13 and id == "9999999999999":
@@ -291,7 +295,7 @@ class ComprobanteSerializer(serializers.Serializer):
     factura = FacturaSerializer(many=True,required=False)
     
     def create(self, validated_data):
-        self.context['owner'] = validated_data['owner']
+        #self.context['owner'] = validated_data['owner']
         
         if validated_data.get("factura"):
             validated_data['factura'] = FacturaSerializer.create(self,validated_data['factura'])
