@@ -166,9 +166,9 @@ class ListaDocumentosPaginados(PaginationAPIView):
             # Buscar por empresa
             if request.GET.get("name"):
                 print("si entra")
-                query = Documentos.objects.filter(nombreDoc__icontains=request.GET.get("name")).order_by("-id")
+                query = Documentos.objects.filter(nombreDoc__icontains=request.GET.get("name"),proveedor=request.user).order_by("-id")
             else:
-                query = Documentos.objects.all().order_by("-id")
+                query = Documentos.objects.filter(proveedor=request.user).order_by("-id")
             page = self.paginate_queryset(query)
             if page is not None:
                 serializer = self.get_paginated_response(DocumentosSerializer(page,many=True).data)
