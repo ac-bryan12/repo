@@ -84,25 +84,9 @@ class RecibirDocumentoViewSet(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
     renderer_classes = (XMLRenderer,)
-    # serializer_class =  ComprobanteSerializer
-        
-    # def crear_facturas(self,attrs):
-    #     serializer = FacturaSerializer(data=attrs)
-    #     try:
-    #         if serializer.is_valid(raise_exception=True):
-    #             factura = serializer.save() 
-    #             print(factura)
-    #             return None
-    #     except:
-    #         return "Factura no valida"
 
     def post(self,request):
         if request.user.has_perm("documento.add_documentos"):  ## permiso espeficio para emitir
-            #msgError = []
-            # if request.data.get("facturas"):
-            #     msg = self.crear_facturas(request.data.get("facturas"))
-            #     if msg:
-            #         msgError.append(msg)
             serializer = ComprobanteSerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
                 comprobantes = serializer.save(owner=request.user)
