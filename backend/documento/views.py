@@ -1,14 +1,18 @@
 import io
-from django.shortcuts import render
+import re
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import  permissions, renderers, status
-from .models import Documentos, TipoCreacion
+from django.utils import six, xmlutils
+
+from api.parsers import XMLDocRenderer
+from .models import Documentos, Estado, TipoCreacion, TipoDocumento
 from api.views import PaginationAPIView
 from rest_framework.authentication import  TokenAuthentication
 from .serializers import ComprobanteSerializer, DocumentosSerializer, FacturaSerializer
 import base64
+from usuario.models import Profile
 from rest_framework_xml.renderers import XMLRenderer
 
 #Vistas para los archivos : Sirve para subir y descargar 
@@ -83,15 +87,44 @@ class ListaDocumentosViewSet(APIView):
 class RecibirDocumentoViewSet(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
-    renderer_classes = (XMLRenderer,)
+    # renderer_classes = (XMLDocRenderer,)
 
     def post(self,request):
+        
         if request.user.has_perm("documento.add_documentos"):  ## permiso espeficio para emitir
+            
+            renderer: XMLDocRenderer = XMLDocRenderer()
             serializer = ComprobanteSerializer(data=request.data)
+            self.charset = "utf-8"
             if serializer.is_valid(raise_exception=True):
                 comprobantes = serializer.save(owner=request.user)
                 comprobantes.pop('owner')
-                return Response(comprobantes)
+                items = []
+                for key, value in six.iteritems(comprobantes):
+                    renderer.root_tag_name = key
+                    for comprobante in value:
+                        print(comprobante)
+                        xml = renderer.render(data=comprobante)
+                        xmlByte = xml.encode('utf-8')
+                        doc = Documentos()
+                        doc.save()
+                        doc._file = base64.encodebytes(xmlByte) 
+                        doc.content_type = "text/xml"
+                        doc.nombreDoc = key+"_"+str(doc.pk)
+                        doc.estado = Estado.objects.get(pk=1)
+                        doc.tipoCreacion = TipoCreacion.objects.get(pk=1)
+                        doc.proveedor = request.user
+                        doc.tipoDocumento = TipoDocumento.objects.get(pk=comprobante['infoTributaria']['codDoc'])
+                        doc.cliente =Profile.objects.get(pk=comprobante['infoFactura']['identificacionComprador']).user
+                        doc.save()
+                        #items.append(xmlByte)
+                        #new_file=open("newfile.xml",mode="w",encoding="utf-8")
+                        #new_file.write(xml)
+                        #new_file.close()
+                        
+                
+                return Response("Todo bien")
+                # return Response(comprobantes)
         else:
             return Response({'error':'No se ha encontrado su página'},status=status.HTTP_401_UNAUTHORIZED)
         

@@ -1,6 +1,4 @@
 from datetime import datetime
-from typing import OrderedDict
-from django.db.models import fields
 from rest_framework.exceptions import NotAcceptable
 from .models import Documentos, Estado, TipoCreacion, TipoDocumento
 from rest_framework import serializers
@@ -269,7 +267,7 @@ class Retenciones(serializers.Serializer):
 
 #Datos para la etiqueta InfoAdicional
 class CampoAdicional(serializers.Serializer):
-    nombre = serializers.CharField(max_length=300)
+    _nombre = serializers.CharField(max_length=300)
 
 ##Informacion de la etiqueta InfoAdicional 
 class InfoAdicional(serializers.Serializer):
@@ -290,12 +288,12 @@ class FacturaSerializer(serializers.Serializer):
     
     
 class ComprobanteSerializer(serializers.Serializer):
-    facturas = FacturaSerializer(many=True,required=False)
+    factura = FacturaSerializer(many=True,required=False)
     
     def create(self, validated_data):
         self.context['owner'] = validated_data['owner']
         
-        if validated_data.get("facturas"):
-            validated_data['facturas'] = FacturaSerializer.create(self,validated_data['facturas'])
+        if validated_data.get("factura"):
+            validated_data['factura'] = FacturaSerializer.create(self,validated_data['factura'])
         return validated_data
 
