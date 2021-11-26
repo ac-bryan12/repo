@@ -371,10 +371,10 @@ class ComprobanteSerializer(serializers.Serializer):
             validated_data['factura'] = FacturaSerializer.create(self,validated_data['factura'])
 
         if validated_data.get("guiaRemision"):
-            validated_data['guiaRemision'] = FacturaSerializer.create(self,validated_data['guiaRemision'])
+            validated_data['guiaRemision'] = GuiaRemisionSerializer.create(self,validated_data['guiaRemision'])
 
         if validated_data.get("notaCredito"):
-            validated_data['notaCredito'] = FacturaSerializer.create(self,validated_data['notaCredito'])
+            validated_data['notaCredito'] = NotaCreditoSerializer.create(self,validated_data['notaCredito'])
         
         return validated_data
 
