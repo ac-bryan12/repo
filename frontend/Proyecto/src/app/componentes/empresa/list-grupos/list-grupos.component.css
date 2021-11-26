@@ -9,6 +9,17 @@
     font-weight: bold;
 }
 
+#inputbuscador{
+    height: 50px;
+    width: 250px;
+}
+
+#buscador{
+    height: 50px;
+    width: 55px;
+}  
+
+
 #tabla{
     display: flex;
     flex-direction: column;

@@ -14,6 +14,7 @@ export class ListGruposComponent implements OnInit {
   agregarGrupo = "disabled"
   editarGrupo = "disabled"
   eliminarGrupo = "disabled"
+  nombreDocumento = ""
   constructor(private service:RequestService, private cookie:CookieService, private router:Router,private route:ActivatedRoute){
     this.listGrupos = []
   }
@@ -79,6 +80,15 @@ export class ListGruposComponent implements OnInit {
     }
     id = id.innerText
     this.router.navigate(["../editarGrupos"],{relativeTo:this.route,queryParams:{id:id,name:grupoEnviar.name}})
+  }
+
+  buscador(nombre:any){
+    if(nombre == ""){
+      this.nombreDocumento = ""
+    }
+    else{
+      this.nombreDocumento = "?name="+nombre.value
+    }
   }
 
 }

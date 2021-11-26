@@ -32,7 +32,6 @@ import { ClienteGuard } from './services/guards/cliente/cliente.guard';
 import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFound/page-not-found.component';
 import { CrearGruposComponent } from './componentes/empresa/crear-grupos/crear-grupos.component';
 import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grupos.component';
-import { FormularioEmisionComponent } from './componentes/empresa/formulario-emision/formulario-emision.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -76,7 +75,6 @@ const routes: Routes = [
     {path:'editarGrupos',component:CrearGruposComponent,canActivate:[EmpresaGuard]},
     // {path:'perfil',component:PerfilComponent,canActivate:[EmpresaGuard]},
     {path:'cambiar-contrasenia',component:ChangePasswordComponent,canActivate:[EmpresaGuard]},
-    {path:'comprobantes',component:FormularioEmisionComponent}
   ]},
   {path:'**',component:PageNotFoundComponent},
 ];

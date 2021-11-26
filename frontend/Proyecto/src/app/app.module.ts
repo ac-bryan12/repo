@@ -53,7 +53,6 @@ import { AlertasComponent } from './componentes/auxiliares/alertas/alertas.compo
 import { CrearGruposComponent } from './componentes/empresa/crear-grupos/crear-grupos.component';
 import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grupos.component';
 import { PaginacionComponent } from './componentes/auxiliares/paginacion/paginacion.component';
-import { FormularioEmisionComponent } from './componentes/empresa/formulario-emision/formulario-emision.component';
 
 
 
@@ -100,8 +99,7 @@ import { FormularioEmisionComponent } from './componentes/empresa/formulario-emi
     AlertasComponent,
     CrearGruposComponent,
     ListGruposComponent,
-    PaginacionComponent,
-    FormularioEmisionComponent,
+    PaginacionComponent,  
   ],
   imports: [
     BrowserModule,

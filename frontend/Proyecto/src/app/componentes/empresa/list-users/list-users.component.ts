@@ -15,6 +15,7 @@ export class ListUsersComponent implements OnInit {
   agregarUsuario = "disabled"
   editarUsuario = "disabled"
   eliminarUsuario = "disabled"
+  nombreDocumento = ""
   constructor(private service:RequestService, private cookie:CookieService, private router:Router,private route:ActivatedRoute) { 
 
     this.listUsuarios = []
@@ -77,5 +78,14 @@ export class ListUsersComponent implements OnInit {
 
   obtenerObjetos(listUser:any){
     this.listUsuarios = listUser
+  }
+
+  buscador(nombre:any){
+    if(nombre == ""){
+      this.nombreDocumento = ""
+    }
+    else{
+      this.nombreDocumento = "?name="+nombre.value
+    }
   }
 }
