@@ -3,12 +3,13 @@ from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import  permissions, status
-from .models import Documentos
+from rest_framework import  permissions, renderers, status
+from .models import Documentos, TipoCreacion
 from api.views import PaginationAPIView
 from rest_framework.authentication import  TokenAuthentication
-from .serializers import DocumentosSerializer, FacturaSerializer
+from .serializers import ComprobanteSerializer, DocumentosSerializer, FacturaSerializer
 import base64
+from rest_framework_xml.renderers import XMLRenderer
 
 #Vistas para los archivos : Sirve para subir y descargar 
 class DocumentosViewSet(APIView):
@@ -23,7 +24,7 @@ class DocumentosViewSet(APIView):
             raise ValidationError({'error':'No hay un archivo por para descargar'},status= status.HTTP_204_NO_CONTENT)
 
     def get(self,request,pk):
-        if 'Authorization' in request.headers.keys():
+        if request.user.has_perm("documento.view_documentos"):
             archivo = self.get_object(pk=pk)
             serializer = self.serializer_class(archivo)
             if serializer:
@@ -34,7 +35,7 @@ class DocumentosViewSet(APIView):
             return Response({'error':"No se ha encontrado su pagina"},status = status.HTTP_401_UNAUTHORIZED)
 
     def post(self,request):
-        if 'Authorization' in request.headers.keys():
+        if request.user.has_perm("documento.add_documentos"):
             archivo = request.data["file"]
             if archivo != "":
                 if request.data["content_type"]=="text/xml":
@@ -42,7 +43,12 @@ class DocumentosViewSet(APIView):
                     if not nombre.exists(): # Aqui se cambia el campo
                         read = archivo.file.read()
                         file = io.BytesIO(read)
-                        archivo = Documentos.objects.create(_file = base64.encodebytes(file.getvalue()), content_type = request.data["content_type"],nombreDoc = request.data["nombreDoc"],tipoCreacion=request.data["tipoCreacion"])
+                        
+                        archivo = Documentos.objects.create(_file = base64.encodebytes(file.getvalue()), content_type = request.data["content_type"],nombreDoc = request.data["nombreDoc"])
+                        archivo.tipoCreacion = TipoCreacion.objects.get(pk=2)
+                        archivo.proveedor = request.user
+                        archivo.fechaEmision = None
+                        archivo.save()
                         if archivo:
                             return Response({'msg':"Documento guardado",'type':1},status=status.HTTP_201_CREATED)
                         else:
@@ -77,15 +83,31 @@ class ListaDocumentosViewSet(APIView):
 class RecibirDocumentoViewSet(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class =  FacturaSerializer
-
+    renderer_classes = (XMLRenderer,)
+    # serializer_class =  ComprobanteSerializer
+        
+    # def crear_facturas(self,attrs):
+    #     serializer = FacturaSerializer(data=attrs)
+    #     try:
+    #         if serializer.is_valid(raise_exception=True):
+    #             factura = serializer.save() 
+    #             print(factura)
+    #             return None
+    #     except:
+    #         return "Factura no valida"
 
     def post(self,request):
-        if request.user.has_perm("documento.view_permiso"):  ## permiso espeficio para emitir
-            serializer = self.serializer_class(data = request.data)
+        if request.user.has_perm("documento.add_documentos"):  ## permiso espeficio para emitir
+            #msgError = []
+            # if request.data.get("facturas"):
+            #     msg = self.crear_facturas(request.data.get("facturas"))
+            #     if msg:
+            #         msgError.append(msg)
+            serializer = ComprobanteSerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
-                datos = serializer.validated_data #datos para trabajar
-                return Response({'msg':'Documento permitido en el sistema'},status=status.status.HTTP_202_ACCEPTED)
+                comprobantes = serializer.save(owner=request.user)
+                comprobantes.pop('owner')
+                return Response(comprobantes)
         else:
             return Response({'error':'No se ha encontrado su página'},status=status.HTTP_401_UNAUTHORIZED)
         
@@ -94,7 +116,7 @@ class ListaDocumentosPaginados(PaginationAPIView):
     permission_classes = [permissions.IsAuthenticated]
     
     def get(self,request):
-        if request.user.has_perm("empresa.view_documentos"):
+        if request.user.has_perm("documento.view_documentos"):
             # Buscar por empresa
             if request.GET.get("name"):
                 print("si entra")

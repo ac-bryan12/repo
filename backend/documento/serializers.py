@@ -1,5 +1,8 @@
+from datetime import datetime
+from typing import OrderedDict
+from django.db.models import fields
 from rest_framework.exceptions import NotAcceptable
-from .models import Documentos
+from .models import Documentos, Estado, TipoCreacion, TipoDocumento
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 
@@ -7,21 +10,43 @@ LISTA_PORCENTAJE_ICE=[3041,3041,3041,3073,3075,3077,3078,3079,3080,3081,3092,361
 LISTA_PORCENTAJE_IVA=[0,2,3,6,7]
 
 
+class TipoDocSerializador(serializers.Serializer):
+    name = serializers.CharField()
+    class Meta:
+        model = TipoDocumento
+        fields = ['name']
+class EstadoDocSerializador(serializers.Serializer):
+    name = serializers.CharField()
+    class Meta:
+        model = Estado
+        fields = ['name']
+    
+class TipoCreacionDocSerializador(serializers.Serializer):
+    name = serializers.CharField()
+    class Meta:
+        model = TipoCreacion
+        fields = ['name']
+    
 class DocumentosSerializer(serializers.ModelSerializer):
     _file = serializers.ReadOnlyField()
     content_type = serializers.CharField(max_length=150)
     nombreDoc = serializers.CharField(max_length=150)
-    #fechaEmision = serializers.DateTimeField(allow_null = True, required = False)
-    hora = serializers.TimeField(required = False)
-    tipoDocumento = serializers.CharField(max_length=150,required = False)
-    #cliente = serializers.CharField()
-    #proveedor = models.ForeignKey(Empresa,on_delete=models.SET_NULL)
-    estado  = serializers.CharField(max_length=25,required = False)
-    tipoCreacion = serializers.CharField(max_length=25,required = False)
+    fechaEmision = serializers.DateTimeField(allow_null = True, required = False,read_only=True)
+    #hora = serializers.TimeField(required = False)
+    cliente = serializers.CharField(read_only=True)
+    proveedor = serializers.CharField(read_only=True)
+    tipoDocumento = TipoDocSerializador()
+    estado  = EstadoDocSerializador()
+    tipoCreacion = TipoCreacionDocSerializador()
     class Meta:
         model = Documentos
-        fields = ['id','_file','content_type','nombreDoc','hora','tipoDocumento','estado','tipoCreacion']
+        fields = ['id','_file','content_type','nombreDoc','fechaEmision','tipoDocumento','estado','tipoCreacion','cliente','proveedor']
 
+    def to_representation(self, instance):
+        fechaEmision:datetime = instance.fechaEmision
+        representation = super().to_representation(instance)
+        representation['fechaEmision'] = str(fechaEmision.date().strftime('%d/%m/%Y'))
+        return representation
 
     def validate(self, attrs):
         return super().validate(attrs)
@@ -32,12 +57,12 @@ class InfoTributariaSerializer(serializers.Serializer):
     #ambiente = serializers.IntegerField()		
     #tipoEmision	= serializers.IntegerField()	
     #razonSocial	 =  serializers.CharField(max_length=300)		
-    #nombreComercial	= serializers.CharField(max_lentgh=300,required=False)		
+    nombreComercial	= serializers.CharField(max_length=300,required=False)		
     #ruc = serializers.IntegerField(max_value = 9999999999999)		 		
     #claveAcceso	= serializers.CharField(max_length=49)			
     codDoc = serializers.ChoiceField(choices=["01","03","04","05","06","07"])		 	 		
-    estab = serializers.IntegerField(max_value = 999)	 	 	 		
-    ptoEmi = serializers.IntegerField(max_value = 999)		 		
+    estab = serializers.RegexField("^[0-9]+$",max_length = 3)	 	 	 		
+    ptoEmi = serializers.RegexField("^[0-9]+$",max_length = 3)		 		
     #secuencial = serializers.IntegerField(max_value=9)		 		
     #dirMatriz = serializers.CharField(max_length=300)
 
@@ -58,6 +83,13 @@ class InfoTributariaSerializer(serializers.Serializer):
                 return attrs
         raise NotAcceptable({'error':'El campo del Tipo de Emisión no es correcto, por favor verifíquelo'}) 
 
+    def create(self, validated_data):
+        user =  self.context['owner']
+        validated_data['ambiente'] = 1	
+        validated_data['tipoEmision']	= 1
+        validated_data['razonSocial'] = user.profile.empresa.razonSocial
+        validated_data['ruc'] = user.profile.empresa.pk
+        return validated_data
 
 
 #Datos para la etiqueta de InfoFactura - B
@@ -83,16 +115,16 @@ class TotalImpuesto(serializers.Serializer):
 
 
 class TotalConImpuestos(serializers.Serializer):#B
-    totalImpuesto = TotalImpuesto()
+    totalImpuesto = TotalImpuesto(many=True)
 
 class Pago(serializers.Serializer): #B
-    formaPago = serializers.ChoiceField(required=True,choices=[1,15,16,17,18,19,20,21])
+    formaPago = serializers.ChoiceField(required=True,choices=["01","15","16","17","18","19","20","21"])
     total = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     plazo = serializers.DecimalField(required =False, decimal_places=2,max_digits=14)
     unidadTiempo = serializers.CharField(required =False, max_length = 10)
 
 class Pagos(serializers.Serializer): #B
-    pago = Pago()
+    pago = Pago(many=True)
     
 
 ##Informacion de la etiqueta de InfoFactura 
@@ -100,24 +132,25 @@ class InfoFacturaGeneral(serializers.Serializer): #B
     #fechaEmision = serializers.DateTimeField(required =True, input_formats='%d/%m/%Y')
     dirEstablecimiento = serializers.CharField(required = False, max_length = 300)
     contribuyenteEspecial = serializers.CharField(required = False, max_length = 13)
-    obligadoContabilidad = serializers.ChoiceField(required = False, choices=["NO","YES"])
-    tipoIdentifiacionComprador = serializers.CharField(required =True, max_length=2)
+    obligadoContabilidad = serializers.ChoiceField(required = False, choices=["NO","SI","no","si","No","Si"])
+    tipoIdentificacionComprador = serializers.CharField(required =True, max_length=2)
     identificacionComprador = serializers.CharField(required =True, max_length = 20)
     totalSinImpuestos = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     totalDescuento = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     guiaRemision = serializers.IntegerField(required = False, max_value=999999999999999) #tener en cuenta
     #direccionComprador = serializers.CharField(requeired=False, max_length = 300)
-    totalConImpuesto = TotalConImpuestos(many = True)
+    totalConImpuestos = TotalConImpuestos()
     propina = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     importeTotal = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     moneda = serializers.CharField(required = True, max_length = 15)
-    pagos = Pagos(many=True)
+    pagos = Pagos()
     valorRetIva = serializers.DecimalField(required =False, decimal_places=2,max_digits=14)
     valorRetRenta = serializers.DecimalField(required =False, decimal_places=2,max_digits=14)
 
 
-    def validate_identificacionComprador(self,attrs):
+    def validate(self,attrs):
         tipo  = attrs['tipoIdentificacionComprador'] 
+        id = attrs['identificacionComprador']
         if tipo == "04":
             #validacion del ruc
             return attrs
@@ -125,7 +158,7 @@ class InfoFacturaGeneral(serializers.Serializer): #B
             #validacion cedula
             return attrs
         if tipo == "07":
-            if tipo.length == 13 and attrs["identificacionComprador"] == "9999999999999":
+            if id.length == 13 and id == "9999999999999":
                 return attrs
             else:
                 raise NotAcceptable({'error':'El campo de identificacion no concuerda con el tipo de identificacion de consumidor final'}) 
@@ -153,7 +186,7 @@ class Impuesto(serializers.Serializer):
         return attrs
 
 class Impuestos(serializers.Serializer): #B
-    impuesto = Impuesto()
+    impuesto = Impuesto(many=True)
 
 class DetalleAdicional(serializers.Serializer): #B
     nombre = serializers.CharField(required = True)
@@ -171,11 +204,11 @@ class Detalle(serializers.Serializer): #B
     descuento = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     precioTotalSinImpuesto = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
     detallesAdicionales = DetallesAdicionales(required =False, many = True)
-    impuestos = Impuestos(many=True)
+    impuestos = Impuestos()
 
 ##Informacion de la etiqueta de Detalles
 class Detalles(serializers.Serializer): #B
-    detalle = Detalle()
+    detalle = Detalle(many=True)
 
 
 
@@ -198,15 +231,28 @@ class CampoAdicional(serializers.Serializer):
 
 ##Informacion de la etiqueta InfoAdicional 
 class InfoAdicional(serializers.Serializer):
-    campoAdicional = CampoAdicional(required=False)
+    campoAdicional = CampoAdicional(required=False,many=True)
 
 
 class FacturaSerializer(serializers.Serializer):
     infoTributaria = InfoTributariaSerializer()
     infoFactura = InfoFacturaGeneral()
-    detalles = Detalles(many=True)
+    detalles = Detalles()
     retenciones = Retenciones(required=False)
     infoAdicional= InfoAdicional(required=False)
-
+    
+    def create(self, validated_data):
+        for factura in validated_data:
+            factura['infoTributaria'] = InfoTributariaSerializer.create(self,factura['infoTributaria'])
+        return validated_data
     
     
+class ComprobanteSerializer(serializers.Serializer):
+    facturas = FacturaSerializer(many=True,required=False)
+    
+    def create(self, validated_data):
+        self.context['owner'] = validated_data['owner']
+        
+        if validated_data.get("facturas"):
+            validated_data['facturas'] = FacturaSerializer.create(self,validated_data['facturas'])
+        return validated_data
