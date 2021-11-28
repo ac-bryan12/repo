@@ -52,6 +52,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AlertasComponent } from './componentes/auxiliares/alertas/alertas.component';
 import { CrearGruposComponent } from './componentes/empresa/crear-grupos/crear-grupos.component';
 import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grupos.component';
+import { PaginacionComponent } from './componentes/auxiliares/paginacion/paginacion.component';
 
 
 
@@ -98,6 +99,7 @@ import { ListGruposComponent } from './componentes/empresa/list-grupos/list-grup
     AlertasComponent,
     CrearGruposComponent,
     ListGruposComponent,
+    PaginacionComponent,  
   ],
   imports: [
     BrowserModule,

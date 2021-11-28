@@ -3,6 +3,10 @@
         <div id="caja"></div>
         <h1 id="title" class="text-center font-weight-bold mt-5">Roles</h1>
         <div class="mt-2 mb-4 d-flex flex-row justify-content-around">
+            <div class="d-flex align-items-center">
+                <input #valor (change)=buscador(valor) id="inputbuscador" type="text">
+                <button id="buscador" (click)=buscador(valor) class="btn btn-outline-secondary"><img alt="buscador" src="assets/lupa.png" width="25px"></button>
+            </div>
             <div >
                 <button (click)="crearGrupo()" class="{{agregarGrupo}} btn btn-primary btn-block">Agregar nuevo rol</button>
             </div>
@@ -28,18 +32,7 @@
 
                 </tbody>
             </table>
-            <div id="indices">
-                <div id="cantidad" class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                <ul id="paginacion" class="pagination">
-                    <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
-            </div>
+            <list-pagination urlRequest="/api/user/grupos/" (listObjects)='obtenerObjetos($event)' ></list-pagination>
         </div>
     </div>
 </div>

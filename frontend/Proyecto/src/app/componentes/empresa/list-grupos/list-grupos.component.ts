@@ -14,12 +14,13 @@ export class ListGruposComponent implements OnInit {
   agregarGrupo = "disabled"
   editarGrupo = "disabled"
   eliminarGrupo = "disabled"
+  nombreDocumento = ""
   constructor(private service:RequestService, private cookie:CookieService, private router:Router,private route:ActivatedRoute){
     this.listGrupos = []
   }
 
   ngOnInit(): void {
-    this.listaGrupos()
+    // this.obtenerGrupos()
     this.habilitarControles()
     setTimeout(()=>{
       let btnBorrarAdmin:any = document.getElementById('2')
@@ -28,6 +29,10 @@ export class ListGruposComponent implements OnInit {
       btnBorrarCliente.disabled = true
     },250)
     
+  }
+
+  obtenerObjetos(listGrupos: any){
+    this.listGrupos = listGrupos
   }
 
   habilitarControles(){
@@ -48,12 +53,6 @@ export class ListGruposComponent implements OnInit {
     })
   }
 
-  listaGrupos(){
-    this.service.peticionGet(environment.url+"/api/user/grupos/").subscribe((res)=>{
-      this.listGrupos = res.results
-    })
-
-  }
 
   crearGrupo(){
     this.router.navigate(["../editarGrupos"],{relativeTo:this.route})
@@ -81,6 +80,15 @@ export class ListGruposComponent implements OnInit {
     }
     id = id.innerText
     this.router.navigate(["../editarGrupos"],{relativeTo:this.route,queryParams:{id:id,name:grupoEnviar.name}})
+  }
+
+  buscador(nombre:any){
+    if(nombre == ""){
+      this.nombreDocumento = ""
+    }
+    else{
+      this.nombreDocumento = "?name="+nombre.value
+    }
   }
 
 }

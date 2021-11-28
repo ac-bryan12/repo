@@ -15,13 +15,14 @@ export class ListUsersComponent implements OnInit {
   agregarUsuario = "disabled"
   editarUsuario = "disabled"
   eliminarUsuario = "disabled"
+  nombreDocumento = ""
   constructor(private service:RequestService, private cookie:CookieService, private router:Router,private route:ActivatedRoute) { 
 
     this.listUsuarios = []
   }
 
   ngOnInit(): void {
-    this.listaUsuarios()
+    //this.listaUsuarios()
     this.habilitarControles()
   }
 
@@ -41,11 +42,12 @@ export class ListUsersComponent implements OnInit {
     })
   }
 
-  listaUsuarios(){
+  /*listaUsuarios(){
     this.service.peticionGet(environment.url+"/api/user/lista-de-profiles/").subscribe((res)=>{
       this.listUsuarios = res.results
     })
   }
+  */
   
   envioId(id:any){
     let usuario = {}
@@ -74,4 +76,16 @@ export class ListUsersComponent implements OnInit {
     
   }
 
+  obtenerObjetos(listUser:any){
+    this.listUsuarios = listUser
+  }
+
+  buscador(nombre:any){
+    if(nombre == ""){
+      this.nombreDocumento = ""
+    }
+    else{
+      this.nombreDocumento = "?name="+nombre.value
+    }
+  }
 }

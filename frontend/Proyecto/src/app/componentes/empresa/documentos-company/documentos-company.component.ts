@@ -16,12 +16,15 @@ export class DocumentosCompanyComponent implements OnInit {
   previsualizacion: any
   loanding = false
   listaDocumentos: Array<any> = [];
-  notificaciones: any = []
+  documentSearch: Array<any> = [];
+  notificaciones: any[] = []
   enviar = true
   enviarDocumentos = false
-  totalDocs:number = 0
-  errorDocs:number = 0
-  
+  totalDocs: number = 0
+  errorDocs: number = 0
+  nombreDocumento = ""
+  env = environment.url
+
   constructor(private envio: RequestService) {
   }
 
@@ -42,8 +45,8 @@ export class DocumentosCompanyComponent implements OnInit {
     })
   }
 
-  procesaPropagar(lista: any) {
-    this.notificaciones = lista
+  procesaPropagar($event: any) {
+    console.log($event)
   }
 
   capturarFile(firma: HTMLInputElement) {
@@ -62,17 +65,17 @@ export class DocumentosCompanyComponent implements OnInit {
     this.enviar = true
     var file: any = docs.files
     for (let i = 0; i < file.length; i++) {
-        this.enviodoc(file[i])
+      this.enviodoc(file[i])
     }
-    setTimeout(()=>{
-      if(this.totalDocs>0){
-        this.notificaciones.push({value:"creados", mensaje: "Se ha cargado con éxito", time:this.totalDocs})
-        this.notificaciones.push({value:"recargar", mensaje: "Recargue para ver los últimos cambios ",cantidad:this.totalDocs,time:this.totalDocs})
+    setTimeout(() => {
+      if (this.totalDocs > 0) {
+        this.notificaciones.push({ value: "creados", mensaje: "Se ha cargado con éxito", time: this.totalDocs })
+        this.notificaciones.push({ value: "recargar", mensaje: "Recargue para ver los últimos cambios ", cantidad: this.totalDocs, time: this.totalDocs })
       }
       this.enviar = false
       this.loanding = false
       AlertasComponent.prototype.cerrarToastAuto()
-    },4000)
+    }, 4000)
   }
 
 
@@ -81,57 +84,41 @@ export class DocumentosCompanyComponent implements OnInit {
     forms.append("file", file)
     forms.append("content_type", file.type)
     forms.append("nombreDoc", file.name)
+    forms.append("tipoCreacion","SUBIDO")
     this.loanding = true
-    this.envio.peticionPost(environment.url + '/api/empresa/documentos/guardar-documentos/', forms).subscribe((res) => {
+    this.envio.peticionPost(environment.url + '/api/documentos/guardar-documentos/', forms).subscribe((res) => {
       if (res.type === HttpEventType.UploadProgress) {
         this.totalDocs++
       }
     }, err => {
       this.errorDocs++
-      this.notificaciones.push({ value: err.error.class, mensaje: err.error.error,cantidad:1,time:this.errorDocs})
+      this.notificaciones.push({ value: err.error.class, mensaje: err.error.error, cantidad: 1, time: this.errorDocs })
     })
   }
   descargardoc(id: any) {
-    this.envio.peticionGet(environment.url + '/api/empresa/documentos/descargar-documento/' + id + '/').subscribe((res) => {
+    this.envio.peticionGet(environment.url + '/api/documentos/descargar-documento/' + id + '/').subscribe((res) => {
       const Filepath = 'data:text/xml;base64,' + res._file
       saveAs(Filepath, res.nombreDoc)
     })
   }
   cargarDocumentos() {
-    this.envio.peticionGet(environment.url + '/api/empresa/documentos/lista-documentos-empresa/').subscribe((res) => {
+    this.envio.peticionGet(environment.url + '/api/documentos/lista-documentos-empresa/').subscribe((res) => {
       this.listaDocumentos = res
     })
   }
 
-  buscador() {
-    let search = document.getElementById("buscador") as HTMLElement
-    let inputsearch = document.getElementById("inputbuscador") as HTMLDataElement
-    let nameDoc = document.getElementsByClassName("nameDocs")
-    let filas = document.getElementsByClassName("fila");
-    inputsearch.addEventListener("change",()=>{
-      if(inputsearch.value == ''){
-        for (let i = 0; i < nameDoc.length; i++) {
-          filas[i].classList.remove("class","d-none")
-        }
-      }
-    })
+  
 
-    search.addEventListener("click", () => {
-      this.evento(search,nameDoc,filas, inputsearch)
-    })
+  obtenerObjetos(listDoc:any) {
+    this.listaDocumentos = listDoc
   }
 
-  evento(tag: HTMLElement, nameDoc: HTMLCollectionOf<Element>, filas: HTMLCollectionOf<Element>, inputsearch:HTMLDataElement){
-    tag.addEventListener("click", () => {
-      for (let i = 0; i < nameDoc.length; i++) {
-        if (!nameDoc[i].textContent?.toLocaleLowerCase().includes(inputsearch.value.toLocaleLowerCase())) {
-          filas[i].classList.add("class", "d-none")
-        }
-        else {
-          filas[i].classList.remove("class","d-none")
-        }
-      }
-    })
-
+  buscador(nombre:any){
+    if(nombre == ""){
+      this.nombreDocumento = ""
+    }
+    else{
+      this.nombreDocumento = "?name="+nombre.value
+    }
   }
 }
