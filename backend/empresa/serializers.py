@@ -1,20 +1,25 @@
-from empresa.models import  Documentos, Empresa,EmpresaTemp,Plan
+from empresa.models import Empresa,EmpresaTemp,Plan
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
+
+from usuario.validators import validar_identificacion
 
 
 
 
 class EmpresaSerializer(serializers.ModelSerializer):
     ruc = serializers.CharField(max_length=13)
-    razonSocial =  serializers.CharField(max_length=150)
-    direccion = serializers.CharField(max_length=150)
-    telefono = serializers.CharField(max_length=13)
+    razonSocial =  serializers.RegexField("^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$",max_length=150)
+    direccion = serializers.RegexField("^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$",max_length=150)
+    telefono = serializers.RegexField("^[0-9]+$",max_length=13)
     correo =  serializers.EmailField(min_length=7,max_length=150)
 
     class Meta:
         model = Empresa
         fields = ['ruc', 'razonSocial','direccion','telefono','correo']
+        
+    def validate_ruc(self,value):
+        return validar_identificacion(value)
 
     def validate(self, attrs):
         msg:any
@@ -91,22 +96,3 @@ class planSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plan
         fields = ['nombre','precio','description','documentos','reportes','soporte','firma','usuarios','clientes']
-
-class DocumentosSerializer(serializers.ModelSerializer):
-    _file = serializers.ReadOnlyField()
-    content_type = serializers.CharField(max_length=150)
-    nombreDoc = serializers.CharField(max_length=150)
-    #fechaEmision = serializers.DateTimeField(allow_null = True, required = False)
-    hora = serializers.TimeField(required = False)
-    tipoDocumento = serializers.CharField(max_length=150,required = False)
-    #cliente = serializers.CharField()
-    #proveedor = models.ForeignKey(Empresa,on_delete=models.SET_NULL)
-    estado  = serializers.CharField(max_length=25,required = False)
-    tipoCreacion = serializers.CharField(max_length=25,required = False)
-    class Meta:
-        model = Documentos
-        fields = ['id','_file','content_type','nombreDoc','hora','tipoDocumento','estado','tipoCreacion']
-
-
-    def validate(self, attrs):
-        return super().validate(attrs)

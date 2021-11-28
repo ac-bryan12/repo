@@ -1,5 +1,10 @@
+from rest_framework.authentication import  TokenAuthentication
 from rest_framework.views import APIView
+
+from api.parsers import XMLDocRenderer
 from .paginations import CustomPagination
+from rest_framework.response import Response
+from rest_framework import  permissions
 
 
 class PaginationAPIView(APIView):
@@ -34,3 +39,11 @@ class PaginationAPIView(APIView):
         """
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data)
+    
+class XMLParserView(APIView):
+    renderer_classes = (XMLDocRenderer,)
+    #authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.AllowAny]
+    
+    def post(self,request):
+        return Response(request.data)

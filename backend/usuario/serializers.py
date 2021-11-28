@@ -2,6 +2,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User,Group,Permission
+
+from usuario.validators import validar_identificacion
 from .models import Profile
 from empresa.serializers import EmpresaSerializer
 from rest_framework import serializers, status
@@ -14,7 +16,7 @@ from .models import RUC,CEDULA
 #         fields = ['user','empresa']
 
 class GroupSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(required=False,max_length=150)
+    name = serializers.RegexField("^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9_.\-]+$",required=False,max_length=150)
     id  = serializers.CharField(required=False)
     
     class Meta:
@@ -22,7 +24,7 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = ['name','id']
 
 class PermissionSerializer(serializers.ModelSerializer):
-    codename = serializers.CharField(max_length=100,required=False)
+    codename = serializers.RegexField("^[a-zA-Z_]+$",max_length=100,required=False)
     name = serializers.CharField(max_length=255,required=False)
     
     class Meta:
@@ -43,10 +45,10 @@ class PermissionSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.CharField(required=False,allow_blank=True)
-    password = serializers.CharField(min_length=8,max_length=60,write_only=True,allow_blank=True,required=False)
+    password = serializers.RegexField('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[_.{}=<>;:,\+$@$!%*?&])[A-Za-z\d_.{}=<>;:,\+$@$!%*?&].{7,}',min_length=8,max_length=60,write_only=True,allow_blank=True,required=False)
     username = serializers.CharField(max_length=150,required=False)
-    first_name = serializers.CharField(min_length=3,max_length=150,required=False)
-    last_name = serializers.CharField(min_length=3,max_length=150,required=False)
+    first_name = serializers.RegexField("^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$",min_length=3,max_length=150,required=False)
+    last_name = serializers.RegexField("^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$",min_length=3,max_length=150,required=False)
     email = serializers.EmailField(min_length=7,max_length=250,required=False)
     groups = GroupSerializer(required=False,many=True)
     class Meta:
@@ -135,9 +137,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     tipo_identificacion = serializers.ChoiceField(choices=[RUC,CEDULA])
     user = UserSerializer(required=False)
     empresa = EmpresaSerializer(required=False,write_only=True)
-    direccion = serializers.CharField(max_length=150,required=False)
-    telefono =  serializers.CharField(max_length=13,required=False)
-    cargoEmpres = serializers.CharField(max_length=150,required=False)
+    direccion = serializers.RegexField("^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$",max_length=150,required=False)
+    telefono =  serializers.RegexField("^[0-9]+$",max_length=13,required=False)
+    cargoEmpres = serializers.RegexField("^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$",max_length=150,required=False)
     # firmaElectronica = serializers.CharField(max_length=100,required=False) # Ni idea de que va aca
 
     class Meta:
@@ -161,6 +163,9 @@ class ProfileSerializer(serializers.ModelSerializer):
             if Profile.objects.filter(pk = attrs["n_identificacion"]).exists() and attrs['n_identificacion'] != self.instance.n_identificacion:
                 raise ValidationError({"error":"El número de identificación ingresado ya existe en el sistema."})
         return attrs
+    
+    def validate_n_identificacion(self,value):
+        return validar_identificacion(value)
 
     def update(self, instance, validated_data):
         instance.delete()
@@ -178,7 +183,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         
 
 class LoginSerializer(serializers.ModelSerializer):
-    email = serializers.CharField(max_length=150)
+    email = serializers.EmailField(max_length=150)
     password = serializers.CharField(max_length=60,write_only=True)
 
     class Meta:
@@ -194,8 +199,6 @@ class LoginSerializer(serializers.ModelSerializer):
             if user is not None :
                 attrs['email'] = user
             else:
-                # msg = _('User invalid')
-                # raise serializers.ValidationError(msg,code='authorization')
                 attrs['email'] = None
         except User.DoesNotExist:
             attrs['email'] = None
