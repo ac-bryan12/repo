@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', res['token']);
           localStorage.setItem('Autenticated', "true");
           // this.grupos_permisos()   
-          this.route.navigate(["/portal"])
+          this.route.navigate(["/portal/perfil"])
         }, (err: HttpErrorResponse) => {
           this.loanding = false
           // this.msg_d = 'd-block'

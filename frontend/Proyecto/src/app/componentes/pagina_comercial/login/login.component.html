@@ -29,7 +29,7 @@
                                     <div class="form-floating mt-5 mb-3 div-pass">
                                         <div class = "d-flex align-items-center">
                                             <div class="form-floating w-100">
-                                                <input #password matInput [type]="hide ? 'password' : 'text'" class="form-control input-campos" id="inputPassword" name="password"
+                                                <input #password matInput  (change)="iniciarSesion(login.value)"[type]="hide ? 'password' : 'text'" class="form-control input-campos" id="inputPassword" name="password"
                                                 formControlName="password"  minlength='8' (input)="validacion('password')" maxlength="24">
                                                 <label  class="label-campos" for = "inputPassword">Contraseña</label>
                                             </div>
