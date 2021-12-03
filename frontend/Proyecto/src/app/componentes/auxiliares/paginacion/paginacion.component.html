@@ -1,6 +1,6 @@
-<div id="indices">
-    <div id="cantidad" class="hint-text">Showing <b>{{listObjects.length}}</b> out of <b>{{count}}</b> entries</div>
-    <div id="cantidad" class="hint-text">Page {{pag_actual}}</div>
+<div id="indices" class="mx-auto w-auto text-align-center">
+    <div id="cantidad" class="hint-text">Mostrando <b>10</b> de <b>{{count}}</b> resultados</div>
+    <!-- <div id="cantidad" class="hint-text">Page {{pag_actual}}</div> -->
     <ul id="paginacion" class="pagination">
         <li  class="page-item {{previousControl}}" (click)="cambiarPagina(pag_actual-1)"><a  class="page-link">Previous</a></li>
         <li id='pag_{{i+1}}' class="page-item" *ngFor="let i of n_pag" (click)="cambiarPagina(i+1)"><a  class="page-link">{{i+1}}</a></li>

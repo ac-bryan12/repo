@@ -1,18 +1,22 @@
 #container{
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 a {
-    color: #00B7FF;
-  }
-
-  #caja{
-    display: flex;
-    background-color: black;
-    height: 120px;
-    border-bottom-right-radius: 18% 75%;
+  background-color: #00B4C0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  padding: 2px;
 }
+
+/* #caja{
+  display: flex;
+  background-color: black;
+  height: 120px;
+  border-bottom-right-radius: 18% 75%;
+} */
 
 #buscador{
   height: 50px;
@@ -26,67 +30,186 @@ a {
 
 #documentos{
   height: 40px;
-  width: 225px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
-
-  th{
-      text-align: center;
-  }
-
-  td{
-      font-size: smaller;
-      width: 120px;
-      text-align: center;
-  }
 
 #seccion-botones{
     display: flex;
-    justify-content: space-around;
+    align-items: center;
 }
 
-  #iconos{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-around;
-  }
-  
-  table tbody tr:nth-child(odd){
-    background: #b9b9b9;
-  }
-  
-  table tbody tr:nth-child(even){
-    background: #fff8e5;
-  }
-  
-  #tableBody{
-    border: none;
-  }
+.iconos{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 57px;
+}
 
-  .archivos-cargados{
-    color: rgb(22, 88, 220);
-  }
+.iconos mat-icon{
+  color: white;
+}
 
-  .alertas{
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    z-index: 2;
-    right: -4px;
-    margin-bottom: 2%;
-    top: 25%;
-  }
+.iconos a:hover{
+  background-color: #ED8336;
+}
+/** Seccion botones **/
 
-  [class="fila"]{
-    height: 20px;
-  }
-  #loader {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background: no-repeat rgb(249,249,249);
-    opacity: .8;
+/* Buscar */
+
+#seccion-botones > div{
+  height: 40px;
+}
+
+#seccion-botones > div button{
+  background-color: #00B4C0;
+  border-radius: 50px 0 0 50px;
+  height: 100%;
+  border-color: #00B4C0;
+}
+
+#seccion-botones > div button mat-icon{
+  color: white;
+  font-weight: 500;
+}
+
+#seccion-botones > div input{
+  background-color: white;
+  border-radius: 0 50px 50px 0;
+  height: 100%;
+  border-color: #00B4C0 ;
+  border-width: 2px;
+  border-style: solid;
+}
+
+#seccion-botones > div input:focus{
+  outline: none;
+  border-color: #00B4C0 !important;
+  border-width: 2px;
+}
+
+/* Subir archivo */
+.form-control{
+  width: auto;
+}
+#seccion-botones fieldset > div input.form-control::-webkit-file-upload-button {
+  background-color:#00B4C0;
+  border-radius: 50px;
+  color: white;
+  font-weight: 500;
+}
+
+#seccion-botones fieldset > div input.form-control::content {
+  border-color: #00B4C0;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 50px;
+}
+
+input[type="submit"]{
+  background-color: #ED8336;
+  border-radius: 50px;
+  padding: 0;
+  border: 0;
+  color: white;
+  font-weight: 500;
+}
+
+input[type="submit"][disabled]{
+  background-color: #ebb38c;
+}
+
+
+/** Tabla **/
+table{
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+table > tbody, table >  thead{
+  vertical-align:middle;
+}
+
+tr  td:first-child{
+  border-left-style: solid;
+  border-top-left-radius: 10px; 
+  border-bottom-left-radius: 10px;
+}
+td:last-child {
+  border-right-style: solid;
+  border-bottom-right-radius: 10px !important; 
+  border-top-right-radius: 10px !important; 
+}
+
+thead th{
+  color: #34448E;
+  font-size: 16px ;
+  font-weight: 500;
+  /* -webkit-text-stroke: 0.25px black; */
+}
+
+th{
+    text-align: center;
+}
+
+td{
+    font-size: smaller;
+    width: 120px;
+    text-align: center;
+
+}
+
+tbody td{
+  background-color: #EEEEEE;
+  color:black;
+  font-weight: 500;
+}
+  
+/* table tbody tr:nth-child(odd){
+  background: #b9b9b9;
+}
+
+table tbody tr:nth-child(even){
+  background: #fff8e5;
+} */
+
+#tableBody{
+  border: none;
+}
+
+
+/* otros */
+.archivos-cargados{
+  color: rgb(22, 88, 220);
+}
+
+.alertas{
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 2;
+  right: -4px;
+  margin-bottom: 2%;
+  top: 25%;
+}
+
+[class="fila"]{
+  height: 20px;
+}
+#loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: no-repeat rgb(249,249,249);
+  opacity: .8;
 }

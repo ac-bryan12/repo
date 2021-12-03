@@ -67,3 +67,10 @@
     width: 100%;
     flex-direction: row;
 }
+
+#dashboard-content{
+    /* background-image: url("../../../../../assets/images/fondo2.png");
+    background-repeat: no-repeat;
+    background-size: cover; */
+    background-color: white;
+}

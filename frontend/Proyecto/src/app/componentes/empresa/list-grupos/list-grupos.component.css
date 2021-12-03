@@ -1,10 +1,3 @@
-#caja{
-    display: flex;
-    background-color: black;
-    height: 120px;
-    border-bottom-right-radius: 18% 75%;
-}
-
 #title{
     font-weight: bold;
 }
@@ -21,14 +14,17 @@
 
 
 #tabla{
+    width: 90%;
     display: flex;
     flex-direction: column;
-    width: 100%;
-}
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-th,td{
+/* th,td{
     text-align: center;
-}
+} */
 button{
     margin: 0 2% 0 0;
 }
@@ -36,3 +32,59 @@ button{
 button.delete{
     background-color: rgb(232, 78, 78);
 }
+/* tabla */
+table{
+    border-collapse: separate;
+    border-spacing: 0 10px;
+  }
+  
+  table > tbody, table >  thead{
+    vertical-align:middle;
+  }
+  
+  tr  td:first-child{
+    border-left-style: solid;
+    border-top-left-radius: 10px; 
+    border-bottom-left-radius: 10px;
+  }
+  td:last-child {
+    border-right-style: solid;
+    border-bottom-right-radius: 10px !important; 
+    border-top-right-radius: 10px !important; 
+  }
+  
+  thead th{
+    color: #34448E;
+    font-size: 16px ;
+    font-weight: 500;
+    /* -webkit-text-stroke: 0.25px black; */
+  }
+  
+  th{
+      text-align: center;
+  }
+  
+  td{
+      font-size: smaller;
+      width: 120px;
+      text-align: center;
+  
+  }
+  
+  tbody td{
+    background-color: #EEEEEE;
+    color:black;
+    font-weight: 500;
+  }
+    
+  /* table tbody tr:nth-child(odd){
+    background: #b9b9b9;
+  }
+  
+  table tbody tr:nth-child(even){
+    background: #fff8e5;
+  } */
+  
+  #tableBody{
+    border: none;
+  }
