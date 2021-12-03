@@ -1,10 +1,13 @@
-<div id="caja"></div>
 <div class="row p-md-5">
 
     <div class="col-9 mx-auto">
-        <div id="title"><span>
-                <h1 class="text-center">Editar informacion de usuario</h1>
-            </span></div>
+        <div id="container-titulo">
+            <span>
+                <div id="titulo">
+                    <h1 class="text-center">Editar informacion de usuario</h1>
+                </div>
+            </span>
+        </div>
         <div class="card-body">
             <fieldset id="user-form-edit">
                 <form #form [formGroup]="addEmp" autocomplete="off" novalidate #formRef="ngForm">
@@ -13,39 +16,46 @@
                         <div class='{{response_d}}'>
                             {{response_content}}
                         </div>
+                        <div class="col-md-6">
+                            <p>Selecciona un tipo:</p>
+                            <input #inputRUC (input)="changeValue(inputRUC.value)" type="radio" id="RUC" name="tipo"
+                                value="RUC" checked>
+                            <label class="me-4 label-campos" for="RUC">RUC</label>
 
+                            <input #inputCedula (input)="changeValue(inputCedula.value)" type="radio" id="CEDULA"
+                                name="tipo" value="CEDULA">
+                            <label class = "label-campos" for="CEDULA">CEDULA</label>
+                        </div>
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <p>Selecciona un tipo:</p>
-                                <input #inputRUC (input)="changeValue(inputRUC.value)" type="radio" id="RUC" name="tipo"
-                                    value="RUC" checked>
-                                <label class="me-4" for="RUC">RUC</label>
-
-                                <input #inputCedula (input)="changeValue(inputCedula.value)" type="radio" id="CEDULA"
-                                    name="tipo" value="CEDULA">
-                                <label for="CEDULA">CEDULA</label>
-                            </div>
-
-                            <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input class="form-control" maxlength="13" id="inputTipo" type="text"
+                                    <input class="form-control input-campos" maxlength="13" id="inputTipo" type="text"
                                         formControlName="n_identificacion">
-                                    <label id="n_identificacion" for="inputTipo">{{tipo}}</label>
+                                    <label class = "label-campos" id="n_identificacion" for="inputTipo">{{tipo}}</label>
                                     <span class="lead error"
                                         *ngIf="(formRef.submitted && addEmp.get('n_identificacion')?.hasError('required'))|| addEmp.get('n_identificacion')?.hasError('pattern') || validarRucCedula()">Ingrese
                                         {{tipo}} válido</span>
                                 </div>
                             </div>
+                            <div class="col-6" formGroupName="user">
+                                <div class="form-floating mb-12 mb-md-0">
+                                    <input class="form-control campos input-campos" id="correo" name="correo" type="text"
+                                        placeholder="Nombres de la persona" maxlength="150" formControlName="email">
+                                    <label class ="label-campos" for="correo">Correo</label>
+                                    <span class="lead error"
+                                        *ngIf="(formRef.submitted && addEmp.get('user.email')?.hasError('required')) || addEmp.get('user.email')?.hasError('minlength') || addEmp.get('user.email')?.hasError('pattern')">Ingrese
+                                        un email válido</span>
+                                </div>
+                            </div>
                         </div>
-
                         <div id="inputs-edit" class="mb-5">
                             <div class="mb-3 row grupos-permisos" formGroupName="user">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-6 mb-md-0">
-                                        <input class="form-control campos" id="nombre" name="nombres" type="text"
+                                        <input class="form-control campos input-campos" id="nombre" name="nombres" type="text"
                                             placeholder="Nombres de la persona" maxlength="130"
                                             formControlName="first_name">
-                                        <label for="nombre">Nombres</label>
+                                        <label class = "label-campos" for="nombre">Nombres</label>
                                         <span class="lead error"
                                             *ngIf="(formRef.submitted && addEmp.get('user.first_name')?.hasError('required')) || addEmp.get('user.first_name')?.hasError('minlength') || addEmp.get('user.first_name')?.hasError('pattern')">Ingrese
                                             un nombre válido</span>
@@ -53,26 +63,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-12 mb-md-0">
-                                        <input class="form-control campos" id="apellido" name="apellidos" type="text"
+                                        <input class="form-control campos input-campos" id="apellido" name="apellidos" type="text"
                                             placeholder="Nombres de la persona" maxlength="130"
                                             formControlName="last_name">
-                                        <label for="nombre">Apellidos</label>
+                                        <label class ="label-campos" for="nombre">Apellidos</label>
                                         <span class="lead error"
                                             *ngIf="(formRef.submitted && addEmp.get('user.last_name')?.hasError('required')) || addEmp.get('user.last_name')?.hasError('minlength') || addEmp.get('user.last_name')?.hasError('pattern')">Ingrese
                                             un nombre válido</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-3 row grupos-permisos">
-                                <div class="col-12" formGroupName="user">
-                                    <div class="form-floating mb-12 mb-md-0">
-                                        <input class="form-control campos" id="correo" name="correo" type="text"
-                                            placeholder="Nombres de la persona" maxlength="150" formControlName="email">
-                                        <label for="correo">Correo</label>
-                                        <span class="lead error"
-                                            *ngIf="(formRef.submitted && addEmp.get('user.email')?.hasError('required')) || addEmp.get('user.email')?.hasError('minlength') || addEmp.get('user.email')?.hasError('pattern')">Ingrese
-                                            un email válido</span>
                                     </div>
                                 </div>
                             </div>
@@ -81,11 +78,11 @@
                         <div class="mb-3 row grupos-permisos">
                             <div class="col-md-6">
                                 <div class="form-floating mb-12 mb-md-0">
-                                    <input #telf class="form-control campos" id="inputNumphone" name="telefono"
+                                    <input #telf class="form-control campos input-campos" id="inputNumphone" name="telefono"
                                         type="text" placeholder="Ingrese su numero de telefono"
                                         (input)="validate.validarCampNum(telf,10)" formControlName='telefono'
                                         maxlength="10">
-                                    <label for="inputNumphone">Teléfono</label>
+                                    <label class="label-campos" for="inputNumphone">Teléfono</label>
                                     <span class="lead error"
                                         *ngIf="(formRef.submitted && addEmp.get('telefono')?.hasError('required')) || addEmp.get('telefono')?.hasError('minlength') || addEmp.get('telefono')?.hasError('pattern')">Ingrese
                                         numero telefono válido</span>
@@ -93,9 +90,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-12 mb-md-0">
-                                    <input class="form-control campos" id="cargoEmpresa" name="ruc" type="text"
+                                    <input class="form-control campos input-campos" id="cargoEmpresa" name="ruc" type="text"
                                         placeholder="Cargo en la Empresa" maxlength="130" formControlName="cargoEmpres">
-                                    <label for="cargoEmpresa">Cargo en la Empresa</label>
+                                    <label class="label-campos" for="cargoEmpresa">Cargo en la Empresa</label>
                                     <span class="lead error"
                                         *ngIf="(formRef.submitted && addEmp.get('cargoEmpres')?.hasError('required')) ||addEmp.get('cargoEmpres')?.hasError('minlength') || addEmp.get('cargoEmpres')?.hasError('pattern')">Por
                                         favor llene este campo</span>
@@ -105,9 +102,9 @@
                         <div class="mb-3 row">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input class="form-control campos" id="inputDireccion" name="direccion" type="text"
+                                    <input class="form-control campos input-campos" id="inputDireccion" name="direccion" type="text"
                                         placeholder="Ingrese su dirección" formControlName='direccion' maxlength="130">
-                                    <label for="inputDireccion">Dirección</label>
+                                    <label class ="label-campos" for="inputDireccion">Dirección</label>
                                     <span class="lead error"
                                         *ngIf="(formRef.submitted && addEmp.get('direccion')?.hasError('required')) ||addEmp.get('direccion')?.hasError('minlength') || addEmp.get('cargoEmpres')?.hasError('pattern')">Por
                                         favor llene este campo</span>
@@ -115,26 +112,31 @@
                             </div>
                         </div>
                     </div>
+                    <span class="lead error-permisos" *ngIf="validarGrupo(inputGrupos)">*Debe de seleccionar un grupo </span>
                     <div id="inputs-select" class="mb-5 row grupos-permisos">
                         <div class="col-md-5">
-                            <div> <span>
-                                    <h4>Seleccionar Grupo</h4>
-                                </span> </div>
-                            <div class="form-floating">
+                            <div class="titulo-selects"> 
+                                <span>
+                                    <h4 class="labels-permisos">Seleccionar Grupo</h4>
+                                </span> 
+                            </div>
+                            <div class="form-floating form-floating-select">
                                 <select #inputGrupos id="grupos" name="miselect" size="13"
-                                    (change)="buscarPermisos(inputGrupos.value)" class="heigthSelect filtered campos w-100">
-                                    <option value="0" selected></option>
-                                    <option [value]="item.id" *ngFor="let item of listGrupos">{{item.name}}</option>
+                                    (change)="buscarPermisos(inputGrupos.value)" class="heigthSelect filtered campos w-100 selects">
+                                    <option  value="0" selected></option>
+                                    <option  [value]="item.id" *ngFor="let item of listGrupos">{{item.name}}</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="col-md-5">
-                            <div><span>
-                                    <h4>Permisos que se asignaran</h4>
-                                </span></div>
-                            <div class="form-floating">
-                                <select  name="miselect4" multiple class="filtered campos w-100 heigthSelect">
+                            <div>
+                                <span>
+                                    <h4 class="labels-permisos">Permisos que se asignaran</h4>
+                                </span>
+                            </div>
+                            <div class="form-floating form-floating-select">
+                                <select  name="miselect4" multiple class="filtered campos w-100 heigthSelect selects">
                                     <option [value]="item.name" *ngFor="let item of listPermisosSeleccionados">
                                         {{item.name}}</option>
                                 </select>
@@ -184,20 +186,19 @@
                             </div>
                         </div>
 
-                    </div>-->
-                        <span class="lead error" *ngIf="validarGrupo(inputGrupos)"> Debe de seleccionar un grupo </span>
-                        <div id="buttons" class="mt-4 mb-0">
-                            <!-- <input type="button" value="Close" class="btn btn-primary btn-block"> -->
-                            <input type="submit"
-                                [disabled]="formRef.control.invalid || validarRucCedula() || validarGrupo(inputGrupos)"
-                                (click)="enviarInfo(addEmp.value,inputGrupos)" value="Guardar" class="btn btn-primary btn-block">
-
-                        </div>
+                        </div>-->
                     </div>
                     <div *ngIf="loanding" id="loader" class="w-100">
                         <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="color"
                             [mode]="mode">
                         </mat-progress-spinner>
+                    </div>
+                    <div id="buttons" class="mt-4 mb-0">
+                        <!-- <input type="button" value="Close" class="btn btn-primary btn-block"> -->
+                        <input id ="btn-Guardar" type="submit"
+                            [disabled]="formRef.control.invalid || validarRucCedula() || validarGrupo(inputGrupos)"
+                            (click)="enviarInfo(addEmp.value,inputGrupos)" value="Guardar" class="button-guardar">
+
                     </div>
                 </form>
             </fieldset>
