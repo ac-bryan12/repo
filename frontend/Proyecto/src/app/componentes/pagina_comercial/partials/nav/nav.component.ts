@@ -13,7 +13,8 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
   }
   colornb(evento:Event){
-    var elemento : HTMLElement = evento.target as HTMLElement;
+    var elemento : any = evento.target as HTMLElement;
+    elemento = elemento.parentNode
     elemento.classList.add("active2");
     let vari = function(elemento : HTMLElement){
       let lista = document.getElementsByClassName("nb_element");

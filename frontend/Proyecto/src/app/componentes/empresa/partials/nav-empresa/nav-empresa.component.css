@@ -1,24 +1,66 @@
 #sidebarMenu{
     display: flex;
+    background-color: #00B4C0;
+    height: calc(100vh - 40px);
+    position: fixed;
 }
+
 
 #container-nav{
     display: flex;
     width: 100%;
 }
 
-ul{
+#ul-nav-container{
     width: 100%;
 }
 
-a{
-    color: black;
-    padding-left: 40px;
-    box-shadow: 0.1px 3px black;
-    border: 0.1px solid black;
-    padding-top: 20px;
-    padding-bottom: 20px;
+#ul-nav-container li{
+    border-style: solid;
+    border-color: #929292;
+    /* margin-top: 1px;
+    margin-bottom: 1px; */
+    border-width: 0 0 1px 0;
+    height: 70px;
+    display: flex;
+    width: 100%;
+    align-items: center;
 }
+
+#ul-nav-container li mat-icon{
+    width: 20%;
+    margin: 0 auto 0 auto;
+    display: flex;
+    justify-content: end;
+    align-content: center;
+    color: white;
+}
+
+#ul-nav-container li a{
+    color: white;
+    font-weight: 500;
+    width: 60%;
+}
+
+#ul-nav-container li mat-icon:last-child{
+    width:20% ;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+}
+
+
+#ul-nav-container li:hover{
+    background-color: #ED8336 ;
+    cursor: pointer;
+}
+
+/* #ul-nav-container li:hover a{
+    color: black;
+} */
+
 
 #container-body{
     display: flex;

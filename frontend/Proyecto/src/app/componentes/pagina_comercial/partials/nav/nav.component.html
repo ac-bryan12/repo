@@ -1,15 +1,19 @@
 <nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
-        <div class='navbar-brand'>
-            <a class="nav-link navbar-brand" [routerLink]= "['/home']" >Facturación</a>
+    <div id="nav-container" class="row">
+        <div class='navbar-brand col-3 align-items-center' >
+            <div class="h-100 row align-content-center">
+                <a class="col-6 nav-link navbar-brand" [routerLink]= "['/home']" >Facturación</a>
+            </div>
         </div>
-        <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link nb_element" [routerLink]="['/home']" (click) = "colornb($event)">Home</a></li>
-            <li class="nav-item"><a class="nav-link nb_element" [routerLink]="['/planes']" (click) = "colornb($event)">Planes</a> <!--Definir rutas --></li>
-            <li class="nav-item"><a class="nav-link nb_element" (click) = "colornb($event)">Noticias</a></li>
-            <li class="nav-item"><a class="nav-link nb_element" (click) = "colornb($event)">Contáctenos</a></li>
-            <li class="nav-item"><a class="nav-link btn btn-primary  py-2 px-3" [routerLink]='["/login"]'>Ingresar</a></li>
-        </ul>    
-    </div>
+        <div class="navbar-nav col-6 offset-3 align-items-center">
+            <ul class="my-auto">
+                <li class="col nav-item"><a class="nav-link nb_element" [routerLink]="['/home']" >Home</a></li>
+                <li class="col nav-item"><a class="nav-link nb_element" [routerLink]="['/planes']" >Planes</a> <!--Definir rutas --></li>
+                <li class="col nav-item"><a class="nav-link nb_element" >Noticias</a></li>
+                <li class="col nav-item"><a class="nav-link nb_element" >Contáctenos</a></li>
+                <li class="col-2 nav-item"><a class="nav-link py-2 px-3" [routerLink]='["/login"]'>Ingresar</a></li>
+            </ul>
+        </div>
+    </div>    
 </nav>
 
