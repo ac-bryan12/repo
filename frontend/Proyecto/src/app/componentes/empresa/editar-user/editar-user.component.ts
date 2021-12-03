@@ -205,7 +205,6 @@ export class EditarUserComponent implements OnInit {
     let input = document.getElementById("n_identificacion") as HTMLElement
     input.innerText = this.tipo
   }
-
   validarRucCedula() {
     let tipo = this.addEmp.get('n_identificacion')?.value
     let identificadores = document.querySelector('input[name="tipo"]:checked') as HTMLInputElement

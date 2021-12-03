@@ -6,18 +6,8 @@
 #perfil{
     display: flex;
     flex-direction: column;
-    width: 1125px;
-}
-
-#caja{
-    display: flex;
-    background-color: black;
-    height: 120px;
-    border-bottom-right-radius: 18% 75%;
-}
-
-#title{
-    font-weight: bold;
+    width: 100%;
+    margin-top: 8%;
 }
 
 #formulario{
@@ -39,6 +29,7 @@
     border-radius: 5%;
     box-shadow: 10px 10px 5px gray;
     margin-bottom: 40px;
+    background-color: #EEEEEE;
 }
 
 .error{
@@ -64,4 +55,62 @@ input {
     z-index: 9999;
     background: no-repeat rgb(249,249,249);
     opacity: .8;
+}
+
+.button-actualizar{
+    color:white;
+    border-color: #00b4c3;
+    background-color: #00b4c3;
+    border-radius: 35px;
+    width: 10%;
+    height: 40px;
+    padding: 1% 2% 1% 2%
+  }
+
+.form-control{
+    color: #00B5C0;
+    font-weight: 500;
+    width: 350px;
+}
+
+#container_title{
+    background-color: transparent;
+    border: none;
+}
+
+#title{
+    position: absolute;
+    width: 20%;
+    background-color: #00b4c3;
+    z-index: 10;
+    margin-top: -10px;
+    border-radius: 10px;
+}
+
+#titleH1{
+    color: white;
+    font-weight: 550;
+    font-size: 0.7cm;
+}
+
+.label-campos{
+    color: #1E2768;
+    font-weight: bold;
+    font-size: medium;
+    opacity: 1!important;
+}
+
+input[type=radio]{
+    color: #00B5C0;
+    opacity: 1!important;
+}
+
+.label-tipo{
+    color: #00B5C0;
+    font-weight: bold;
+    font-size: medium;
+}
+
+input[readonly]{
+    background-color: #d6d4d4;
 }

@@ -1,14 +1,20 @@
 #body{
   background-color: rgb(9, 66, 116);
+  display: flex;
+  flex-direction: column;
+}
+.window{
+  height : calc(100vh - 50px - 68px)
 }
 
 input:invalid {
-    border: 2px dashed red;
+    border: 2px solid rgb(248, 60, 60);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075)inset, 0 0 8px rgba(255,144,0,0.6);
+    outline: 0 none;
   }
-input:invalid:focus {
-    background-image: linear-gradient(pink, lightgreen);
-  }
-
+div[class="form-floating"]{
+  opacity:1;
+}
 #loader {
     position: fixed;
     left: 0px;
@@ -21,6 +27,113 @@ input:invalid:focus {
 }
 .icon-password{
   z-index: 10;
-  margin-left: -30px;
+  margin-left: -95px;
   cursor: pointer;
+  color: #00b4c3
+}
+.icon-mail{
+  z-index: 10;
+  margin-left: -95px;
+  color: #00b4c3
+}
+.login-container{
+  margin-top: 50px;
+  margin-bottom: 25px;
+  width: 750px;
+}
+.login-header{
+  background-color: #ED8337;
+  color: white;
+  font-family: Roboto;
+  font-style: italic;
+  height: 4.5em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.login-header h3{
+  font-size: 1.5em;
+}
+div[class = "card-body"]{
+  background-color: #EEEEEE;
+  height: 350px;
+
+}
+.label-campos{
+  font-weight: 1000;
+  font-size: 16px;
+  color: #00b4c3;
+  margin-left: 8%;
+  opacity:1 !important;
+}
+
+.input-campos{
+  border-radius: 50px;
+  width:90%;
+  margin-left: 5%;
+}
+
+.button-ingreso{
+  color:white;
+  background-color: #00b4c3;
+  border-radius: 35px;
+  width: 12%;
+  padding: 1% 2% 1% 2%
+}
+
+input[class= "form-check-input"]{
+  border-radius: 50px;
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+  margin-bottom: 4px;
+}
+label[class = "form-check-label"]{
+  color: #00b4c3;
+  font-weight: 500;
+}
+
+.pass-record{
+  margin-left: 35px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.bottom-login{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1em !important;
+  margin-bottom: 1em !important;
+}
+
+form{
+  margin-top: -35px;
+}
+
+.div-email{
+  margin-bottom: 0em !important;
+  margin-top: 3.3em !important;
+}
+.div-pass{
+  margin-bottom: 0em !important;
+  margin-top: 1.5em !important;
+}
+
+.error-messages{
+  margin-bottom: 15px;
+}
+
+.olvido{
+  color: #00b4c3;
+  font-size: 15px;
+  margin-right: 35px;
+}
+.check-section{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
 }

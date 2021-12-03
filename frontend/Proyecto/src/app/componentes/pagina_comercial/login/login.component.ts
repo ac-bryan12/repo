@@ -21,8 +21,8 @@ export class LoginComponent implements OnInit {
   mode: ProgressSpinnerMode = 'indeterminate';
   loanding = false
   hide:boolean =true
-  msg_content = ''
-  msg_d = 'd-none'
+  msg_content = 'contenido'
+  msg_d = 'invisible'
 
   constructor(
     private cookie:CookieService,
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', res['token']);
           localStorage.setItem('Autenticated', "true");
           // this.grupos_permisos()   
-          this.route.navigate(["/portal"])
+          this.route.navigate(["/portal/perfil"])
         }, (err: HttpErrorResponse) => {
           this.loanding = false
           // this.msg_d = 'd-block'
@@ -80,14 +80,14 @@ export class LoginComponent implements OnInit {
   //   })
   // }
   validacion(v: string): boolean {
-    this.msg_d = 'd-none'
+    this.msg_d = 'invisible'
     if (this.login.get(v)?.hasError('required')) {
-      this.msg_d = 'd-block'
+      this.msg_d = 'visible'
       this.msg_content = "Rellena la información requerida"
       return false;
     }
     else if (this.login.get(v)?.hasError('minlength') || this.login.get(v)?.hasError('pattern')) {
-      this.msg_d = 'd-block'
+      this.msg_d = 'visible'
       this.msg_content = `Ingresa ${v} válido`
       return false;
     }
