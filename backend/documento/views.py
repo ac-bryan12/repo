@@ -1,13 +1,18 @@
 import io
 import re
 from django.core.exceptions import ValidationError
+from django.http.response import HttpResponse
 from django.utils.module_loading import autodiscover_modules
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import  permissions, renderers, status
 from django.utils import six, xmlutils
+from weasyprint import HTML
+from weasyprint.text.fonts import FontConfiguration
+from django.template.loader import render_to_string
 
 from api.parsers import XMLDocRenderer
+from documento.soap import recepcionComprobantes
 from .models import Documentos, Estado, TipoCreacion, TipoDocumento
 from api.views import PaginationAPIView
 from rest_framework.authentication import  TokenAuthentication
@@ -135,6 +140,8 @@ class RecibirDocumentoViewSet(APIView):
                         
                         comprobante['infoTributaria']['secuencial'] = str(doc.pk).zfill(9)
                         comprobante['infoTributaria']['claveAcceso'] = self.generarClaveAcceso(comprobante,doc)
+                        comprobante['infoFactura']['fechaEmision'] = str(doc.fechaEmision.date().strftime('%d/%m/%Y'))
+                        
                         
                         
                         xml = renderer.render(data=comprobante)
@@ -149,7 +156,8 @@ class RecibirDocumentoViewSet(APIView):
                         doc.tipoDocumento = TipoDocumento.objects.get(pk=comprobante['infoTributaria']['codDoc'])
                         doc.cliente =Profile.objects.get(pk=comprobante['infoFactura']['identificacionComprador']).user
                         doc.save()
-                        new_key.append(xmlByte)
+                        recepcionComprobantes(xml.encode("ascii"))
+                        new_key.append(xml.encode("ascii"))
                     items[key] = new_key
                         
                 return Response(items)
@@ -177,3 +185,28 @@ class ListaDocumentosPaginados(PaginationAPIView):
             return Response({"error":"Ocurrió un error con la consulta."},status=status.HTTP_400_BAD_REQUEST)
         
         return Response({'error':'Acceso denegado'},status=status.HTTP_403_FORBIDDEN)
+
+class ObtenerDocumentos(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self,request):        
+        if request.GET.get("id"):
+            doc = Documentos.objects.filter(id=request.GET.get("id"))
+            if doc.exists():
+                doc = doc.get()
+                if (doc.cliente.id == request.user.id and request.user.has_perm("documento.view_documentos"))  or (doc.proveedor.profile.empresa.ruc == request.user.profile.empresa.ruc and request.user.has_perm("documento.view_documentos") ):
+                    context = {}
+                    html = render_to_string("comprobantes/factura.html", context)
+
+                    response = HttpResponse(content_type="application/pdf")
+                    response["Content-Disposition"] = "inline; report.pdf"
+
+                    font_config = FontConfiguration()
+                    HTML(string=html).write_pdf(response, font_config=font_config)
+
+                    return response
+                else:
+                    return Response({'error':"Acceso denegado"},status=status.HTTP_403_FORBIDEN)    
+            else:
+                return Response({'error':"No existe el comprobante"},status=status.HTTP_404_NOT_FOUND)

@@ -20,7 +20,7 @@ class XMLDocRenderer(XMLRenderer):
 
         xml:SimplerXMLGenerator = SimplerXMLGenerator(stream, self.charset)
         xml.startDocument()
-        xml.startElement(self.root_tag_name, {"id":"comprobante","version":"1.1.0"})
+        xml.startElement(self.root_tag_name, {"id":"comprobante","version":"1.0.0"})
 
         self._to_xml(xml, data)
 

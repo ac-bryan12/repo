@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from rest_framework.exceptions import NotAcceptable
 from rest_framework.fields import FloatField
@@ -93,6 +94,7 @@ class InfoTributariaSerializer(serializers.Serializer):
         validated_data['tipoEmision']	= 1
         validated_data['razonSocial'] = user.profile.empresa.razonSocial
         validated_data['ruc'] = user.profile.empresa.pk
+        validated_data['dirMatriz'] = user.profile.empresa.direccion
         return validated_data
 
 
@@ -124,7 +126,7 @@ class TotalConImpuestos(serializers.Serializer):#B
 class Pago(serializers.Serializer): #B
     formaPago = serializers.ChoiceField(required=True,choices=["01","15","16","17","18","19","20","21"])
     total = serializers.DecimalField(required =True, decimal_places=2,max_digits=14)
-    plazo = serializers.DecimalField(required =False, decimal_places=2,max_digits=14)
+    plazo = serializers.RegexField("^[0-9]+$",required =False,max_length=14)
     unidadTiempo = serializers.CharField(required =False, max_length = 10)
 
 class Pagos(serializers.Serializer): #B
@@ -205,6 +207,13 @@ class InfoFacturaGeneral(serializers.Serializer): #B
             else:
                 raise NotAcceptable({'error':'El campo de identificacion no concuerda con el tipo de identificacion de consumidor final'}) 
         raise NotAcceptable({'error':'El campo del tipo de identificacion no es correcto, por favor verifíquelo'})  
+    
+    def create(self,validated_data):
+        validated_data["razonSocialComprador"] = Profile.objects.get(n_identificacion=validated_data['identificacionComprador']).user.get_full_name()
+        return validated_data
+        
+        
+        
 
 #Datos para la etiqueta Detalles #B
 class Impuesto(serializers.Serializer):
@@ -290,6 +299,7 @@ class FacturaSerializer(serializers.Serializer):
     def create(self, validated_data):
         for factura in validated_data:
             factura['infoTributaria'] = InfoTributariaSerializer.create(self,factura['infoTributaria'])
+            factura['infoFactura'] = InfoFacturaGeneral.create(self,factura['infoFactura'])
         return validated_data
     
 ##Informacion para la Guia de remision
