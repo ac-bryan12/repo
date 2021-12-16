@@ -272,8 +272,8 @@ class Retenciones(serializers.Serializer):
 
 #Datos para la etiqueta InfoAdicional
 class CampoAdicional(serializers.Serializer):
-    nombre = serializers.CharField(max_length=250)
-    valor = serializers.CharField(max_length=50)
+    _nombre = serializers.CharField(max_length=250)
+    valor = serializers.CharField(max_length=50,required=False)
 
 ##Informacion de la etiqueta InfoAdicional 
 class InfoAdicional(serializers.Serializer):

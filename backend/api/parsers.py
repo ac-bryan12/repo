@@ -41,13 +41,14 @@ class XMLDocRenderer(XMLRenderer):
     
     def _to_xml(self, xml, data):
         if isinstance(data, (list, tuple)):
+            item_list_tag = self.item_tag_name
             for item in data:
                 properties, val = self.get_properties(item)
-                xml.startElement(self.item_tag_name,properties)
+                xml.startElement(item_list_tag,properties)
                 if val :
                     item = val
                 self._to_xml(xml, item)
-                xml.endElement(self.item_tag_name)
+                xml.endElement(item_list_tag)
 
         elif isinstance(data, dict):
             for key, value in six.iteritems(data):
