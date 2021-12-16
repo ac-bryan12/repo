@@ -112,7 +112,8 @@ import { PaginacionComponent } from './componentes/auxiliares/paginacion/paginac
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

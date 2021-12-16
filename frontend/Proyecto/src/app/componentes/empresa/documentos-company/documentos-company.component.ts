@@ -4,7 +4,8 @@ import { saveAs } from 'file-saver';
 import { environment } from 'src/environments/environment';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AlertasComponent } from '../../auxiliares/alertas/alertas.component';
-
+import jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { AlertasComponent } from '../../auxiliares/alertas/alertas.component';
   styleUrls: ['./documentos-company.component.css']
 })
 export class DocumentosCompanyComponent implements OnInit {
+  
   previsualizacion: any
   loanding = false
   listaDocumentos: Array<any> = [];
@@ -107,6 +109,13 @@ export class DocumentosCompanyComponent implements OnInit {
   //   })
   // }
 
+  visualizardoc(id:any){
+    this.envio.peticionGet(environment.url+"/api/documentos/obtener-documento/?id="+id).subscribe(res=>{
+      console.log(res)
+    },err=>{
+      console.log(err)
+    })
+  }
   
 
   obtenerObjetos(listDoc:any) {

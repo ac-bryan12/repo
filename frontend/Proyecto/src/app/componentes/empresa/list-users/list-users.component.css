@@ -15,6 +15,20 @@
     margin-right: auto;
   }
 
+#title + div button{
+font-size: 16px;
+height: 35px;
+border-radius: 25px;
+border-width: 0;
+background-color: #00B4C0;
+/* vertical-align: middle; */
+}
+
+#title + div div{
+    width: 200px;
+}
+
+
 #title{
     font-weight: bold;
 }

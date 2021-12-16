@@ -29,6 +29,15 @@ button{
     margin: 0 2% 0 0;
 }
 
+#title + div button{
+    font-size: 16px;
+    height: 35px;
+    border-radius: 25px;
+    border-width: 0;
+    background-color: #00B4C0;
+    /* vertical-align: middle; */
+}
+
 button.delete{
     background-color: rgb(232, 78, 78);
 }
