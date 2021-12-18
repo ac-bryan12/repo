@@ -4,8 +4,7 @@ import { saveAs } from 'file-saver';
 import { environment } from 'src/environments/environment';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AlertasComponent } from '../../auxiliares/alertas/alertas.component';
-import jspdf from 'jspdf';
-import html2canvas from 'html2canvas';
+
 
 
 @Component({
@@ -111,12 +110,32 @@ export class DocumentosCompanyComponent implements OnInit {
 
   visualizardoc(id:any){
     this.envio.peticionGet(environment.url+"/api/documentos/obtener-documento/?id="+id).subscribe(res=>{
-      console.log(res)
+      let blob2 = this.b64toBlob(res,"application/pdf")
+      let url = URL.createObjectURL(blob2)
+      window.open(url,"File")
     },err=>{
       console.log(err)
     })
   }
   
+  b64toBlob(b64Data:any, contentType:any) {
+    var byteCharacters = atob(b64Data);
+
+    var byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      var slice = byteCharacters.slice(offset, offset + 512),
+        byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
 
   obtenerObjetos(listDoc:any) {
     this.listaDocumentos = listDoc
