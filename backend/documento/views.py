@@ -198,14 +198,10 @@ class ObtenerDocumentos(APIView):
                 if (doc.cliente.id == request.user.id and request.user.has_perm("documento.view_documentos"))  or (doc.proveedor.profile.empresa.ruc == request.user.profile.empresa.ruc and request.user.has_perm("documento.view_documentos") ):
                     context = {}
                     html = render_to_string("comprobantes/factura.html", context)
-
-                    response = HttpResponse(content_type="application/pdf")
-                    response["Content-Disposition"] = "inline; report.pdf"
-
                     font_config = FontConfiguration()
-                    HTML(string=html).write_pdf(response, font_config=font_config)
-
-                    return response
+                    pdf = HTML(string=html).write_pdf(font_config=font_config)
+                    pdfresponse = base64.encodebytes(pdf)
+                    return Response(pdfresponse)
                 else:
                     return Response({'error':"Acceso denegado"},status=status.HTTP_403_FORBIDEN)    
             else:
