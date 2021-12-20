@@ -1,11 +1,10 @@
 import io
-import re
 from django.core.exceptions import ValidationError
 from django.http.response import HttpResponse
 from django.utils.module_loading import autodiscover_modules
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import  permissions, renderers, status
+from rest_framework import  permissions, renderers, serializers, status
 from django.utils import six, xmlutils
 from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
@@ -20,6 +19,9 @@ from .serializers import ComprobanteSerializer, DocumentosSerializer, FacturaSer
 import base64
 from usuario.models import Profile
 from rest_framework_xml.renderers import XMLRenderer
+import xml.etree.ElementTree as ET
+import xmltodict
+
 
 #Vistas para los archivos : Sirve para subir y descargar 
 class DocumentosViewSet(APIView):
@@ -158,6 +160,8 @@ class RecibirDocumentoViewSet(APIView):
                         doc.save()
                         recepcionComprobantes(xml.encode("ascii"))
                         new_key.append(xml.encode("ascii"))
+                        print(comprobante["factura"]["infoFactura"]["pagos"]) 
+                        print(comprobante["factura"]["detalles"])
                     items[key] = new_key
                         
                 return Response(items)
@@ -189,15 +193,31 @@ class ListaDocumentosPaginados(PaginationAPIView):
 class ObtenerDocumentos(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
-    
+    def listar(self,dict):
+         precioSinImpuestos = 0
+         impuesto0 = 0
+         impuesto12 = 0
+         print(dict)
+         for k,element in dict.items():
+             print("lista !!!!!!!!!!!1")
+             print(element)
+             
+
+         return dict
     def get(self,request):        
         if request.GET.get("id"):
             doc = Documentos.objects.filter(id=request.GET.get("id"))
             if doc.exists():
-                doc = doc.get()
-                if (doc.cliente.id == request.user.id and request.user.has_perm("documento.view_documentos"))  or (doc.proveedor.profile.empresa.ruc == request.user.profile.empresa.ruc and request.user.has_perm("documento.view_documentos") ):
+                doc = Documentos.objects.get(id=request.GET.get("id"))
+                # doc = doc.get()
+                if (request.user.has_perm("documento.view_documentos"))  or (doc.proveedor.profile.empresa.ruc == request.user.profile.empresa.ruc and request.user.has_perm("documento.view_documentos") ):
                     context = {}
-                    html = render_to_string("comprobantes/factura.html", context)
+                    serializer = DocumentosSerializer(doc)
+                    decode = base64.decodebytes(serializer.data["_file"])
+                    dict = xmltodict.parse(decode)
+                    d = self.listar(dict["factura"]["infoFactura"]["pagos"])
+                    self.listar(dict["factura"]["detalles"])
+                    html = render_to_string("comprobantes/factura.html", dict)
                     font_config = FontConfiguration()
                     pdf = HTML(string=html).write_pdf(font_config=font_config)
                     pdfresponse = base64.encodebytes(pdf)
