@@ -37,13 +37,13 @@ class DocumentosViewSet(APIView):
 
     def get(self,request,pk):
         doc = self.get_object(pk=pk)
-        if (doc.cliente == request.user and request.user.has_perm("documento.view_documentos"))  or (doc.proveedor.profile.empresa.ruc == request.user.profile.empresa.ruc and request.user.has_perm("documento.view_documentos") ):
+        if (doc.cliente == request.user and request.user.has_perm("documento.view_documentos_recibidos"))  or (doc.proveedor.profile.empresa.ruc == request.user.profile.empresa.ruc and request.user.has_perm("documento.view_documentos_emitidos") ):
             if request.GET.get("formato") == "xml":
                 return Response({"_file":doc._file,"nombreDoc":doc.nombreDoc})
             if request.GET.get("formato") == "pdf":
                 return Response({"_file":doc.pdf,"nombreDoc":doc.nombreDoc})    
         else:
-            return Response({'error':"No se ha encontrado su pagina"},status = status.HTTP_401_UNAUTHORIZED)
+            return Response({'error':"Acceso denegado"},status = status.HTTP_401_UNAUTHORIZED)
 
     def post(self,request):
         if request.user.has_perm("documento.add_documentos"):
@@ -135,7 +135,6 @@ class RecibirDocumentoViewSet(APIView):
                     new_key = []
                     for comprobante in value:
                         
-                        
                         doc = Documentos()
                         doc.save()
                         
@@ -156,10 +155,12 @@ class RecibirDocumentoViewSet(APIView):
                         doc.proveedor = request.user
                         doc.tipoDocumento = TipoDocumento.objects.get(pk=comprobante['infoTributaria']['codDoc'])
                         doc.cliente =Profile.objects.get(pk=comprobante['infoFactura']['identificacionComprador']).user
+                        
                         html = render_to_string("comprobantes/factura.html",comprobante)
                         font_config = FontConfiguration()
                         pdf = HTML(string=html).write_pdf(font_config=font_config)
                         doc.pdf = base64.encodebytes(pdf)
+                        
                         doc.save()
                         recepcionComprobantes(xml.encode("ascii"))
                         new_key.append(xml.encode("ascii"))
@@ -175,13 +176,26 @@ class ListaDocumentosPaginados(PaginationAPIView):
     permission_classes = [permissions.IsAuthenticated]
     
     def get(self,request):
-        if request.user.has_perm("documento.view_documentos"):
+        if request.user.has_perm("documento.view_documentos_emitidos") and request.GET.get("tipo") == "emitidos":
             # Buscar por empresa
             if request.GET.get("name"):
                 print("si entra")
-                query = Documentos.objects.filter(nombreDoc__icontains=request.GET.get("name"),proveedor=request.user).order_by("-id")
+                query = Documentos.objects.filter(nombreDoc__icontains=request.GET.get("name"),proveedor__profile__empresa=request.user.profile.empresa).order_by("-id")
             else:
-                query = Documentos.objects.filter(proveedor=request.user).order_by("-id")
+                query = Documentos.objects.filter(proveedor__profile__empresa=request.user.profile.empresa).order_by("-id")
+            page = self.paginate_queryset(query)
+            if page is not None:
+                serializer = self.get_paginated_response(DocumentosSerializer(page,many=True).data)
+                return Response(serializer.data)
+            
+            return Response({"error":"Ocurrió un error con la consulta."},status=status.HTTP_400_BAD_REQUEST)
+        
+        elif request.user.has_perm("documento.view_documentos_recibidos") and request.GET.get("tipo") == "recibidos":
+            if request.GET.get("name"):
+                print("si entra")
+                query = Documentos.objects.filter(nombreDoc__icontains=request.GET.get("name"),cliente=request.user).order_by("-id")
+            else:
+                query = Documentos.objects.filter(cliente=request.user).order_by("-id")
             page = self.paginate_queryset(query)
             if page is not None:
                 serializer = self.get_paginated_response(DocumentosSerializer(page,many=True).data)
@@ -198,12 +212,18 @@ class ObtenerDocumentos(APIView):
         if request.GET.get("id"):
             doc = Documentos.objects.filter(id=request.GET.get("id"))
             if doc.exists():
-                doc = Documentos.objects.get(id=request.GET.get("id"))
-                # doc = doc.get()
-                if (request.user.has_perm("documento.view_documentos"))  or (doc.proveedor.profile.empresa.ruc == request.user.profile.empresa.ruc and request.user.has_perm("documento.view_documentos") ):
+                doc = doc.get()
+                if (doc.cliente == request.user and request.user.has_perm("documento.view_documentos_recibidos"))  or (doc.proveedor.profile.empresa.ruc == request.user.profile.empresa.ruc and request.user.has_perm("documento.view_documentos_emitidos") ):
                     context = {}
-                    
-                    return Response(pdfresponse)
+                    html = render_to_string("comprobantes/factura.html", context)
+
+                    #response = Response(content_type="application/pdf")
+                    #response["Content-Disposition"] = "inline; report.pdf"
+
+                    #font_config = FontConfiguration()
+                    #pdf = HTML(string=html).write_pdf(font_config=font_config)
+
+                    return Response("Si puede ver")
                 else:
                     return Response({'error':"Acceso denegado"},status=status.HTTP_403_FORBIDEN)    
             else:

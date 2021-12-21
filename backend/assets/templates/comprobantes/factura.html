@@ -516,20 +516,20 @@
     <div class="e503_4804">
       <div class="e503_4805">
       </div>
-      <span class ="clave-Acceso">{{factura.infoTributaria.claveAcceso}}</span>
+      <span class ="clave-Acceso">{{infoTributaria.claveAcceso}}</span>
       <span class="e503_4862">Tipo moneda:</span>
       <span class="e508_4864">Clave de acceso:</span>
       <span class="emision">Emisión:</span>
-      <span class="emision-info">{{factura.infoTributaria.ptoEmi}}</span>
+      <span class="emision-info">{{infoTributaria.ptoEmi}}</span>
 
       <span class="ambiente">Ambiente:</span>
-      <span class="ambiente-info">{{factura.infoTributaria.ambiente}}</span>
+      <span class="ambiente-info">{{infoTributaria.ambiente}}</span>
       <span class="e503_4858">Número de autorización:</span>
       <span class="e503_4859">Fecha y hora de autorización:</span>
       <span class="e503_4857">No:</span>
       <span class="e503_4856">TIPO DOCUMENTO</span>
       <span class="ruc">RUC</span>
-      <span class="ruc-info">{{factura.infoTributaria.ruc}}</span>
+      <span class="ruc-info">{{infoTributaria.ruc}}</span>
     </div>
     <div class=e503_4355>
       <div class="e503_4356"></div>
@@ -550,9 +550,7 @@
         </tr>
       </thead>
       <tbody>
-        {%for k,detalle in factura.detalles.items %}
-          {% if detalle|length > 1 %}
-            <td>{{detalle|length}}</td>  
+        {%for k,detalle in detalles.items %}
             {%for item in detalle %}
             <tr>
               <td>{{item.codigoPrincipal}}</td>
@@ -563,16 +561,6 @@
               <td>{{item.precioTotalSinImpuesto}}</td>
             </tr>
             {%endfor%}
-          {% else %}
-            <tr>
-              <td>{{detalle.codigoPrincipal}}</td>
-              <td>{{detalle.cantidad}}</td>
-              <td>{{detalle.descripcion}}</td>
-              <td>{{detalle.precioUnitario}}</td>
-              <td>{{detalle.descuento}}</td>
-              <td>{{detalle.precioTotalSinImpuesto}}</td> 
-            </tr>
-          {% endif %}
         {%endfor%}
       </tbody>
     </table>
@@ -593,7 +581,7 @@
         </tr>
         <tr>
           <th>Subtotal sin impuestos %</th> 
-          <td>{{factura.infoFactura.totalSinImpuestos}}</td>
+          <td>{{infoFactura.totalSinImpuestos}}</td>
         </tr>
         <tr>
           <th>Subtotal no sujeto de IVA</th>  
@@ -601,15 +589,15 @@
         </tr>
         <tr>
           <th>IVA</th>
-          <td>{{factura.infoFactura.pagos.pago.total}} {{factura.infoFactura.totalSinImpuestos}} </td>
+          <td>{{infoFactura.pagos.pago.total}} {{infoFactura.totalSinImpuestos}} </td>
         </tr>
         <tr>
           <th>Propina</th>
-          <td>{{factura.infoFactura.propina}}</td>
+          <td>{{infoFactura.propina}}</td>
         </tr>
         <tr>
           <th>Valor total</th>
-          <td>{{factura.infoFactura.pagos.pago.total}}</td>
+          <td>{{infoFactura.importeTotal}}</td>
         </tr>
         
       </tbody>
@@ -631,12 +619,13 @@
         </tr>
       </thead>
       <tbody>
-        {%for k,pago in factura.infoFactura.pagos.items %}
-          <td>pago</td>
-            <td>{{pago.formaPago}}</td>
-            <td>{{pago.total}}</td>
-            <td>{{pago.plazo}}</td>
-            <td>{{pago.unidadTiempo}}</td>
+        {%for k,pago in infoFactura.pagos.items %}
+        {% for item in pago %}
+          <td>{{item.formaPago}}</td>
+          <td>{{item.total}}</td>
+          <td>{{item.plazo}}</td>
+          <td>{{item.unidadTiempo}}</td>
+        {%endfor%}
         {%endfor%}
       </tbody>
     </table>
