@@ -1,46 +1,54 @@
 <nav_bar></nav_bar>
 <div id="body">
-    <div id="layoutAuthentication_content" class="vh-100">
-        <main>
+    <div id="layoutAuthentication_content" class="window">
+        <main >
             <div class="container">
                 <div class="row justify-content-center w-100">
-                    <div class="col-9 vh-100 d-flex flex-column justify-content-center">
+                    <div class="col-9 login-container">
                         <div class="card h-60">
-                            <div class="card-header">
+                            <div class="card-header login-header">
                                 <h3 class="text-center font-weight-light my-4">Login</h3>
+                                <mat-icon>account_circle</mat-icon>
                             </div>
                             <div class="card-body">
                                 <form [formGroup]="login" #formRef="ngForm">
-                                    <div class="{{msg_d}}" id="user_invalid">
-                                        {{msg_content}}
-                                    </div>
-                                    <div class="form-floating mt-5 mb-3">
-                                        <input  formControlName="email" (input)="validacion('email')"
-                                            class="form-control" id="inputUser" type="text" placeholder="email"
-                                            name="username" minlength='4' maxlength="150">
-                                        <label for="inputEmail">Email</label>
-                                    </div>
-                                    <div class="form-floating mt-5 mb-3">
+                                    <div class="form-floating mt-5 mb-3 div-email">
+                                        <div class="{{msg_d}} label-campos error-messages" id="user_invalid">
+                                            {{msg_content}}
+                                        </div>
                                         <div class = "d-flex align-items-center">
                                             <div class="form-floating w-100">
-                                                <input #password matInput [type]="hide ? 'password' : 'text'" class="form-control" id="inputPassword" name="password"
-                                                formControlName="password" placeholder="Ingrese una contraseña" minlength='8' (input)="validacion('password')" maxlength="24">
-                                                <label for = "inputPassword">Contraseña</label>
+                                                <input  formControlName="email" (input)="validacion('email')"
+                                                class="form-control input-campos" id="inputUser" type="text" 
+                                                name="username" minlength='4' maxlength="150">
+                                                <label class="label-campos" for="inputEmail">Email</label>
+                                            </div>
+                                            <mat-icon class = "icon-mail">email</mat-icon>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mt-5 mb-3 div-pass">
+                                        <div class = "d-flex align-items-center">
+                                            <div class="form-floating w-100">
+                                                <input #password matInput [type]="hide ? 'password' : 'text'" class="form-control input-campos" id="inputPassword" name="password"
+                                                formControlName="password"  minlength='8' (input)="validacion('password')" maxlength="24">
+                                                <label  class="label-campos" for = "inputPassword">Contraseña</label>
                                             </div>
                                             <a class ="icon-password" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                                                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="form-check mt-5 mb-3">
-                                        <input class="form-check-input" id="inputRememberPassword" type="checkbox"
+                                    <div class="form-check mt-5 mb-3 pass-record">
+                                        <div class="check-section">
+                                            <input class="form-check-input" id="inputRememberPassword" type="checkbox"
                                             value="">
-                                        <label class="form-check-label" for="inputRememberPassword">Remember
+                                            <label class="form-check-label" for="inputRememberPassword">Remember
                                             Password</label>
+                                        </div>
+                                        <a class="small olvido" href="olvido-password">Olvido su contraseña?</a>
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between mt-5 mb-4">
-                                        <a class="small" href="olvido-password">Forgot Password?</a>
-                                        <input type="button" (click)="iniciarSesion(login.value)" value="Ingresar"
+                                    <div class="bottom-login mt-5 mb-4">
+                                        <input class = "button-ingreso" type="button" (click)="iniciarSesion(login.value)" value="Ingresar"
                                             [disabled]="formRef.control.invalid">
                                         <input type='hidden' name="csrfmiddlewaretoken">
                                     </div>

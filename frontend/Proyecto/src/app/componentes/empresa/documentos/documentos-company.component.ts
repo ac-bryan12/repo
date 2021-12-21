@@ -4,6 +4,7 @@ import { saveAs } from 'file-saver';
 import { environment } from 'src/environments/environment';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AlertasComponent } from '../../auxiliares/alertas/alertas.component';
+import { Router } from '@angular/router';
 
 
 
@@ -13,6 +14,8 @@ import { AlertasComponent } from '../../auxiliares/alertas/alertas.component';
   styleUrls: ['./documentos-company.component.css']
 })
 export class DocumentosCompanyComponent implements OnInit {
+  id:Number = 0
+  tipo = null
   previsualizacion: any
   loanding = false
   listaDocumentos: Array<any> = [];
@@ -25,11 +28,13 @@ export class DocumentosCompanyComponent implements OnInit {
   nombreDocumento = ""
   env = environment.url
 
-  constructor(private envio: RequestService) {
+  constructor(private envio: RequestService,private router: Router) {
   }
 
   ngOnInit(): void {
-    this.cargarDocumentos()
+    // this.cargarDocumentos()
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.tipo =  this.router.parseUrl(this.router.url).queryParams["tipo"]  
     this.habilitarControles()
   }
 
@@ -84,7 +89,7 @@ export class DocumentosCompanyComponent implements OnInit {
     forms.append("file", file)
     forms.append("content_type", file.type)
     forms.append("nombreDoc", file.name)
-    forms.append("tipoCreacion","SUBIDO")
+    forms.append("tipoCreacion", "SUBIDO")
     this.loanding = true
     this.envio.peticionPost(environment.url + '/api/documentos/guardar-documentos/', forms).subscribe((res) => {
       if (res.type === HttpEventType.UploadProgress) {
@@ -95,30 +100,80 @@ export class DocumentosCompanyComponent implements OnInit {
       this.notificaciones.push({ value: err.error.class, mensaje: err.error.error, cantidad: 1, time: this.errorDocs })
     })
   }
-  descargardoc(id: any) {
-    this.envio.peticionGet(environment.url + '/api/documentos/descargar-documento/' + id + '/').subscribe((res) => {
-      const Filepath = 'data:text/xml;base64,' + res._file
+  descargardoc(format:any) {
+    this.envio.peticionGet(environment.url + '/api/documentos/descargar-documento/' + this.id + '/?formato='+format).subscribe((res) => {
+      let Filepath = null
+      if (format == "pdf"){
+        Filepath = 'data:application/pdf;base64,' + res._file
+      }else{
+        Filepath = 'data:text/xml;base64,' + res._file
+      }
       saveAs(Filepath, res.nombreDoc)
     })
   }
-  cargarDocumentos() {
-    this.envio.peticionGet(environment.url + '/api/documentos/lista-documentos-empresa/').subscribe((res) => {
-      this.listaDocumentos = res
+  // cargarDocumentos() {
+  //   this.envio.peticionGet(environment.url + '/api/documentos/lista-documentos-empresa/').subscribe((res) => {
+  //     this.listaDocumentos = res
+  //   })
+  // }
+
+  visualizardoc(id: any) {
+    this.envio.peticionGet(environment.url + "/api/documentos/descargar-documento/" + id + "/?formato=pdf").subscribe(res => {
+      let blob2 = this.b64toBlob(res._file, "application/pdf")
+      let url = URL.createObjectURL(blob2)
+      window.open(url, res.nombreDoc)
+    }, err => {
+      console.log(err)
     })
   }
 
-  
+  b64toBlob(b64Data: any, contentType: any) {
+    var byteCharacters = atob(b64Data);
 
-  obtenerObjetos(listDoc:any) {
+    var byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      var slice = byteCharacters.slice(offset, offset + 512),
+        byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
+
+  obtenerObjetos(listDoc: any) {
     this.listaDocumentos = listDoc
   }
 
-  buscador(nombre:any){
-    if(nombre == ""){
+  buscador(nombre: any) {
+    if (nombre == "") {
       this.nombreDocumento = ""
     }
-    else{
-      this.nombreDocumento = "?name="+nombre.value
+    else {
+      this.nombreDocumento = "?name=" + nombre.value
     }
   }
+
+  cerrarConfirmacion() {
+    let select = document.getElementById("select") as HTMLSelectElement
+    this.descargardoc(select.value)
+    let div = document.getElementById("emergente") as HTMLElement
+    div.classList.toggle('visually-hidden')
+    div.classList.remove("show")
+    div?.classList.add("hide")
+    
+  }
+  validarOpcion(id:any) {
+    this.id = id
+    let div = document.getElementById("emergente") as HTMLElement
+    div.classList.toggle('visually-hidden')
+    div?.classList.remove("hide")
+    div.classList.add("show")
+  }
 }
+

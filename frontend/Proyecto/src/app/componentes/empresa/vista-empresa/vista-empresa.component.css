@@ -4,17 +4,6 @@
     width: 1125px;
 }
 
-#caja{
-    display: flex;
-    background-color: black;
-    height: 120px;
-    border-bottom-right-radius: 18% 75%;
-}
-
-#title{
-    font-weight: bold;
-}
-
 #formulario{
     display: flex;
     /* justify-content: center; */
@@ -45,3 +34,35 @@
 .cargaArchivo label:first-child{
     color: black;
 }
+
+.input-campos{
+    border-radius: 50px;
+    width:90%;
+    margin-left: 5%;
+    color:#39418a;
+    font-weight: 500;
+}
+.label-campos{
+    font-weight: 550;
+    font-size: 16px;
+    color: #00b4c3;
+    margin-left: 8%;
+    opacity:1 !important;
+  }
+
+  .button-guardar{
+    color:white;
+    background-color: #ED8337;
+    border-radius: 35px;
+    width: 12%;
+    margin-left: 45%;
+    padding: 1% 2% 1% 2%
+  }
+
+  #title{
+    font-weight: 500;
+    padding: 10px 30px 10px 30px;
+    color: white;
+    background-color: #00B4C0;
+    border-radius: 15px;
+  }

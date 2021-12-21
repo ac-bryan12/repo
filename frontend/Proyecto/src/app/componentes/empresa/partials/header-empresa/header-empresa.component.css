@@ -1,3 +1,36 @@
+.navbar{
+    height: 40px;
+    padding: 0;
+    margin: 0 ;
+    background-color: #DBDBDB !important;
+}
+
+#nav-container{
+    margin: 0;
+    height: 100%;
+}
+
+#nav-container .navbar-brand{
+    background-color: #00B4C0;
+    color: white;
+    margin: 0;
+    border-radius: 0 50px 50px 0;
+    margin-right: 0;
+}
+
+#nav-container .navbar-nav{
+    height: 100%;
+    background-color: #ED8336;
+    align-content: center;
+    border-radius: 50px 0 0 50px;
+}
+
+#nav-container .navbar-nav a{
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+}
+
 .navbar-nav a {
     cursor: pointer;
 }

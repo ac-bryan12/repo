@@ -1,3 +1,25 @@
+
 .page-item{
     cursor: pointer;
+    z-index: 0;
+}
+
+#indices{
+    text-align: center;
+}
+
+a{
+    color: #018d97;
+    font-weight: 500;
+}
+
+a:hover{
+    color: #00B4C0;
+    font-weight: 500;
+}
+
+.active a{
+    background-color: #00B4C0;
+    border-color: #00B4C0;
+    color: white;
 }

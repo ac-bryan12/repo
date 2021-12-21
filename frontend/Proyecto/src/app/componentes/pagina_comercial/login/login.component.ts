@@ -20,12 +20,12 @@ export class LoginComponent implements OnInit {
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
   loanding = false
-  hide:boolean =true
-  msg_content = ''
-  msg_d = 'd-none'
+  hide: boolean = true
+  msg_content = 'contenido'
+  msg_d = 'invisible'
 
   constructor(
-    private cookie:CookieService,
+    private cookie: CookieService,
     private route: Router,
     private request: RequestService,
     private log: FormBuilder) {
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     let return_to = this.cookie.get("return_to")
-    if(return_to){
+    if (return_to) {
       this.route.navigate([return_to])
     }
   }
@@ -56,16 +56,15 @@ export class LoginComponent implements OnInit {
 
 
   iniciarSesion(value: any) {
-    this.loanding = true
     if (this.validacion("email") && this.validacion("password")) {
-      this.request.peticionPost(environment.url+'/auth/login/', value, true)
+      this.request.peticionPost(environment.url + '/auth/login/', value, true)
         .subscribe(res => {
           this.loanding = false
           this.request.isLoggedIn = true
           localStorage.setItem('token', res['token']);
           localStorage.setItem('Autenticated', "true");
           // this.grupos_permisos()   
-          this.route.navigate(["/portal"])
+          this.route.navigate(["/portal/perfil"])
         }, (err: HttpErrorResponse) => {
           this.loanding = false
           // this.msg_d = 'd-block'
@@ -73,6 +72,7 @@ export class LoginComponent implements OnInit {
         });
     }
   }
+
   // grupos_permisos() {
   //   this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
   //     console.log(res)
@@ -80,14 +80,14 @@ export class LoginComponent implements OnInit {
   //   })
   // }
   validacion(v: string): boolean {
-    this.msg_d = 'd-none'
+    this.msg_d = 'invisible'
     if (this.login.get(v)?.hasError('required')) {
-      this.msg_d = 'd-block'
+      this.msg_d = 'visible'
       this.msg_content = "Rellena la información requerida"
       return false;
     }
     else if (this.login.get(v)?.hasError('minlength') || this.login.get(v)?.hasError('pattern')) {
-      this.msg_d = 'd-block'
+      this.msg_d = 'visible'
       this.msg_content = `Ingresa ${v} válido`
       return false;
     }

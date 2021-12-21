@@ -4,17 +4,10 @@
     width: 1125px;
 }
 
-#caja{
-    display: flex;
-    background-color: black;
-    height: 120px;
-    border-bottom-right-radius: 18% 75%;
-}
-
 #title{
     text-align: center;
-    margin-top: 15px;
-    margin-bottom: 10px;
+    font-weight: 500;
+
 }
 
 #formulario{

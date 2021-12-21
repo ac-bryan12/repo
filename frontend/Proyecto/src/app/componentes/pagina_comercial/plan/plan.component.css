@@ -6,6 +6,36 @@
     color: white;
 }
 
+.container-fluid{
+    background-image: url("/src/assets/images/fondo1.png");
+}
+
+.button-enviar{
+    color:white;
+    background-color: #ED8336;
+    border-color: #ED8336;
+    border-radius: 35px;
+    width: 40%;
+    padding: 3% 5% 3% 5%
+  }
+
+  .bottom-enviar{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+  }
+
+  .symbol-age{
+      color: #2b41ce;
+  }
+
+  .price{
+      color: #202e8a;
+  }
+
 @media(max-width:576px){
     .font-size-xs{
         font-size: 0.65rem;

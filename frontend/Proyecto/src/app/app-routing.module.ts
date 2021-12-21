@@ -24,9 +24,8 @@ import { PerfilComponent } from './componentes/cliente/perfil/perfil.component';
 import { ChangePasswordComponent } from './componentes/cliente/change-password/change-password.component';
 import { ViewCompanyComponent} from './componentes/empresa/view-company/view-company.component';
 import { ProfileUserComponent } from './componentes/empresa/profile-user/profile-user.component';
-import { DocumentosCompanyComponent } from './componentes/empresa/documentos-company/documentos-company.component';
+import { DocumentosCompanyComponent } from './componentes/empresa/documentos/documentos-company.component';
 import { VistaEmpresaComponent } from './componentes/empresa/vista-empresa/vista-empresa.component';
-import { DocumentosComponent } from './componentes/cliente/documentos/documentos.component';
 import { EmpresaGuard } from './services/guards/admin_empresa/empresa.guard';
 import { ClienteGuard } from './services/guards/cliente/cliente.guard';
 import { PageNotFoundComponent } from './componentes/pagina_comercial/pageNotFound/page-not-found.component';
@@ -60,7 +59,7 @@ const routes: Routes = [
     {path:'',redirectTo:'cambiar-contrasenia',pathMatch:'full'},
     {path:'perfil',component:PerfilComponent,canActivate:[ClienteGuard]},
     // {path:'cambiar_contrasenia',component:ChangePasswordComponent,canActivate:[ClienteGuard]},
-    {path:'documentos',component:DocumentosComponent,canActivate:[ClienteGuard]},
+    //{path:'documentos',component:DocumentosComponent,canActivate:[ClienteGuard]},
     
   // ]},
   // {path:'view-company',component:ViewCompanyComponent},
@@ -68,7 +67,7 @@ const routes: Routes = [
     // {path:'',redirectTo:'perfil',pathMatch:'full'},
     {path:'vista-empresa',component:VistaEmpresaComponent,canActivate:[EmpresaGuard]},
     // {path:'profile-user',component:ProfileUserComponent,canActivate:[EmpresaGuard]},
-    {path:'documentos-company',component:DocumentosCompanyComponent,canActivate:[EmpresaGuard]},
+    {path:'documentos',component:DocumentosCompanyComponent,canActivate:[EmpresaGuard]},
     {path:'grupos-permisos',component:ListUsersComponent,canActivate:[EmpresaGuard]},
     {path:'editarUser',component:EditarUserComponent,canActivate:[EmpresaGuard]},
     {path:'grupos',component:ListGruposComponent,canActivate:[EmpresaGuard]},

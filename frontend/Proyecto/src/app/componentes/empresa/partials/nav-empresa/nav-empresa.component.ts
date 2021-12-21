@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request/request.service';
 import { environment } from 'src/environments/environment';
 
@@ -17,11 +18,12 @@ export class NavEmpresaComponent implements OnInit {
     "view_group":false,
     "add_group":false,
     "view_empresatemp":false,
-    "view_documentos":false,
+    "view_documentos_emitidos":false,
+    "view_documentos_recibidos":false
   }
   
-
-  constructor(private request: RequestService) { 
+  env = environment.url
+  constructor(private request: RequestService,private router: Router,private route:ActivatedRoute) { 
     
   }
 
@@ -41,5 +43,18 @@ export class NavEmpresaComponent implements OnInit {
       console.log("Error al cargar permisos")
     })
 
+  }
+
+  documentos(tipo:string){
+    this.router.navigate(['./documentos'],{relativeTo:this.route ,queryParams:{tipo:tipo}}).then(()=>{
+      window.location.reload()
+    })
+  }
+
+  submenu(li:HTMLLIElement){
+    let icon:any = li.getElementsByClassName('arrow')[0]
+    icon.classList.toggle('rotate-45')
+    let ul:any = document.querySelector("li:hover + ul")
+    ul.classList.toggle('d-block')
   }
 }

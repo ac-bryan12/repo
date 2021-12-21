@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { Validacion } from 'src/assets/Validacion';
 
 @Component({
   selector: 'registro',
@@ -17,6 +18,7 @@ export class RegistroComponent implements OnInit {
   mode: ProgressSpinnerMode = 'indeterminate';
   loanding = false
   public registroForm: FormGroup;
+  public validate:Validacion = new Validacion();
 
 
   constructor(private fb: FormBuilder,private request:RequestService,private router:Router) {

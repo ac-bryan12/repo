@@ -26,14 +26,6 @@
     align-items: center;
     justify-content: center;
 }
-.grupos-permisos{
-    width: 60%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: nowrap;
-    padding: 2%;
-}
 .campos{
     margin: 1%;
 }
@@ -56,18 +48,19 @@ select{
     height: 10px;
 }
 */
-#caja{
-    display: flex;
-    background-color: black;
-    height: 120px;
-    border-bottom-right-radius: 18% 75%;
-}
 
 .error {
     color: #f82929;
     font-size: 13px;
     margin-top: 2px;
   }
+.error-permisos{
+    color: #f82929;
+    font-size: 13px;
+    margin-top: 2px;
+    display:flex;
+    justify-content: space-around;
+}
 
   #loader {
     position: fixed;
@@ -82,4 +75,84 @@ select{
 
 .heigthSelect{
     height: 240px;
+}
+
+.input-campos{
+    border-radius: 50px;
+    font-weight: 500;
+    width:90%;
+    margin-left: 5%;
+    color:#39418a;
+}
+.label-campos{
+    font-weight: 550;
+    font-size: 16px;
+    color: #00b4c3;
+    margin-left: 8%;
+    opacity:1 !important;
+}
+.labels-permisos{
+    width:90%;
+    color:#00B4C3;
+    font-weight: 550;
+    opacity:1 !important;
+}
+
+.selects{
+    border-radius: 5px;
+    width:90%;
+    margin-left: 5%;
+    color:#39418a;
+    font-weight: bold;
+    font-size: 15px;
+    font-weight: 1000;
+}
+.button-guardar{
+    color:white;
+    background-color: #ED8337;
+    border-radius: 35px;
+    width: 14%;
+    padding: 1% 2% 1% 2%
+
+  }
+
+#titulo{
+    background-color: #00b4c3;
+    color:white;
+    padding: 10px 30px 10px 30px;
+    border-radius: 15px;
+    font-weight: 500;
+}
+
+.grupos-permisos{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+div[class= "col-md-5"]{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+input[disabled]{
+    background-color:#afafaf;
+    cursor: not-allowed;
+}
+
+#buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.form-floating-select{
+    margin-left: -15px;
+    margin-right: 15px;
+}
+
+#container-form div p{
+    color: #00B4C3;
+    font-weight: 550;
+    font-size: 16px;
 }

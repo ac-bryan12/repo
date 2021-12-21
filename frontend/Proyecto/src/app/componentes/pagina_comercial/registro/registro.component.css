@@ -21,3 +21,60 @@ div[class="row justify-content-center"]{
     background: no-repeat rgb(249,249,249);
     opacity: .8;
 }
+
+.register-header{
+    background-color: #ED8337;
+    color: white;
+    font-family: Roboto;
+    font-style: italic;
+    height: 4.5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+ .register-container{
+    margin-top: 50px;
+    margin-bottom: 25px;
+    width: 850px;
+}
+
+div[class = "card-body"]{
+    background-color: #EEEEEE;
+}
+
+h3{
+    font-weight: 500;
+}
+
+.label-campos{
+    font-weight: 500;
+    font-size: 16px;
+    color: #00b4c3;
+    opacity:1 !important;
+}
+
+.input-campos{
+    border-radius: 50px;
+    width:100%;
+}
+
+.button-enviar{
+    color:white;
+    background-color: #00b4c3;
+    border-radius: 35px;
+    width: 12%;
+    padding: 1% 2% 1% 2%
+  }
+
+  .bottom-enviar{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+  }
+
+

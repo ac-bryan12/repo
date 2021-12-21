@@ -1,14 +1,18 @@
 <div id="container">
-    <div id="tabla" class="table-responsive">
-        <div id="caja"></div>
-        <h1 id="title" class="text-center font-weight-bold mt-5">Roles</h1>
-        <div class="mt-2 mb-4 d-flex flex-row justify-content-around">
-            <div class="d-flex align-items-center">
+    <div id="tabla" class="">
+        <div class="w-100 row mt-4">
+            <h1 id="title" class="w-auto m-auto text-center font-weight-bold">Roles</h1>
+        </div>
+        <div class="mt-2 mb-4 d-flex flex-row justify-content-end">
+            <!--<div class="d-flex align-items-center">
                 <input #valor (change)=buscador(valor) id="inputbuscador" type="text">
                 <button id="buscador" (click)=buscador(valor) class="btn btn-outline-secondary"><img alt="buscador" src="assets/lupa.png" width="25px"></button>
-            </div>
-            <div >
-                <button (click)="crearGrupo()" class="{{agregarGrupo}} btn btn-primary btn-block">Agregar nuevo rol</button>
+            </div>-->
+            <div class="row col-2">
+                <button (click)="crearGrupo()" class="{{agregarGrupo}}  row align-items-center justify-content-center  btn-primary btn-block">
+                    <mat-icon class="col-4">assignment_ind</mat-icon>
+                    <span class="col-8">Nuevo rol</span>
+                </button>
             </div>
         </div>
         <div class="table-wrapper">
@@ -24,15 +28,20 @@
                     <tr>
                         <td #id>{{grupo.id}}</td>
                         <td>{{grupo.name}}</td>
-                        <td> 
-                            <button (click)="envioId(id)" class=" {{editarGrupo}} btn btn-primary btn-block">Editar</button>
-                            <button id={{grupo.id}} (click)="borrarGrupo(id)" class="delete {{eliminarGrupo}} btn btn-block"> Borrar </button>
+                        <td>
+                            <button (click)="envioId(id)"
+                                class=" {{editarGrupo}} btn btn-primary btn-block">Editar</button>
+                            <button id={{grupo.id}} (click)="borrarGrupo(id)"
+                                class="delete {{eliminarGrupo}} btn btn-block"> Borrar </button>
                         </td>
                     </tr>
 
                 </tbody>
             </table>
-            <list-pagination urlRequest="/api/user/grupos/" (listObjects)='obtenerObjetos($event)' ></list-pagination>
+            <div class="row justify-content-center">
+                <list-pagination class="col-9 row" urlRequest="/api/user/grupos/"
+                    (listObjects)='obtenerObjetos($event)'></list-pagination>
+            </div>
         </div>
     </div>
 </div>

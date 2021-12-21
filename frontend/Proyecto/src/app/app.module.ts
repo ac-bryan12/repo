@@ -31,7 +31,6 @@ import { RestablecerPasswordComponent } from './componentes/pagina_comercial/res
 import { NavClientComponent } from './componentes/cliente/nav-client/nav-client.component';
 import { HeaderClientComponent } from './componentes/cliente/header-client/header-client.component';
 import { VistaClienteComponent } from './componentes/cliente/vista-cliente/vista-cliente.component';
-import { DocumentosComponent } from './componentes/cliente/documentos/documentos.component';
 import { PerfilComponent } from './componentes/cliente/perfil/perfil.component';
 import { ChangePasswordComponent } from './componentes/cliente/change-password/change-password.component';
 import { NavEmpresaComponent } from './componentes/empresa/partials/nav-empresa/nav-empresa.component';
@@ -39,7 +38,7 @@ import { HeaderEmpresaComponent } from './componentes/empresa/partials/header-em
 import { ViewCompanyComponent } from './componentes/empresa/view-company/view-company.component';
 import { ProfileCompanyComponent } from './componentes/empresa/profile-company/profile-company.component';
 import { ProfileUserComponent } from './componentes/empresa/profile-user/profile-user.component';
-import { DocumentosCompanyComponent } from './componentes/empresa/documentos-company/documentos-company.component';
+import { DocumentosCompanyComponent } from './componentes/empresa/documentos/documentos-company.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -86,7 +85,6 @@ import { PaginacionComponent } from './componentes/auxiliares/paginacion/paginac
     NavClientComponent,
     HeaderClientComponent,
     VistaClienteComponent,
-    DocumentosComponent,
     PerfilComponent,
     ChangePasswordComponent,
     NavEmpresaComponent,
@@ -99,7 +97,7 @@ import { PaginacionComponent } from './componentes/auxiliares/paginacion/paginac
     AlertasComponent,
     CrearGruposComponent,
     ListGruposComponent,
-    PaginacionComponent,  
+    PaginacionComponent,
   ],
   imports: [
     BrowserModule,
@@ -112,7 +110,8 @@ import { PaginacionComponent } from './componentes/auxiliares/paginacion/paginac
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

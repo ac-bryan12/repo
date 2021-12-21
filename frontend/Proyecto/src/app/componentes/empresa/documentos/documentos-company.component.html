@@ -1,0 +1,128 @@
+<div id="container">
+    <div id="documentos" class="">
+        <!-- <div id="boton-volver" class="mt-4 ms-4 d-none">
+            <button class="btn btn-primary btn-block">
+                <img alt="volver" src="assets/volver.png" width="25px">
+                Volver
+            </button>
+        </div> -->
+        <div *ngIf="loanding" id="loader" class="w-100">
+            <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="'primary'"
+                [mode]="'indeterminate'">
+            </mat-progress-spinner>
+        </div>
+        <div class="alertas" *ngIf="notificaciones.length > 0">
+            <div id="contenedor">
+                <div *ngFor='let alert of notificaciones'>
+                    <alerts (propagarLista)="procesaPropagar($event)" mensaje="{{alert.mensaje}}"
+                        tipo="{{alert.value}}"></alerts>
+                </div>
+            </div>
+        </div>
+        <div id="seccion-botones" class="mt-4 mb-4">
+            <div class="d-flex align-items-center col-6">
+                <button id="buscador" (click)=buscador(valor) class="btn btn-outline-secondary">
+                    <mat-icon>search</mat-icon>
+                </button>
+                <input #valor (change)=buscador(valor) id="inputbuscador" type="text">
+            </div>
+
+            <!-- <div class="d-flex justify-content-center align-items-center">
+                <img class="me-1" alt="buscador" src="assets/filtro.png" width="30px">
+                <select aria-label="Todos" id="documentos">
+                    <option value="TODOS" selected>Seleccione una opción</option>
+                    <option></option>
+                </select>
+            </div> -->
+
+            <fieldset [disabled]=!enviarDocumentos class="col-6">
+                <div class="row">
+                    <div class="col-9">
+                        <input #doc (change)="capturarFile(doc)" class="form-control col-9" id="inputDoc"
+                            name="inputDoc" type="file" accept=".xml" multiple>
+                        <!-- Aqu se ccambia se el tipo de archivo también aceppt y el multiple sirve para cargara varios-->
+                    </div>
+                    <!-- <div *ngIf="previsualizacion">
+                        <label class="cargaArchivo">Archivos cargados:
+                            <label>{{previsualizacion}}</label>
+                        </label>
+                    </div> -->
+                    <div class="col-3 row justify-content-end">
+                        <input type="submit" value="subir" [disabled]="enviar" (click)="subirArchivos(doc)"
+                            class="col-9">
+                    </div>
+                </div>
+                <div class="center ">
+                    <div *ngIf="totalDocs > 0 && loanding" mode="buffer">
+                        <span id="porcentaje" class='archivos-cargados'>Cargando...</span>
+                        <div id="progressbar">
+                            <mat-progress-bar id="progress-bar" mode="determinate" value="100">
+                            </mat-progress-bar>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr class="titles">
+                        <th scope="col">Id</th>
+                        <th scope="col">Fecha de Emisión</th>
+                        <th scope="col">Nombre del Documento</th>
+                        <th scope="col">Tipo de Documento</th>
+                        <th scope="col">Proveedor</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Tipo de Creación</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr *ngFor="let doc of listaDocumentos" class="fila">
+                        <td>{{doc.id}}</td>
+                        <td>{{doc.fechaEmision!=null?doc.fechaEmision:"------"}}</td>
+                        <td class="nameDocs">{{doc.nombreDoc}}</td>
+                        <td>{{doc.tipoDocumento!=null?doc.tipoDocumento.name:"------"}}</td>
+                        <td>{{doc.proveedor!=null?doc.proveedor:"------"}}</td>
+                        <td>{{doc.cliente!=null?doc.cliente:"------"}}</td>
+                        <td>{{doc.tipoCreacion!=null?doc.tipoCreacion.name:"------"}}</td>
+                        <td>{{doc.estado!=null?doc.estado.name:"------"}}</td>
+                        <td class="iconos w-100 h-40">
+                            <!-- <img alt="visualizar" src="assets/vision.png" width="15px">
+                            <img alt="recharge" src="assets/cargando-flechas.png" width="10px"> -->
+                            <a class="btn btn-primary" (click)="visualizardoc(doc.id)">
+                                <mat-icon>visibility</mat-icon>
+                            </a>
+                            <a #download class="btn btn-primary" (click)="validarOpcion(doc.id)">
+                                <mat-icon>download</mat-icon>
+                            </a>
+                            <!-- <img alt="delete" src="assets/eliminar.png" width="10px"> -->
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row justify-content-center">
+                <list-pagination class="col-9 row" urlRequest="/api/documentos/buscar_por_empresa/?tipo={{tipo}}{{nombreDocumento}}"
+                    (listObjects)="obtenerObjetos($event)"></list-pagination>
+            </div>
+        </div>
+        <div id="emergente" class="w-100 conf hide visually-hidden">
+            <div id="panel" class="form-floating form-floating-select hide">
+                <div>
+                    <span>Seleccione el formato con el cual desea descargar su archivo</span>
+                    <select id="select" name="miselect" class="filtered campos w-100 heigthSelect selects">
+                        <option value="xml">XML</option>
+                        <option value="pdf">PDF</option>
+                    </select>
+                </div>
+                <div class="row justify-content-center">
+                    <input id="btn-Guardar" type="submit" [disabled]="" (click)="cerrarConfirmacion()" value="Confirmar"
+                        class="button-guardar btn-conf">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

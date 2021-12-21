@@ -1,57 +1,90 @@
 <div id="container-body">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-        <div class="position-sticky">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2">
+        <div class="position-sticky w-100">
 
             <ul id="ul-nav-container" class="nav flex-column" >
                 
-                <li class="nav-item" *ngIf="permissions.view_profile && !permissions.view_empresatemp">
-                    <a class="nav-link active" aria-current="page" routerLink="perfil">
+                <li class="nav-item" routerLink="perfil" *ngIf="permissions.view_profile && !permissions.view_empresatemp">
+                    <mat-icon >person</mat-icon>
+                    <a class="nav-link active" aria-current="page" >
                         <span data-feather="profile-user"></span>
                         Perfil
                     </a>
+                    <mat-icon >arrow_forward_ios</mat-icon>
                 </li>
-                <li class="nav-item" *ngIf="permissions.change_profile">
-                    <a class="nav-link active" aria-current="page" routerLink="cambiar-contrasenia">
+                <li class="nav-item" routerLink="cambiar-contrasenia" *ngIf="permissions.change_profile">
+                    <mat-icon> vpn_key</mat-icon>
+                    <a class="nav-link active" aria-current="page" >
                         <span data-feather="cambiar_contraseña"></span>
                         Cambiar Contraseña
                     </a>
+                    <mat-icon>arrow_forward_ios</mat-icon>
                 </li>
-                <li class="nav-item"*ngIf="permissions.view_empresa">
-                    <a class="nav-link active" aria-current="page" routerLink="vista-empresa">
+                <li class="nav-item" routerLink="vista-empresa" *ngIf="permissions.view_empresa">
+                    <mat-icon> business</mat-icon>
+                    <a class="nav-link active" aria-current="page" >
                         <span data-feather="view-company"></span>
                         Empresa
                     </a>
+                    <mat-icon>arrow_forward_ios</mat-icon>
                 </li>
 
-                <li class="nav-item" *ngIf="permissions.view_user || permissions.add_user">
-                    <a class="nav-link active" aria-current="page" routerLink="grupos-permisos">
+                <li class="nav-item" routerLink="grupos-permisos" *ngIf="permissions.view_user || permissions.add_user">
+                    <mat-icon>group</mat-icon>
+                    <a class="nav-link active" aria-current="page" >
                         <span data-feather="grupos-permisos"></span>
                         Usuarios
                     </a>
+                    <mat-icon>arrow_forward_ios</mat-icon>
                 </li>
-                <li class="nav-item" *ngIf="permissions.view_group || permissions.add_group">
-                    <a class="nav-link active" aria-current="page" routerLink="grupos">
+                <li class="nav-item" routerLink="grupos" *ngIf="permissions.view_group || permissions.add_group">
+                    <!-- <mat-icon>how_to_reg</mat-icon> -->
+                    <mat-icon>assignment_ind</mat-icon>
+                    <a class="nav-link active" aria-current="page" >
                         <span data-feather="grupos"></span>
                         Roles
                     </a>
+                    <mat-icon>arrow_forward_ios</mat-icon>
                 </li>
 
-                <li class="nav-item" *ngIf="permissions.view_empresatemp">
-                    <a class="nav-link" routerLink="empresasTemp">
+                <li class="nav-item" routerLink="empresasTemp" *ngIf="permissions.view_empresatemp">
+                    <mat-icon> business</mat-icon>
+                    <a class="nav-link" >
                         <span data-feather="empresasTemporales"></span>
                         Consultas Empresas
                     </a>
+                    <mat-icon>arrow_forward_ios</mat-icon>
                 </li>
-                <li class="nav-item" *ngIf="permissions.view_documentos">
-                    <a class="nav-link active" aria-current="page" routerLink="documentos-company">
-                        <span data-feather="documentos-company"></span>
+                <li #li class="nav-item" (click)="submenu(li)" *ngIf="permissions.view_documentos_emitidos || permissions.view_documentos_recibidos">
+                    <mat-icon>file_copy</mat-icon>
+                    <a class="nav-link active" aria-current="page" >
+                        <span data-feather="documentos"></span>
                         Documentos
                     </a>
+                    <mat-icon class="arrow">arrow_forward_ios</mat-icon>
                 </li>
+                <ul>
+                    <li class="nav-item"  [routerLink]="['./documentos']" [queryParams]="{tipo:'emitidos'}" *ngIf="permissions.view_documentos_emitidos">
+                        <!-- <mat-icon>file_copy</mat-icon> -->
+                        <a class="nav-link active" aria-current="page" >
+                            <span data-feather="documentos-emitidos"></span>
+                            Emitidos
+                        </a>
+                        <mat-icon>arrow_forward_ios</mat-icon>
+                    </li>
+                    <li class="nav-item"  [routerLink]="['./documentos']" [queryParams]="{tipo:'recibidos'}" *ngIf="permissions.view_documentos_recibidos">
+                        <!-- <mat-icon>file_copy</mat-icon> -->
+                        <a class="nav-link active" aria-current="page" >
+                            <span data-feather="documentos-recibidos"></span>
+                            Recibidos
+                        </a>
+                        <mat-icon>arrow_forward_ios</mat-icon>
+                    </li>
+                </ul>
             </ul>
         </div>
     </nav>
-    <section id="dashboard-content" class="col">
+    <section id="dashboard-content" class="col-md-9 col-lg-10 offset-md-3 offset-lg-2">
         <router-outlet></router-outlet>
     </section>
 </div>
