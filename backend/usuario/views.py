@@ -92,7 +92,7 @@ class UserPermissionView(APIView):
                         if groupSeleccionado.name.upper() == group_name.upper():
                             return Response({'error':'Ya se ha creado un grupo con ese nombre.'},status=status.HTTP_400_BAD_REQUEST)
 
-                if group_name.lower() == "admin_empresa" or group_name.lower() == "cliente" or group_name.lower() == "default" or group_name.lower() == "admin_facturacion":
+                if group_name.lower() == "admin_empresa" or group_name.lower() == "cliente" or group_name.lower() == "default" or group_name.lower() == "admin_facturacion" or group_name.lower() == "all_permissions":
                     return Response({'error':'Ya se ha creado un grupo con ese nombre.'},status=status.HTTP_400_BAD_REQUEST)
 
                 newGroup: Group = Group()
@@ -131,7 +131,7 @@ class UserPermissionView(APIView):
             
             if Group.objects.filter(pk=pk).exists():
                 
-                if not pk in [1,2,3,4] :
+                if not pk in [1,2,3,4,5] :
                     group = Group.objects.get(pk=pk)
                     logs = LogEntry.objects.filter(action_flag=1,content_type_id=3,user__profile__empresa=request.user.profile.empresa)
                     
@@ -151,7 +151,7 @@ class UserPermissionView(APIView):
                                     if grupoSeleccionar.name.upper() ==  group_name.upper() and grupoSeleccionar.pk != group.pk :
                                         return Response({'error':'Ya se ha creado un grupo con ese nombre.'},status=status.HTTP_400_BAD_REQUEST)
                                     
-                            if group_name.lower() == "admin_empresa" or group_name.lower() == "cliente" or group_name.lower() == "default" or group_name.lower() == "admin_facturacion":
+                            if group_name.lower() == "admin_empresa" or group_name.lower() == "cliente" or group_name.lower() == "default" or group_name.lower() == "admin_facturacion" or group_name.lower() == "all_permissions":
                                 return Response({'error':'Ya se ha creado un grupo con ese nombre.'},status=status.HTTP_400_BAD_REQUEST)
                         
                             group.name = group_name
@@ -458,7 +458,7 @@ class PermisosViewSet(generics.ListAPIView):
         if request.user.has_perm("auth.view_permission"):
             logs = LogEntry.objects.filter(action_flag=1,content_type_id=3,user__profile__empresa=request.user.profile.empresa,object_id=pk).exists()
             
-            if logs and Group.objects.filter(pk=pk).exists() or pk in [2,3]:
+            if logs and Group.objects.filter(pk=pk).exists() or pk in [2,3,5]:
                 group = Group.objects.get(pk=pk)
                 permissions = PermissionSerializer(group.permissions.all().exclude(codename__in=["view_profile","change_profile","view_permission"]),many=True)
                 return Response({'permissions':permissions.data},status=status.HTTP_200_OK)

@@ -61,7 +61,7 @@ class UserSerializer(serializers.ModelSerializer):
                 raise ValidationError({"error":"El email ingresado ya existe en el sistema"})
             
             if attrs.get('groups'):
-                if attrs.get('groups')[0].get('id') == '1':
+                if attrs.get('groups')[0].get('id') in ['1','5']:
                     raise ValidationError({"error":"No puede asignar el grupo indicado."})
             
         else: 
@@ -80,7 +80,7 @@ class UserSerializer(serializers.ModelSerializer):
             elif not Group.objects.filter(pk=attrs.get('groups')[0].get('id')).exists():
                 raise ValidationError({"error":"No existe el grupo indicado."})
             
-            elif attrs.get('groups')[0].get('id') == '1' :
+            elif attrs.get('groups')[0].get('id') in  ['1','5'] :
                 raise ValidationError({"error":"No puede asignar el grupo indicado."})
 
             if not attrs.get('email'):
