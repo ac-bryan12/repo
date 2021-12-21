@@ -20,12 +20,12 @@ export class LoginComponent implements OnInit {
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
   loanding = false
-  hide:boolean =true
+  hide: boolean = true
   msg_content = 'contenido'
   msg_d = 'invisible'
 
   constructor(
-    private cookie:CookieService,
+    private cookie: CookieService,
     private route: Router,
     private request: RequestService,
     private log: FormBuilder) {
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     let return_to = this.cookie.get("return_to")
-    if(return_to){
+    if (return_to) {
       this.route.navigate([return_to])
     }
   }
@@ -56,9 +56,8 @@ export class LoginComponent implements OnInit {
 
 
   iniciarSesion(value: any) {
-    this.loanding = true
     if (this.validacion("email") && this.validacion("password")) {
-      this.request.peticionPost(environment.url+'/auth/login/', value, true)
+      this.request.peticionPost(environment.url + '/auth/login/', value, true)
         .subscribe(res => {
           this.loanding = false
           this.request.isLoggedIn = true
@@ -73,6 +72,7 @@ export class LoginComponent implements OnInit {
         });
     }
   }
+
   // grupos_permisos() {
   //   this.request.peticionGet(environment.url+"/auth/userPermissions/").subscribe(res =>{
   //     console.log(res)
