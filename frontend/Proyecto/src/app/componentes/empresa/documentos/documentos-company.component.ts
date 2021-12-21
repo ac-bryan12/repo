@@ -163,6 +163,7 @@ export class DocumentosCompanyComponent implements OnInit {
     let select = document.getElementById("select") as HTMLSelectElement
     this.descargardoc(select.value)
     let div = document.getElementById("emergente") as HTMLElement
+    div.classList.toggle('visually-hidden')
     div.classList.remove("show")
     div?.classList.add("hide")
     
@@ -170,6 +171,7 @@ export class DocumentosCompanyComponent implements OnInit {
   validarOpcion(id:any) {
     this.id = id
     let div = document.getElementById("emergente") as HTMLElement
+    div.classList.toggle('visually-hidden')
     div?.classList.remove("hide")
     div.classList.add("show")
   }

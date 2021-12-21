@@ -1,6 +1,7 @@
 
 .page-item{
     cursor: pointer;
+    z-index: 0;
 }
 
 #indices{
