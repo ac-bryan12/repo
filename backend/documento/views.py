@@ -36,13 +36,12 @@ class DocumentosViewSet(APIView):
             raise ValidationError({'error':'No hay un archivo por para descargar'},status= status.HTTP_204_NO_CONTENT)
 
     def get(self,request,pk):
-        if request.user.has_perm("documento.view_documentos"):
-            archivo = self.get_object(pk=pk)
-            serializer = self.serializer_class(archivo)
-            if serializer:
-                return Response(serializer.data)
-            else:
-                return Response({'error':"Ocurrió un error"},status = status.HTTP_400_BAD_REQUEST)
+        doc = self.get_object(pk=pk)
+        if (doc.cliente == request.user and request.user.has_perm("documento.view_documentos"))  or (doc.proveedor.profile.empresa.ruc == request.user.profile.empresa.ruc and request.user.has_perm("documento.view_documentos") ):
+            if request.GET.get("formato") == "xml":
+                return Response({"_file":doc._file,"nombreDoc":doc.nombreDoc})
+            if request.GET.get("formato") == "pdf":
+                return Response({"_file":doc.pdf,"nombreDoc":doc.nombreDoc})    
         else:
             return Response({'error':"No se ha encontrado su pagina"},status = status.HTTP_401_UNAUTHORIZED)
 
@@ -157,11 +156,13 @@ class RecibirDocumentoViewSet(APIView):
                         doc.proveedor = request.user
                         doc.tipoDocumento = TipoDocumento.objects.get(pk=comprobante['infoTributaria']['codDoc'])
                         doc.cliente =Profile.objects.get(pk=comprobante['infoFactura']['identificacionComprador']).user
+                        html = render_to_string("comprobantes/factura.html",comprobante)
+                        font_config = FontConfiguration()
+                        pdf = HTML(string=html).write_pdf(font_config=font_config)
+                        doc.pdf = base64.encodebytes(pdf)
                         doc.save()
                         recepcionComprobantes(xml.encode("ascii"))
                         new_key.append(xml.encode("ascii"))
-                        print(comprobante["factura"]["infoFactura"]["pagos"]) 
-                        print(comprobante["factura"]["detalles"])
                     items[key] = new_key
                         
                 return Response(items)
@@ -193,17 +194,6 @@ class ListaDocumentosPaginados(PaginationAPIView):
 class ObtenerDocumentos(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
-    def listar(self,dict):
-         precioSinImpuestos = 0
-         impuesto0 = 0
-         impuesto12 = 0
-         print(dict)
-         for k,element in dict.items():
-             print("lista !!!!!!!!!!!1")
-             print(element)
-             
-
-         return dict
     def get(self,request):        
         if request.GET.get("id"):
             doc = Documentos.objects.filter(id=request.GET.get("id"))
@@ -212,15 +202,7 @@ class ObtenerDocumentos(APIView):
                 # doc = doc.get()
                 if (request.user.has_perm("documento.view_documentos"))  or (doc.proveedor.profile.empresa.ruc == request.user.profile.empresa.ruc and request.user.has_perm("documento.view_documentos") ):
                     context = {}
-                    serializer = DocumentosSerializer(doc)
-                    decode = base64.decodebytes(serializer.data["_file"])
-                    dict = xmltodict.parse(decode)
-                    d = self.listar(dict["factura"]["infoFactura"]["pagos"])
-                    self.listar(dict["factura"]["detalles"])
-                    html = render_to_string("comprobantes/factura.html", dict)
-                    font_config = FontConfiguration()
-                    pdf = HTML(string=html).write_pdf(font_config=font_config)
-                    pdfresponse = base64.encodebytes(pdf)
+                    
                     return Response(pdfresponse)
                 else:
                     return Response({'error':"Acceso denegado"},status=status.HTTP_403_FORBIDEN)    

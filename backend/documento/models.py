@@ -15,6 +15,7 @@ class TipoCreacion(models.Model):
 class Documentos(models.Model):
     id = models.AutoField(primary_key=True,validators=[MaxValueValidator(999999999)])
     _file = models.BinaryField(db_column='file',null=True)
+    pdf = models.BinaryField(null=True)
     content_type = models.CharField(max_length=100, null=True)
     nombreDoc = models.CharField(max_length=100, null = True)
     fechaEmision = models.DateTimeField(auto_now=True)
