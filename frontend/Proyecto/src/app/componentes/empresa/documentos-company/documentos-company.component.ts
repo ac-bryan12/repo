@@ -97,7 +97,7 @@ export class DocumentosCompanyComponent implements OnInit {
     })
   }
   descargardoc(id: any) {
-    this.envio.peticionGet(environment.url + '/api/documentos/descargar-documento/' + id + '/').subscribe((res) => {
+    this.envio.peticionGet(environment.url + '/api/documentos/descargar-documento/' + id + '/?formato=xml').subscribe((res) => {
       const Filepath = 'data:text/xml;base64,' + res._file
       saveAs(Filepath, res.nombreDoc)
     })
@@ -109,10 +109,10 @@ export class DocumentosCompanyComponent implements OnInit {
   // }
 
   visualizardoc(id:any){
-    this.envio.peticionGet(environment.url+"/api/documentos/obtener-documento/?id="+id).subscribe(res=>{
-      let blob2 = this.b64toBlob(res,"application/pdf")
+    this.envio.peticionGet(environment.url+"/api/documentos/descargar-documento/"+id+"/?formato=pdf").subscribe(res=>{
+      let blob2 = this.b64toBlob(res._file,"application/pdf")
       let url = URL.createObjectURL(blob2)
-      window.open(url,"File")
+      window.open(url,res.nombreDoc)
     },err=>{
       console.log(err)
     })
