@@ -1,9 +1,7 @@
-<div id="caja"></div>
-<div class="row p-md-5">
+<div class="row">
     <div class="col-9 mx-auto">
-        <div id="title"><span>
-                <h1 class="text-center">Crear Rol para la Empresa</h1>
-            </span>
+        <div class="row mt-4 w-100">
+            <h1 id="title" class="text-center m-auto w-auto">Crear Rol</h1>
         </div>
 
         <div class="card-body">
@@ -18,9 +16,9 @@
                             <div class="mb-3 row grupos-permisos justify-content-center">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-6 mb-md-0" formGroupName="groups">
-                                        <input class="form-control campos" id="nombre" name="nombres" type="text"
+                                        <input class="form-control input-campos campos" id="nombre" name="nombres" type="text"
                                             placeholder="Nombres de la persona" maxlength="130" formControlName="name">
-                                        <label for="nombre">Nombre del rol</label>
+                                        <label for="nombre" class="label-campos">Nombre del rol</label>
                                         <span class="lead error"
                                             *ngIf="(formRef.submitted && addGroup.get('groups.name')?.hasError('required')) || addGroup.get('groups.name')?.hasError('minlength') || addGroup.get('groups.name')?.hasError('pattern')">Ingrese
                                             un nombre válido.<br>No se aceptan los espacios en blanco</span>
@@ -41,18 +39,19 @@
                                 </div>
                                 <div>
                                     <button (click)="addAll()"
-                                        class="btn btn-primary btn-block">Agregar todo</button>
+                                        class="btn btn-block">Agregar todo
+                                    </button>
                                 </div>
                             </div>
 
                             <div class="col-md-2 containerSelect ">
-                                <div class="row align-content-around justify-content-center h-100 px-4">
-                                    <button (click)="asignarSelect('permisos')"
-                                        class="btnSelect btn btn-primary btn-block h-25"> >
+                                <div id="container-button-select" class="row align-content-center justify-content-center h-100 px-4">
+                                    <button (click)="asignarSelect('permisos')" class="btnSelect btn  btn-block">
+                                        <mat-icon>arrow_forward_ios</mat-icon>
                                     </button>
-                                    <button (click)="removerSelect('permisosSelect')"
-                                        class="btnSelect btn btn-primary btn-block h-25">
-                                        < </button>
+                                    <button (click)="removerSelect('permisosSelect')" class="btnSelect btn  btn-block">
+                                        <mat-icon>arrow_back_ios</mat-icon>
+                                    </button>
                                 </div>
                             </div>
 
@@ -68,7 +67,7 @@
                                 </div>
                                 <div>
                                     <button (click)="removeAll('Permisos')"
-                                        class="btn btn-primary btn-block">RemoverTodo</button>
+                                        class="btn btn-block">RemoverTodo</button>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +75,7 @@
                         <div id="buttons" class="mt-4 mb-0">
                             <!--<input type="button" value="Close" class="btn btn-primary btn-block">-->
                             <input type="submit" [disabled]="formRef.control.invalid || listPermisosAsignados.length==0"
-                                (click)="enviarInfo(addGroup.value)" value="Guardar" class="btn btn-primary btn-block">
+                                (click)="enviarInfo(addGroup.value)" value="Guardar" class="btn btn-block">
                         </div>
                     </fieldset>
                 </div>

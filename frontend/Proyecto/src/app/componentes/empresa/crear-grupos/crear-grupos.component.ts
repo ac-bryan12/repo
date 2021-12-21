@@ -132,7 +132,7 @@ export class CrearGruposComponent implements OnInit {
   }
 
   obtenerPermisos() {
-    this.service.peticionGet(environment.url + "/api/user/permisos/2/").subscribe((res) => {
+    this.service.peticionGet(environment.url + "/api/user/permisos/5/").subscribe((res) => {
       this.permisosObtenidos = res.permissions
       for (let permisos of res.permissions) {
         if (this.listPermisosAsignados.indexOf(permisos.name) == -1) {

@@ -51,6 +51,7 @@ a {
   margin-top: auto;
   margin-bottom: auto;
   height: 57px;
+  gap: 5px;
 }
 
 .iconos mat-icon{

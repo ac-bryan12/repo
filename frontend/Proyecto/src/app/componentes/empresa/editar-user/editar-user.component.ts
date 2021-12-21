@@ -135,7 +135,7 @@ export class EditarUserComponent implements OnInit {
       }
       setTimeout(()=>{
         if (this.id) {
-          if (!['1','4'].includes(this.usuario.user.groups[0].id)){
+          if (!['1','4','5'].includes(this.usuario.user.groups[0].id)){
             let inputGrupos : any = document.querySelector(`option[value$="${this.usuario.user.groups[0].id}"]`)
             inputGrupos.selected = true
             this.buscarPermisos(this.usuario.user.groups[0].id)

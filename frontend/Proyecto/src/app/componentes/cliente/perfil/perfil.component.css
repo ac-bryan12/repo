@@ -68,7 +68,7 @@ input {
   }
 
 .form-control{
-    color: #00B5C0;
+    color: #1E2768;
     font-weight: 500;
     width: 350px;
 }
@@ -94,14 +94,14 @@ input {
 }
 
 .label-campos{
-    color: #1E2768;
+    color: #00B4C3;
     font-weight: bold;
     font-size: medium;
     opacity: 1!important;
 }
 
 input[type=radio]{
-    color: #00B5C0;
+    color: #1E2768;
     opacity: 1!important;
 }
 
