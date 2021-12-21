@@ -20,7 +20,6 @@ import base64
 from usuario.models import Profile
 from rest_framework_xml.renderers import XMLRenderer
 import xml.etree.ElementTree as ET
-import xmltodict
 
 
 #Vistas para los archivos : Sirve para subir y descargar 
