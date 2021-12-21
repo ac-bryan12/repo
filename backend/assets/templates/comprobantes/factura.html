@@ -16,7 +16,7 @@
     }
 
     body {
-      background: #E5E5E5;
+      background: #ffffff;
     }
 
     .e503_4234 {
@@ -24,7 +24,7 @@
     }
 
     .e503_4234 {
-      background-color: rgba(246.49999290704727, 22.595821917057037, 22.595821917057037, 1);
+      background-color: rgb(255, 255, 255);
       width: 595px;
       height: 842px;
       /*position: absolute;*/
@@ -40,7 +40,7 @@
     }
 */
     .e503_4805 {
-      background-color: rgb(255, 255, 255);
+      background-color: rgb(248, 242, 187);
       width: 311px;
       height: 347.3823547363281px;
       /*position: absolute;*/
@@ -48,6 +48,8 @@
       top: 0px;
       border-radius: 10px;
       z-index: 0;
+      padding-right: 20px;
+      box-sizing: border-box;
     }
 
     .e503_4805 {
@@ -233,13 +235,15 @@
     }
 */
     .e503_4356 {
-      background-color: rgba(255, 255, 255, 1);
+      background-color: rgb(248, 242, 187);
       width: 252px;
       height: 174px;
       /*position: absolute;*/
       left: 0px;
       top: 0px;
       border-radius: 10px;
+      padding-right: 20px;
+      box-sizing: border-box;
     }
 
     .e503_4356 {
@@ -344,6 +348,7 @@
       border-collapse: collapse;
       padding: 0.3em;
       caption-side: bottom;
+      background-color: #2c5f8f;
     }
 
     th {
@@ -426,13 +431,15 @@
     }
 */
     .e503_4801 {
-      background-color: rgba(255, 255, 255, 1);
+      background-color: rgb(248, 242, 187);
       width: 252px;
-      height: 124px;
+      height: 180px;
       /*position: absolute;*/
       left: 0px;
       top: 0px;
       border-radius: 15px;
+      padding-right: 20px;
+      box-sizing: border-box;
     }
 
     .e503_4801 {
@@ -561,6 +568,24 @@
     .productos {
       background-color: #1d3852;
     }
+
+    .info-empresa .subtitle{
+      font-size: 13px;
+      font-weight: 600;
+      font-family: "Patrick Hand";
+    }
+
+    .info-empresa .sub-name{
+      font-size: 12px;
+      font-weight: 550;
+      font-family: "Patrick Hand";
+    }
+
+    .info-empresa .value-info{
+      font-size: 11px;
+      font-weight: 450;
+    }
+
   </style>
 
 </head>
@@ -572,20 +597,20 @@
         <div class=e503_4355>
           <div class="e503_4356">
             <div class="info-empresa">
-              <span class="e508_5171">Matriz:</span>
-              <span class="e508_5170">MI COMISARIATO</span>
+              <!-- <span class="e508_5171">Matriz:</span> -->
+              <span class="subtitle">{{comprobante.infoTributaria.razonSocial}}</span>
             </div>
             <div class="info-empresa">
-              <span class="e508_5172">Establecimiento:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">Establecimiento:</span>
+              <span class="value-info">{{comprobante.infoTributaria.estab}}</span>
             </div>
             <div class="info-empresa">
-              <span class="e508_5173">Obligado a llevar Contabilidad:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">Obligado a llevar Contabilidad:</span>
+              <span class="value-info">{{comprobante.infoFactura.obligadoContabilidad}}</span>
             </div>
             <div class="info-empresa">
-              <span class="e508_5174">Contribuyente especial:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">Contribuyente especial:</span>
+              <span class="value-info">{{comprobante.infoFactura.contribuyenteEspecial}}</span>
             </div>
 
           </div>
@@ -593,20 +618,29 @@
         <div class=e503_4800>
           <div class="e503_4801">
             <div class="info-empresa">
-              <span class="e508_5161">Razón social / Nombres y Apellidos:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="subtitle">Datos del comprador:</span>
             </div>
             <div class="info-empresa">
-              <span class="e508_5166">CEDULA: </span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">Razón social / Nombres:</span>
+              <span class="value-info">{{comprobante.infoFactura.razonSocialComprador}}</span>
             </div>
             <div class="info-empresa">
-              <span class="e508_5168">Fecha de Emisión:</span>
-              <span class="e508_5170">Dato</span>
+              {% if comprobante.infoFactura.tipoIdentificacionComprador == "05" %}
+              <span class="sub-name">CEDULA:</span>
+              {% else %}
+              <span class="sub-name">RUC:</span>
+              {% endif %}
+              <span class="value-info">{{comprobante.infoFactura.identificacionComprador}}</span>
             </div>
             <div class="info-empresa">
-              <span class="e508_5169">Dirección:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">Fecha de Emisión:</span>
+              <span class="value-info">{{comprobante.infoFactura.fechaEmision}}</span>
+            </div>
+            <div class="info-empresa">
+              <span class="sub-name">Dirección:</span>
+            </div>
+            <div class="info-empresa">
+              <span class="value-info">{{comprobante.infoFactura.dirEstablecimiento}}</span>
             </div>
           </div>
         </div>
@@ -616,39 +650,41 @@
           <div class="e503_4805">
             <div class="info-empresa">
               <span class="ruc">RUC</span>
-              <span class="e508_5170">0978993159001</span>
+              <span class="e508_5170">{{comprobante.infoTributaria.ruc}}</span>
             </div>
             <div class="info-empresa">
-              <span class="e503_4856">TIPO DOCUMENTO</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">TIPO DOCUMENTO</span>
+              <span class="value-info">{{comprobante.infoTributaria.codDoc}}</span>
             </div>
             <div class="info-empresa">
-              <span class="e503_4857">No:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">No:</span>
+              <span class="value-info">{{comprobante.infoTributaria.secuencial}}</span>
             </div>
             <div class="info-empresa">
-              <span class="e503_4858">Número de autorización:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">Número de autorización:</span>
+              <span class="value-info">Dato</span>
             </div>
             <div class="info-empresa">
-              <span class="e503_4859">Fecha y hora de autorización:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">Fecha y hora de autorización:</span>
+              <span class="value-info">Dato</span>
             </div>
             <div class="info-empresa">
-              <span class="ambiente">Ambiente:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">Ambiente:</span>
+              <span class="value-info">{{comprobante.infoTributaria.ambiente}}</span>
             </div>
             <div class="info-empresa">
-              <span class="emision">Emisión:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">Emisión:</span>
+              <span class="value-info">{{comprobante.infoTributaria.ptoEmi}}</span>
             </div>
             <div class="info-empresa">
-              <span class="e503_4862">Tipo moneda:</span>
-              <span class="e508_5170">Dato</span>
+              <span class="sub-name">Tipo moneda:</span>
+              <span class="value-info">{{comprobante.infoFactura.moneda}}</span>
             </div>
             <div class="info-empresa">
-              <span class="e508_4864">Clave de acceso:</span>
-              <span class="e508_5170">infoTributaria.claveAcceso</span>
+              <span class="sub-name">Clave de acceso:</span>
+            </div>
+            <div class="info-empresa">
+              <span class="value-info">{{comprobante.infoTributaria.claveAcceso}}</span>
             </div>
           </div>
         </div>
@@ -667,17 +703,18 @@
           </tr>
         </thead>
         <tbody>
-
-
-          <tr>
-            <td>1997</td>
-            <td>2</td>
-            <td>:)</td>
-            <td>2.50</td>
-            <td>0.18</td>
-            <td>24</td>
-          </tr>
-
+          {%for k,detalle in comprobante.detalles.items %}
+            {%for item in detalle %}
+            <tr>
+              <td>{{item.codigoPrincipal}}</td>
+              <td>{{item.cantidad}}</td>
+              <td>{{item.descripcion}}</td>
+              <td>{{item.precioUnitario}}</td>
+              <td>{{item.descuento}}</td>
+              <td>{{item.precioTotalSinImpuesto}}</td>
+            </tr>
+            {% endfor %}
+          {%endfor%}
         </tbody>
       </table>
     </div>
@@ -693,10 +730,16 @@
             </tr>
           </thead>
           <tbody>
-            <td>FormaPago</td>
-            <td>Total</td>
-            <td>plazo</td>
-            <td>Tiempo</td>
+            {%for k,pago in comprobante.infoFactura.pagos.items %}
+              {%for item in pago %}
+              <tr>
+                <td>{{item.formaPago}}</td>
+                <td>{{item.total}}</td>
+                <td>{{item.plazo}}</td>
+                <td>{{item.unidadTiempo}}</td>
+              </tr>
+              {%endfor%}
+            {%endfor%}
           </tbody>
         </table>
       </div>
@@ -705,35 +748,35 @@
           <tbody>
             <tr>
               <th>Subtotal 12%</th>
-              <td>dato</td>
+              <td>{{subtotal12}}</td>
             </tr>
             <tr>
               <th>Subtotal 0%</th>
-              <td> dato</td>
+              <td>{{subtotal0}}</td>
             </tr>
             <tr>
+              <th>Descuento</th>
+              <td>{{descuento}}</td>
+            </tr>
+            <tr>
+              <th>Subtotal</th>
+              <td>{{comprobante.infoFactura.totalSinImpuestos}}</td>
+            </tr>
+            {% comment %} <tr>
               <th>Subtotal no sujeto de IVA</th>
               <td>dato</td>
-            </tr>
-            <tr>
-              <th>Subtotal sin impuestos %</th>
-              <td>100</td>
-            </tr>
-            <tr>
-              <th>Subtotal no sujeto de IVA</th>
-              <td>dato</td>
-            </tr>
+            </tr> {% endcomment %}
             <tr>
               <th>IVA</th>
-              <td>12 </td>
+              <td>{{iva}}</td>
             </tr>
             <tr>
               <th>Propina</th>
-              <td>10</td>
+              <td>{{comprobante.infoFactura.propina}}</td>
             </tr>
             <tr>
               <th>Valor total</th>
-              <td>100</td>
+              <td>{{comprobante.infoFactura.importeTotal}}</td>
             </tr>
 
           </tbody>

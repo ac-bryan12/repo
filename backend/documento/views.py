@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import  permissions, renderers, serializers, status
 from django.utils import six, xmlutils
-from weasyprint import HTML
+from weasyprint import CSS, HTML
 from weasyprint.text.fonts import FontConfiguration
 from django.template.loader import render_to_string
 
@@ -155,8 +155,24 @@ class RecibirDocumentoViewSet(APIView):
                         doc.tipoDocumento = TipoDocumento.objects.get(pk=comprobante['infoTributaria']['codDoc'])
                         doc.cliente =Profile.objects.get(pk=comprobante['infoFactura']['identificacionComprador']).user
                         
-                        html = render_to_string("comprobantes/factura.html",comprobante)
+                        iva = 0
+                        subtotal12 = 0
+                        subtotal0 = 0
+                        descuento = 0
+                        
+                        for impuesto in comprobante["infoFactura"]["totalConImpuestos"]["totalImpuesto"]:
+                            if impuesto['codigo'] == 2:
+                                iva = impuesto['valor']  
+                                subtotal12 = impuesto['baseImponible']
+                                if impuesto.get('descuentoAdicional'):
+                                    descuento = impuesto['descuentoAdicional']
+                            if impuesto['codigo'] == 3:
+                                subtotal0 = impuesto['baseImponible']
+                        
+                        html = render_to_string("comprobantes/factura.html",{"comprobante":comprobante,"iva":iva,"subtotal0":subtotal0,"subtotal12":subtotal12,"descuento":descuento})
                         font_config = FontConfiguration()
+                        # css = []
+                        # css.append(CSS(filename="factura.css"))
                         pdf = HTML(string=html).write_pdf(font_config=font_config)
                         doc.pdf = base64.encodebytes(pdf)
                         
@@ -178,7 +194,6 @@ class ListaDocumentosPaginados(PaginationAPIView):
         if request.user.has_perm("documento.view_documentos_emitidos") and request.GET.get("tipo") == "emitidos":
             # Buscar por empresa
             if request.GET.get("name"):
-                print("si entra")
                 query = Documentos.objects.filter(nombreDoc__icontains=request.GET.get("name"),proveedor__profile__empresa=request.user.profile.empresa).order_by("-id")
             else:
                 query = Documentos.objects.filter(proveedor__profile__empresa=request.user.profile.empresa).order_by("-id")
