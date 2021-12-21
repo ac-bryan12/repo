@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./documentos-company.component.css']
 })
 export class DocumentosCompanyComponent implements OnInit {
+  id:Number = 0
   tipo = null
   previsualizacion: any
   loanding = false
@@ -88,7 +89,7 @@ export class DocumentosCompanyComponent implements OnInit {
     forms.append("file", file)
     forms.append("content_type", file.type)
     forms.append("nombreDoc", file.name)
-    forms.append("tipoCreacion","SUBIDO")
+    forms.append("tipoCreacion", "SUBIDO")
     this.loanding = true
     this.envio.peticionPost(environment.url + '/api/documentos/guardar-documentos/', forms).subscribe((res) => {
       if (res.type === HttpEventType.UploadProgress) {
@@ -99,9 +100,14 @@ export class DocumentosCompanyComponent implements OnInit {
       this.notificaciones.push({ value: err.error.class, mensaje: err.error.error, cantidad: 1, time: this.errorDocs })
     })
   }
-  descargardoc(id: any) {
-    this.envio.peticionGet(environment.url + '/api/documentos/descargar-documento/' + id + '/?formato=xml').subscribe((res) => {
-      const Filepath = 'data:text/xml;base64,' + res._file
+  descargardoc(format:any) {
+    this.envio.peticionGet(environment.url + '/api/documentos/descargar-documento/' + this.id + '/?formato='+format).subscribe((res) => {
+      let Filepath = null
+      if (format == "pdf"){
+        Filepath = 'data:application/pdf;base64,' + res._file
+      }else{
+        Filepath = 'data:text/xml;base64,' + res._file
+      }
       saveAs(Filepath, res.nombreDoc)
     })
   }
@@ -111,17 +117,17 @@ export class DocumentosCompanyComponent implements OnInit {
   //   })
   // }
 
-  visualizardoc(id:any){
-    this.envio.peticionGet(environment.url+"/api/documentos/descargar-documento/"+id+"/?formato=pdf").subscribe(res=>{
-      let blob2 = this.b64toBlob(res._file,"application/pdf")
+  visualizardoc(id: any) {
+    this.envio.peticionGet(environment.url + "/api/documentos/descargar-documento/" + id + "/?formato=pdf").subscribe(res => {
+      let blob2 = this.b64toBlob(res._file, "application/pdf")
       let url = URL.createObjectURL(blob2)
-      window.open(url,res.nombreDoc)
-    },err=>{
+      window.open(url, res.nombreDoc)
+    }, err => {
       console.log(err)
     })
   }
-  
-  b64toBlob(b64Data:any, contentType:any) {
+
+  b64toBlob(b64Data: any, contentType: any) {
     var byteCharacters = atob(b64Data);
 
     var byteArrays = [];
@@ -140,17 +146,32 @@ export class DocumentosCompanyComponent implements OnInit {
     return blob;
   }
 
-  obtenerObjetos(listDoc:any) {
+  obtenerObjetos(listDoc: any) {
     this.listaDocumentos = listDoc
   }
 
-  buscador(nombre:any){
-    if(nombre == ""){
+  buscador(nombre: any) {
+    if (nombre == "") {
       this.nombreDocumento = ""
     }
-    else{
-      this.nombreDocumento = "?name="+nombre.value
+    else {
+      this.nombreDocumento = "?name=" + nombre.value
     }
+  }
+
+  cerrarConfirmacion() {
+    let select = document.getElementById("select") as HTMLSelectElement
+    this.descargardoc(select.value)
+    let div = document.getElementById("emergente") as HTMLElement
+    div.classList.remove("show")
+    div?.classList.add("hide")
+    
+  }
+  validarOpcion(id:any) {
+    this.id = id
+    let div = document.getElementById("emergente") as HTMLElement
+    div?.classList.remove("hide")
+    div.classList.add("show")
   }
 }
 

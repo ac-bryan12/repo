@@ -7,19 +7,23 @@
             </button>
         </div> -->
         <div *ngIf="loanding" id="loader" class="w-100">
-            <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="'primary'" [mode]="'indeterminate'">
+            <mat-progress-spinner class="top-50 start-50 translate-middle" id="carga" [color]="'primary'"
+                [mode]="'indeterminate'">
             </mat-progress-spinner>
         </div>
-        <div class="alertas" *ngIf = "notificaciones.length > 0">
+        <div class="alertas" *ngIf="notificaciones.length > 0">
             <div id="contenedor">
-                <div *ngFor = 'let alert of notificaciones'>
-                    <alerts (propagarLista) ="procesaPropagar($event)"  mensaje="{{alert.mensaje}}" tipo = "{{alert.value}}"></alerts>
-                </div> 
+                <div *ngFor='let alert of notificaciones'>
+                    <alerts (propagarLista)="procesaPropagar($event)" mensaje="{{alert.mensaje}}"
+                        tipo="{{alert.value}}"></alerts>
+                </div>
             </div>
         </div>
         <div id="seccion-botones" class="mt-4 mb-4">
             <div class="d-flex align-items-center col-6">
-                <button id="buscador" (click)=buscador(valor) class="btn btn-outline-secondary"><mat-icon>search</mat-icon></button>
+                <button id="buscador" (click)=buscador(valor) class="btn btn-outline-secondary">
+                    <mat-icon>search</mat-icon>
+                </button>
                 <input #valor (change)=buscador(valor) id="inputbuscador" type="text">
             </div>
 
@@ -34,8 +38,9 @@
             <fieldset [disabled]=!enviarDocumentos class="col-6">
                 <div class="row">
                     <div class="col-9">
-                        <input #doc (change)="capturarFile(doc)" class="form-control col-9"
-                        id="inputDoc" name="inputDoc" type="file" accept=".xml" multiple> <!-- Aqu se ccambia se el tipo de archivo también aceppt y el multiple sirve para cargara varios-->
+                        <input #doc (change)="capturarFile(doc)" class="form-control col-9" id="inputDoc"
+                            name="inputDoc" type="file" accept=".xml" multiple>
+                        <!-- Aqu se ccambia se el tipo de archivo también aceppt y el multiple sirve para cargara varios-->
                     </div>
                     <!-- <div *ngIf="previsualizacion">
                         <label class="cargaArchivo">Archivos cargados:
@@ -43,12 +48,13 @@
                         </label>
                     </div> -->
                     <div class="col-3 row justify-content-end">
-                        <input type="submit" value="subir" [disabled]="enviar" (click)="subirArchivos(doc)" class="col-9">
+                        <input type="submit" value="subir" [disabled]="enviar" (click)="subirArchivos(doc)"
+                            class="col-9">
                     </div>
                 </div>
                 <div class="center ">
-                    <div *ngIf = "totalDocs > 0 && loanding" mode="buffer">
-                        <span id = "porcentaje" class = 'archivos-cargados' >Cargando...</span>
+                    <div *ngIf="totalDocs > 0 && loanding" mode="buffer">
+                        <span id="porcentaje" class='archivos-cargados'>Cargando...</span>
                         <div id="progressbar">
                             <mat-progress-bar id="progress-bar" mode="determinate" value="100">
                             </mat-progress-bar>
@@ -86,10 +92,10 @@
                         <td class="iconos w-100 h-40">
                             <!-- <img alt="visualizar" src="assets/vision.png" width="15px">
                             <img alt="recharge" src="assets/cargando-flechas.png" width="10px"> -->
-                            <a class="btn btn-primary" (click) = "visualizardoc(doc.id)" >
+                            <a class="btn btn-primary" (click)="visualizardoc(doc.id)">
                                 <mat-icon>visibility</mat-icon>
                             </a>
-                            <a class="btn btn-primary" (click) = "descargardoc(doc.id)">
+                            <a #download class="btn btn-primary" (click)="validarOpcion(doc.id)">
                                 <mat-icon>download</mat-icon>
                             </a>
                             <!-- <img alt="delete" src="assets/eliminar.png" width="10px"> -->
@@ -99,8 +105,24 @@
                 </tbody>
             </table>
             <div class="row justify-content-center">
-                <list-pagination class="col-9 row" urlRequest="/api/documentos/buscar_por_empresa/?tipo={{tipo}}{{nombreDocumento}}" (listObjects)="obtenerObjetos($event)"></list-pagination>
+                <list-pagination class="col-9 row" urlRequest="/api/documentos/buscar_por_empresa/{{nombreDocumento}}"
+                    (listObjects)="obtenerObjetos($event)"></list-pagination>
             </div>
-        </div>        
+        </div>
+        <div id="emergente" class="w-100 conf hide">
+            <div id="panel" class="form-floating form-floating-select hide">
+                <div>
+                    <span>Seleccione el formato con el cual desea descargar su archivo</span>
+                    <select id="select" name="miselect" class="filtered campos w-100 heigthSelect selects">
+                        <option value="xml">XML</option>
+                        <option value="pdf">PDF</option>
+                    </select>
+                </div>
+                <div class="row justify-content-center">
+                    <input id="btn-Guardar" type="submit" [disabled]="" (click)="cerrarConfirmacion()" value="Confirmar"
+                        class="button-guardar btn-conf">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
