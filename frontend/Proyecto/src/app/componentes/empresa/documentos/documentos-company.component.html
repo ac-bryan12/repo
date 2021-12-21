@@ -99,7 +99,7 @@
                 </tbody>
             </table>
             <div class="row justify-content-center">
-                <list-pagination class="col-9 row" urlRequest="/api/documentos/buscar_por_empresa/{{nombreDocumento}}" (listObjects)="obtenerObjetos($event)"></list-pagination>
+                <list-pagination class="col-9 row" urlRequest="/api/documentos/buscar_por_empresa/?tipo={{tipo}}{{nombreDocumento}}" (listObjects)="obtenerObjetos($event)"></list-pagination>
             </div>
         </div>        
     </div>

@@ -79,12 +79,13 @@ select{
 
 .input-campos{
     border-radius: 50px;
+    font-weight: 500;
     width:90%;
     margin-left: 5%;
     color:#39418a;
 }
 .label-campos{
-    font-weight: 1000;
+    font-weight: 550;
     font-size: 16px;
     color: #00b4c3;
     margin-left: 8%;
@@ -92,8 +93,8 @@ select{
 }
 .labels-permisos{
     width:90%;
-    color:#39418a;
-    font-weight: bold;
+    color:#00B4C3;
+    font-weight: 550;
     opacity:1 !important;
 }
 
@@ -117,21 +118,12 @@ select{
 
 #titulo{
     background-color: #00b4c3;
-    width: 350px;
-    height: 75px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-direction: column;
     color:white;
-    font-weight: initial;
+    padding: 10px 30px 10px 30px;
+    border-radius: 15px;
+    font-weight: 500;
 }
 
-#container-titulo{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .grupos-permisos{
     display: flex;
     flex-direction: row;
@@ -157,4 +149,10 @@ input[disabled]{
 .form-floating-select{
     margin-left: -15px;
     margin-right: 15px;
+}
+
+#container-form div p{
+    color: #00B4C3;
+    font-weight: 550;
+    font-size: 16px;
 }

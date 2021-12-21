@@ -1,5 +1,9 @@
 #title{
-    font-weight: bold;
+    font-weight: 500;
+    background-color: #00B4C0;
+    padding: 10px 30px 10px 30px;
+    border-radius: 15px;
+    color: white;
 }
 
 #inputbuscador{
@@ -29,12 +33,12 @@ button{
     margin: 0 2% 0 0;
 }
 
-#title + div button{
+#tabla div:first-child + div button{
     font-size: 16px;
     height: 35px;
     border-radius: 25px;
     border-width: 0;
-    background-color: #00B4C0;
+    background-color: #ED8336;
     /* vertical-align: middle; */
 }
 

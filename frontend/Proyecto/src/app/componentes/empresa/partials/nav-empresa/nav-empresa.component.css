@@ -74,3 +74,12 @@
     background-size: cover; */
     background-color: white;
 }
+
+/* submenu */
+#ul-nav-container > ul{
+    display: none;
+}
+
+.rotate-45{
+    transform: rotate(90deg);
+}

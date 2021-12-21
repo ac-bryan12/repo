@@ -15,22 +15,22 @@
     margin-right: auto;
   }
 
-#title + div button{
-font-size: 16px;
-height: 35px;
-border-radius: 25px;
-border-width: 0;
-background-color: #00B4C0;
-/* vertical-align: middle; */
-}
-
-#title + div div{
+#tabla > div:first-child + div button{
     width: 200px;
+    font-size: 16px;
+    height: 35px;
+    border-radius: 25px;
+    border-width: 0;
+    background-color: #ED8336;
 }
 
 
 #title{
-    font-weight: bold;
+    font-weight: 500;
+    padding: 10px 30px 10px 30px;
+    color: white;
+    background-color: #00B4C0;
+    border-radius: 15px;
 }
 
 /* #tabla{

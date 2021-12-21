@@ -40,10 +40,10 @@
     width:90%;
     margin-left: 5%;
     color:#39418a;
-    font-weight: bold;
+    font-weight: 500;
 }
 .label-campos{
-    font-weight: 1000;
+    font-weight: 550;
     font-size: 16px;
     color: #00b4c3;
     margin-left: 8%;
@@ -59,21 +59,10 @@
     padding: 1% 2% 1% 2%
   }
 
-  #titulo-perfil{
-      background-color: #00b4c3;
-      width: 350px;
-      height: 75px;
-      margin-top: 35px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-direction: column;
-      color:white;
-      font-weight: initial;
-  }
-
-  #container-titulo{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  #title{
+    font-weight: 500;
+    padding: 10px 30px 10px 30px;
+    color: white;
+    background-color: #00B4C0;
+    border-radius: 15px;
   }

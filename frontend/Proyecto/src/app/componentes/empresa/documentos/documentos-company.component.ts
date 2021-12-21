@@ -4,6 +4,7 @@ import { saveAs } from 'file-saver';
 import { environment } from 'src/environments/environment';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AlertasComponent } from '../../auxiliares/alertas/alertas.component';
+import { Router } from '@angular/router';
 
 
 
@@ -13,7 +14,7 @@ import { AlertasComponent } from '../../auxiliares/alertas/alertas.component';
   styleUrls: ['./documentos-company.component.css']
 })
 export class DocumentosCompanyComponent implements OnInit {
-  
+  tipo = null
   previsualizacion: any
   loanding = false
   listaDocumentos: Array<any> = [];
@@ -26,11 +27,13 @@ export class DocumentosCompanyComponent implements OnInit {
   nombreDocumento = ""
   env = environment.url
 
-  constructor(private envio: RequestService) {
+  constructor(private envio: RequestService,private router: Router) {
   }
 
   ngOnInit(): void {
     // this.cargarDocumentos()
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.tipo =  this.router.parseUrl(this.router.url).queryParams["tipo"]  
     this.habilitarControles()
   }
 
@@ -150,3 +153,4 @@ export class DocumentosCompanyComponent implements OnInit {
     }
   }
 }
+
