@@ -1,2 +1,2 @@
 plox plox plox
- key secreta
+borrado de clave secreta
